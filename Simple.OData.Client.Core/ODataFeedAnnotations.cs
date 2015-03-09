@@ -45,7 +45,7 @@ namespace Simple.OData.Client
             return this.InstanceAnnotations.Select(x => (T)x);
         }
 
-        internal void CopyFrom(ODataFeedAnnotations src)
+        public void CopyFrom(ODataFeedAnnotations src)
         {
             this.Id = src.Id;
             this.Count = src.Count;
