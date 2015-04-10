@@ -105,7 +105,7 @@ namespace Simple.OData.Client
             return new Session(settings);
         }
 
-        internal static Session FromMetadata(string urlBase, string metadataString)
+        public static Session FromMetadata(string urlBase, string metadataString)
         {
             return new Session(urlBase, metadataString);
         }

@@ -9,7 +9,7 @@ namespace Simple.OData.Client
     /// <summary>
     /// Provides access to OData operations.
     /// </summary>
-    public interface IODataClient
+    public interface IODataClient : IDisposable
     {
         /// <summary>
         /// Returns an instance of a fluent OData client for the specified collection.

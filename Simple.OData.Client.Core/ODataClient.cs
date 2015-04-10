@@ -11,6 +11,7 @@ namespace Simple.OData.Client
         private readonly ODataClientSettings _settings;
         private readonly Session _session;
         private readonly RequestRunner _requestRunner;
+        private bool _isDisposed = false;
         private readonly Lazy<IBatchWriter> _lazyBatchWriter;
         private readonly ODataResponse _batchResponse;
 
@@ -19,7 +20,7 @@ namespace Simple.OData.Client
         /// </summary>
         /// <param name="urlBase">The OData service URL.</param>
         public ODataClient(string urlBase)
-            : this(new ODataClientSettings {UrlBase = urlBase})
+            : this(new ODataClientSettings { UrlBase = urlBase })
         {
         }
 
@@ -153,6 +154,12 @@ namespace Simple.OData.Client
         public void SetPluralizer(IPluralizer pluralizer)
         {
             _session.Pluralizer = pluralizer;
+        }
+
+        public void Dispose()
+        {
+            _isDisposed = true;
+            _requestRunner.Dispose();
         }
     }
 }
