@@ -14,9 +14,12 @@ using System.Threading.Tasks;
 
 namespace Simple.OData.Client
 {
-    class RequestRunner
+    class RequestRunner : IDisposable
     {
         private readonly ISession _session;
+        private HttpClient _httpClient;
+        private Object _httpClientSyncObject = new Object();
+        private bool _isDisposed = false;
 
         public RequestRunner(ISession session)
         {
@@ -25,13 +28,13 @@ namespace Simple.OData.Client
 
         public async Task<HttpResponseMessage> ExecuteRequestAsync(ODataRequest request, CancellationToken cancellationToken)
         {
+            if (_isDisposed)
+                throw new ObjectDisposedException("Cannot access a disposed Request Runner.");
             try
             {
-                var messageHandler = CreateMessageHandler(request);
-
-                using (var httpClient = CreateHttpClient(messageHandler))
+                var httpClient = CreateOrGetHttpClient(request);
                 {
-                    PreExecute(httpClient, request);
+                    PreExecute(request);
 
                     _session.Trace("{0} request: {1}", request.Method, request.RequestMessage.RequestUri.AbsoluteUri);
 #if TRACE_REQUEST_CONTENT
@@ -102,28 +105,36 @@ namespace Simple.OData.Client
             }
         }
 
-        private HttpClient CreateHttpClient(HttpMessageHandler messageHandler)
+        private HttpClient CreateOrGetHttpClient(ODataRequest request)
         {
-            if (_session.Settings.RequestTimeout >= TimeSpan.FromMilliseconds(1))
+            lock (_httpClientSyncObject)
             {
-                return new HttpClient(messageHandler)
+                if (_httpClient == null)
                 {
-                    Timeout = _session.Settings.RequestTimeout,
-                };
-            }
-            else
-            {
-                return new HttpClient(messageHandler);
+                    var messageHandler = CreateMessageHandler(request);
+                    if (_session.Settings.RequestTimeout >= TimeSpan.FromMilliseconds(1))
+                    {
+                        _httpClient = new HttpClient(messageHandler)
+                        {
+                            Timeout = _session.Settings.RequestTimeout,
+                        };
+                    }
+                    else
+                    {
+                        _httpClient = new HttpClient(messageHandler);
+                    }
+                }
+                return _httpClient;
             }
         }
 
-        private void PreExecute(HttpClient httpClient, ODataRequest request)
+        private void PreExecute(ODataRequest request)
         {
             if (request.Accept != null)
             {
                 foreach (var accept in request.Accept)
                 {
-                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
+                    request.RequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
                 }
             }
 
@@ -132,7 +143,7 @@ namespace Simple.OData.Client
                  request.Method == RestVerbs.Patch ||
                  request.Method == RestVerbs.Delete))
             {
-                httpClient.DefaultRequestHeaders.IfMatch.Add(EntityTagHeaderValue.Any);
+                request.RequestMessage.Headers.IfMatch.Add(EntityTagHeaderValue.Any);
             }
 
             foreach (var header in request.Headers)
@@ -152,6 +163,19 @@ namespace Simple.OData.Client
             if (!responseMessage.IsSuccessStatusCode)
             {
                 throw new WebRequestException(responseMessage.ReasonPhrase, responseMessage.StatusCode);
+            }
+        }
+
+        public void Dispose()
+        {
+            _isDisposed = true;
+            lock (_httpClientSyncObject)
+            {
+                if (_httpClient != null)
+                {
+                    _httpClient.Dispose();
+                    _httpClient = null;
+                }
             }
         }
     }

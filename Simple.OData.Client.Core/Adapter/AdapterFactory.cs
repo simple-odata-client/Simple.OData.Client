@@ -82,9 +82,11 @@ namespace Simple.OData.Client
         internal async Task<HttpResponseMessage> SendMetadataRequestAsync(CancellationToken cancellationToken)
         {
             var request = new ODataRequest(RestVerbs.Get, _session, ODataLiteral.Metadata);
-            var requestRunner = new RequestRunner(_session);
 
-            return await requestRunner.ExecuteRequestAsync(request, cancellationToken);
+            using (var requestRunner = new RequestRunner(_session))
+            {
+                return await requestRunner.ExecuteRequestAsync(request, cancellationToken);    
+            }
         }
 
         private async Task<IEnumerable<string>> GetSupportedProtocolVersionsAsync(HttpResponseMessage response)

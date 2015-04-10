@@ -109,6 +109,9 @@ namespace Simple.OData.Client
 
         private async Task ExecuteDeleteEntryAsync(FluentCommand command, CancellationToken cancellationToken)
         {
+            if (_isDisposed)
+                throw new ObjectDisposedException("Cannot access a disposed OData Client.");
+
             var collectionName = command.QualifiedEntityCollectionName;
             var entryIdent = await FormatEntryKeyAsync(command, cancellationToken);
 
@@ -132,6 +135,9 @@ namespace Simple.OData.Client
 
         private async Task ExecuteLinkEntryAsync(FluentCommand command, string linkName, IDictionary<string, object> linkedEntryKey, CancellationToken cancellationToken)
         {
+            if (_isDisposed)
+                throw new ObjectDisposedException("Cannot access a disposed OData Client.");
+
             AssertHasKey(command);
 
             var collectionName = command.QualifiedEntityCollectionName;
@@ -157,6 +163,9 @@ namespace Simple.OData.Client
 
         private async Task ExecuteUnlinkEntryAsync(FluentCommand command, string linkName, IDictionary<string, object> linkedEntryKey, CancellationToken cancellationToken)
         {
+            if (_isDisposed)
+                throw new ObjectDisposedException("Cannot access a disposed OData Client.");
+
             AssertHasKey(command);
 
             var collectionName = command.QualifiedEntityCollectionName;
@@ -212,6 +221,9 @@ namespace Simple.OData.Client
 
         private async Task ExecuteBatchActionsAsync(IList<Func<IODataClient, Task>> actions, CancellationToken cancellationToken)
         {
+            if (_isDisposed)
+                throw new ObjectDisposedException("Cannot access a disposed OData Client.");
+
             if (!actions.Any())
                 return;
 
@@ -254,6 +266,9 @@ namespace Simple.OData.Client
         private async Task<T> ExecuteRequestWithResultAsync<T>(ODataRequest request, CancellationToken cancellationToken,
             Func<ODataResponse, T> createResult, Func<T> createEmptyResult, Func<T> createBatchResult = null)
         {
+            if (_isDisposed)
+                throw new ObjectDisposedException("Cannot access a disposed OData Client.");
+
             if (IsBatchRequest)
                 return createBatchResult != null 
                     ? createBatchResult() 
