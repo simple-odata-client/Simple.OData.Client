@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Simple.OData.Client.Extensions;
@@ -51,6 +52,15 @@ namespace Simple.OData.Client
             var result = _client.FindEntriesAsync(commandText, annotations, cancellationToken);
             return await RectifyColumnSelectionAsync(
                 result, _command.SelectedColumns, _command.DynamicPropertiesContainerName);
+        }
+
+        public async Task<T> FindEntriesAsync<T>(Func<HttpResponseMessage, CancellationToken, Task<T>> responseConverterAsync, CancellationToken cancellationToken)
+        {
+            var commandText = await _command.WithCount().GetCommandTextAsync(cancellationToken);
+            if (cancellationToken.IsCancellationRequested)
+                cancellationToken.ThrowIfCancellationRequested();
+
+            return await this._client.FindEntriesAsync(commandText, responseConverterAsync, cancellationToken);
         }
 
         public Task<IEnumerable<T>> FindEntriesAsync(Uri annotatedUri, ODataFeedAnnotations annotations)
