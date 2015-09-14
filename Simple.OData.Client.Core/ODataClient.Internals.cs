@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Simple.OData.Client.Extensions;
@@ -285,6 +286,29 @@ namespace Simple.OData.Client
             }
         }
 
+        private async Task<T> ExecuteRequestWithResponseConverterResultAsync<T>(ODataRequest request, Func<HttpResponseMessage, CancellationToken, Task<T>> responseConverterAsync, CancellationToken cancellationToken)
+        {
+            try
+            {
+                using (var response = await _requestRunner.ExecuteRequestAsync(request, cancellationToken))
+                {
+                    if (response.IsSuccessStatusCode && response.StatusCode != HttpStatusCode.NoContent &&
+                        (request.Method == RestVerbs.Get || request.ResultRequired))
+                    {
+                        return await responseConverterAsync(response, cancellationToken);
+                    }
+                }
+
+                return default(T);
+            }
+            catch (WebRequestException ex)
+            {
+                if (_settings.IgnoreResourceNotFoundException && ex.Code == HttpStatusCode.NotFound)
+                    throw;
+                return default(T);
+            }
+        }
+
         private async Task<T> ExecuteRequestWithResultAsync<T>(ODataRequest request, CancellationToken cancellationToken,
             Func<ODataResponse, T> createResult, Func<T> createEmptyResult, Func<T> createBatchResult = null)
         {
@@ -525,3 +549,4 @@ namespace Simple.OData.Client
         }
     }
 }
+  

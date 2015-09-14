@@ -5,9 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Simple.OData.Client.Extensions;
 
 namespace Simple.OData.Client
 {
@@ -952,6 +952,15 @@ namespace Simple.OData.Client
 
             var result = await FindAnnotatedEntriesAsync(commandText, scalarResult, annotations, cancellationToken);
             return result == null ? null : result.Select(x => x.GetData(_session.Settings.IncludeAnnotationsInResults));
+        }
+
+        public async Task<T> FindEntriesAsync<T>(string commandText, Func<HttpResponseMessage, CancellationToken, Task<T>> responseConverterAsync, CancellationToken cancellationToken)
+        {
+            await _session.ResolveAdapterAsync(cancellationToken);
+            if (cancellationToken.IsCancellationRequested) cancellationToken.ThrowIfCancellationRequested();
+
+            var request = await _session.Adapter.GetRequestWriter(_lazyBatchWriter).CreateGetRequestAsync(commandText, false);
+            return await ExecuteRequestWithResponseConverterResultAsync(request, responseConverterAsync, cancellationToken);
         }
 
         private async Task<IEnumerable<AnnotatedEntry>> FindAnnotatedEntriesAsync(
