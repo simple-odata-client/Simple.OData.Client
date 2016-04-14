@@ -781,6 +781,18 @@ namespace Simple.OData.Client.Tests
         }
 
         [Fact]
+        public async Task GetFavoriteAirline()
+        {
+            var airport = await _client
+                .For<Person>()
+                .Key("russellwhyte")
+                .Function("GetFavoriteAirline")
+                .ExecuteAsSingleAsync<Airline>();
+
+            Assert.Equal("AA", airport.AirlineCode);
+        }
+
+        [Fact]
         public async Task ResetDataSource()
         {
             var command = _client

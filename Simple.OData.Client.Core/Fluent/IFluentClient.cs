@@ -404,6 +404,20 @@ namespace Simple.OData.Client
         Task<T> ExecuteAsSingleAsync(CancellationToken cancellationToken);
 
         /// <summary>
+        /// Executes the OData function or action.
+        /// </summary>
+        /// <typeparam name="U">The type of the result.</typeparam>
+        /// <returns>Execution result.</returns>
+        Task<U> ExecuteAsSingleAsync<U>();
+        /// <summary>
+        /// Executes the OData function or action.
+        /// </summary>
+        /// <typeparam name="U">The type of the result.</typeparam>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>Action execution result.</returns>
+        Task<U> ExecuteAsSingleAsync<U>(CancellationToken cancellationToken);
+
+        /// <summary>
         /// Executes the OData function or action and returns collection.
         /// </summary>
         /// <returns>Action execution result.</returns>

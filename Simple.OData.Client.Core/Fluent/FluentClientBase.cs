@@ -497,9 +497,7 @@ namespace Simple.OData.Client
         /// <returns>Execution result.</returns>
         public Task<T> ExecuteAsSingleAsync()
         {
-            return RectifyColumnSelectionAsync(
-                _client.ExecuteAsSingleAsync(_command, CancellationToken.None),
-                _command.SelectedColumns, _command.DynamicPropertiesContainerName);
+            return ExecuteAsSingleAsync(CancellationToken.None);
         }
         /// <summary>
         /// Executes the OData function or action and returns a single item.
@@ -511,6 +509,17 @@ namespace Simple.OData.Client
             return RectifyColumnSelectionAsync(
                 _client.ExecuteAsSingleAsync(_command, cancellationToken),
                 _command.SelectedColumns, _command.DynamicPropertiesContainerName);
+        }
+
+        public Task<U> ExecuteAsSingleAsync<U>()
+        {
+            return ExecuteAsSingleAsync<U>(CancellationToken.None);
+        }
+
+        public async Task<U> ExecuteAsSingleAsync<U>(CancellationToken cancellationToken)
+        {
+            var result = await _client.ExecuteAsArrayAsync<U>(_command, cancellationToken);
+            return result.FirstOrDefault();
         }
 
         /// <summary>
