@@ -35,10 +35,6 @@
         <dependency id="Microsoft.Net.Http" version="2.2.28" />
         <dependency id="Microsoft.OData.Core" version="6.15.0" />
       </group>
-      <group targetFramework="net45">
-        <dependency id="System.Net.Http" version="4.0.0" />
-        <dependency id="Microsoft.OData.Core" version="6.15.0" />
-      </group>
       <group targetFramework="sl5">
         <dependency id="Microsoft.Bcl.Build" version="1.0.21" />
         <dependency id="Microsoft.Bcl" version="1.1.9" />
