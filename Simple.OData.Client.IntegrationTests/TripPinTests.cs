@@ -6,12 +6,10 @@ using Xunit;
 
 namespace Simple.OData.Client.Tests
 {
-#if ODATA_V4
     public class TripPinTestsV4Json : TripPinTests
     {
         public TripPinTestsV4Json() : base(TripPinV4ReadWriteUri, ODataPayloadFormat.Json) { }
     }
-#endif
 
     public abstract class TripPinTests : TripPinTestBase
     {

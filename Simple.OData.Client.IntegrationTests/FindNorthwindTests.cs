@@ -25,34 +25,10 @@ namespace Simple.OData.Client.Tests
         public Product[] Products { get; set; }
     }
 
-#if ODATA_V3
-    public class FindNorthwindTestsV2Atom : FindNorthwindTests
-    {
-        public FindNorthwindTestsV2Atom() : base(NorthwindV2ReadOnlyUri, ODataPayloadFormat.Atom) {}
-    }
-
-    public class FindNorthwindTestsV2Json : FindNorthwindTests
-    {
-        public FindNorthwindTestsV2Json() : base(NorthwindV2ReadOnlyUri, ODataPayloadFormat.Json) { }
-    }
-
-    public class FindNorthwindTestsV3Atom : FindNorthwindTests
-    {
-        public FindNorthwindTestsV3Atom() : base(NorthwindV3ReadOnlyUri, ODataPayloadFormat.Atom) { }
-    }
-
-    public class FindNorthwindTestsV3Json : FindNorthwindTests
-    {
-        public FindNorthwindTestsV3Json() : base(NorthwindV3ReadOnlyUri, ODataPayloadFormat.Json) { }
-    }
-#endif
-
-#if ODATA_V4
     public class FindNorthwindTestsV4Json : FindNorthwindTests
     {
         public FindNorthwindTestsV4Json() : base(NorthwindV4ReadOnlyUri, ODataPayloadFormat.Json) { }
     }
-#endif
 
     public abstract class FindNorthwindTests : TestBase
     {

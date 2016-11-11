@@ -9,14 +9,9 @@ namespace Simple.OData.Client.Tests
 {
     public abstract class TestBase : IDisposable
     {
-        protected const string ODataV2ReadWriteUri = "http://services.odata.org/V2/%28S%28readwrite%29%29/OData/OData.svc/";
-        protected const string ODataV3ReadOnlyUri = "http://services.odata.org/V3/OData/OData.svc/";
-        protected const string ODataV3ReadWriteUri = "http://services.odata.org/V3/%28S%28readwrite%29%29/OData/OData.svc/";
         protected const string ODataV4ReadOnlyUri = "http://services.odata.org/V4/OData/OData.svc/";
         protected const string ODataV4ReadWriteUri = "http://services.odata.org/V4/OData/%28S%28readwrite%29%29/OData.svc/";
 
-        protected const string NorthwindV2ReadOnlyUri = "http://services.odata.org/V2/Northwind/Northwind.svc/";
-        protected const string NorthwindV3ReadOnlyUri = "http://services.odata.org/V3/Northwind/Northwind.svc/";
         protected const string NorthwindV4ReadOnlyUri = "http://services.odata.org/V4/Northwind/Northwind.svc/";
 
         protected const string TripPinV4ReadWriteUri = "http://services.odata.org/V4/TripPinServiceRW/";
@@ -42,12 +37,6 @@ namespace Simple.OData.Client.Tests
             var client = new HttpClient();
             var response = await client.GetAsync(serviceUri);
             var uri = response.RequestMessage.RequestUri.AbsoluteUri;
-            if (serviceUri == ODataV2ReadWriteUri)
-            {
-                var i1 = uri.IndexOf(".org/V");
-                var i2 = uri.IndexOf("/OData/");
-                uri = uri.Substring(0, i1 + 5) + uri.Substring(i1 + 8, i2 - i1 - 7) + uri.Substring(i1 + 5, 2) + uri.Substring(i2);
-            }
             return uri;
         }
 

@@ -8,34 +8,10 @@ namespace Simple.OData.Client.Tests
 {
     using Entry = System.Collections.Generic.Dictionary<string, object>;
 
-#if ODATA_V3
-    public class BatchODataTestsV2Atom : BatchODataTests
-    {
-        public BatchODataTestsV2Atom() : base(ODataV2ReadWriteUri, ODataPayloadFormat.Atom, 2) { }
-    }
-
-    public class BatchODataTestsV2Json : BatchODataTests
-    {
-        public BatchODataTestsV2Json() : base(ODataV2ReadWriteUri, ODataPayloadFormat.Json, 2) { }
-    }
-
-    public class BatchODataTestsV3Atom : BatchODataTests
-    {
-        public BatchODataTestsV3Atom() : base(ODataV3ReadWriteUri, ODataPayloadFormat.Atom, 3) { }
-    }
-
-    public class BatchODataTestsV3Json : BatchODataTests
-    {
-        public BatchODataTestsV3Json() : base(ODataV3ReadWriteUri, ODataPayloadFormat.Json, 3) { }
-    }
-#endif
-
-#if ODATA_V4
     public class BatchODataTestsV4Json : BatchODataTests
     {
         public BatchODataTestsV4Json() : base(ODataV4ReadWriteUri, ODataPayloadFormat.Json, 4) { }
     }
-#endif
 
     public abstract class BatchODataTests : ODataTestBase
     {

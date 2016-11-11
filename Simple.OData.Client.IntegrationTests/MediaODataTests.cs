@@ -7,35 +7,10 @@ using Xunit;
 
 namespace Simple.OData.Client.Tests
 {
-#if ODATA_V3
-    // Not supported by OData V2
-    //public class MediaODataTestsV2Atom : MediaODataTests
-    //{
-    //    public MediaODataTestsV2Atom() : base(ODataV2ReadWriteUri, ODataPayloadFormat.Atom, 2) { }
-    //}
-
-    //public class MediaODataTestsV2Json : MediaODataTests
-    //{
-    //    public MediaODataTestsV2Json() : base(ODataV2ReadWriteUri, ODataPayloadFormat.Json, 2) { }
-    //}
-
-    public class MediaODataTestsV3Atom : MediaODataTests
-    {
-        public MediaODataTestsV3Atom() : base(ODataV3ReadWriteUri, ODataPayloadFormat.Atom, 3) { }
-    }
-
-    public class MediaODataTestsV3Json : MediaODataTests
-    {
-        public MediaODataTestsV3Json() : base(ODataV3ReadWriteUri, ODataPayloadFormat.Json, 3) { }
-    }
-#endif
-
-#if ODATA_V4
     public class MediaODataTestsV4Json : MediaODataTests
     {
         public MediaODataTestsV4Json() : base(ODataV4ReadWriteUri, ODataPayloadFormat.Json, 4) { }
     }
-#endif
 
     public abstract class MediaODataTests : ODataTestBase
     {

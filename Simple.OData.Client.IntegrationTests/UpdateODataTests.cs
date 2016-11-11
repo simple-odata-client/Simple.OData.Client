@@ -8,36 +8,10 @@ using Entry = System.Collections.Generic.Dictionary<string, object>;
 
 namespace Simple.OData.Client.Tests
 {
-#if ODATA_V3
-    // Not implemented by OData.org service
-    //public class UpdateODataTestsV2Atom : UpdateODataTests
-    //{
-    //    public UpdateODataTestsV2Atom() : base(ODataV2ReadWriteUri, ODataPayloadFormat.Atom, 2) { }
-    //}
-
-    // Not implemented by OData.org service
-    //public class UpdateODataTestsV2Json : UpdateODataTests
-    //{
-    //    public UpdateODataTestsV2Json() : base(ODataV2ReadWriteUri, ODataPayloadFormat.Json, 2) { }
-    //}
-
-    public class UpdateODataTestsV3Atom : UpdateODataTests
-    {
-        public UpdateODataTestsV3Atom() : base(ODataV3ReadWriteUri, ODataPayloadFormat.Atom, 3) { }
-    }
-
-    public class UpdateODataTestsV3Json : UpdateODataTests
-    {
-        public UpdateODataTestsV3Json() : base(ODataV3ReadWriteUri, ODataPayloadFormat.Json, 3) { }
-    }
-#endif
-
-#if ODATA_V4
     public class UpdateODataTestsV4Json : UpdateODataTests
     {
         public UpdateODataTestsV4Json() : base(ODataV4ReadWriteUri, ODataPayloadFormat.Json, 4) { }
     }
-#endif
 
     public abstract class UpdateODataTests : ODataTestBase
     {

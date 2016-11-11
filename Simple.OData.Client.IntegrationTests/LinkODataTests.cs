@@ -8,34 +8,10 @@ using Entry = System.Collections.Generic.Dictionary<string, object>;
 
 namespace Simple.OData.Client.Tests
 {
-#if ODATA_V3
-    public class LinkODataTestsV2Atom : LinkODataTests
-    {
-        public LinkODataTestsV2Atom() : base(ODataV2ReadWriteUri, ODataPayloadFormat.Atom, 2) { }
-    }
-
-    public class LinkODataTestsV2Json : LinkODataTests
-    {
-        public LinkODataTestsV2Json() : base(ODataV2ReadWriteUri, ODataPayloadFormat.Json, 2) { }
-    }
-
-    public class LinkODataTestsV3Atom : LinkODataTests
-    {
-        public LinkODataTestsV3Atom() : base(ODataV3ReadWriteUri, ODataPayloadFormat.Atom, 3) { }
-    }
-
-    public class LinkODataTestsV3Json : LinkODataTests
-    {
-        public LinkODataTestsV3Json() : base(ODataV3ReadWriteUri, ODataPayloadFormat.Json, 3) { }
-    }
-#endif
-
-#if ODATA_V4
     public class LinkODataTestsV4Json : LinkODataTests
     {
         public LinkODataTestsV4Json() : base(ODataV4ReadWriteUri, ODataPayloadFormat.Json, 4) { }
     }
-#endif
 
     public abstract class LinkODataTests : ODataTestBase
     {
