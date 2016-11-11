@@ -5,12 +5,6 @@ using Xunit;
 
 namespace Simple.OData.Client.Tests
 {
-    public class TypedExpressionV3Tests : TypedExpressionTests
-    {
-        public override string MetadataFile { get { return "Northwind.xml"; } }
-        public override IFormatSettings FormatSettings { get { return new ODataV3Format(); } }
-    }
-
     public class TypedExpressionV4Tests : TypedExpressionTests
     {
         public override string MetadataFile { get { return "Northwind4.xml"; } }

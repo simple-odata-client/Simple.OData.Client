@@ -30,7 +30,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -86,7 +86,7 @@
         <Property Name="creditlimit" Type="Edm.Decimal" Scale="Variable">
           <Annotation Term="Org.OData.Core.V1.Description" String="Type the credit limit of the account. This is a useful reference when you address invoice and accounting issues with the customer."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the account."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -816,7 +816,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the activity mime attachment."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -946,7 +946,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -1146,7 +1146,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the activity."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -1490,7 +1490,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the note."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -2549,7 +2549,7 @@
         <Property Name="subject" Type="Edm.String" Unicode="false">
           <Annotation Term="Org.OData.Core.V1.Description" String="Subject associated with the attachment."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the attachment."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -2621,7 +2621,7 @@
         <Property Name="bookableresourcebookingheaderid" Type="Edm.Guid">
           <Annotation Term="Org.OData.Core.V1.Description" String="Unique identifier of the resource booking header."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -2788,7 +2788,7 @@
         <Property Name="stageid" Type="Edm.Guid">
           <Annotation Term="Org.OData.Core.V1.Description" String="Shows the ID of the stage."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -3049,7 +3049,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -3108,7 +3108,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -3289,7 +3289,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -3479,7 +3479,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -3745,7 +3745,7 @@
         <Property Name="traversedpath" Type="Edm.String" Unicode="false">
           <Annotation Term="Org.OData.Core.V1.Description" String="For internal use only."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -3855,7 +3855,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -4748,7 +4748,7 @@
         <Property Name="utcconversiontimezonecode" Type="Edm.Int32">
           <Annotation Term="Org.OData.Core.V1.Description" String="Time zone code that was in use when the record was created."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -4840,7 +4840,7 @@
         <Property Name="address2_name" Type="Edm.String" Unicode="false">
           <Annotation Term="Org.OData.Core.V1.Description" String="Name to enter for address 2."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the business unit."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -5193,7 +5193,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -5398,7 +5398,7 @@
         <Property Name="type" Type="Edm.Int32">
           <Annotation Term="Org.OData.Core.V1.Description" String="Calendar type, such as User work hour calendar, or Customer service hour calendar."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -5560,7 +5560,7 @@
         <Property Name="itemid" Type="Edm.Guid">
           <Annotation Term="Org.OData.Core.V1.Description" String="Unique identifier of the item."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -5603,7 +5603,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -5755,7 +5755,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the campaign."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -6029,7 +6029,7 @@
         <Key>
           <PropertyRef Name="categoryid"/>
         </Key>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -6182,7 +6182,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -6330,7 +6330,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -6422,7 +6422,7 @@
         <Property Name="latitude" Type="Edm.Double">
           <Annotation Term="Org.OData.Core.V1.Description" String="Latitude for the competitor address."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the competitor address."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -6547,7 +6547,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -6834,7 +6834,7 @@
         <Property Name="address2_postofficebox" Type="Edm.String" Unicode="false">
           <Annotation Term="Org.OData.Core.V1.Description" String="Type the post office box number of the secondary address."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the competitor."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -6914,7 +6914,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -6929,7 +6929,7 @@
         <Key>
           <PropertyRef Name="complexcontrolid"/>
         </Key>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Represents a version of customizations to be synchronized with the Microsoft Dynamics CRM client for Outlook."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -6984,7 +6984,7 @@
         <Property Name="connectionroleid" Type="Edm.Guid">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -7002,7 +7002,7 @@
         <Property Name="statecode" Type="Edm.Int32">
           <Annotation Term="Org.OData.Core.V1.Description" String="Status of the connection role."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the connection role."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -7250,7 +7250,7 @@
         <Property Name="description" Type="Edm.String" Unicode="false">
           <Annotation Term="Org.OData.Core.V1.Description" String="Type additional information to describe the connection, such as the length or quality of the relationship."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the connection."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -7561,7 +7561,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -7658,7 +7658,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -7691,7 +7691,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -7712,7 +7712,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -7739,7 +7739,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -7785,7 +7785,7 @@
         <Property Name="address3_shippingmethodcode" Type="Edm.Int32">
           <Annotation Term="Org.OData.Core.V1.Description" String="Select a shipping method for deliveries sent to this address."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the contact."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -8638,7 +8638,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the contract template."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -8984,7 +8984,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the contract."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -9282,7 +9282,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the contract template."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -9430,7 +9430,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the Custom Control Default Config."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -9679,7 +9679,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the Custom Control."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -9843,7 +9843,7 @@
         <Property Name="timezoneruleversionnumber" Type="Edm.Int32">
           <Annotation Term="Org.OData.Core.V1.Description" String="For internal use only."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the customer address."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -10250,7 +10250,7 @@
         <Property Name="overriddencreatedon" Type="Edm.DateTimeOffset">
           <Annotation Term="Org.OData.Core.V1.Description" String="Date and time that the record was migrated."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the discount."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -10323,7 +10323,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the discount type."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -12435,7 +12435,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the equipment."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -12567,7 +12567,7 @@
         <Property Name="isdeletedinexchange" Type="Edm.Boolean">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -12963,7 +12963,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -12998,7 +12998,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -13388,7 +13388,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the goal rollup query."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -13646,7 +13646,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the goal."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -15451,7 +15451,7 @@
         <Property Name="resolvebyslastatus" Type="Edm.Int32">
           <Annotation Term="Org.OData.Core.V1.Description" String="Shows the status of the resolution time for the case according to the terms of the SLA."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the case."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -15676,7 +15676,7 @@
         <Property Name="shipto_country" Type="Edm.String" Unicode="false">
           <Annotation Term="Org.OData.Core.V1.Description" String="Type the country or region for the customer's shipping address."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the invoice product line item."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -16204,7 +16204,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the invoice."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -16473,7 +16473,7 @@
         <Property Name="title" Type="Edm.String" Unicode="false">
           <Annotation Term="Org.OData.Core.V1.Description" String="Title of the knowledge base article comment."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -16561,7 +16561,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Title of the knowledge base article."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -16754,7 +16754,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -16850,7 +16850,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -16916,7 +16916,7 @@
         <Property Name="issenttocustomer" Type="Edm.Boolean">
           <Annotation Term="Org.OData.Core.V1.Description" String="This should be set to Yes when the user emails the article link to a customer. "/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -17079,7 +17079,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -17443,7 +17443,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -17727,7 +17727,7 @@
         <Property Name="name" Type="Edm.String" Unicode="false">
           <Annotation Term="Org.OData.Core.V1.Description" String="Name used to identify the lead address."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the lead address."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -17852,7 +17852,7 @@
         <Key>
           <PropertyRef Name="leadcompetitorid"/>
         </Key>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -17894,7 +17894,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -18134,7 +18134,7 @@
         <Property Name="donotfax" Type="Edm.Boolean">
           <Annotation Term="Org.OData.Core.V1.Description" String="Select whether the lead allows faxes."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the lead."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -18682,7 +18682,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -18903,7 +18903,7 @@
         <Property Name="ignoreinactivelistmembers" Type="Edm.Boolean">
           <Annotation Term="Org.OData.Core.V1.Description" String="Select whether inactive accounts, contacts, or leads should be excluded from the campaign activity distribution when the marketing list is included in a campaign."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the marketing list."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -19067,7 +19067,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the mailbox."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -19479,7 +19479,7 @@
         <Property Name="statuscode" Type="Edm.Int32">
           <Annotation Term="Org.OData.Core.V1.Description" String="Reason for the status of the mail merge template."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the mail merge template."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -19671,7 +19671,7 @@
         <Property Name="name" Type="Edm.String" Unicode="false">
           <Annotation Term="Org.OData.Core.V1.Description" String="Name of the goal metric."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the goal metric."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -20656,7 +20656,7 @@
         <Property Name="totaltax" Type="Edm.Decimal" Scale="Variable">
           <Annotation Term="Org.OData.Core.V1.Description" String="Shows the total of the Tax amounts specified on all products included in the opportunity, included in the Total Amount field calculation for the opportunity."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the opportunity."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -21235,7 +21235,7 @@
         <Property Name="opportunitycompetitorid" Type="Edm.Guid">
           <Annotation Term="Org.OData.Core.V1.Description" String="Unique identifier of the opportunity competitor."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -21402,7 +21402,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the opportunity product."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -21921,7 +21921,7 @@
         <Property Name="allowautoresponsecreation" Type="Edm.Boolean">
           <Annotation Term="Org.OData.Core.V1.Description" String="Indicates whether automatic response creation is allowed."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the organization."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -22943,7 +22943,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -23255,7 +23255,7 @@
         <Property Name="plugintypeid" Type="Edm.Guid">
           <Annotation Term="Org.OData.Core.V1.Description" String="Unique identifier of the plug-in type."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -23983,7 +23983,7 @@
         <Property Name="freighttermscode" Type="Edm.Int32">
           <Annotation Term="Org.OData.Core.V1.Description" String="Freight terms for the price list."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the price level."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -24124,7 +24124,7 @@
         <Property Name="principalentitymapid" Type="Edm.Guid">
           <Annotation Term="Org.OData.Core.V1.Description" String="For internal use only."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -24142,7 +24142,7 @@
         <Property Name="inheritedaccessrightsmask" Type="Edm.Int32">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -24193,7 +24193,7 @@
         <Property Name="canbebasic" Type="Edm.Boolean">
           <Annotation Term="Org.OData.Core.V1.Description" String="Information that specifies whether the privilege applies to the user, the user's team, or objects shared by the user."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -24277,7 +24277,7 @@
         <Property Name="statecode" Type="Edm.Int32">
           <Annotation Term="Org.OData.Core.V1.Description" String="Shows whether the associated product is active or inactive."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Shows the version number of the product association."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -24420,7 +24420,7 @@
         <Property Name="overriddencreatedon" Type="Edm.DateTimeOffset">
           <Annotation Term="Org.OData.Core.V1.Description" String="Date and time that the record was migrated."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the price list."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -24805,7 +24805,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the product."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -24920,7 +24920,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -24978,7 +24978,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Shows the version number of the product relationship."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -25087,7 +25087,7 @@
         <Property Name="fax" Type="Edm.String" Unicode="false">
           <Annotation Term="Org.OData.Core.V1.Description" String="Fax number for the publisher address."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -25278,7 +25278,7 @@
         <Property Name="address1_addressid" Type="Edm.Guid">
           <Annotation Term="Org.OData.Core.V1.Description" String="Unique identifier for address 1."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -25720,7 +25720,7 @@
         <Property Name="overriddencreatedon" Type="Edm.DateTimeOffset">
           <Annotation Term="Org.OData.Core.V1.Description" String="Date and time that the record was migrated."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the queue item."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -26027,7 +26027,7 @@
         <Property Name="description" Type="Edm.String" Unicode="false">
           <Annotation Term="Org.OData.Core.V1.Description" String="Description of the queue."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the queue."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -26254,7 +26254,7 @@
         <Property Name="shipto_stateorprovince" Type="Edm.String" Unicode="false">
           <Annotation Term="Org.OData.Core.V1.Description" String="Type the state or province for the shipping address."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the quote detail."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -26788,7 +26788,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the quote."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -27016,7 +27016,7 @@
         <Property Name="maxratingvalue" Type="Edm.Int32">
           <Annotation Term="Org.OData.Core.V1.Description" String="Enter the maximum rating value."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -27159,7 +27159,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -27635,7 +27635,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the report category."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -27822,7 +27822,7 @@
         <Property Name="introducedversion" Type="Edm.String" Unicode="false">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version in which the report is introduced."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the report."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -28031,7 +28031,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the scheduling group."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -28093,7 +28093,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the resource."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -28202,7 +28202,7 @@
         <Property Name="resourcespecid" Type="Edm.Guid">
           <Annotation Term="Org.OData.Core.V1.Description" String="Unique identifier of the resource specification."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -28306,7 +28306,7 @@
         <Property Name="privilegedepthmask" Type="Edm.Int32">
           <Annotation Term="Org.OData.Core.V1.Description" String="System-generated attribute that stores the privileges associated with the role."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -28446,7 +28446,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the role."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -28590,7 +28590,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the sales literature item."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -28761,7 +28761,7 @@
         <Property Name="utcconversiontimezonecode" Type="Edm.Int32">
           <Annotation Term="Org.OData.Core.V1.Description" String="Time zone code that was in use when the record was created."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the sales literature."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -29126,7 +29126,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the sales order detail."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -29328,7 +29328,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the order."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -29791,7 +29791,7 @@
         <Property Name="description" Type="Edm.String" Unicode="false">
           <Annotation Term="Org.OData.Core.V1.Description" String="Type additional information to describe the view, such as the filter criteria or intended results set."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the view."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -29906,7 +29906,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the system chart."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -30106,7 +30106,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -30241,7 +30241,7 @@
         <Property Name="imagetype" Type="Edm.Int32">
           <Annotation Term="Org.OData.Core.V1.Description" String="Type of image requested."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Number that identifies a specific revision of the step image. "/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -30433,7 +30433,7 @@
         <Property Name="filteringattributes" Type="Edm.String" Unicode="false">
           <Annotation Term="Org.OData.Core.V1.Description" String="Comma-separated list of attributes. If at least one of these attributes is modified, the plug-in should execute."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Number that identifies a specific revision of the SDK message processing step. "/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -30625,7 +30625,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Number that identifies a specific revision of the SDK message. "/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -30973,7 +30973,7 @@
         <Property Name="servicecontractcontactid" Type="Edm.Guid">
           <Annotation Term="Org.OData.Core.V1.Description" String="Unique identifier of the contact of the service contract."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -31253,7 +31253,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the service."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -31397,7 +31397,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -31659,7 +31659,7 @@
         <Property Name="overriddencreatedon" Type="Edm.DateTimeOffset">
           <Annotation Term="Org.OData.Core.V1.Description" String="Date and time that the record was migrated."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -31971,7 +31971,7 @@
         <Property Name="address1_postalcode" Type="Edm.String" Unicode="false">
           <Annotation Term="Org.OData.Core.V1.Description" String="ZIP Code or postal code for address 1."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the site."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -33029,7 +33029,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -33146,7 +33146,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -33296,7 +33296,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the subject."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -33994,7 +33994,7 @@
         <Property Name="objecttypecode" Type="Edm.String" Unicode="false">
           <Annotation Term="Org.OData.Core.V1.Description" String="Code that represents the record type."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Represents a version of customizations to be synchronized with the Microsoft Dynamics CRM client for Outlook."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -34137,7 +34137,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -34149,7 +34149,7 @@
         <Key>
           <PropertyRef Name="systemuserroleid"/>
         </Key>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -34214,7 +34214,7 @@
         <Property Name="address1_county" Type="Edm.String" Unicode="false">
           <Annotation Term="Org.OData.Core.V1.Description" String="County name for address 1."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the user."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -35589,7 +35589,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -35613,7 +35613,7 @@
         <Property Name="teamprofileid" Type="Edm.Guid">
           <Annotation Term="Org.OData.Core.V1.Description" String="For internal use only."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -35637,7 +35637,7 @@
         <Key>
           <PropertyRef Name="teamroleid"/>
         </Key>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -35671,7 +35671,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the team."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -36172,7 +36172,7 @@
         <Property Name="languagecode" Type="Edm.Int32">
           <Annotation Term="Org.OData.Core.V1.Description" String="Language of the email template."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the template."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -36304,7 +36304,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the territory."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -36566,7 +36566,7 @@
         <Property Name="timezonedefinitionid" Type="Edm.Guid">
           <Annotation Term="Org.OData.Core.V1.Description" String="Unique identifier of the time zone record."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -36710,7 +36710,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -36765,7 +36765,7 @@
         <Property Name="standardsecond" Type="Edm.Int32">
           <Annotation Term="Org.OData.Core.V1.Description" String="Second of the Minute when standard time starts."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -37135,7 +37135,7 @@
         <Property Name="statecode" Type="Edm.Int32">
           <Annotation Term="Org.OData.Core.V1.Description" String="Status of the transaction currency."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the transaction currency."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -37336,7 +37336,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the unit."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -37429,7 +37429,7 @@
         <Property Name="description" Type="Edm.String" Unicode="false">
           <Annotation Term="Org.OData.Core.V1.Description" String="Description of the unit group."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the unit group."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -37597,7 +37597,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -37726,7 +37726,7 @@
         <Property Name="description" Type="Edm.String" Unicode="false">
           <Annotation Term="Org.OData.Core.V1.Description" String="Type additional information to describe the saved view, such as the filter criteria or intended results set."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the saved view."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -37887,7 +37887,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version number of the user chart."/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -37964,7 +37964,7 @@
         <Property Name="usecrmformforcontact" Type="Edm.Boolean">
           <Annotation Term="Org.OData.Core.V1.Description" String="Indicates whether to use the Microsoft Dynamics CRM contact form within Microsoft Office Outlook for creating new contacts."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -38320,7 +38320,7 @@
         <Property Name="introducedversion" Type="Edm.String" Unicode="false">
           <Annotation Term="Org.OData.Core.V1.Description" String="Version in which the form is introduced."/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -38407,7 +38407,7 @@
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
           </Annotation>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>
@@ -38890,7 +38890,7 @@
         <Property Name="uniquename" Type="Edm.String" Unicode="false">
           <Annotation Term="Org.OData.Core.V1.Description" String="Unique name of the process"/>
         </Property>
-        <Property Name="versionnumber" Type="Edm.Int64" ConcurrencyMode="Fixed">
+        <Property Name="versionnumber" Type="Edm.Int64">
           <Annotation Term="Org.OData.Core.V1.Description" String=""/>
           <Annotation Term="Org.OData.Core.V1.Permissions">
             <EnumMember>Org.OData.Core.V1.PermissionType/Read</EnumMember>

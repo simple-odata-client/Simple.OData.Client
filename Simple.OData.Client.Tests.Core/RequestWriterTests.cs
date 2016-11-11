@@ -9,7 +9,7 @@ namespace Simple.OData.Client.Tests
 {
     public class RequestWriterTests : TestBase
     {
-        public override string MetadataFile { get { return "Northwind.xml"; } }
+        public override string MetadataFile { get { return "Northwind4.xml"; } }
         public override IFormatSettings FormatSettings { get { return new ODataV4Format(); } }
 
         [Fact]
@@ -34,7 +34,6 @@ namespace Simple.OData.Client.Tests
                             { "SupplierID", 2 },
                             { "CategoryID", 3 },
                             { "ProductName", "Chai" },
-                            { "EnglishName", "Tea" },
                             { "QuantityPerUnit", "10" },
                             { "UnitPrice", 20m },
                             { "UnitsInStock", 100 },
@@ -61,7 +60,6 @@ namespace Simple.OData.Client.Tests
                             { "SupplierID", 2 },
                             { "CategoryID", 3 },
                             { "ProductName", "Chai" },
-                            { "EnglishName", "Tea" },
                             { "QuantityPerUnit", "10" },
                             { "UnitPrice", 20m },
                             { "UnitsInStock", 100 },
@@ -89,7 +87,6 @@ namespace Simple.OData.Client.Tests
                             { "SupplierID", 2 },
                             { "CategoryID", 3 },
                             { "ProductName", "Chai" },
-                            { "EnglishName", "Tea" },
                             { "QuantityPerUnit", "10" },
                             { "UnitPrice", 20m },
                             { "UnitsInStock", 100 },

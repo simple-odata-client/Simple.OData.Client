@@ -278,23 +278,9 @@ namespace Simple.OData.Client.Tests
             }
         }
 
-        [Fact]
-        public void ToObjectSpatialV3()
-        {
-            CustomConverters.RegisterTypeConverter(typeof(GeographyPoint), V4.Adapter.TypeConverters.CreateGeographyPoint);
-            var dict = new Dictionary<string, object>()
-            {
-                { "Point", GeographyPoint.Create(CoordinateSystem.Geography(100), 1, 2, null, null) },
-            };
-
-            var value = dict.ToObject<ClassType>();
-            Assert.Equal(100, value.Point.CoordinateSystem.EpsgId);
-            Assert.Equal(1d, value.Point.Latitude);
-            Assert.Equal(2d, value.Point.Longitude);
-        }
 
         [Fact]
-        public void ToObjectSpatialV4()
+        public void ToObjectSpatial()
         {
             CustomConverters.RegisterTypeConverter(typeof(GeographyPoint), V4.Adapter.TypeConverters.CreateGeographyPoint);
             var dict = new Dictionary<string, object>()

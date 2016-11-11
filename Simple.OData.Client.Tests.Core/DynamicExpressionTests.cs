@@ -4,12 +4,6 @@ using Xunit;
 
 namespace Simple.OData.Client.Tests
 {
-    public class DynamicExpressionV3Tests : DynamicExpressionTests
-    {
-        public override string MetadataFile { get { return "Northwind.xml"; } }
-        public override IFormatSettings FormatSettings { get { return new ODataV3Format(); } }
-    }
-
     public class DynamicExpressionV4Tests : DynamicExpressionTests
     {
         public override string MetadataFile { get { return "Northwind4.xml"; } }

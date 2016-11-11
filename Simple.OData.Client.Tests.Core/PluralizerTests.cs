@@ -74,35 +74,4 @@ namespace Simple.OData.Client.Tests
             Assert.Equal(expectedResult, word.Homogenize());
         }
     }
-
-    public class NonLatinSchemaPluralizerTests : TestBase
-    {
-        public override string MetadataFile { get { return "Russian.xml"; } }
-        public override IFormatSettings FormatSettings { get { return new ODataV3Format(); } }
-
-        [Fact]
-        public async Task TableWithNonLaticCharacters()
-        {
-            var client = CreateClient("Russian.xml");
-            var commandText = await client
-                .For("Catalog_Контрагенты")
-                .Top(10)
-                .GetCommandTextAsync();
-
-            Assert.Equal("Catalog_Контрагенты?$top=10", commandText);
-        }
-
-        [Fact]
-        public async Task TableWithNonLaticCharacters_NoPluralizer()
-        {
-            var client = CreateClient("Russian.xml");
-            client.SetPluralizer(null);
-            var commandText = await client
-                .For("Catalog_Контрагенты")
-                .Top(10)
-                .GetCommandTextAsync();
-
-            Assert.Equal("Catalog_Контрагенты?$top=10", commandText);
-        }
-    }
 }

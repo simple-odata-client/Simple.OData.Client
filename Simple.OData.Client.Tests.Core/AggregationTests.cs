@@ -7,11 +7,10 @@ namespace Simple.OData.Client.Tests
 {
     public class AggregationTests : TestBase
     {
-        public override string MetadataFile { get { return "Northwind.xml"; } }
-        public override IFormatSettings FormatSettings { get { return new ODataV3Format(); } }
+        public override string MetadataFile { get { return "Northwind4.xml"; } }
+        public override IFormatSettings FormatSettings { get { return new ODataV4Format(); } }
 
         [Theory]
-        [InlineData("Northwind.xml", "Employees?$filter=Subordinates%2Fany%28x1%3Ax1%2FEmployeeID%20eq%201%29")]
         [InlineData("Northwind4.xml", "Employees?$filter=Subordinates%2Fany%28x1%3Ax1%2FEmployeeID%20eq%201%29")]
         public async Task FilterAny(string metadataFile, string expectedCommand)
         {
@@ -25,7 +24,6 @@ namespace Simple.OData.Client.Tests
         }
 
         [Theory]
-        [InlineData("Northwind.xml", "Employees?$filter=Subordinates%2Fany%28x1%3Ax1%2FEmployeeID%20eq%201%20and%20x1%2FFirstName%20eq%20%27abc%27%29")]
         [InlineData("Northwind4.xml", "Employees?$filter=Subordinates%2Fany%28x1%3Ax1%2FEmployeeID%20eq%201%20and%20x1%2FFirstName%20eq%20%27abc%27%29")]
         public async Task FilterMultipleAny(string metadataFile, string expectedCommand)
         {
@@ -39,7 +37,6 @@ namespace Simple.OData.Client.Tests
         }
 
         [Theory]
-        [InlineData("Northwind.xml", "Employees?$filter=Subordinates%2Fany%28x1%3Ax1%2FEmployeeID%20eq%201%20and%20substringof%28%27abc%27%2Cx1%2FFirstName%29%29")]
         [InlineData("Northwind4.xml", "Employees?$filter=Subordinates%2Fany%28x1%3Ax1%2FEmployeeID%20eq%201%20and%20contains%28x1%2FFirstName%2C%27abc%27%29%29")]
         public async Task FilterMultipleAnyContains(string metadataFile, string expectedCommand)
         {
@@ -53,7 +50,6 @@ namespace Simple.OData.Client.Tests
         }
 
         [Theory]
-        [InlineData("Northwind.xml", "Products?$filter=Category%2FProducts%2Fany%28x1%3Ax1%2FProductID%20eq%201%29")]
         [InlineData("Northwind4.xml", "Products?$filter=Category%2FProducts%2Fany%28x1%3Ax1%2FProductID%20eq%201%29")]
         public async Task FilterNestedAny(string metadataFile, string expectedCommand)
         {
@@ -67,7 +63,6 @@ namespace Simple.OData.Client.Tests
         }
 
         [Theory]
-        [InlineData("Northwind.xml", "Products?$filter=Category%2FProducts%2Fany%28x1%3Ax1%2FCategory%2FProducts%2Fany%28x2%3Ax2%2FProductID%20eq%201%29%29")]
         [InlineData("Northwind4.xml", "Products?$filter=Category%2FProducts%2Fany%28x1%3Ax1%2FCategory%2FProducts%2Fany%28x2%3Ax2%2FProductID%20eq%201%29%29")]
         public async Task FilterMultipleNestedAny(string metadataFile, string expectedCommand)
         {

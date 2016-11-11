@@ -4,12 +4,6 @@ using Xunit;
 
 namespace Simple.OData.Client.Tests
 {
-    public class DynamicFilterAsKeyV3Tests : DynamicFilterAsKeyTests
-    {
-        public override string MetadataFile { get { return "Northwind.xml"; } }
-        public override IFormatSettings FormatSettings { get { return new ODataV3Format(); } }
-    }
-
     public class DynamicFilterAsKeyV4Tests : DynamicFilterAsKeyTests
     {
         public override string MetadataFile { get { return "Northwind4.xml"; } }
