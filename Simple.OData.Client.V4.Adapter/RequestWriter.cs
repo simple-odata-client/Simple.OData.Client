@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Microsoft.OData.Core;
+using Microsoft.OData;
 using Microsoft.OData.Edm;
 using Microsoft.Spatial;
 using Simple.OData.Client.Extensions;
@@ -44,7 +44,7 @@ namespace Simple.OData.Client.V4.Adapter
                 var entityCollection = _session.Metadata.NavigateToCollection(collection);
                 var entryDetails = _session.Metadata.ParseEntryDetails(entityCollection.Name, entryData, contentId);
 
-                var entryWriter = await messageWriter.CreateODataEntryWriterAsync().ConfigureAwait(false);
+                var entryWriter = await messageWriter.CreateODataResourceWriterAsync().ConfigureAwait(false);
                 var entry = CreateODataEntry(entityType.FullName(), entryDetails.Properties);
 
                 await entryWriter.WriteStartAsync(entry).ConfigureAwait(false);
@@ -134,7 +134,7 @@ namespace Simple.OData.Client.V4.Adapter
                     break;
 
                 case EdmTypeKind.Entity:
-                    var entryWriter = await parameterWriter.CreateEntryWriterAsync(paramName).ConfigureAwait(false);
+                    var entryWriter = await parameterWriter.CreateResourceWriterAsync(paramName).ConfigureAwait(false);
                     var entry = CreateODataEntry(operationParameter.Type.Definition.FullTypeName(), paramValue.ToDictionary());
                     await entryWriter.WriteStartAsync(entry).ConfigureAwait(false);
                     await entryWriter.WriteEndAsync().ConfigureAwait(false);
@@ -145,8 +145,8 @@ namespace Simple.OData.Client.V4.Adapter
                     var elementType = collectionType.ElementType;
                     if (elementType.Definition.TypeKind == EdmTypeKind.Entity)
                     {
-                        var feedWriter = await parameterWriter.CreateFeedWriterAsync(paramName).ConfigureAwait(false);
-                        var feed = new ODataFeed();
+                        var feedWriter = await parameterWriter.CreateResourceSetWriterAsync(paramName).ConfigureAwait(false);
+                        var feed = new ODataResourceSet();
                         await feedWriter.WriteStartAsync(feed).ConfigureAwait(false);
                         foreach (var item in paramValue as IEnumerable)
                         {
@@ -213,7 +213,7 @@ namespace Simple.OData.Client.V4.Adapter
             return message;
         }
 
-        private async Task WriteLinkAsync(ODataWriter entryWriter, Microsoft.OData.Core.ODataEntry entry, string linkName, IEnumerable<ReferenceLink> links)
+        private async Task WriteLinkAsync(ODataWriter entryWriter, ODataResource entry, string linkName, IEnumerable<ReferenceLink> links)
         {
             var navigationProperty = (_model.FindDeclaredType(entry.TypeName) as IEdmEntityType).NavigationProperties()
                 .BestMatch(x => x.Name, linkName, _session.Pluralizer);
@@ -226,7 +226,7 @@ namespace Simple.OData.Client.V4.Adapter
                 linkTypeWithKey = linkTypeWithKey.BaseEntityType();
             }
 
-            await entryWriter.WriteStartAsync(new ODataNavigationLink()
+            await entryWriter.WriteStartAsync(new ODataNestedResourceInfo()
             {
                 Name = linkName,
                 IsCollection = isCollection,
@@ -279,36 +279,17 @@ namespace Simple.OData.Client.V4.Adapter
                 {
                     RequestUri = _session.Settings.BaseUri,
                 },
-                Indent = true,
-                DisableMessageStreamDisposal = !IsBatch,
+                //Indent = true,
+                EnableMessageStreamDisposal = IsBatch,
             };
-            ODataFormat contentType;
-            if (preferredContentType != null)
-            {
-                contentType = preferredContentType;
-            }
-            else
-            {
-                switch (_session.Settings.PayloadFormat)
-                {
-                    case ODataPayloadFormat.Atom:
-#pragma warning disable 0618
-                        contentType = ODataFormat.Atom;
-#pragma warning restore 0618
-                        break;
-                    case ODataPayloadFormat.Json:
-                    default:
-                        contentType = ODataFormat.Json;
-                        break;
-                }
-            }
+            var contentType = preferredContentType ?? ODataFormat.Json;
             settings.SetContentType(contentType);
             return settings;
         }
 
-        private Microsoft.OData.Core.ODataEntry CreateODataEntry(string typeName, IDictionary<string, object> properties)
+        private ODataResource CreateODataEntry(string typeName, IDictionary<string, object> properties)
         {
-            var entry = new Microsoft.OData.Core.ODataEntry() { TypeName = typeName };
+            var entry = new ODataResource() { TypeName = typeName };
 
             var typeProperties = (_model.FindDeclaredType(entry.TypeName) as IEdmEntityType).Properties();
             Func<string, string> findMatchingPropertyName = name =>
@@ -340,7 +321,7 @@ namespace Simple.OData.Client.V4.Adapter
             {
                 case EdmTypeKind.Complex:
                     var complexTypeProperties = propertyType.AsComplex().StructuralProperties();
-                    return new ODataComplexValue
+                    return new ODataResource
                     {
                         TypeName = propertyType.FullName(),
                         Properties = value.ToDictionary()

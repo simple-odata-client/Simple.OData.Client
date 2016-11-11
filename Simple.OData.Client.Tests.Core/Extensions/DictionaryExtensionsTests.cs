@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SpatialV3 = System.Spatial;
-using SpatialV4 = Microsoft.Spatial;
+using Microsoft.Spatial;
 using Xunit;
 using Simple.OData.Client.Extensions;
 
@@ -32,8 +31,7 @@ namespace Simple.OData.Client.Tests
             public int[] IntCollectionProperty { get; set; }
             public SubclassType CompoundProperty { get; set; }
             public SubclassType[] CompoundCollectionProperty { get; set; }
-            public SpatialV3.GeographyPoint PointV3 { get; set; }
-            public SpatialV4.GeographyPoint PointV4 { get; set; }
+            public GeographyPoint Point { get; set; }
         }
 
         class SubclassType
@@ -283,31 +281,31 @@ namespace Simple.OData.Client.Tests
         [Fact]
         public void ToObjectSpatialV3()
         {
-            CustomConverters.RegisterTypeConverter(typeof(SpatialV3.GeographyPoint), V3.Adapter.TypeConverters.CreateGeographyPoint);
+            CustomConverters.RegisterTypeConverter(typeof(GeographyPoint), V4.Adapter.TypeConverters.CreateGeographyPoint);
             var dict = new Dictionary<string, object>()
             {
-                { "PointV3", SpatialV3.GeographyPoint.Create(SpatialV3.CoordinateSystem.Geography(100), 1, 2, null, null) },
+                { "Point", GeographyPoint.Create(CoordinateSystem.Geography(100), 1, 2, null, null) },
             };
 
             var value = dict.ToObject<ClassType>();
-            Assert.Equal(100, value.PointV3.CoordinateSystem.EpsgId);
-            Assert.Equal(1d, value.PointV3.Latitude);
-            Assert.Equal(2d, value.PointV3.Longitude);
+            Assert.Equal(100, value.Point.CoordinateSystem.EpsgId);
+            Assert.Equal(1d, value.Point.Latitude);
+            Assert.Equal(2d, value.Point.Longitude);
         }
 
         [Fact]
         public void ToObjectSpatialV4()
         {
-            CustomConverters.RegisterTypeConverter(typeof(SpatialV4.GeographyPoint), V4.Adapter.TypeConverters.CreateGeographyPoint);
+            CustomConverters.RegisterTypeConverter(typeof(GeographyPoint), V4.Adapter.TypeConverters.CreateGeographyPoint);
             var dict = new Dictionary<string, object>()
             {
-                { "PointV4", SpatialV4.GeographyPoint.Create(SpatialV4.CoordinateSystem.Geography(100), 1, 2, null, null) },
+                { "Point", GeographyPoint.Create(CoordinateSystem.Geography(100), 1, 2, null, null) },
             };
 
             var value = dict.ToObject<ClassType>();
-            Assert.Equal(100, value.PointV4.CoordinateSystem.EpsgId);
-            Assert.Equal(1d, value.PointV4.Latitude);
-            Assert.Equal(2d, value.PointV4.Longitude);
+            Assert.Equal(100, value.Point.CoordinateSystem.EpsgId);
+            Assert.Equal(1d, value.Point.Latitude);
+            Assert.Equal(2d, value.Point.Longitude);
         }
 
         class ClassNoDefaultConstructor

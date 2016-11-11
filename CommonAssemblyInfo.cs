@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyCompany("Vagif Abilov")]
 [assembly: AssemblyProduct("Simple OData Client")]
-[assembly: AssemblyCopyright("Copyright © Vagif Abilov 2012-2015")]
+[assembly: AssemblyCopyright("Copyright © Vagif Abilov 2012-2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

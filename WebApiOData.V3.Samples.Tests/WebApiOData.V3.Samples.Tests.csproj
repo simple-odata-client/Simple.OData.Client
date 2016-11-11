@@ -124,10 +124,6 @@
       <Project>{c025fb0f-452b-4795-b9a4-64c9e6abbeee}</Project>
       <Name>Simple.OData.Client.Dynamic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Simple.OData.Client.V3.Adapter\Simple.OData.Client.V3.Adapter.csproj">
-      <Project>{a08b2d3d-91a6-4ecd-b7af-5977e840e383}</Project>
-      <Name>Simple.OData.Client.V3.Adapter</Name>
-    </ProjectReference>
     <ProjectReference Include="..\WebApiOData.V3.Samples\WebApiOData.V3.Samples.csproj">
       <Project>{09cd2cb4-0b5b-4018-bfbb-7367ca7e10a4}</Project>
       <Name>WebApiOData.V3.Samples</Name>

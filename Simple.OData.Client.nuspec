@@ -18,7 +18,7 @@
     <projectUrl>https://github.com/object/Simple.OData.Client</projectUrl>
     <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
     <iconUrl>http://www.odata.org/wp-content/uploads/2014/05/ODataLogo-96.png</iconUrl>
-    <copyright>Copyright 2012-2015 Vagif Abilov</copyright>
+    <copyright>Copyright 2012-2016 Vagif Abilov</copyright>
     <language>en-us</language>
     <tags>odata data rest client portable pcl net40 net45 silverlight windows8 winrt win8 wp8 wpa81 mono adnroid ios touch</tags>
     <dependencies>
@@ -26,29 +26,29 @@
         <dependency id="Microsoft.Bcl.Build" version="1.0.21" />
         <dependency id="Microsoft.Bcl" version="1.1.9" />
         <dependency id="Microsoft.Net.Http" version="2.2.28" />
-        <dependency id="Microsoft.Data.OData" version="5.7.0" />
-        <dependency id="Microsoft.OData.Core" version="6.15.0" />
+        <dependency id="Microsoft.Data.OData" version="[5,6)" />
+        <dependency id="Microsoft.OData.Core" version="[7,8)" />
       </group>
       <group targetFramework="net40">
         <dependency id="Microsoft.Bcl.Build" version="1.0.21" />
         <dependency id="Microsoft.Bcl" version="1.1.9" />
         <dependency id="Microsoft.Bcl.Async" version="1.0.168" />
         <dependency id="Microsoft.Net.Http" version="2.2.28" />
-        <dependency id="Microsoft.Data.OData" version="5.7.0" />
-        <dependency id="Microsoft.OData.Core" version="6.15.0" />
+        <dependency id="Microsoft.Data.OData" version="[5,6)" />
+        <dependency id="Microsoft.OData.Core" version="[7,8)" />
       </group>
       <group targetFramework="net45">
         <dependency id="System.Net.Http" version="4.0.0" />
-        <dependency id="Microsoft.Data.OData" version="5.7.0" />
-        <dependency id="Microsoft.OData.Core" version="6.15.0" />
+        <dependency id="Microsoft.Data.OData" version="[5,6)" />
+        <dependency id="Microsoft.OData.Core" version="[7,8)" />
       </group>
       <group targetFramework="sl5">
         <dependency id="Microsoft.Bcl.Build" version="1.0.21" />
         <dependency id="Microsoft.Bcl" version="1.1.9" />
         <dependency id="Microsoft.Bcl.Async" version="1.0.168" />
         <dependency id="Microsoft.Net.Http" version="2.2.28" />
-        <dependency id="Microsoft.Data.OData" version="5.7.0" />
-        <dependency id="Microsoft.OData.Core" version="6.15.0" />
+        <dependency id="Microsoft.Data.OData" version="[5,6)" />
+        <dependency id="Microsoft.OData.Core" version="[7,8)" />
       </group>
     </dependencies>
     <frameworkAssemblies>
@@ -75,9 +75,5 @@
     <file src="Simple.OData.Client.Dynamic\bin\Release\Simple.OData.Client.Dynamic.xml" target="lib\net45\Simple.OData.Client.Dynamic.xml" />
     <file src="Simple.OData.Client.V3.Adapter\bin\Release\Simple.OData.Client.V3.Adapter.dll" target="lib\net45\Simple.OData.Client.V3.Adapter.dll" />
     <file src="Simple.OData.Client.V4.Adapter\bin\Release\Simple.OData.Client.V4.Adapter.dll" target="lib\net45\Simple.OData.Client.V4.Adapter.dll" />
-
-    <!-- Silverlight 5 -->
-    <file src="Simple.OData.Client.SL5\bin\Release\Simple.OData.Client.SL5.dll" target="lib\sl5\Simple.OData.Client.SL5.dll" />
-    <file src="Simple.OData.Client.SL5\bin\Release\Simple.OData.Client.SL5.xml" target="lib\sl5\Simple.OData.Client.SL5.xml" />
   </files>
 </package>

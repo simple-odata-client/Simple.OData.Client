@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Microsoft.Data.OData;
+using Microsoft.OData;
 using Moq;
 
 #pragma warning disable 3008

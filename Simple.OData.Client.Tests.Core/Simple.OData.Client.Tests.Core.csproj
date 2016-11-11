@@ -39,24 +39,16 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Data.Edm, Version=5.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Microsoft.Data.Edm.5.7.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    <Reference Include="Microsoft.OData.Core, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Microsoft.OData.Core.7.0.0\lib\portable-net45+win8+wpa81\Microsoft.OData.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Data.OData, Version=5.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Microsoft.Data.OData.5.7.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    <Reference Include="Microsoft.OData.Edm, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Microsoft.OData.Edm.7.0.0\lib\portable-net45+win8+wpa81\Microsoft.OData.Edm.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.OData.Core, Version=6.15.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Microsoft.OData.Core.6.15.0\lib\portable-net40+sl5+wp8+win8+wpa\Microsoft.OData.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.OData.Edm, Version=6.15.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Microsoft.OData.Edm.6.15.0\lib\portable-net40+sl5+wp8+win8+wpa\Microsoft.OData.Edm.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Spatial, Version=6.15.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Microsoft.Spatial.6.15.0\lib\portable-net40+sl5+wp8+win8+wpa\Microsoft.Spatial.dll</HintPath>
+    <Reference Include="Microsoft.Spatial, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Microsoft.Spatial.7.0.0\lib\portable-net45+win8+wpa81\Microsoft.Spatial.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Moq">
@@ -74,10 +66,6 @@
       <HintPath>..\Solutions\packages\Microsoft.Net.Http.2.2.28\lib\net45\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
-    <Reference Include="System.Spatial, Version=5.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\System.Spatial.5.7.0\lib\net40\System.Spatial.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
@@ -127,7 +115,6 @@
     <Compile Include="Extensions\StringExtensionTests.cs" />
     <Compile Include="Extensions\TypeExtensionTests.cs" />
     <Compile Include="RequestWriterTests.cs" />
-    <Compile Include="ResponseReaderV3Tests.cs" />
     <Compile Include="ResponseReaderV4Tests.cs" />
     <Compile Include="PluralizerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -186,10 +173,6 @@
     <ProjectReference Include="..\Simple.OData.Client.Dynamic\Simple.OData.Client.Dynamic.csproj">
       <Project>{c025fb0f-452b-4795-b9a4-64c9e6abbeee}</Project>
       <Name>Simple.OData.Client.Dynamic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Simple.OData.Client.V3.Adapter\Simple.OData.Client.V3.Adapter.csproj">
-      <Project>{a08b2d3d-91a6-4ecd-b7af-5977e840e383}</Project>
-      <Name>Simple.OData.Client.V3.Adapter</Name>
     </ProjectReference>
     <ProjectReference Include="..\Simple.OData.Client.V4.Adapter\Simple.OData.Client.V4.Adapter.csproj">
       <Project>{31d1cc1d-316e-4516-a2bd-f07423b394f6}</Project>

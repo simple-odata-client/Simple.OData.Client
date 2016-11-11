@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.OData.Edm;
-using Microsoft.OData.Edm.Annotations;
-using Microsoft.OData.Edm.Library;
+using Microsoft.OData.Edm.Vocabularies;
 
 namespace Simple.OData.Client.V4.Adapter
 {
@@ -19,7 +18,7 @@ namespace Simple.OData.Client.V4.Adapter
             foreach (var property in entityType.StructuralProperties())
             {
                 if (propertyNames.Contains(property.Name))
-                    _entityType.AddStructuralProperty(property.Name, property.Type, property.DefaultValueString, property.ConcurrencyMode);
+                    _entityType.AddStructuralProperty(property.Name, property.Type, property.DefaultValueString);
             }
 
             foreach (var property in entityType.NavigationProperties())
@@ -58,7 +57,7 @@ namespace Simple.OData.Client.V4.Adapter
         public IEnumerable<IEdmOperation> FindDeclaredBoundOperations(IEdmType bindingType) { return _source.FindDeclaredBoundOperations(bindingType); }
         public IEnumerable<IEdmOperation> FindDeclaredBoundOperations(string qualifiedName, IEdmType bindingType) { return _source.FindDeclaredBoundOperations(qualifiedName, bindingType); }
         public IEnumerable<IEdmOperation> FindDeclaredOperations(string qualifiedName) { return _source.FindDeclaredOperations(qualifiedName); }
-        public IEdmValueTerm FindDeclaredValueTerm(string qualifiedName) { return _source.FindDeclaredValueTerm(qualifiedName); }
+        public IEdmTerm FindDeclaredTerm(string qualifiedName) { return _source.FindDeclaredTerm(qualifiedName); }
         public IEnumerable<IEdmVocabularyAnnotation> FindDeclaredVocabularyAnnotations(IEdmVocabularyAnnotatable element) { return _source.FindDeclaredVocabularyAnnotations(element); }
         public IEnumerable<IEdmStructuredType> FindDirectlyDerivedTypes(IEdmStructuredType baseType) { return _source.FindDirectlyDerivedTypes(baseType); }
         public IEnumerable<IEdmSchemaElement> SchemaElements { get { return _source.SchemaElements; } }

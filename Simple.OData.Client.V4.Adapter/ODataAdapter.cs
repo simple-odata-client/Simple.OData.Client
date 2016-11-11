@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Xml;
-using Microsoft.OData.Core;
-using Microsoft.OData.Core.UriParser;
+using Microsoft.OData;
+using Microsoft.OData.UriParser;
 using Microsoft.OData.Edm;
 using Microsoft.OData.Edm.Csdl;
 using Microsoft.Spatial;
@@ -67,7 +67,7 @@ namespace Simple.OData.Client.V4.Adapter
         {
             var reader = XmlReader.Create(new StringReader(metadataString));
             reader.MoveToContent();
-            Model = EdmxReader.Parse(reader);
+            Model = CsdlReader.Parse(reader);
         }
 
         public override string GetODataVersionString()

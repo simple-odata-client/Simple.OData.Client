@@ -225,10 +225,6 @@
       <Project>{2A909E4D-6493-4D36-9FDE-786B89F9A387}</Project>
       <Name>Simple.OData.NorthwindModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Simple.OData.Client.Net40\Simple.OData.Client.Net40.csproj">
-      <Project>{c20a3959-4895-41f8-86e2-7ded294fd904}</Project>
-      <Name>Simple.OData.Client.Net40</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\TwitterStatusesSample.txt" />

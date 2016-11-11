@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Data.Edm;
+using Microsoft.OData.Edm;
 using Xunit;
-using Simple.OData.Client.V3.Adapter;
+using Simple.OData.Client.V4.Adapter;
 
 namespace Simple.OData.Client.Tests
 {
     public class RequestWriterTests : TestBase
     {
         public override string MetadataFile { get { return "Northwind.xml"; } }
-        public override IFormatSettings FormatSettings { get { return new ODataV3Format(); } }
+        public override IFormatSettings FormatSettings { get { return new ODataV4Format(); } }
 
         [Fact]
         public async Task CreateUpdateRequest_NoPreferredVerb_PartialProperties_Patch()
