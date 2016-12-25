@@ -24,7 +24,7 @@ namespace Simple.OData.Client.Tests.Core
         public async Task ActionWithEnum()
         {
             var requestWriter = new RequestWriter(_session, await _client.GetMetadataAsync<IEdmModel>(), null);
-            var result = await requestWriter.CreateActionRequestAsync("Entity", "MakeFromParam",
+            var result = await requestWriter.CreateActionRequestAsync("Entity", "MakeFromParam", null,
                         new Dictionary<string, object>() { { "Name", "Entity Name" }, { "Rank", Rank.Second } }, false);
             Assert.Equal("POST", result.Method);
         }

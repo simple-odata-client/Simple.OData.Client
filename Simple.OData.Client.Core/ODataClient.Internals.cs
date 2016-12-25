@@ -203,8 +203,11 @@ namespace Simple.OData.Client
             var commandText = await command.GetCommandTextAsync(cancellationToken).ConfigureAwait(false);
             if (cancellationToken.IsCancellationRequested) cancellationToken.ThrowIfCancellationRequested();
 
+            var entityTypeName = command.EntityCollection != null
+                ? _session.Metadata.GetQualifiedTypeName(command.EntityCollection.Name)
+                : null;
             var request = await _session.Adapter.GetRequestWriter(_lazyBatchWriter)
-                .CreateActionRequestAsync(commandText, command.ActionName, command.CommandData, true).ConfigureAwait(false);
+                .CreateActionRequestAsync(commandText, command.ActionName, entityTypeName, command.CommandData, true).ConfigureAwait(false);
 
             return await ExecuteRequestWithResultAsync(request, cancellationToken,
                 x => x.AsEntries(_session.Settings.IncludeAnnotationsInResults),

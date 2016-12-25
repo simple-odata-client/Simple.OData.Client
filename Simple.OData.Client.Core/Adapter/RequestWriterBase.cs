@@ -150,7 +150,7 @@ namespace Simple.OData.Client
             return request;
         }
 
-        public async Task<ODataRequest> CreateActionRequestAsync(string commandText, string actionName, IDictionary<string, object> parameters, bool resultRequired)
+        public async Task<ODataRequest> CreateActionRequestAsync(string commandText, string actionName, string boundTypeName, IDictionary<string, object> parameters, bool resultRequired)
         {
             var verb = RestVerbs.Post;
             Stream entryContent = null;
@@ -158,7 +158,7 @@ namespace Simple.OData.Client
 
             if (parameters != null && parameters.Any())
             {
-                entryContent = await WriteActionContentAsync(RestVerbs.Post, commandText, actionName, parameters).ConfigureAwait(false);
+                entryContent = await WriteActionContentAsync(RestVerbs.Post, commandText, actionName, boundTypeName, parameters).ConfigureAwait(false);
                 usePayloadFormat = ODataPayloadFormat.Json;
             }
             else
@@ -178,7 +178,7 @@ namespace Simple.OData.Client
         protected abstract Task<Stream> WriteEntryContentAsync(string method, string collection, string commandText, IDictionary<string, object> entryData, bool resultRequired);
         protected abstract Task<Stream> WriteLinkContentAsync(string method, string commandText, string linkIdent);
         protected abstract Task<Stream> WriteFunctionContentAsync(string method, string commandText);
-        protected abstract Task<Stream> WriteActionContentAsync(string method, string commandText, string actionName, IDictionary<string, object> parameters);
+        protected abstract Task<Stream> WriteActionContentAsync(string method, string commandText, string actionName, string boundTypeName, IDictionary<string, object> parameters);
         protected abstract Task<Stream> WriteStreamContentAsync(Stream stream, bool writeAsText);
         protected abstract string FormatLinkPath(string entryIdent, string navigationPropertyName, string linkIdent = null);
         protected abstract void AssignHeaders(ODataRequest request);

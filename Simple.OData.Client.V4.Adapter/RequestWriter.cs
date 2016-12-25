@@ -90,17 +90,29 @@ namespace Simple.OData.Client.V4.Adapter
             return null;
         }
 
-        protected override async Task<Stream> WriteActionContentAsync(string method, string commandText, string actionName, IDictionary<string, object> parameters)
+        protected override async Task<Stream> WriteActionContentAsync(string method, string commandText, string actionName, string boundTypeName, IDictionary<string, object> parameters)
         {
             IODataRequestMessageAsync message = IsBatch
-                ? await CreateBatchOperationMessageAsync(method, null, null, commandText, true)
-.ConfigureAwait(false) : new ODataRequestMessage();
+                ? await CreateBatchOperationMessageAsync(method, null, null, commandText, true).ConfigureAwait(false) 
+                : new ODataRequestMessage();
 
             using (var messageWriter = new ODataMessageWriter(message, GetWriterSettings(), _model))
             {
-                var action = _model.SchemaElements.BestMatch(
-                    x => x.SchemaElementKind == EdmSchemaElementKind.Action,
-                    x => x.Name, actionName, _session.Pluralizer) as IEdmAction;
+                Func<IEdmTypeReference, IEdmType, bool> typeMatch = (parameterType, baseType) =>
+                    parameterType.Definition == baseType ||
+                    parameterType.Definition.TypeKind == EdmTypeKind.Collection &&
+                        (parameterType.Definition as IEdmCollectionType).ElementType.Definition == baseType;
+
+                var action = boundTypeName == null
+                    ? _model.SchemaElements.BestMatch(
+                        x => x.SchemaElementKind == EdmSchemaElementKind.Action,
+                        x => x.Name, actionName, _session.Pluralizer) as IEdmAction
+                    : _model.SchemaElements.BestMatch(
+                        x => x.SchemaElementKind == EdmSchemaElementKind.Action
+                             && typeMatch(
+                                 ((IEdmAction) x).Parameters.FirstOrDefault(p => p.Name == "bindingParameter")?.Type,
+                                 _model.FindDeclaredType(boundTypeName)),
+                        x => x.Name, actionName, _session.Pluralizer) as IEdmAction;
                 var parameterWriter = await messageWriter.CreateODataParameterWriterAsync(action).ConfigureAwait(false);
 
                 await parameterWriter.WriteStartAsync().ConfigureAwait(false);

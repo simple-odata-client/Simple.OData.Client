@@ -118,7 +118,7 @@ namespace Simple.OData.Client.V3.Adapter
             return null;
         }
 
-        protected override async Task<Stream> WriteActionContentAsync(string method, string commandText, string actionName, IDictionary<string, object> parameters)
+        protected override async Task<Stream> WriteActionContentAsync(string method, string commandText, string actionName, string boundTypeName, IDictionary<string, object> parameters)
         {
 #if SILVERLIGHT
             IODataRequestMessage
