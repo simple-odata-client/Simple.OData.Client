@@ -130,6 +130,13 @@
       <EntityType Name="Trucks" BaseType="NorthwindModel.Transport">
         <Property Name="TruckNumber" Type="Edm.String" MaxLength="100" FixedLength="false" Unicode="true" />
       </EntityType>
+      <EntityType Name="TypeWithGuidKey">
+        <Key>
+          <PropertyRef Name="Key" />
+        </Key>
+        <Property Name="Key" Type="Edm.Guid" Nullable="false" />
+        <Property Name="Name" Type="Edm.String" Nullable="false" />
+      </EntityType>
       <ComplexType Name="Address">
         <Property Name="Type" Type="NorthwindModel.AddressType" />
         <Property Name="City" Type="Edm.String" MaxLength="15" FixedLength="false" Unicode="true" />
@@ -253,6 +260,7 @@
         <EntitySet Name="Shippers" EntityType="NorthwindModel.Shipper" />
         <EntitySet Name="Suppliers" EntityType="NorthwindModel.Supplier" />
         <EntitySet Name="Transport" EntityType="NorthwindModel.Transport" />
+        <EntitySet Name="TypeWithGuidKey" EntityType="NorthwindModel.TypeWithGuidKey" />
         <FunctionImport Name="ParseInt" ReturnType="Edm.Int32" m:HttpMethod="GET">
           <Parameter Name="number" Type="Edm.String" />
         </FunctionImport>

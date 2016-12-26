@@ -249,5 +249,27 @@ namespace Simple.OData.Client.Tests
             string commandText = command.GetCommandTextAsync().Result;
             Assert.Equal("Products?$filter=ProductName%20eq%20%27abc%27&IntOption=42&StringOption='xyz'", commandText);
         }
+
+        [Fact]
+        public void FindByGuidFilterEqual()
+        {
+            var key = Guid.NewGuid();
+            var command = _client
+                .For<TypeWithGuidKey>()
+                .Filter(x => x.Key == key);
+            string commandText = command.GetCommandTextAsync().Result;
+            Assert.Equal(string.Format("TypeWithGuidKey({0})", Uri.EscapeDataString(FormatSettings.GetGuidFormat(key.ToString()))), commandText);
+        }
+
+        [Fact]
+        public void FindByGuidKey()
+        {
+            var key = Guid.NewGuid();
+            var command = _client
+                .For<TypeWithGuidKey>()
+                .Key(key);
+            string commandText = command.GetCommandTextAsync().Result;
+            Assert.Equal(string.Format("TypeWithGuidKey({0})", Uri.EscapeDataString(FormatSettings.GetGuidFormat(key.ToString()))), commandText);
+        }
     }
 }
