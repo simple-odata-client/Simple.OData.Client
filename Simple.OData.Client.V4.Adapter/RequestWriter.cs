@@ -98,10 +98,11 @@ namespace Simple.OData.Client.V4.Adapter
 
             using (var messageWriter = new ODataMessageWriter(message, GetWriterSettings(), _model))
             {
-                Func<IEdmTypeReference, IEdmType, bool> typeMatch = (parameterType, baseType) =>
-                    parameterType.Definition == baseType ||
-                    parameterType.Definition.TypeKind == EdmTypeKind.Collection &&
-                        (parameterType.Definition as IEdmCollectionType).ElementType.Definition == baseType;
+                Func<IEdmOperationParameter, IEdmType, bool> typeMatch = (parameter, baseType) =>
+                    parameter == null ||
+                    parameter.Type.Definition == baseType ||
+                    parameter.Type.Definition.TypeKind == EdmTypeKind.Collection &&
+                        (parameter.Type.Definition as IEdmCollectionType).ElementType.Definition == baseType;
 
                 var action = boundTypeName == null
                     ? _model.SchemaElements.BestMatch(
@@ -110,7 +111,7 @@ namespace Simple.OData.Client.V4.Adapter
                     : _model.SchemaElements.BestMatch(
                         x => x.SchemaElementKind == EdmSchemaElementKind.Action
                              && typeMatch(
-                                 ((IEdmAction) x).Parameters.FirstOrDefault(p => p.Name == "bindingParameter")?.Type,
+                                 ((IEdmAction) x).Parameters.FirstOrDefault(p => p.Name == "bindingParameter"),
                                  _model.FindDeclaredType(boundTypeName)),
                         x => x.Name, actionName, _session.Pluralizer) as IEdmAction;
                 var parameterWriter = await messageWriter.CreateODataParameterWriterAsync(action).ConfigureAwait(false);
