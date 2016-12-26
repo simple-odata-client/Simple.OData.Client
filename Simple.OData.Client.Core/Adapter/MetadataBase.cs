@@ -135,6 +135,7 @@ namespace Simple.OData.Client
                 }
                 else if (this.IsOpenType(collectionName))
                 {
+                    entryDetails.HasOpenTypeProperties = true;
                     entryDetails.AddProperty(item.Key, item.Value);
                 }
                 else if (!this.Session.Settings.IgnoreUnmappedProperties)

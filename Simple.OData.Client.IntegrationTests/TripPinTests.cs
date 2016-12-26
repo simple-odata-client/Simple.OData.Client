@@ -420,6 +420,38 @@ namespace Simple.OData.Client.Tests
         }
 
         [Fact]
+        public async Task UpdatePersonWithDynamicOpenProperty()
+        {
+            var person = await _client
+                .For<PersonWithOpenTypeContainer>("Person")
+                .WithProperties(x => x.Properties)
+                .Set(new
+                {
+                    UserName = "gregorsamsa",
+                    FirstName = "Gregor",
+                    LastName = "Samsa",
+                    Properties = new Dictionary<string, object> { { "OpenTypeField", "Description" } },
+                })
+                .InsertEntryAsync();
+            await _client
+                .For<PersonWithOpenTypeContainer>("Person")
+                .Key("gregorsamsa")
+                .WithProperties(x => x.Properties)
+                .Set(new
+                {
+                    UserName = "gregorsamsa",
+                    Properties = new Dictionary<string, object> { { "OpenTypeField", "New description" } },
+                })
+                .UpdateEntryAsync();
+            person = await _client
+                .For<PersonWithOpenTypeContainer>("Person")
+                .WithProperties(x => x.Properties)
+                .Key("gregorsamsa")
+                .FindEntryAsync();
+            Assert.Equal("New description", person.Properties["OpenTypeField"]);
+        }
+
+        [Fact]
         public async Task FlterPersonOnTypedOpenProperty()
         {
             var person = await _client

@@ -18,6 +18,7 @@ namespace Simple.OData.Client
 
         public IDictionary<string, object> Properties { get { return _properties; } }
         public IDictionary<string, List<ReferenceLink>> Links { get { return _links; } }
+        public bool HasOpenTypeProperties { get; set; }
 
         public void AddProperty(string propertyName, object propertyValue)
         {
