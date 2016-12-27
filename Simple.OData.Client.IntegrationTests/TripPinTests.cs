@@ -449,6 +449,7 @@ namespace Simple.OData.Client.Tests
                 .Key("gregorsamsa")
                 .FindEntryAsync();
             Assert.Equal("New description", person.Properties["OpenTypeField"]);
+            Assert.Equal("Samsa", person.LastName);
         }
 
         [Fact]

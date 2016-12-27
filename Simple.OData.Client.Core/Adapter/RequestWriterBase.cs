@@ -77,8 +77,6 @@ namespace Simple.OData.Client
             var usePatch = _session.Settings.PreferredUpdateMethod == ODataUpdateMethod.Patch || !hasPropertiesToUpdate;
             if (HasUpdatedKeyProperties(collection, entryKey, entryData))
                 usePatch = false;
-            if (entryDetails.HasOpenTypeProperties)
-                usePatch = false;
 
             var entryContent = await WriteEntryContentAsync(
                 usePatch ? RestVerbs.Patch : RestVerbs.Put, collection, entryIdent, entryData, resultRequired).ConfigureAwait(false);

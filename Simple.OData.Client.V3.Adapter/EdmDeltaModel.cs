@@ -11,10 +11,10 @@ namespace Simple.OData.Client.V3.Adapter
         private readonly IEdmModel _source;
         private readonly EdmEntityType _entityType;
 
-        public EdmDeltaModel(IEdmModel source, IEdmEntityType entityType, IEnumerable<string> propertyNames)
+        public EdmDeltaModel(IEdmModel source, IEdmEntityType entityType, ICollection<string> propertyNames)
         {
             _source = source;
-            _entityType = new EdmEntityType(entityType.Namespace, entityType.Name);
+            _entityType = new EdmEntityType(entityType.Namespace, entityType.Name, entityType.BaseEntityType(), entityType.IsAbstract, entityType.IsOpen);
 
             foreach (var property in entityType.StructuralProperties())
             {
