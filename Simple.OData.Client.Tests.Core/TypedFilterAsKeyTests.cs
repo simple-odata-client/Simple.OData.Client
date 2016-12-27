@@ -8,6 +8,17 @@ namespace Simple.OData.Client.Tests
     {
         public override string MetadataFile { get { return "Northwind4.xml"; } }
         public override IFormatSettings FormatSettings { get { return new ODataV4Format(); } }
+
+        [Fact]
+        public void FunctionWithCollectionAsParameter()
+        {
+            var command = _client
+                .Unbound()
+                .Function("PassThroughIntCollection")
+                .Set(new Dictionary<string, object>() { { "numbers", new[] { 1, 2, 3 } } });
+            string commandText = command.GetCommandTextAsync().Result;
+            Assert.Equal("PassThroughIntCollection(numbers=@p1)?@p1=[1,2,3]", commandText);
+        }
     }
 
     public abstract class TypedFilterAsKeyTests : TestBase

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Simple.OData.Client.Extensions;
 
 namespace Simple.OData.Client
 {
@@ -59,15 +60,16 @@ namespace Simple.OData.Client
                         commandText += _session.Metadata.GetActionFullName(command.Details.ActionName);
                 }
 
+                var collectionValues = new List<string>();
                 if (!string.IsNullOrEmpty(command.Details.FunctionName) && FunctionFormat == FunctionFormat.Key)
-                    commandText += ConvertKeyValuesToUriLiteral(command.CommandData, false);
+                    commandText += ConvertKeyValuesToUriLiteralExtractCollections(command.CommandData, collectionValues, false);
 
                 if (!string.IsNullOrEmpty(command.Details.DerivedCollectionName))
                 {
                     commandText += "/" + _session.Metadata.GetQualifiedTypeName(command.Details.DerivedCollectionName);
                 }
 
-                commandText += FormatClauses(command);
+                commandText += FormatClauses(command, collectionValues);
             }
 
             return commandText;
@@ -103,6 +105,47 @@ namespace Simple.OData.Client
             return "(" + formattedKeyValues + ")";
         }
 
+        public string ConvertKeyValuesToUriLiteralExtractCollections(IDictionary<string, object> data, IList<string> collectionValues, bool skipKeyNameForSingleValue)
+        {
+            var escapedData = new Dictionary<string, object>();
+            int colIndex = 0;
+            foreach (var item in data)
+            {
+                object itemValue;
+                if (item.Value != null)
+                {
+                    var itemType = item.Value.GetType();
+                    if (itemType.IsArray || itemType.IsGeneric() &&
+                        typeof(System.Collections.IEnumerable).IsTypeAssignableFrom(itemType))
+                    {
+                        var itemAlias = string.Format("@p{0}", ++colIndex);
+                        var collection = item.Value as System.Collections.IEnumerable;
+                        var escapedCollection = new List<object>();
+                        foreach (var o in collection)
+                        {
+                            escapedCollection.Add(ConvertValueToUriLiteral(o, true));
+                        }
+                        collectionValues.Add(string.Format("{0}=[" + string.Join(",", escapedCollection) + "]", itemAlias));
+                        itemValue = itemAlias;
+                    }
+                    else
+                    {
+                        itemValue = ConvertValueToUriLiteral(item.Value, true);
+                    }
+                }
+                else
+                {
+                    itemValue = ConvertValueToUriLiteral(item.Value, true);
+                }
+                escapedData.Add(item.Key, itemValue);
+            }
+            var formattedKeyValues = escapedData.Count == 1 && skipKeyNameForSingleValue
+                ? string.Join(",", escapedData)
+                : string.Join(",",
+                    escapedData.Select(x => string.Format("{0}={1}", x.Key, x.Value)));
+            return "(" + formattedKeyValues + ")";
+        }
+
         protected abstract void FormatExpandSelectOrderby(IList<string> commandClauses, EntityCollection resultCollection, FluentCommand command);
 
         protected abstract void FormatInlineCount(IList<string> commandClauses);
@@ -121,44 +164,44 @@ namespace Simple.OData.Client
                 : text;
         }
 
-        private string FormatClauses(FluentCommand command)
+        private string FormatClauses(FluentCommand command, IList<string> queryClauses = null)
         {
             var text = string.Empty;
-            var extraClauses = new List<string>();
+            queryClauses = queryClauses ?? new List<string>();
             var aggregateClauses = new List<string>();
 
             if (command.CommandData.Any() && !string.IsNullOrEmpty(command.Details.FunctionName) &&
                 FunctionFormat == FunctionFormat.Query)
-                extraClauses.Add(string.Join("&", command.CommandData.Select(x => string.Format("{0}={1}",
+                queryClauses.Add(string.Join("&", command.CommandData.Select(x => string.Format("{0}={1}",
                     x.Key, ConvertValueToUriLiteral(x.Value, true)))));
 
             if (command.Details.Filter != null)
-                extraClauses.Add(string.Format("{0}={1}", ODataLiteral.Filter, EscapeUnescapedString(command.Details.Filter)));
+                queryClauses.Add(string.Format("{0}={1}", ODataLiteral.Filter, EscapeUnescapedString(command.Details.Filter)));
 
             if (command.Details.Search != null)
-                extraClauses.Add(string.Format("{0}={1}", ODataLiteral.Search, EscapeUnescapedString(command.Details.Search)));
+                queryClauses.Add(string.Format("{0}={1}", ODataLiteral.Search, EscapeUnescapedString(command.Details.Search)));
 
             if (command.Details.QueryOptions != null)
-                extraClauses.Add(command.Details.QueryOptions);
+                queryClauses.Add(command.Details.QueryOptions);
 
             var details = command.Details;
             if (!ReferenceEquals(details.QueryOptionsExpression, null))
             {
-                extraClauses.Add(details.QueryOptionsExpression.Format(new ExpressionContext(details.Session, true)));
+                queryClauses.Add(details.QueryOptionsExpression.Format(new ExpressionContext(details.Session, true)));
             }
             if (command.Details.QueryOptionsKeyValues != null)
             {
                 foreach (var kv in command.Details.QueryOptionsKeyValues)
                 {
-                    extraClauses.Add(string.Format("{0}={1}", kv.Key, ODataExpression.FromValue(kv.Value).Format(new ExpressionContext(details.Session))));
+                    queryClauses.Add(string.Format("{0}={1}", kv.Key, ODataExpression.FromValue(kv.Value).Format(new ExpressionContext(details.Session))));
                 }
             }
 
             if (command.Details.SkipCount >= 0)
-                extraClauses.Add(string.Format("{0}={1}", ODataLiteral.Skip, command.Details.SkipCount));
+                queryClauses.Add(string.Format("{0}={1}", ODataLiteral.Skip, command.Details.SkipCount));
 
             if (command.Details.TopCount >= 0)
-                extraClauses.Add(string.Format("{0}={1}", ODataLiteral.Top, command.Details.TopCount));
+                queryClauses.Add(string.Format("{0}={1}", ODataLiteral.Top, command.Details.TopCount));
 
             EntityCollection resultCollection;
             if (command.HasFunction)
@@ -174,10 +217,10 @@ namespace Simple.OData.Client
                 resultCollection = command.EntityCollection;
             }
             if (resultCollection != null)
-                FormatExpandSelectOrderby(extraClauses, resultCollection, command);
+                FormatExpandSelectOrderby(queryClauses, resultCollection, command);
 
             if (command.Details.IncludeCount)
-                FormatInlineCount(extraClauses);
+                FormatInlineCount(queryClauses);
 
             if (command.Details.ComputeCount)
                 aggregateClauses.Add(ODataLiteral.Count);
@@ -185,8 +228,8 @@ namespace Simple.OData.Client
             if (aggregateClauses.Any())
                 text += "/" + string.Join("/", aggregateClauses);
 
-            if (extraClauses.Any())
-                text += "?" + string.Join("&", extraClauses);
+            if (queryClauses.Any())
+                text += "?" + string.Join("&", queryClauses);
 
             return text;
         }

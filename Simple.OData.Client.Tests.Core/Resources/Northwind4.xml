@@ -413,6 +413,10 @@
         <Member Name ="Corporate"/>
         <Member Name ="Delivery" Value="10"/>
       </EnumType>
+      <Function Name="PassThroughIntCollection" IsBound="false" >
+        <Parameter Name="numbers" Type="Collection(Edm.Int32)" Nullable="false" />
+        <ReturnType Type="Collection(Edm.Int32)" Nullable="false" />
+      </Function>
     </Schema>
     <Schema Namespace="ODataWebExperimental.Northwind.Model" xmlns="http://docs.oasis-open.org/odata/ns/edm">
       <EntityContainer Name="NorthwindEntities" p4:LazyLoadingEnabled="true" xmlns:p4="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
