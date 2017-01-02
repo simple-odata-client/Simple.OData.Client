@@ -197,6 +197,21 @@ namespace Simple.OData.Client.Tests
             Assert.Equal(expectedCommand, commandText);
         }
 
+        [Theory]
+        [InlineData("Northwind.xml", "Products?$expand=Category&$select=ProductName,Category/CategoryName&$orderby=Category/CategoryName,ProductName")]
+        [InlineData("Northwind4.xml", "Products?$expand=Category($select=CategoryName)&$select=ProductName&$orderby=Category/CategoryName,ProductName")]
+        public async Task ExpandCategorySelectProductNameCategoryNameThenOrderByCategoryNameThenByProductName(string metadataFile, string expectedCommand)
+        {
+            var client = CreateClient(metadataFile);
+            var command = client.For<Product>()
+                .Expand(p => p.Category)
+                .Select(p => new { p.ProductName, p.Category.CategoryName })
+                .OrderBy(p => p.Category.CategoryName)
+                .ThenBy(p => p.ProductName);
+            string commandText = await command.GetCommandTextAsync();
+            Assert.Equal(expectedCommand, commandText);
+        }
+
         [Fact]
         public async Task ExpandSubordinates2LevelsByValue()
         {

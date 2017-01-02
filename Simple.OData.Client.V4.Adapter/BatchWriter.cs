@@ -64,14 +64,14 @@ namespace Simple.OData.Client.V4.Adapter
         {
             var message = await _batchWriter.CreateOperationRequestMessageAsync(method, uri, contentId).ConfigureAwait(false);
 
-            if (method == RestVerbs.Post || method == RestVerbs.Put || method == RestVerbs.Patch)
+            if (method == RestVerbs.Post || method == RestVerbs.Put || method == RestVerbs.Patch || method == RestVerbs.Merge)
                 message.SetHeader(HttpLiteral.ContentId, contentId);
 
-            if (method == RestVerbs.Post || method == RestVerbs.Put || method == RestVerbs.Patch)
+            if (method == RestVerbs.Post || method == RestVerbs.Put || method == RestVerbs.Patch || method == RestVerbs.Merge)
                 message.SetHeader(HttpLiteral.Prefer, resultRequired ? HttpLiteral.ReturnRepresentation : HttpLiteral.ReturnMinimal);
 
             if (collection != null && _session.Metadata.EntityCollectionRequiresOptimisticConcurrencyCheck(collection) &&
-                (method == RestVerbs.Put || method == RestVerbs.Patch || method == RestVerbs.Delete))
+                (method == RestVerbs.Put || method == RestVerbs.Patch || method == RestVerbs.Merge || method == RestVerbs.Delete))
             {
                 message.SetHeader(HttpLiteral.IfMatch, EntityTagHeaderValue.Any.Tag);
             }
