@@ -431,7 +431,7 @@ namespace Simple.OData.Client.Tests
                 .As(x.Ships)
                 .FindEntriesAsync();
             Assert.Equal("Titanic", (transport as IEnumerable<dynamic>).Single().ShipName);
-            Assert.Equal("Ship", ((transport as IEnumerable<dynamic>).Single()[FluentCommand.AnnotationsLiteral] as ODataEntryAnnotations).TypeName);
+            Assert.Equal("NorthwindModel.Ship", ((transport as IEnumerable<dynamic>).Single()[FluentCommand.AnnotationsLiteral] as ODataEntryAnnotations).TypeName);
         }
 
         [Fact]

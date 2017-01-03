@@ -233,9 +233,16 @@ namespace Simple.OData.Client.V3.Adapter
             Uri editLink = null;
             if (_session.Adapter.GetMetadata().IsTypeWithId(odataEntry.TypeName))
             {
-                id = odataEntry.Id;
-                readLink = odataEntry.ReadLink;
-                editLink = odataEntry.EditLink;
+                try
+                {
+                    id = odataEntry.Id;
+                    readLink = odataEntry.ReadLink;
+                    editLink = odataEntry.EditLink;
+                }
+                catch (Exception)
+                {
+                    // Ignored
+                }
             }
 
             return new ODataEntryAnnotations
