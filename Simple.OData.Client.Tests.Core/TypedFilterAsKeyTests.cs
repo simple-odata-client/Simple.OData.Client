@@ -282,5 +282,26 @@ namespace Simple.OData.Client.Tests
             string commandText = command.GetCommandTextAsync().Result;
             Assert.Equal(string.Format("TypeWithGuidKey({0})", Uri.EscapeDataString(FormatSettings.GetGuidFormat(key.ToString()))), commandText);
         }
+
+        [Fact]
+        public void FindAllEntityLowerCaseNoPrefix()
+        {
+            var command = _client
+                .For("project1")
+                .Key("abc");
+            string commandText = command.GetCommandTextAsync().Result;
+            Assert.Equal("project1(%27abc%27)", commandText);
+        }
+
+        [Fact(Skip = "Entity set names with multiple segments are not supported")]
+        public void FindAllEntityLowerCaseWithPrefix()
+        {
+            _client.SetPluralizer(null);
+            var command = _client
+                .For("project2")
+                .Key("abc");
+            string commandText = command.GetCommandTextAsync().Result;
+            Assert.Equal("project2(%27abc%27)", commandText);
+        }
     }
 }
