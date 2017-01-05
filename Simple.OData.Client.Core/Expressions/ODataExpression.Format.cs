@@ -173,11 +173,19 @@ namespace Simple.OData.Client
             var navigationPath = FormatCallerReference();
             var entityCollection = context.Session.Metadata.NavigateToCollection(context.EntityCollection, navigationPath);
 
-            var targetQualifier = string.Format("x{0}", ArgumentCounter >= 0 ? (1 + (ArgumentCounter++) % 9).ToString() : string.Empty);
-            var formattedArguments = string.Format("{0}:{1}",
-                targetQualifier,
-                FormatExpression(this.Function.Arguments.First(), new ExpressionContext(context.Session,
-                    entityCollection, targetQualifier, context.DynamicPropertiesContainerName)));
+            string formattedArguments;
+            if(!this.Function.Arguments.Any() && string.Equals(this.Function.FunctionName, ODataLiteral.Any, StringComparison.OrdinalIgnoreCase))
+            {
+                formattedArguments = string.Empty;
+            }
+            else
+            {
+                var targetQualifier = string.Format("x{0}", ArgumentCounter >= 0 ? (1 + (ArgumentCounter++) % 9).ToString() : string.Empty);
+                formattedArguments = string.Format("{0}:{1}",
+                    targetQualifier,
+                    FormatExpression(this.Function.Arguments.First(), new ExpressionContext(context.Session,
+                        entityCollection, targetQualifier, context.DynamicPropertiesContainerName)));
+            }
 
             return FormatScope(
                 string.Format("{0}/{1}({2})",
