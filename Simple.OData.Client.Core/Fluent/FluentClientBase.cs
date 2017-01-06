@@ -12,7 +12,7 @@ namespace Simple.OData.Client
     /// Provides access to OData operations in a fluent style.
     /// </summary>
     /// <typeparam name="T">The entity type.</typeparam>
-    public abstract partial class FluentClientBase<T, FT> : IFluentClient<T, FT> 
+    public abstract partial class FluentClientBase<T, FT> : IFluentClient<T, FT>
         where T : class
         where FT : class
     {
@@ -24,7 +24,7 @@ namespace Simple.OData.Client
         protected FluentCommand _command;
         protected readonly bool _dynamicResults;
 
-        internal FluentClientBase(ODataClient client, Session session, 
+        internal FluentClientBase(ODataClient client, Session session,
             FluentCommand parentCommand = null, FluentCommand command = null, bool dynamicResults = false)
         {
             _client = client;
@@ -561,6 +561,7 @@ namespace Simple.OData.Client
         {
             return ExecuteAsArrayAsync<U>(CancellationToken.None);
         }
+
         /// <summary>
         /// Executes the OData function and returns an array.
         /// </summary>
