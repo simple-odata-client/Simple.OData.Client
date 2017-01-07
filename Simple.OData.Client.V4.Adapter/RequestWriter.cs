@@ -35,7 +35,7 @@ namespace Simple.OData.Client.V4.Adapter
 
             var entityType = _model.FindDeclaredType(
                 _session.Metadata.GetQualifiedTypeName(collection)) as IEdmEntityType;
-            var model = method == RestVerbs.Patch ? new EdmDeltaModel(_model, entityType, entryData.Keys) : _model;
+            var model = (method == RestVerbs.Patch || method == RestVerbs.Merge) ? new EdmDeltaModel(_model, entityType, entryData.Keys) : _model;
 
             using (var messageWriter = new ODataMessageWriter(message, GetWriterSettings(), model))
             {
@@ -93,7 +93,7 @@ namespace Simple.OData.Client.V4.Adapter
         protected override async Task<Stream> WriteActionContentAsync(string method, string commandText, string actionName, string boundTypeName, IDictionary<string, object> parameters)
         {
             IODataRequestMessageAsync message = IsBatch
-                ? await CreateBatchOperationMessageAsync(method, null, null, commandText, true).ConfigureAwait(false) 
+                ? await CreateBatchOperationMessageAsync(method, null, null, commandText, true).ConfigureAwait(false)
                 : new ODataRequestMessage();
 
             using (var messageWriter = new ODataMessageWriter(message, GetWriterSettings(), _model))
@@ -111,7 +111,7 @@ namespace Simple.OData.Client.V4.Adapter
                     : _model.SchemaElements.BestMatch(
                         x => x.SchemaElementKind == EdmSchemaElementKind.Action
                              && typeMatch(
-                                 ((IEdmAction) x).Parameters.FirstOrDefault(p => p.Name == "bindingParameter"),
+                                 ((IEdmAction)x).Parameters.FirstOrDefault(p => p.Name == "bindingParameter"),
                                  _model.FindDeclaredType(boundTypeName)),
                         x => x.Name, actionName, _session.Pluralizer) as IEdmAction;
                 var parameterWriter = await messageWriter.CreateODataParameterWriterAsync(action).ConfigureAwait(false);

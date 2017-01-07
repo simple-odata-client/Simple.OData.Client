@@ -10,7 +10,7 @@ namespace Simple.OData.Client
     /// Provides access to OData operations in a fluent style.
     /// </summary>
     /// <typeparam name="T">The entity type.</typeparam>
-    public interface IFluentClient<T,FT>
+    public interface IFluentClient<T, FT>
         where T : class
     {
         /// <summary>
@@ -435,6 +435,7 @@ namespace Simple.OData.Client
         /// <typeparam name="U">The type of the result array.</typeparam>
         /// <returns>Execution result.</returns>
         Task<U[]> ExecuteAsArrayAsync<U>();
+
         /// <summary>
         /// Executes the OData function or action and returns an array.
         /// </summary>

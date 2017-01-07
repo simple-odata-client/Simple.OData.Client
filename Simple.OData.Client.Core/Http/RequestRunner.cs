@@ -86,6 +86,7 @@ namespace Simple.OData.Client
             if (request.CheckOptimisticConcurrency &&
                 (request.Method == RestVerbs.Put ||
                  request.Method == RestVerbs.Patch ||
+                 request.Method == RestVerbs.Merge ||
                  request.Method == RestVerbs.Delete))
             {
                 request.RequestMessage.Headers.IfMatch.Add(EntityTagHeaderValue.Any);

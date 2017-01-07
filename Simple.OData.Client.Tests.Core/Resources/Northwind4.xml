@@ -400,6 +400,20 @@
         <Property Name="Key" Type="Edm.Guid" Nullable="false" />
         <Property Name="Name" Type="Edm.String" Nullable="false" />
       </EntityType>
+      <EntityType Name="Project1">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Id" Type="Edm.String" Nullable="false" />
+        <Property Name="Name" Type="Edm.String" />
+      </EntityType>
+      <EntityType Name="Project2">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Id" Type="Edm.String" Nullable="false" />
+        <Property Name="Name" Type="Edm.String" />
+      </EntityType>
       <ComplexType Name="Address">
         <Property Name="Type" Type="NorthwindModel.AddressType" />
         <Property Name="City" Type="Edm.String" MaxLength="15" />
@@ -413,6 +427,10 @@
         <Member Name ="Corporate"/>
         <Member Name ="Delivery" Value="10"/>
       </EnumType>
+      <Function Name="PassThroughIntCollection" IsBound="false" >
+        <Parameter Name="numbers" Type="Collection(Edm.Int32)" Nullable="false" />
+        <ReturnType Type="Collection(Edm.Int32)" Nullable="false" />
+      </Function>
     </Schema>
     <Schema Namespace="ODataWebExperimental.Northwind.Model" xmlns="http://docs.oasis-open.org/odata/ns/edm">
       <EntityContainer Name="NorthwindEntities" p4:LazyLoadingEnabled="true" xmlns:p4="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
@@ -476,6 +494,8 @@
         <EntitySet Name="Summary_of_Sales_by_Quarters" EntityType="NorthwindModel.Summary_of_Sales_by_Quarter" />
         <EntitySet Name="Summary_of_Sales_by_Years" EntityType="NorthwindModel.Summary_of_Sales_by_Year" />
         <EntitySet Name="TypeWithGuidKey" EntityType="NorthwindModel.TypeWithGuidKey" />
+        <EntitySet Name="project1" EntityType="NorthwindModel.Project1" />
+        <EntitySet Name="prefix/project2" EntityType="NorthwindModel.Project2" />
       </EntityContainer>
     </Schema>
   </edmx:DataServices>

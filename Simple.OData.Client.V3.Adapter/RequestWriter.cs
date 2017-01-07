@@ -40,7 +40,7 @@ namespace Simple.OData.Client.V3.Adapter
 
             var entityType = _model.FindDeclaredType(
                 _session.Metadata.GetQualifiedTypeName(collection)) as IEdmEntityType;
-            var model = method == RestVerbs.Patch ? new EdmDeltaModel(_model, entityType, entryData.Keys) : _model;
+            var model = (method == RestVerbs.Patch || method == RestVerbs.Merge) ? new EdmDeltaModel(_model, entityType, entryData.Keys) : _model;
 
             using (var messageWriter = new ODataMessageWriter(message, GetWriterSettings(), model))
             {

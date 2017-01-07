@@ -8,6 +8,17 @@ namespace Simple.OData.Client.Tests
     {
         public override string MetadataFile { get { return "Northwind4.xml"; } }
         public override IFormatSettings FormatSettings { get { return new ODataV4Format(); } }
+
+        [Fact]
+        public void FunctionWithCollectionAsParameter()
+        {
+            var command = _client
+                .Unbound()
+                .Function("PassThroughIntCollection")
+                .Set(new Dictionary<string, object>() { { "numbers", new[] { 1, 2, 3 } } });
+            string commandText = command.GetCommandTextAsync().Result;
+            Assert.Equal("PassThroughIntCollection(numbers=@p1)?@p1=[1,2,3]", commandText);
+        }
     }
 
     public abstract class TypedFilterAsKeyTests : TestBase
@@ -270,6 +281,27 @@ namespace Simple.OData.Client.Tests
                 .Key(key);
             string commandText = command.GetCommandTextAsync().Result;
             Assert.Equal(string.Format("TypeWithGuidKey({0})", Uri.EscapeDataString(FormatSettings.GetGuidFormat(key.ToString()))), commandText);
+        }
+
+        [Fact]
+        public void FindAllEntityLowerCaseNoPrefix()
+        {
+            var command = _client
+                .For("project1")
+                .Key("abc");
+            string commandText = command.GetCommandTextAsync().Result;
+            Assert.Equal("project1(%27abc%27)", commandText);
+        }
+
+        [Fact(Skip = "Entity set names with multiple segments are not supported")]
+        public void FindAllEntityLowerCaseWithPrefix()
+        {
+            _client.SetPluralizer(null);
+            var command = _client
+                .For("project2")
+                .Key("abc");
+            string commandText = command.GetCommandTextAsync().Result;
+            Assert.Equal("project2(%27abc%27)", commandText);
         }
     }
 }

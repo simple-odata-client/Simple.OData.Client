@@ -9,7 +9,12 @@
         /// Use PATCH to update OData entries
         /// </summary>
         Patch,
+        /// <summary>
+        /// Use MERGE to update OData entries
+        /// </summary>
 
+        [System.Obsolete("This method is obsolete. Use Patch instead.")]
+        Merge,
         /// <summary>
         /// Use PUT to update OData entries
         /// </summary>

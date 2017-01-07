@@ -29,7 +29,8 @@ namespace Simple.OData.Client
 
         public static ODataExpression ExpressionFromFunction(string functionName, string targetName, IEnumerable<object> arguments)
         {
-            return DynamicODataExpression.FromFunction(functionName, targetName, arguments);
+            var targetExpression = DynamicODataExpression.FromReference(targetName);
+            return DynamicODataExpression.FromFunction(functionName, targetExpression, arguments);
         }
     }
 }
