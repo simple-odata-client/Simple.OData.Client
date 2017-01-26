@@ -32,4 +32,5 @@ Simple.OData.ProductService/Properties/PublishProfiles/va-odata-integration - We
 Simple.OData.Client.AdHocTests/
 Simple.OData.Client.IntegrationTests/AdHocTests.cs
 Solutions/AdHocTests.sln
+Solutions/.vs/config/applicationhost.config
 nuget.exe

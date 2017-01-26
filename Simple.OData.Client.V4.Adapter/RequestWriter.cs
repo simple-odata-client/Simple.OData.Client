@@ -333,6 +333,10 @@ namespace Simple.OData.Client.V4.Adapter
             switch (propertyType.TypeKind())
             {
                 case EdmTypeKind.Complex:
+                    if (CustomConverters.HasObjectConverter(value.GetType()))
+                    {
+                        return CustomConverters.Convert(value, value.GetType());
+                    }
                     var complexTypeProperties = propertyType.AsComplex().StructuralProperties();
                     return new ODataResource
                     {
