@@ -170,7 +170,7 @@ namespace Simple.OData.Client.Extensions
             var currentType = type;
             while (currentType != null && currentType != typeof(object))
             {
-                var field = currentType.GetDeclaredField(fieldName, includeNonPublic);
+                var field = currentType.GetDeclaredField(fieldName);
                 if (field != null)
                     return field;
 
@@ -184,19 +184,9 @@ namespace Simple.OData.Client.Extensions
             return type.GetTypeInfo().DeclaredFields.Where(x => !x.IsStatic);
         }
 
-        public static FieldInfo GetDeclaredField(this Type type, string fieldName, bool includeNonPublic = false)
+        public static FieldInfo GetDeclaredField(this Type type, string fieldName)
         {
-            if (includeNonPublic)
-            {
-                return type.GetTypeInfo().DeclaredFields.SingleOrDefault(x =>
-                    x.Name == fieldName &&
-                    x.DeclaringType == type &&
-                    (x.IsPrivate || x.IsPublic || x.IsStatic));
-            }
-            else
-            {
-                return type.GetTypeInfo().GetDeclaredField(fieldName);
-            }
+            return type.GetTypeInfo().GetDeclaredField(fieldName);
         }
 
         public static MethodInfo GetDeclaredMethod(this Type type, string methodName)

@@ -19,7 +19,7 @@ namespace Simple.OData.Client
         {
             _session = session;
             _lastOperationId = 0;
-            _contentIdMap = new Dictionary<IDictionary<string, object>, string>();
+            _contentIdMap = new Dictionary<IDictionary<string, object>, string> ();
             this.BatchEntries = batchEntries;
         }
 
@@ -80,7 +80,8 @@ namespace Simple.OData.Client
 
         public void MapContentId(IDictionary<string, object> entryData, string contentId)
         {
-            if (entryData != null)
+            string cid;
+            if (entryData != null && !_contentIdMap.TryGetValue(entryData, out cid))
             {
                 _contentIdMap.Add(entryData, contentId);
             }

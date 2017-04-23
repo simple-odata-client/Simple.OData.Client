@@ -1,5 +1,6 @@
 ﻿using System;
 using System.CodeDom;
+using Microsoft.Spatial;
 using Xunit;
 using Xunit.Extensions;
 using Xunit.Sdk;
@@ -49,6 +50,15 @@ namespace Simple.OData.Client.Tests
             result = Utils.TryConvert(sourceValue, sourceType, out targetValue);
             Assert.Equal(true, result);
             Assert.Equal(ChangeType(sourceValue, sourceType), ChangeType(targetValue, sourceType));
+        }
+
+        [Fact]
+        public void TryConvertGeographyPoint()
+        {
+            var source = GeographyPoint.Create(10, 10);
+            object targetValue;
+            var result = Utils.TryConvert(source, typeof(GeographyPoint), out targetValue);
+            Assert.Equal(true, result);
         }
 
         private object ChangeType(object value, Type targetType)

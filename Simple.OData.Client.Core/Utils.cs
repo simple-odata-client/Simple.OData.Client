@@ -162,6 +162,10 @@ namespace Simple.OData.Client
                     else
                         result = null;
                 }
+                else if (targetType.IsTypeAssignableFrom(value.GetType()))
+                {
+                    result = value;
+                }
                 else if (targetType == typeof(string))
                 {
                     result = value.ToString();

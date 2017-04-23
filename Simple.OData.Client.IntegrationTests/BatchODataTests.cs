@@ -130,5 +130,56 @@ namespace Simple.OData.Client.Tests
                 .FindEntryAsync();
             Assert.Equal(2, (category["Products"] as IEnumerable<object>).Count());
         }
+
+        [Fact]
+        public async Task ExecuteXCsrfFetchPriorToBatchExecution()
+        {
+            IDictionary<string, object> product1 = null;
+            IDictionary<string, object> product2 = null;
+
+            // None of the existing sample service endpoints actually provide an xcsrf token, 
+            // but in scenarios where a developer may need to use a csrf token, this is an 
+            // example of how to acquire one and send it in on subsequent batch requests.
+            var token = "";
+            var settings = new ODataClientSettings(_serviceUri);
+            settings.BeforeRequest += (request) =>
+            {
+                request.Headers.Add("x-csrf-token", "fetch");
+            };
+            settings.AfterResponse += (response) =>
+            {
+                // Assuming that because the service end points don't return tokens at this time
+                // that we won't be setting the value of the token here.
+                IEnumerable<string> values;
+                token = response.Headers.TryGetValues("x-csrf-token", out values) ? values.First() : "myToken";
+            };
+
+            // Execute an arbitrary request to retrieve the csrf token
+            var client = new ODataClient(settings);
+            await client.GetMetadataDocumentAsync();
+
+            // Since the token was never updated it should still be an empty string.
+            Assert.NotNull(token);
+
+            // Change the settings for the client so we can re-use the session and create a new request with different headers 
+            var newHeaders = new Dictionary<string, IEnumerable<string>>
+            {
+                {"x-csrf-token", new List<string> {token}}
+            };
+            client.UpdateRequestHeaders(newHeaders);
+
+            var batch = new ODataBatch(client, reuseSession: true);
+            batch += async x => product1 = await x.InsertEntryAsync("Products", CreateProduct(5015, "Test15"));
+            batch += async x => product2 = await x.InsertEntryAsync("Products", CreateProduct(5016, "Test16"));
+            batch += async x => await x.InsertEntryAsync("Categories", CreateCategory(5017, "Test17", new[] { product1, product2 }), false);
+            await batch.ExecuteAsync();
+
+            var category = await _client
+                .For("Categories")
+                .Key(5017)
+                .Expand("Products")
+                .FindEntryAsync();
+            Assert.Equal(2, (category["Products"] as IEnumerable<object>).Count());
+        }
     }
 }

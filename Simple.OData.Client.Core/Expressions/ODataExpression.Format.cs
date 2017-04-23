@@ -47,7 +47,7 @@ namespace Simple.OData.Client
                 var left = FormatExpression(_left, context);
                 var op = FormatOperator(context);
                 if (NeedsGrouping(_left))
-                    return string.Format("{0}({1})", op, left);
+                    return string.Format("{0} ({1})", op, left);
                 else
                     return string.Format("{0} {1}", op, left);
             }

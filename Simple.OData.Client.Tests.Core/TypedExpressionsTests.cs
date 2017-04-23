@@ -73,7 +73,7 @@ namespace Simple.OData.Client.Tests
         public void Not()
         {
             Expression<Func<TestEntity, bool>> filter = x => !(x.ProductName == "Chai");
-            Assert.Equal("not(ProductName eq 'Chai')", ODataExpression.FromLinqExpression(filter).AsString(_session));
+            Assert.Equal("not (ProductName eq 'Chai')", ODataExpression.FromLinqExpression(filter).AsString(_session));
         }
 
         [Fact]
@@ -507,6 +507,26 @@ namespace Simple.OData.Client.Tests
             Expression<Func<TestEntity, bool>> filter = x => x.Address.Type.ToString() == AddressType.Corporate.ToString();
             Assert.Equal(string.Format("Address/Type eq {0}", FormatSettings.GetEnumFormat(AddressType.Corporate, typeof(AddressType), "NorthwindModel")),
                 ODataExpression.FromLinqExpression(filter).AsString(_session));
+        }
+
+        enum TestEnum { Zero, One, Two}
+
+        [Fact]
+        public void FilterDateTimeRange()
+        {
+            DateTime beforeDT = new DateTime(2013, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            DateTime afterDT = new DateTime(2014, 2, 2, 0, 0, 0, DateTimeKind.Utc);
+            Expression<Func<TestEntity, bool>> filter = x => (x.CreationTime >= beforeDT) && (x.CreationTime < afterDT);
+            if (FormatSettings.ODataVersion < 4)
+            {
+                Assert.Equal("CreationTime ge datetime'2013-01-01T00:00:00Z' and CreationTime lt datetime'2014-02-02T00:00:00Z'",
+                    ODataExpression.FromLinqExpression(filter).AsString(_session));
+            }
+            else
+            {
+                Assert.Equal("CreationTime ge 2013-01-01T00:00:00Z and CreationTime lt 2014-02-02T00:00:00Z",
+                    ODataExpression.FromLinqExpression(filter).AsString(_session));
+            }
         }
 
         [Fact]

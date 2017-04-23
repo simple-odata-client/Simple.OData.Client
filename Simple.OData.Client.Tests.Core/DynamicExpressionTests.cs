@@ -33,7 +33,7 @@ namespace Simple.OData.Client.Tests
         {
             var x = ODataDynamic.Expression;
             var filter = !(x.ProductName == "Chai");
-            Assert.Equal("not(ProductName eq 'Chai')", filter.AsString(_session));
+            Assert.Equal("not (ProductName eq 'Chai')", filter.AsString(_session));
         }
 
         [Fact]

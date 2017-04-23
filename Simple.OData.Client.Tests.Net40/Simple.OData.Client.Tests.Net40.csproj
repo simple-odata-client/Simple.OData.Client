@@ -176,6 +176,7 @@
     <Compile Include="ClientAdapterTests.cs" />
     <Compile Include="BatchTests.cs" />
     <Compile Include="ClientReadOnlyTests.cs" />
+    <Compile Include="ClientSettingsTests.cs" />
     <Compile Include="DeleteDynamicTests.cs" />
     <Compile Include="DeleteTypedTests.cs" />
     <Compile Include="DeleteTests.cs" />

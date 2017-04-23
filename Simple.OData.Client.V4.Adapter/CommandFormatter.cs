@@ -31,6 +31,8 @@ namespace Simple.OData.Client.V4.Adapter
 
             if (value is ODataEnumValue && _session.Settings.EnumPrefixFree)
                 value = (value as ODataEnumValue).Value;
+            else if (value is DateTime)
+                value = new DateTimeOffset((DateTime)value);
 
             return escapeDataString
                 ? Uri.EscapeDataString(convertValue(value))

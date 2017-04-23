@@ -50,11 +50,21 @@ namespace Simple.OData.Client
         /// Initializes a new instance of the <see cref="ODataBatch"/> class.
         /// </summary>
         /// <param name="client">The OData client which settings will be used to create a batch.</param>
-        public ODataBatch(IODataClient client)
-        {
-            _client = new ODataClient((client as ODataClient).Session.Settings, _entryMap);
-        }
+        public ODataBatch(IODataClient client) : this(client, false) { }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ODataBatch"/> class.
+        /// </summary>
+        /// <param name="client">The OData client which will be used to create a batch.</param>
+        /// <param name="reuseSession">Flag indicating that the existing session from the <see cref="ODataClient"/>
+        /// should be used rather than creating a new one.
+        /// </param>
+        public ODataBatch(IODataClient client, bool reuseSession)
+        {
+            _client = reuseSession
+                ? new ODataClient((client as ODataClient), _entryMap) 
+                : new ODataClient((client as ODataClient).Session.Settings, _entryMap);
+        }
         /// <summary>
         /// Adds an OData command to an OData batch.
         /// </summary>

@@ -66,7 +66,7 @@ namespace Simple.OData.Client.Tests
                 .For(x.Products)
                 .Filter(!(x.ProductID == 1));
             string commandText = await command.GetCommandTextAsync();
-            Assert.Equal(string.Format("Products?$filter=not{0}ProductID%20eq%201{1}", 
+            Assert.Equal(string.Format("Products?$filter=not%20{0}ProductID%20eq%201{1}", 
                 Uri.EscapeDataString("("), Uri.EscapeDataString(")")), commandText);
         }
 
