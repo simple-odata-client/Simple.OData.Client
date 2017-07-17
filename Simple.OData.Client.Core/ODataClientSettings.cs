@@ -195,6 +195,11 @@ namespace Simple.OData.Client
         public ODataTrace TraceFilter { get; set; }
 
         /// <summary>
+        /// Gets or sets the adapter factory to create custom OData adapters
+        /// </summary>
+        public Core.Adapter.IAdapterFactory AdapterFactory { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ODataClientSettings"/> class.
         /// </summary>
         public ODataClientSettings()
