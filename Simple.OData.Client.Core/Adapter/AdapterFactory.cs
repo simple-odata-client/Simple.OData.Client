@@ -59,7 +59,7 @@ namespace Simple.OData.Client
             if (response.Headers.TryGetValues(HttpLiteral.DataServiceVersion, out headerValues) ||
                 response.Headers.TryGetValues(HttpLiteral.ODataVersion, out headerValues))
             {
-                return headerValues.SelectMany(x => x.Split(';')).Where(x => x.Length > 0);                
+                return headerValues.SelectMany(x => x.Split(';')).Where(x => x.Length > 0);
             }
             else
             {
@@ -132,10 +132,16 @@ namespace Simple.OData.Client
             }
         }
 
-        private IODataAdapter LoadAdapter(string adapterAssemblyName, string adapterTypeName, params object[] ctorParams)
+        private IODataAdapter LoadAdapter(string adapterAssemblyName, string adapterTypeName, ISession session, IODataModelAdapter modelAdapter)
         {
+            // load adapter from user defined factory, if assigned and the factory can load for the target version
+            if (session.Settings.AdapterFactory != null && session.Settings.AdapterFactory.CanLoadForModel(modelAdapter))
+            {
+                return session.Settings.AdapterFactory.LoadAdapter(session, modelAdapter);
+            }
             try
             {
+                object[] ctorParams = new object[] { session, modelAdapter };
                 Assembly assembly = null;
 #if NETSTANDARD2_0
                 var assemblyName = new AssemblyName(adapterAssemblyName);

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Simple.OData.Client.Core.Adapter
+﻿namespace Simple.OData.Client.Core.Adapter
 {
     /// <summary>
     /// Implementing classes provide IODataAdapters for specific OData protocol versions
@@ -16,7 +10,7 @@ namespace Simple.OData.Client.Core.Adapter
         /// </summary>
         /// <param name="protocolVersion">OData protocol version</param>
         /// <returns>true if the factory can create an adapter for the passed protocol version, false otherwise</returns>
-        bool CanLoadForVersion(string protocolVersion);
+        bool CanLoadForModel(IODataModelAdapter modelAdapter);
 
         /// <summary>
         /// Creates a new IODataAdapter for the passed protocol version with the specified ISession and metadata
@@ -25,6 +19,6 @@ namespace Simple.OData.Client.Core.Adapter
         /// <param name="session">ISession</param>
         /// <param name="metadataDocument">service metadata (as xml string)</param>
         /// <returns></returns>
-        IODataAdapter LoadAdapter(string protocolVersion, ISession session, string metadataDocument);
+        IODataAdapter LoadAdapter(ISession session, IODataModelAdapter modelAdapter);
     }
 }
