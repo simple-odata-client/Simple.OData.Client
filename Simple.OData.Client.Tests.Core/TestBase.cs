@@ -21,12 +21,18 @@ namespace Simple.OData.Client.Tests
             _client = CreateClient(this.MetadataFile);
         }
 
-        public IODataClient CreateClient(string metadataFile)
+        public IODataClient CreateClient(string metadataFile, INameMatchResolver matchResolver = null)
         {
             var baseUri = new Uri("http://localhost/" + metadataFile);
             var metadataString = GetResourceAsString(@"Resources." + metadataFile);
+            var settings = new ODataClientSettings
+            {
+                BaseUri = baseUri,
+                MetadataDocument = metadataString,
+                NameMatchResolver = matchResolver,
+            };
             _session = Session.FromMetadata(baseUri, metadataString);
-            return new ODataClient(baseUri);
+            return new ODataClient(settings);
         }
 
         public abstract string MetadataFile { get; }

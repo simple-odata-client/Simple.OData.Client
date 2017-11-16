@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace Simple.OData.Client
 {
     /// <summary>
     /// The exception that is thrown when service metadata doesn't contain the requested metadata object
     /// </summary>
-#if NET40
-    [Serializable]
-#endif
     public sealed class UnresolvableObjectException : Exception
     {
         /// <summary>
@@ -50,15 +46,6 @@ namespace Simple.OData.Client
             ObjectName = objectName;
         }
 
-#if NET40
-        private UnresolvableObjectException(
-            SerializationInfo info,
-            StreamingContext context)
-            : base(info, context)
-        {
-            ObjectName = info.GetString("ObjectName");
-        }
-#endif
         /// <summary>
         /// Gets the name of the unresolved metadata object.
         /// </summary>

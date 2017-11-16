@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace Simple.OData.Client
 {
@@ -33,9 +34,9 @@ namespace Simple.OData.Client
         public IDictionary<string, object> QueryOptionsKeyValues { get; set; }
         public string MediaName { get; set; }
         public IEnumerable<string> MediaProperties { get; set; }
-        public SimpleDictionary<object, IDictionary<string, object>> BatchEntries { get; set; }
+        public ConcurrentDictionary<object, IDictionary<string, object>> BatchEntries { get; set; }
 
-        public CommandDetails(Session session, FluentCommand parent, SimpleDictionary<object, IDictionary<string, object>> batchEntries)
+        public CommandDetails(Session session, FluentCommand parent, ConcurrentDictionary<object, IDictionary<string, object>> batchEntries)
         {
             this.Session = session;
             this.Parent = parent;

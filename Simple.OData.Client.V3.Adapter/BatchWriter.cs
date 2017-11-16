@@ -20,60 +20,35 @@ namespace Simple.OData.Client.V3.Adapter
         {
         }
 
-#pragma warning disable 1998
         public override async Task StartBatchAsync()
         {
             _requestMessage = new ODataRequestMessage() { Url = _session.Settings.BaseUri };
             _messageWriter = new ODataMessageWriter(_requestMessage);
-#if SILVERLIGHT
-            _batchWriter = _messageWriter.CreateODataBatchWriter();
-            _batchWriter.WriteStartBatch();
-#else
             _batchWriter = await _messageWriter.CreateODataBatchWriterAsync().ConfigureAwait(false);
             await _batchWriter.WriteStartBatchAsync().ConfigureAwait(false);
-#endif
             this.HasOperations = true;
         }
-#pragma warning restore 1998
 
-#pragma warning disable 1998
         public override async Task<HttpRequestMessage> EndBatchAsync()
         {
-#if SILVERLIGHT
-            if (_pendingChangeSet)
-                _batchWriter.WriteEndChangeset();
-            _batchWriter.WriteEndBatch();
-            var stream = _requestMessage.GetStream();
-#else
             if (_pendingChangeSet)
                 await _batchWriter.WriteEndChangesetAsync().ConfigureAwait(false);
             await _batchWriter.WriteEndBatchAsync().ConfigureAwait(false);
             var stream = await _requestMessage.GetStreamAsync().ConfigureAwait(false);
-#endif
             return CreateMessageFromStream(stream, _requestMessage.Url, _requestMessage.GetHeader);
         }
-#pragma warning restore 1998
 
         protected override async Task StartChangesetAsync()
         {
             if (_batchWriter == null)
                 await StartBatchAsync().ConfigureAwait(false);
 
-#if SILVERLIGHT
-            _batchWriter.WriteStartChangeset();
-#else
             await _batchWriter.WriteStartChangesetAsync().ConfigureAwait(false);
-#endif
         }
 
         protected override Task EndChangesetAsync()
         {
-#if SILVERLIGHT
-            _batchWriter.WriteEndChangeset();
-            return Utils.GetTaskFromResult(0);
-#else
             return _batchWriter.WriteEndChangesetAsync();
-#endif
         }
 
         protected override async Task<object> CreateOperationMessageAsync(Uri uri, string method, string collection, string contentId, bool resultRequired)
@@ -84,15 +59,10 @@ namespace Simple.OData.Client.V3.Adapter
             return await CreateBatchOperationMessageAsync(uri, method, collection, contentId, resultRequired).ConfigureAwait(false);
         }
 
-#pragma warning disable 1998
         private async Task<ODataBatchOperationRequestMessage> CreateBatchOperationMessageAsync(
             Uri uri, string method, string collection, string contentId, bool resultRequired)
         {
-#if SILVERLIGHT
-            var message = _batchWriter.CreateOperationRequestMessage(method, uri);
-#else
             var message = await _batchWriter.CreateOperationRequestMessageAsync(method, uri).ConfigureAwait(false);
-#endif
 
             if (method != RestVerbs.Get && method != RestVerbs.Delete)
                 message.SetHeader(HttpLiteral.ContentId, contentId);
@@ -108,6 +78,5 @@ namespace Simple.OData.Client.V3.Adapter
 
             return message;
         }
-#pragma warning restore 1998
     }
 }

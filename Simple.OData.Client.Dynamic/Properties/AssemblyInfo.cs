@@ -13,6 +13,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Simple.OData.Client (Silverlight)")]
 #elif PocketPC
 [assembly: AssemblyTitle("Simple.OData.Client (Compact)")]
+#elif NETSTANDARD2_0
+[assembly: AssemblyTitle("Simple.OData.Client (.NET Standard 2.0)")]
 #elif PORTABLE
 [assembly: AssemblyTitle("Simple.OData.Client (Portable)")]
 #elif NETFX_CORE

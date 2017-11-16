@@ -4,15 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.OData.Core;
+using Microsoft.OData;
 
 namespace Simple.OData.Client.V4.Adapter
 {
-#if SILVERLIGH
-    class ODataResponseMessage : IODataResponseMessage
-#else
     class ODataResponseMessage : IODataResponseMessageAsync
-#endif
     {
         private readonly HttpResponseMessage _response;
 

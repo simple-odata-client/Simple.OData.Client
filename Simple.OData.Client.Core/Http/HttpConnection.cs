@@ -56,20 +56,13 @@ namespace Simple.OData.Client
             {
                 var clientHandler = new HttpClientHandler();
 
-                // Perform this test to prevent failure to access Credentials/PreAuthenticate properties on SL5
                 if (settings.Credentials != null)
                 {
                     clientHandler.Credentials = settings.Credentials;
-                    if (Utils.IsDesktopPlatform() || clientHandler.SupportsPreAuthenticate())
-                    {
-                        clientHandler.PreAuthenticate = true;
-                    }
+                    clientHandler.PreAuthenticate = true;
                 }
 
-                if (settings.OnApplyClientHandler != null)
-                {
-                    settings.OnApplyClientHandler(clientHandler);
-                }
+                settings.OnApplyClientHandler?.Invoke(clientHandler);
 
                 return clientHandler;
             }

@@ -59,37 +59,5 @@ namespace Simple.OData.Client.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; standalone=&quot;yes&quot;?&gt;
-        ///&lt;entry xmlns:d=&quot;http://schemas.microsoft.com/ado/2007/08/dataservices&quot; xmlns:m=&quot;http://schemas.microsoft.com/ado/2007/08/dataservices/metadata&quot; xmlns=&quot;http://www.w3.org/2005/Atom&quot;&gt;
-        ///  &lt;title /&gt;
-        ///  &lt;updated/&gt;
-        ///  &lt;author&gt;
-        ///    &lt;name /&gt;
-        ///  &lt;/author&gt;
-        ///  &lt;id /&gt;
-        ///  &lt;category scheme=&quot;http://schemas.microsoft.com/ado/2007/08/dataservices/scheme&quot;/&gt;
-        ///  &lt;content type=&quot;application/xml&quot;&gt;
-        ///    &lt;m:properties/&gt;
-        ///  &lt;/content&gt;
-        ///  &lt;link rel=&quot;http://schemas.microsoft.com/ado/2007/08 [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string DataServicesAtomEntryXml {
-            get {
-                return ResourceManager.GetString("DataServicesAtomEntryXml", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; standalone=&quot;yes&quot;?&gt;
-        ///&lt;uri xmlns=&quot;http://schemas.microsoft.com/ado/2007/08/dataservices/metadata&quot;&gt;
-        ///&lt;/uri&gt;.
-        /// </summary>
-        internal static string DataServicesMetadataEntryXml {
-            get {
-                return ResourceManager.GetString("DataServicesMetadataEntryXml", resourceCulture);
-            }
-        }
     }
 }

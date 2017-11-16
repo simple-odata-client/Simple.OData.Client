@@ -9,25 +9,17 @@ namespace Simple.OData.Client
 {
     class Session : ISession
     {
-        private readonly AdapterFactory _adapterFactory;
-        private Func<IODataAdapter> _createAdapter;
         private IODataAdapter _adapter;
         private HttpConnection _httpConnection;
 
-        public ODataClientSettings Settings { get; private set; }
+        public ODataClientSettings Settings { get; }
         public MetadataCache MetadataCache { get; private set; }
-        public IPluralizer Pluralizer { get; internal set; }
 
         private Session(Uri baseUri, string metadataString)
         {
-            _adapterFactory = new AdapterFactory(this);
-            _createAdapter = () => _adapterFactory.ParseMetadata(metadataString);
-
             this.Settings = new ODataClientSettings();
             this.Settings.BaseUri = baseUri;
-            this.MetadataCache = MetadataCache.Instances.GetOrAdd(baseUri.AbsoluteUri, new MetadataCache());
-            this.MetadataCache.SetMetadataDocument(metadataString);
-            this.Pluralizer = new SimplePluralizer();
+            this.MetadataCache = MetadataCache.GetOrAdd(baseUri.AbsoluteUri, uri => new MetadataCache(uri, metadataString));
         }
 
         private Session(ODataClientSettings settings)
@@ -35,12 +27,7 @@ namespace Simple.OData.Client
             if (settings.BaseUri == null || string.IsNullOrEmpty(settings.BaseUri.AbsoluteUri))
                 throw new InvalidOperationException("Unable to create client session with no URI specified");
 
-            _adapterFactory = new AdapterFactory(this);
-            _createAdapter = () => _adapterFactory.ParseMetadata(this.MetadataCache.MetadataDocument);
-
             this.Settings = settings;
-            this.MetadataCache = MetadataCache.Instances.GetOrAdd(this.Settings.BaseUri.AbsoluteUri, new MetadataCache());
-            this.Pluralizer = new SimplePluralizer();
         }
 
         public void Dispose()
@@ -65,32 +52,51 @@ namespace Simple.OData.Client
 
         public void ClearMetadataCache()
         {
-            MetadataCache.Instances.Remove(MetadataCache.Instances.Single(x => x.Value == this.MetadataCache).Key);
+            var metadataCache = this.MetadataCache;
+            if (metadataCache != null)
+            {
+                MetadataCache.Clear(metadataCache.Key);
+                this.MetadataCache = null;
+            }
         }
 
         public async Task<IODataAdapter> ResolveAdapterAsync(CancellationToken cancellationToken)
         {
-            if (!this.MetadataCache.IsResolved())
+            if (this.MetadataCache == null)
             {
-                IODataAdapter adapter;
-                if (string.IsNullOrEmpty(this.Settings.MetadataDocument))
+                string metadataDocument = Settings.MetadataDocument;
+                if (string.IsNullOrEmpty(metadataDocument))
                 {
-                    var response = await SendMetadataRequestAsync(cancellationToken).ConfigureAwait(false);
-                    this.MetadataCache.SetMetadataDocument(await _adapterFactory.GetMetadataDocumentAsync(response).ConfigureAwait(false));
-                    adapter = await _adapterFactory.CreateAdapterAsync(response).ConfigureAwait(false);
+                    metadataDocument = await ResolveMetadataAsync(cancellationToken).ConfigureAwait(false);
                 }
-                else
-                {
-                    this.MetadataCache.SetMetadataDocument(this.Settings.MetadataDocument);
-                    adapter = _adapterFactory.CreateAdapter(this.Settings.MetadataDocument);
-                }
-                _createAdapter = () => adapter;
+                this.MetadataCache =
+                    MetadataCache.GetOrAdd(
+                        this.Settings.BaseUri.AbsoluteUri,
+                        uri =>
+                        {
+                            var cache = new MetadataCache(uri, metadataDocument);
+                            return cache;
+                        });
             }
 
             if (this.Settings.PayloadFormat == ODataPayloadFormat.Unspecified)
                 this.Settings.PayloadFormat = this.Adapter.DefaultPayloadFormat;
 
             return this.Adapter;
+        }
+
+        private async Task<string> ResolveMetadataAsync(CancellationToken cancellationToken)
+        {
+            if (string.IsNullOrEmpty(this.Settings.MetadataDocument))
+            {
+                var response = await SendMetadataRequestAsync(cancellationToken).ConfigureAwait(false);
+                var metadataDocument = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                return metadataDocument;
+            }
+            else
+            {
+                return this.Settings.MetadataDocument;
+            }
         }
 
         public IODataAdapter Adapter
@@ -102,7 +108,7 @@ namespace Simple.OData.Client
                     lock (this)
                     {
                         if (_adapter == null)
-                            _adapter = _createAdapter();
+                            _adapter = this.MetadataCache.GetODataAdapter(this);
                     }
                 }
                 return _adapter;

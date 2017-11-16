@@ -1,5 +1,4 @@
 ﻿using System;
-using Simple.OData.Client.Extensions;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,120 +6,67 @@ using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml;
-using System.Net.Http.Headers;
-using Simple.OData.Client.Core.Adapter;
+using Simple.OData.Client.Extensions;
 
 namespace Simple.OData.Client
 {
-    internal class AdapterFactory : IAdapterFactory
+    class AdapterFactory
     {
         private const string AdapterV3AssemblyName = "Simple.OData.Client.V3.Adapter";
-        private const string AdapterV3TypeName = "Simple.OData.Client.V3.Adapter.ODataAdapter";
         private const string AdapterV4AssemblyName = "Simple.OData.Client.V4.Adapter";
+        private const string AdapterV3TypeName = "Simple.OData.Client.V3.Adapter.ODataAdapter";
         private const string AdapterV4TypeName = "Simple.OData.Client.V4.Adapter.ODataAdapter";
+        private const string ModelAdapterV3TypeName = "Simple.OData.Client.V3.Adapter.ODataModelAdapter";
+        private const string ModelAdapterV4TypeName = "Simple.OData.Client.V4.Adapter.ODataModelAdapter";
 
-        private readonly ISession _session;
-
-        public AdapterFactory(ISession session)
+        public async Task<IODataModelAdapter> CreateModelAdapterAsync(HttpResponseMessage response)
         {
-            _session = session;
-        }
+            var protocolVersions = (await GetSupportedProtocolVersionsAsync(response).ConfigureAwait(false)).ToArray();
 
-        public IODataAdapter CreateAdapter(string metadataString)
-        {
-            var protocolVersion = GetMetadataProtocolVersion(metadataString);
-            return LoadAdapter(protocolVersion, _session, metadataString);            
-        }
-
-        public async Task<IODataAdapter> CreateAdapterAsync(HttpResponseMessage response)
-        {
-            string metadataDocument = await GetMetadataDocumentAsync(response);
-            var protocolVersions = GetSupportedProtocolVersionsAsync(response.Headers, metadataDocument).ToArray();
-            var loader = _session.Settings.AdapterFactory;
-            if (loader != null)
-            {
-                foreach (var protocolVersion in protocolVersions)
-                {
-                    if (loader.CanLoadForVersion(protocolVersion))
-                    {
-                        return loader.LoadAdapter(protocolVersion, _session, metadataDocument);
-                    }
-                }
-            }
-            
             foreach (var protocolVersion in protocolVersions)
             {
-                if (CanLoadForVersion(protocolVersion))
-                {
-                    return LoadInternalAdapter(protocolVersion, _session, metadataDocument);
-                }
+                var loadModelAdapter = GetModelAdapterLoader(protocolVersion, response);
+                if (loadModelAdapter != null)
+                    return loadModelAdapter();
             }
-
             throw new NotSupportedException(string.Format("OData protocols {0} are not supported", string.Join(",", protocolVersions)));
         }
 
-        public async Task<string> GetMetadataDocumentAsync(HttpResponseMessage response)
+        public IODataModelAdapter CreateModelAdapter(string metadataString)
         {
-            return await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var protocolVersion = GetMetadataProtocolVersion(metadataString);
+            var loadModelAdapter = GetModelAdapterLoader(protocolVersion, metadataString);
+            if (loadModelAdapter == null)
+                throw new NotSupportedException(string.Format("OData protocol {0} is not supported", protocolVersion));
+
+            return loadModelAdapter();
         }
 
-        public IODataAdapter ParseMetadata(string metadataDocument)
+        public Func<ISession, IODataAdapter> CreateAdapter(string metadataString)
         {
-            var protocolVersion = GetMetadataProtocolVersion(metadataDocument);
-            return LoadAdapter(protocolVersion, _session, metadataDocument);
+            var modelAdapter = CreateModelAdapter(metadataString);
+
+            var loadAdapter = GetAdapterLoader(modelAdapter);
+            if (loadAdapter == null)
+                throw new NotSupportedException(string.Format("OData protocol {0} is not supported", modelAdapter.ProtocolVersion));
+
+            return loadAdapter;
         }
 
-        public bool CanLoadForVersion(string protocolVersion)
-        {
-            return (protocolVersion == ODataProtocolVersion.V1 ||
-                    protocolVersion == ODataProtocolVersion.V2 ||
-                    protocolVersion == ODataProtocolVersion.V3 ||
-                    protocolVersion == ODataProtocolVersion.V4);            
-        }
-
-
-        private string GetMetadataProtocolVersion(string metadataString)
-        {
-            var reader = XmlReader.Create(new StringReader(metadataString));
-            reader.MoveToContent();
-
-            var protocolVersion = reader.GetAttribute("Version");
-
-            if (protocolVersion == ODataProtocolVersion.V1 ||
-                protocolVersion == ODataProtocolVersion.V2 ||
-                protocolVersion == ODataProtocolVersion.V3)
-            {
-                while (reader.Read())
-                {
-                    if (reader.NodeType == XmlNodeType.Element)
-                    {
-                        var version = reader.GetAttribute("m:" + HttpLiteral.MaxDataServiceVersion);
-                        if (string.IsNullOrEmpty(version))
-                            version = reader.GetAttribute("m:" + HttpLiteral.DataServiceVersion);
-                        if (!string.IsNullOrEmpty(version) && string.Compare(version, protocolVersion, StringComparison.Ordinal) > 0)
-                            protocolVersion = version;
-
-                        break;
-                    }
-                }
-            }
-
-            return protocolVersion;
-        }
-
-        private IEnumerable<string> GetSupportedProtocolVersionsAsync(HttpResponseHeaders responseHeaders, string metaDataDocument)
+        private async Task<IEnumerable<string>> GetSupportedProtocolVersionsAsync(HttpResponseMessage response)
         {
             IEnumerable<string> headerValues;
-            if (responseHeaders.TryGetValues(HttpLiteral.DataServiceVersion, out headerValues) ||
-                responseHeaders.TryGetValues(HttpLiteral.ODataVersion, out headerValues))
+            if (response.Headers.TryGetValues(HttpLiteral.DataServiceVersion, out headerValues) ||
+                response.Headers.TryGetValues(HttpLiteral.ODataVersion, out headerValues))
             {
-                return headerValues.SelectMany(x => x.Split(';')).Where(x => x.Length > 0);
+                return headerValues.SelectMany(x => x.Split(';')).Where(x => x.Length > 0);                
             }
             else
             {
                 try
                 {
-                    var protocolVersion = GetMetadataProtocolVersion(metaDataDocument);
+                    var metadataString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    var protocolVersion = GetMetadataProtocolVersion(metadataString);
                     return new[] { protocolVersion };
                 }
                 catch (Exception)
@@ -130,57 +76,122 @@ namespace Simple.OData.Client
             }
         }
 
-        public IODataAdapter LoadAdapter(string protocolVersion, ISession session, string metadataDocument)
+        private Func<ISession, IODataAdapter> GetAdapterLoader(IODataModelAdapter modelAdapter)
         {
-            var loader = _session.Settings.AdapterFactory;
-            if (loader != null && loader.CanLoadForVersion(protocolVersion))
-            {
+            if (modelAdapter.ProtocolVersion == ODataProtocolVersion.V1 ||
+                modelAdapter.ProtocolVersion == ODataProtocolVersion.V2 ||
+                modelAdapter.ProtocolVersion == ODataProtocolVersion.V3)
+                return session => LoadAdapter(AdapterV3AssemblyName, AdapterV3TypeName, session, modelAdapter);
+            if (modelAdapter.ProtocolVersion == ODataProtocolVersion.V4)
+                return session => LoadAdapter(AdapterV4AssemblyName, AdapterV4TypeName, session, modelAdapter);
 
-                return loader.LoadAdapter(protocolVersion, _session, metadataDocument);
-                
-            }
-            else
-            {
-                return LoadInternalAdapter(protocolVersion, session, metadataDocument);
-            }
+            return null;
         }
 
-        private IODataAdapter LoadInternalAdapter(string protocolVersion, ISession session, string metadataDocument)
+        private Func<IODataModelAdapter> GetModelAdapterLoader(string protocolVersion, object extraInfo)
         {
             if (protocolVersion == ODataProtocolVersion.V1 ||
                 protocolVersion == ODataProtocolVersion.V2 ||
                 protocolVersion == ODataProtocolVersion.V3)
-            {
-                return LoadInternalAdapter(AdapterV3AssemblyName, AdapterV3TypeName, session, protocolVersion, metadataDocument);
-            }
-            else if (protocolVersion == ODataProtocolVersion.V4)
-            {
-                return LoadInternalAdapter(AdapterV4AssemblyName, AdapterV4TypeName, session, protocolVersion, metadataDocument);
-            }
+                return () => LoadModelAdapter(AdapterV3AssemblyName, ModelAdapterV3TypeName, protocolVersion, extraInfo);
+            if (protocolVersion == ODataProtocolVersion.V4)
+                return () => LoadModelAdapter(AdapterV4AssemblyName, ModelAdapterV4TypeName, protocolVersion, extraInfo);
 
-            throw new NotSupportedException(string.Format("OData protocol {0} is not supported", protocolVersion));
+            return null;
         }
 
-        private IODataAdapter LoadInternalAdapter(string adapterAssemblyName, string adapterTypeName, params object[] ctorParams)
+        private IODataModelAdapter LoadModelAdapter(string modelAdapterAssemblyName, string modelAdapterTypeName, params object[] ctorParams)
         {
             try
             {
                 Assembly assembly = null;
-#if PORTABLE
+#if NETSTANDARD2_0
+                var assemblyName = new AssemblyName(modelAdapterAssemblyName);
+                assembly = Assembly.Load(assemblyName);
+#else
+                assembly = this.GetType().Assembly;
+#endif
+
+                var constructors = assembly.GetType(modelAdapterTypeName).GetDeclaredConstructors();
+
+#if NETSTANDARD2_0
+                var ctor = constructors.Single(x =>
+                    x.GetParameters().Count() == ctorParams.Count() &&
+                    x.GetParameters().Last().ParameterType.GetTypeInfo().IsAssignableFrom(ctorParams.Last().GetType().GetTypeInfo()));
+#else
+                var ctor = constructors.Single(x =>
+                    x.GetParameters().Count() == ctorParams.Count() &&
+                    x.GetParameters().Last().ParameterType.IsAssignableFrom(ctorParams.Last().GetType()));
+#endif
+
+                return ctor.Invoke(ctorParams) as IODataModelAdapter;
+            }
+            catch (Exception exception)
+            {
+                throw new InvalidOperationException(string.Format("Unable to load OData adapter from assembly {0}", modelAdapterAssemblyName), exception);
+            }
+        }
+
+        private IODataAdapter LoadAdapter(string adapterAssemblyName, string adapterTypeName, params object[] ctorParams)
+        {
+            try
+            {
+                Assembly assembly = null;
+#if NETSTANDARD2_0
                 var assemblyName = new AssemblyName(adapterAssemblyName);
                 assembly = Assembly.Load(assemblyName);
 #else
                 assembly = this.GetType().Assembly;
 #endif
+
                 var constructors = assembly.GetType(adapterTypeName).GetDeclaredConstructors();
+
+#if NETSTANDARD2_0
                 var ctor = constructors.Single(x =>
                     x.GetParameters().Count() == ctorParams.Count() &&
-                    x.GetParameters().Last().ParameterType == ctorParams.Last().GetType());
+                    x.GetParameters().Last().ParameterType.GetTypeInfo().IsAssignableFrom(ctorParams.Last().GetType().GetTypeInfo()));
+#else
+                var ctor = constructors.Single(x =>
+                    x.GetParameters().Count() == ctorParams.Count() &&
+                    x.GetParameters().Last().ParameterType.IsAssignableFrom(ctorParams.Last().GetType()));
+#endif
+
                 return ctor.Invoke(ctorParams) as IODataAdapter;
             }
             catch (Exception exception)
             {
                 throw new InvalidOperationException(string.Format("Unable to load OData adapter from assembly {0}", adapterAssemblyName), exception);
+            }
+        }
+
+        private string GetMetadataProtocolVersion(string metadataString)
+        {
+            using (var reader = XmlReader.Create(new StringReader(metadataString)))
+            {
+                reader.MoveToContent();
+
+                var protocolVersion = reader.GetAttribute("Version");
+
+                if (protocolVersion == ODataProtocolVersion.V1 ||
+                    protocolVersion == ODataProtocolVersion.V2 ||
+                    protocolVersion == ODataProtocolVersion.V3)
+                {
+                    while (reader.Read())
+                    {
+                        if (reader.NodeType == XmlNodeType.Element)
+                        {
+                            var version = reader.GetAttribute("m:" + HttpLiteral.MaxDataServiceVersion);
+                            if (string.IsNullOrEmpty(version))
+                                version = reader.GetAttribute("m:" + HttpLiteral.DataServiceVersion);
+                            if (!string.IsNullOrEmpty(version) && string.Compare(version, protocolVersion, StringComparison.Ordinal) > 0)
+                                protocolVersion = version;
+
+                            break;
+                        }
+                    }
+                }
+
+                return protocolVersion;
             }
         }
     }

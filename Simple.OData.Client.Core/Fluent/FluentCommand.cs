@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -24,7 +25,7 @@ namespace Simple.OData.Client
         internal static readonly string AnnotationsLiteral = "__annotations";
         internal static readonly string MediaEntityLiteral = "__entity";
 
-        internal FluentCommand(Session session, FluentCommand parent, SimpleDictionary<object, IDictionary<string, object>> batchEntries)
+        internal FluentCommand(Session session, FluentCommand parent, ConcurrentDictionary<object, IDictionary<string, object>> batchEntries)
         {
             _details = new CommandDetails(session, parent, batchEntries);
         }
@@ -617,7 +618,7 @@ namespace Simple.OData.Client
                     object keyValue = null;
                     if (_details.NamedKeyValues != null && _details.NamedKeyValues.Count > 0)
                     {
-                        keyValue = _details.NamedKeyValues.FirstOrDefault(x => Utils.NamesMatch(x.Key, keyNames[index], _details.Session.Pluralizer)).Value;
+                        keyValue = _details.NamedKeyValues.FirstOrDefault(x => _details.Session.Settings.NameMatchResolver.IsMatch(x.Key, keyNames[index])).Value;
                         found = keyValue != null;
                     }
                     else if (_details.KeyValues != null && _details.KeyValues.Count >= index)
@@ -712,7 +713,7 @@ namespace Simple.OData.Client
                 return null;
 
             var keyNames = _details.Session.Metadata.GetDeclaredKeyPropertyNames(this.EntityCollection.Name).ToList();
-            return keyNames.Count == namedKeyValues.Count && Utils.AllMatch(keyNames, namedKeyValues.Keys, _details.Session.Pluralizer)
+            return keyNames.Count == namedKeyValues.Count && Utils.AllMatch(keyNames, namedKeyValues.Keys, _details.Session.Settings.NameMatchResolver)
                 ? namedKeyValues
                 : null;
         }

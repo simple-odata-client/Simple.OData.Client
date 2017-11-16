@@ -61,6 +61,17 @@ namespace Simple.OData.Client.Tests
             });
         }
 
+        protected IODataClient CreateClientWithNameResolver(INameMatchResolver nameMatchResolver)
+        {
+            return new ODataClient(new ODataClientSettings(_serviceUri)
+            {
+                PayloadFormat = _payloadFormat,
+                IgnoreResourceNotFoundException = true,
+                OnTrace = (x, y) => Console.WriteLine(string.Format(x, y)),
+                NameMatchResolver = nameMatchResolver,
+            });
+        }
+
         public void Dispose()
         {
             if (_client != null)

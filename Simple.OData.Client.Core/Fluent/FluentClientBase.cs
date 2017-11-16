@@ -614,12 +614,12 @@ namespace Simple.OData.Client
                 result.Item2);
         }
 
-        protected static IEnumerable<IDictionary<string, object>> RectifyColumnSelection(IEnumerable<IDictionary<string, object>> entries, IList<string> selectedColumns)
+        protected IEnumerable<IDictionary<string, object>> RectifyColumnSelection(IEnumerable<IDictionary<string, object>> entries, IList<string> selectedColumns)
         {
             return entries == null ? null : entries.Select(x => RectifyColumnSelection(x, selectedColumns));
         }
 
-        protected static IDictionary<string, object> RectifyColumnSelection(IDictionary<string, object> entry, IList<string> selectedColumns)
+        protected IDictionary<string, object> RectifyColumnSelection(IDictionary<string, object> entry, IList<string> selectedColumns)
         {
             if (entry == null || selectedColumns == null || !selectedColumns.Any())
             {
@@ -640,17 +640,17 @@ namespace Simple.OData.Client
                 return result.ToObject<T>(dynamicPropertiesContainerName, _dynamicResults);
         }
 
-        private static bool IsSelectedColumn(KeyValuePair<string, object> kv, string columnName)
+        private bool IsSelectedColumn(KeyValuePair<string, object> kv, string columnName)
         {
             var items = columnName.Split('/');
             if (items.Count() == 1)
             {
-                return kv.Key.Homogenize() == columnName.Homogenize();
+                return _session.Settings.NameMatchResolver.IsMatch(kv.Key, columnName);
             }
             else
             {
                 var item = items.First();
-                return kv.Key.Homogenize() == item.Homogenize() &&
+                return _session.Settings.NameMatchResolver.IsMatch(kv.Key, item) &&
                        (kv.Value is IDictionary<string, object> && (kv.Value as IDictionary<string, object>)
                             .Any(x => IsSelectedColumn(x, string.Join("/", items.Skip(1)))) ||
                         kv.Value is IEnumerable<object> && (kv.Value as IEnumerable<object>)

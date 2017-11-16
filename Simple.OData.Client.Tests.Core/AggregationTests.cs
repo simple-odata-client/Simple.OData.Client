@@ -62,7 +62,7 @@ namespace Simple.OData.Client.Tests
             var command = client
                 .For<Product>()
                 .Filter(x => x.Category.Products.Any(y => y.ProductID == 1));
-            string commandText = await command.GetCommandTextAsync();
+            var commandText = await command.GetCommandTextAsync();
             Assert.Equal(expectedCommand, commandText);
         }
 
@@ -76,7 +76,7 @@ namespace Simple.OData.Client.Tests
             var command = client
                 .For<Product>()
                 .Filter(x => x.Category.Products.Any(y => y.Category.Products.Any(z => z.ProductID == 1)));
-            string commandText = await command.GetCommandTextAsync();
+            var commandText = await command.GetCommandTextAsync();
             Assert.Equal(expectedCommand, commandText);
         }
     }

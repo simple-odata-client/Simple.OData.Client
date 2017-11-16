@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.OData.Core;
-using Microsoft.OData.Core.UriParser;
+using Microsoft.OData;
 using Simple.OData.Client.Extensions;
 
 namespace Simple.OData.Client.V4.Adapter

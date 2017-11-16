@@ -6,11 +6,7 @@ using Microsoft.Data.OData;
 
 namespace Simple.OData.Client.V3.Adapter
 {
-#if SILVERLIGHT
-    class ODataRequestMessage : IODataRequestMessage
-#else
     class ODataRequestMessage : IODataRequestMessageAsync
-#endif
     {
         private MemoryStream _stream;
         private readonly Dictionary<string, string> _headers = new Dictionary<string, string>();

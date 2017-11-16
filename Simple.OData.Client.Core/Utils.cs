@@ -52,49 +52,34 @@ namespace Simple.OData.Client
             return clonedStream;
         }
 
-        public static bool NamesMatch(string actualName, string requestedName, IPluralizer pluralizer)
+        public static bool ContainsMatch(IEnumerable<string> actualNames, string requestedName, INameMatchResolver matchResolver)
         {
-            actualName = actualName.Split('.').Last().Homogenize();
-            requestedName = requestedName.Split('.').Last().Homogenize();
-
-            return actualName == requestedName || pluralizer != null && 
-                (actualName == pluralizer.Singularize(requestedName) || 
-                actualName == pluralizer.Pluralize(requestedName) ||
-                pluralizer.Singularize(actualName) == requestedName ||
-                pluralizer.Pluralize(actualName) == requestedName);
+            return actualNames.Any(x => matchResolver.IsMatch(x, requestedName));
         }
 
-        public static bool ContainsMatch(IEnumerable<string> actualNames, string requestedName, IPluralizer pluralizer)
+        public static bool AllMatch(IEnumerable<string> subset, IEnumerable<string> superset, INameMatchResolver matchResolver)
         {
-            return actualNames.Any(x => NamesMatch(x, requestedName, pluralizer));
-        }
-
-        public static bool AllMatch(IEnumerable<string> subset, IEnumerable<string> superset, IPluralizer pluralizer)
-        {
-            return subset.All(x => superset.Any(y => NamesMatch(x, y, pluralizer)));
+            return subset.All(x => superset.Any(y => matchResolver.IsMatch(x, y)));
         }
 
         public static T BestMatch<T>(this IEnumerable<T> collection, 
-            Func<T, string> fieldFunc, string value, IPluralizer pluralizer)
+            Func<T, string> fieldFunc, string value, INameMatchResolver matchResolver)
             where T : class
         {
-            return collection.FirstOrDefault(x => fieldFunc(x).Homogenize() == value.Homogenize())
-                ?? collection.FirstOrDefault(x => NamesMatch(fieldFunc(x), value, pluralizer));
+            return collection.FirstOrDefault(x => matchResolver.IsMatch(fieldFunc(x), value));
         }
 
         public static T BestMatch<T>(this IEnumerable<T> collection, 
-            Func<T, bool> condition, Func<T, string> fieldFunc, string value, 
-            IPluralizer pluralizer)
+            Func<T, bool> condition, Func<T, string> fieldFunc, string value,
+            INameMatchResolver matchResolver)
             where T : class
         {
-            return collection.FirstOrDefault(x => fieldFunc(x).Homogenize() == value.Homogenize() && condition(x))
-                ?? collection.FirstOrDefault(x => NamesMatch(fieldFunc(x), value, pluralizer) && condition(x));
+            return collection.FirstOrDefault(x => matchResolver.IsMatch(fieldFunc(x), value) && condition(x));
         }
 
         public static Exception NotSupportedExpression(Expression expression)
         {
-            return new NotSupportedException(String.Format("Not supported expression of type {0} ({1}): {2}",
-                expression.GetType(), expression.NodeType, expression));
+            return new NotSupportedException($"Not supported expression of type {expression.GetType()} ({expression.NodeType}): {expression}");
         }
 
         public static IEnumerable<PropertyInfo> GetMappedProperties(Type type)
@@ -240,16 +225,9 @@ namespace Simple.OData.Client
             return cmdm != null;
         }
 
-#if NET40 || SILVERLIGHT || PORTABLE_LEGACY
-        public static Task<T> GetTaskFromResult<T>(T result)
-        {
-            return TaskEx.FromResult(result);
-        }
-#else
         public static Task<T> GetTaskFromResult<T>(T result)
         {
             return Task.FromResult(result);
         }
-#endif
     }
 }

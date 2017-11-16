@@ -386,14 +386,12 @@ namespace Simple.OData.Client.Tests
             Assert.Equal("second(CreationTime) eq 6", ODataExpression.FromLinqExpression(filter).AsString(_session));
         }
 
-#if !NETFX_CORE
         [Fact]
         public void RoundEqual()
         {
             Expression<Func<TestEntity, bool>> filter = x => decimal.Round(x.Price) == 1;
             Assert.Equal(string.Format("round(Price) eq 1{0}", FormatSettings.DecimalNumberSuffix), ODataExpression.FromLinqExpression(filter).AsString(_session));
         }
-#endif
 
         [Fact]
         public void FloorEqual()

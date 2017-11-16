@@ -74,9 +74,9 @@ namespace Simple.OData.Client.Extensions
                         property.SetValue(instance, ConvertValue(property.PropertyType, item.Value), null);
                     }
                 }
-                else if (dynamicProperties != null)
+                else
                 {
-                    dynamicProperties.Add(item.Key, item.Value);
+                    dynamicProperties?.Add(item.Key, item.Value);
                 }
             }
 
@@ -139,8 +139,7 @@ namespace Simple.OData.Client.Extensions
         {
             Func<object, Type, object> TryConvert = (v, t) =>
             {
-                object result;
-                return Utils.TryConvert(v, t, out result) ? result : v;
+                return Utils.TryConvert(v, t, out var result) ? result : v;
             };
 
             return type == typeof(ODataEntryAnnotations)

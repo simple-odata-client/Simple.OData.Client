@@ -22,7 +22,7 @@ namespace Simple.OData.Client.Tests
                 .Unbound()
                 .Function("PassThroughIntCollection")
                 .Set(new Dictionary<string, object>() { { "numbers", new[] { 1, 2, 3 } } });
-            string commandText = command.GetCommandTextAsync().Result;
+            var commandText = command.GetCommandTextAsync().Result;
             Assert.Equal("PassThroughIntCollection(numbers=@p1)?@p1=[1,2,3]", commandText);
         }
     }
@@ -35,7 +35,7 @@ namespace Simple.OData.Client.Tests
             var command = _client
                 .For<Product>()
                 .Filter(x => x.ProductID == 1);
-            string commandText = command.GetCommandTextAsync().Result;
+            var commandText = command.GetCommandTextAsync().Result;
             Assert.Equal("Products(1)", commandText);
         }
 
@@ -45,7 +45,7 @@ namespace Simple.OData.Client.Tests
             var command = _client
                 .For<Product>()
                 .Filter(x => x.ProductID != 1);
-            string commandText = command.GetCommandTextAsync().Result;
+            var commandText = command.GetCommandTextAsync().Result;
             Assert.Equal("Products?$filter=ProductID%20ne%201", commandText);
         }
 
@@ -56,7 +56,7 @@ namespace Simple.OData.Client.Tests
                 .For<Product>()
                 .Filter(x => x.ProductID != 1)
                 .Filter(x => x.ProductID != 2);
-            string commandText = command.GetCommandTextAsync().Result;
+            var commandText = command.GetCommandTextAsync().Result;
             Assert.Equal("Products?$filter=ProductID%20ne%201%20and%20ProductID%20ne%202", commandText);
         }
 
@@ -67,7 +67,7 @@ namespace Simple.OData.Client.Tests
                 .For<Product>()
                 .Filter(x => x.ProductID != 1 || x.ProductID != 2)
                 .Filter(x => x.ProductID != 3);
-            string commandText = command.GetCommandTextAsync().Result;
+            var commandText = command.GetCommandTextAsync().Result;
             Assert.Equal("Products?$filter=%28ProductID%20ne%201%20or%20ProductID%20ne%202%29%20and%20ProductID%20ne%203", commandText);
         }
 
@@ -77,7 +77,7 @@ namespace Simple.OData.Client.Tests
             var command = _client
                 .For<Product>()
                 .Filter(x => !(x.ProductID == 1));
-            string commandText = command.GetCommandTextAsync().Result;
+            var commandText = command.GetCommandTextAsync().Result;
             Assert.Equal(string.Format("Products?$filter=not%20{0}ProductID%20eq%201{1}", 
                 Uri.EscapeDataString("("), Uri.EscapeDataString(")")), commandText);
         }
@@ -88,7 +88,7 @@ namespace Simple.OData.Client.Tests
             var command = _client
                 .For<Product>()
                 .Filter(x => x.ProductID == 1L);
-            string commandText = command.GetCommandTextAsync().Result;
+            var commandText = command.GetCommandTextAsync().Result;
             Assert.Equal(string.Format("Products(1{0})", FormatSettings.LongNumberSuffix), commandText);
         }
 
@@ -98,7 +98,7 @@ namespace Simple.OData.Client.Tests
             var command = _client
                 .For<Product>()
                 .Filter(x => x.ProductID == 1 && x.ProductName == "abc");
-            string commandText = command.GetCommandTextAsync().Result;
+            var commandText = command.GetCommandTextAsync().Result;
             Assert.Equal(string.Format("Products?$filter=ProductID%20eq%201%20and%20ProductName%20eq%20{0}abc{0}", 
                 Uri.EscapeDataString("'")), commandText);
         }
@@ -109,7 +109,7 @@ namespace Simple.OData.Client.Tests
             var command = _client
                 .For<Product>()
                 .Filter(x => x.ProductID == 1 && x.ProductID == 1);
-            string commandText = command.GetCommandTextAsync().Result;
+            var commandText = command.GetCommandTextAsync().Result;
             Assert.Equal("Products(1)", commandText);
         }
 
@@ -119,7 +119,7 @@ namespace Simple.OData.Client.Tests
             var command = _client
                 .For<OrderDetail>()
                 .Filter(x => x.OrderID == 1 && x.ProductID == 2);
-            string commandText = command.GetCommandTextAsync().Result;
+            var commandText = command.GetCommandTextAsync().Result;
             Assert.Equal("Order_Details(OrderID=1,ProductID=2)", commandText);
         }
 
@@ -129,7 +129,7 @@ namespace Simple.OData.Client.Tests
             var command = _client
                 .For<OrderDetail>()
                 .Filter(x => x.OrderID == 1);
-            string commandText = command.GetCommandTextAsync().Result;
+            var commandText = command.GetCommandTextAsync().Result;
             Assert.Equal("Order_Details?$filter=OrderID%20eq%201", commandText);
         }
 
@@ -140,7 +140,7 @@ namespace Simple.OData.Client.Tests
             var command = _client
                 .For<Order>()
                 .Filter(x => x.ShippedDateTimeOffset > created);
-            string commandText = command.GetCommandTextAsync().Result;
+            var commandText = command.GetCommandTextAsync().Result;
             Assert.Equal(string.Format("Orders?$filter=ShippedDateTimeOffset%20gt%20{0}", 
                 FormatSettings.GetDateTimeOffsetFormat("2010-12-01T12:11:10Z", true)), commandText);
         }
@@ -152,7 +152,7 @@ namespace Simple.OData.Client.Tests
             var command = _client
                 .For<Order>()
                 .Filter(x => x.ShippedDateTimeOffset > (DateTimeOffset)created);
-            string commandText = command.GetCommandTextAsync().Result;
+            var commandText = command.GetCommandTextAsync().Result;
             Assert.Equal(string.Format("Orders?$filter=ShippedDateTimeOffset%20gt%20{0}",
                 FormatSettings.GetDateTimeOffsetFormat("2010-12-01T12:11:10Z", true)), commandText);
         }
@@ -164,7 +164,7 @@ namespace Simple.OData.Client.Tests
             var command = _client
                 .For<Order>()
                 .Filter(x => x.ShippedDateTimeOffset > (DateTimeOffset)created);
-            string commandText = command.GetCommandTextAsync().Result;
+            var commandText = command.GetCommandTextAsync().Result;
             Assert.Equal(string.Format("Orders?$filter=ShippedDateTimeOffset%20gt%20{0}",
                 FormatSettings.GetDateTimeOffsetFormat("2010-12-01T12:11:10Z", true)), commandText);
         }
@@ -176,7 +176,7 @@ namespace Simple.OData.Client.Tests
                 .For<Employee>()
                 .Filter(x => x.EmployeeID == 1)
                 .NavigateTo("Superior");
-            string commandText = command.GetCommandTextAsync().Result;
+            var commandText = command.GetCommandTextAsync().Result;
             Assert.Equal("Employees(1)/Superior", commandText);
         }
 
@@ -187,7 +187,7 @@ namespace Simple.OData.Client.Tests
                 .For<Customer>()
                 .Filter(x => x.CustomerID == "ALFKI")
                 .NavigateTo<Order>();
-            string commandText = command.GetCommandTextAsync().Result;
+            var commandText = command.GetCommandTextAsync().Result;
             Assert.Equal("Customers(%27ALFKI%27)/Orders", commandText);
         }
 
@@ -198,7 +198,7 @@ namespace Simple.OData.Client.Tests
                 .For<Employee>()
                 .Filter(x => x.EmployeeID == 2)
                 .NavigateTo("Subordinates");
-            string commandText = command.GetCommandTextAsync().Result;
+            var commandText = command.GetCommandTextAsync().Result;
             Assert.Equal("Employees(2)/Subordinates", commandText);
         }
 
@@ -209,7 +209,7 @@ namespace Simple.OData.Client.Tests
                 .For<Order>()
                 .Filter(x => x.OrderID == 10952)
                 .NavigateTo<OrderDetail>();
-            string commandText = command.GetCommandTextAsync().Result;
+            var commandText = command.GetCommandTextAsync().Result;
             Assert.Equal("Orders(10952)/Order_Details", commandText);
         }
 
@@ -220,7 +220,7 @@ namespace Simple.OData.Client.Tests
                 .For<Employee>()
                 .Filter(x => x.EmployeeID == 1)
                 .NavigateTo("Superior");
-            string commandText = command.GetCommandTextAsync().Result;
+            var commandText = command.GetCommandTextAsync().Result;
             Assert.Equal("Employees(1)/Superior", commandText);
         }
 
@@ -230,7 +230,7 @@ namespace Simple.OData.Client.Tests
             var command = _client
                 .For<Transport>()
                 .Filter(x => x.TransportID == 1);
-            string commandText = command.GetCommandTextAsync().Result;
+            var commandText = command.GetCommandTextAsync().Result;
             Assert.Equal("Transport(1)", commandText);
         }
 
@@ -241,7 +241,7 @@ namespace Simple.OData.Client.Tests
                 .For<Transport>()
                 .As<Ship>()
                 .Filter(x => x.TransportID == 1);
-            string commandText = command.GetCommandTextAsync().Result;
+            var commandText = command.GetCommandTextAsync().Result;
             Assert.Equal("Transport(1)/NorthwindModel.Ships", commandText);
         }
 
@@ -252,7 +252,7 @@ namespace Simple.OData.Client.Tests
                 .For<Product>()
                 .Filter(x => x.ProductName == "abc")
                 .QueryOptions<QueryOptions>(y => y.IntOption == 42 && y.StringOption == "xyz");
-            string commandText = command.GetCommandTextAsync().Result;
+            var commandText = command.GetCommandTextAsync().Result;
             Assert.Equal("Products?$filter=ProductName%20eq%20%27abc%27&IntOption=42&StringOption='xyz'", commandText);
         }
 
@@ -263,7 +263,7 @@ namespace Simple.OData.Client.Tests
                 .For<Product>()
                 .Filter(x => x.ProductName == "abc")
                 .QueryOptions(new Dictionary<string, object>() { { "IntOption", 42}, { "StringOption", "xyz"} });
-            string commandText = command.GetCommandTextAsync().Result;
+            var commandText = command.GetCommandTextAsync().Result;
             Assert.Equal("Products?$filter=ProductName%20eq%20%27abc%27&IntOption=42&StringOption='xyz'", commandText);
         }
 
@@ -274,7 +274,7 @@ namespace Simple.OData.Client.Tests
             var command = _client
                 .For<TypeWithGuidKey>()
                 .Filter(x => x.Key == key);
-            string commandText = command.GetCommandTextAsync().Result;
+            var commandText = command.GetCommandTextAsync().Result;
             Assert.Equal(string.Format("TypeWithGuidKey({0})", Uri.EscapeDataString(FormatSettings.GetGuidFormat(key.ToString()))), commandText);
         }
 
@@ -285,8 +285,8 @@ namespace Simple.OData.Client.Tests
             var command = _client
                 .For<TypeWithGuidKey>()
                 .Key(key);
-            string commandText = command.GetCommandTextAsync().Result;
-            Assert.Equal(string.Format("TypeWithGuidKey({0})", Uri.EscapeDataString(FormatSettings.GetGuidFormat(key.ToString()))), commandText);
+            var commandText = command.GetCommandTextAsync().Result;
+            Assert.Equal($"TypeWithGuidKey({Uri.EscapeDataString(FormatSettings.GetGuidFormat(key.ToString()))})", commandText);
         }
 
         [Fact]
@@ -295,18 +295,18 @@ namespace Simple.OData.Client.Tests
             var command = _client
                 .For("project1")
                 .Key("abc");
-            string commandText = command.GetCommandTextAsync().Result;
+            var commandText = command.GetCommandTextAsync().Result;
             Assert.Equal("project1(%27abc%27)", commandText);
         }
 
         [Fact(Skip = "Entity set names with multiple segments are not supported")]
         public void FindAllEntityLowerCaseWithPrefix()
         {
-            _client.SetPluralizer(null);
-            var command = _client
+            var client = CreateClient(this.MetadataFile, ODataNameMatchResolver.Strict);
+            var command = client
                 .For("project2")
                 .Key("abc");
-            string commandText = command.GetCommandTextAsync().Result;
+            var commandText = command.GetCommandTextAsync().Result;
             Assert.Equal("project2(%27abc%27)", commandText);
         }
     }

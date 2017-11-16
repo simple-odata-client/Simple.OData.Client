@@ -27,12 +27,7 @@ namespace Simple.OData.Client.V3.Adapter
             return GetResponseAsync(new ODataResponseMessage(responseMessage));
         }
 
-#if SILVERLIGHT
-        public async Task<ODataResponse> GetResponseAsync(IODataResponseMessage responseMessage)
-#else
-
         public async Task<ODataResponse> GetResponseAsync(IODataResponseMessageAsync responseMessage)
-#endif
         {
             var readerSettings = new ODataMessageReaderSettings();
             if (_session.Settings.IgnoreUnmappedProperties)
@@ -57,11 +52,7 @@ namespace Simple.OData.Client.V3.Adapter
                     }
                     else
                     {
-#if SILVERLIGHT
-                        var stream = responseMessage.GetStream();
-#else
                         var stream = await responseMessage.GetStreamAsync().ConfigureAwait(false);
-#endif
                         return ODataResponse.FromValueStream(stream, responseMessage is ODataBatchOperationResponseMessage);
                     }
                 }
@@ -117,11 +108,7 @@ namespace Simple.OData.Client.V3.Adapter
                         else if (operationMessage.StatusCode >= (int)HttpStatusCode.BadRequest)
                             batch.Add(ODataResponse.FromStatusCode(
                                 operationMessage.StatusCode,
-#if SILVERLIGHT
-                                operationMessage.GetStream()));
-#else
                                 await operationMessage.GetStreamAsync().ConfigureAwait(false)));
-#endif
                         else
                             batch.Add(await GetResponseAsync(operationMessage).ConfigureAwait(false));
                         break;

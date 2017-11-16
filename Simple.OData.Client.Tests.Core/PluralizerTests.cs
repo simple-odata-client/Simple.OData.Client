@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Simple.OData.Client.Extensions;
 using Xunit;
-using Xunit.Extensions;
+using Simple.OData.Client.Extensions;
 
 namespace Simple.OData.Client.Tests
 {
@@ -77,8 +76,8 @@ namespace Simple.OData.Client.Tests
 
     public class NonLatinSchemaPluralizerTests : TestBase
     {
-        public override string MetadataFile { get { return "Russian.xml"; } }
-        public override IFormatSettings FormatSettings { get { return new ODataV3Format(); } }
+        public override string MetadataFile => "Russian.xml";
+        public override IFormatSettings FormatSettings => new ODataV3Format();
 
         [Fact]
         public async Task TableWithNonLaticCharacters()
@@ -95,8 +94,7 @@ namespace Simple.OData.Client.Tests
         [Fact]
         public async Task TableWithNonLaticCharacters_NoPluralizer()
         {
-            var client = CreateClient("Russian.xml");
-            client.SetPluralizer(null);
+            var client = CreateClient("Russian.xml", ODataNameMatchResolver.Strict);
             var commandText = await client
                 .For("Catalog_Контрагенты")
                 .Top(10)

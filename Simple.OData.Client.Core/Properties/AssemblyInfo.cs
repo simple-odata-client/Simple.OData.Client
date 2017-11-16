@@ -13,6 +13,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Simple.OData.Client (Silverlight)")]
 #elif PocketPC
 [assembly: AssemblyTitle("Simple.OData.Client (Compact)")]
+#elif NETSTANDARD2_0
+[assembly: AssemblyTitle("Simple.OData.Client (.NET Standard 2.0)")]    
 #elif PORTABLE
 [assembly: AssemblyTitle("Simple.OData.Client (Portable)")]
 #elif NETFX_CORE
@@ -32,13 +34,10 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("Simple.OData.Client.Dynamic")]
 [assembly: InternalsVisibleTo("Simple.OData.Client.V3.Adapter")]
 [assembly: InternalsVisibleTo("Simple.OData.Client.V4.Adapter")]
-[assembly: InternalsVisibleTo("Simple.OData.Client.Tests")]
 [assembly: InternalsVisibleTo("Simple.OData.Client.IntegrationTests")]
 [assembly: InternalsVisibleTo("Simple.OData.Client.Tests.Core")]
-[assembly: InternalsVisibleTo("Simple.OData.Client.Tests.Net40")]
 [assembly: InternalsVisibleTo("Simple.OData.Client.Tests.Net45")]
+[assembly: InternalsVisibleTo("Simple.OData.Client.Tests.NetStandard")]
 [assembly: InternalsVisibleTo("Simple.OData.Client.Tests.WinRT")]
-[assembly: InternalsVisibleTo("Simple.OData.Client.Tests.SL5")]
-[assembly: InternalsVisibleTo("Simple.OData.Client.Tests.WP8")]
 [assembly: InternalsVisibleTo("Simple.OData.Client.Tests.Droid")]
 [assembly: InternalsVisibleTo("Simple.OData.Client.Tests.Touch")]

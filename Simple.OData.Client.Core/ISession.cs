@@ -25,11 +25,6 @@ namespace Simple.OData.Client
         IMetadata Metadata { get; }
 
         /// <summary>
-        /// Gets the word pluralizer.
-        /// </summary>
-        IPluralizer Pluralizer { get; }
-
-        /// <summary>
         /// Writes a trace message.
         /// </summary>
         /// <param name="message">Trace message format string.</param>

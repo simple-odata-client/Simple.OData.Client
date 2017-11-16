@@ -40,9 +40,10 @@ namespace Simple.OData.Client.Tests
         public IEnumerable<Photo> Photos { get; set; }
     }
 
-    class PersonWithOpenTypeField : Person
+    class PersonWithOpenTypeFields : Person
     {
-        public string OpenTypeField { get; set; }
+        public string OpenTypeString { get; set; }
+        public int OpenTypeInt { get; set; }
     }
 
     class PersonWithOpenTypeContainer : Person

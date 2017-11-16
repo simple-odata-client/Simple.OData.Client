@@ -74,20 +74,6 @@ namespace Simple.OData.Client
         /// Gets the OData service metadata as string.
         /// </summary>
         /// <returns>The service metadata string.</returns>
-        [Obsolete("This method is obsolete. Use GetMetadataDocumentAsync instead.")]
-        Task<string> GetMetadataAsStringAsync();
-        /// <summary>
-        /// Gets the OData service metadata as string.
-        /// </summary>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>The service metadata string.</returns>
-        [Obsolete("This method is obsolete. Use GetMetadataDocumentAsync instead.")]
-        Task<string> GetMetadataAsStringAsync(CancellationToken cancellationToken);
-
-        /// <summary>
-        /// Gets the OData service metadata as string.
-        /// </summary>
-        /// <returns>The service metadata string.</returns>
         Task<string> GetMetadataDocumentAsync();
         /// <summary>
         /// Gets the OData service metadata as string.
@@ -613,11 +599,5 @@ namespace Simple.OData.Client
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>Action execution result.</returns>
         Task<T[]> ExecuteActionAsArrayAsync<T>(string actionName, IDictionary<string, object> parameters, CancellationToken cancellationToken);
-
-        /// <summary>
-        /// Sets the word pluralizer used when resolving metadata objects.
-        /// </summary>
-        /// <param name="pluralizer">The pluralizer.</param>
-        void SetPluralizer(IPluralizer pluralizer);
     }
 }

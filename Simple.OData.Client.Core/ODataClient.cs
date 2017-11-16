@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace Simple.OData.Client
@@ -12,7 +13,7 @@ namespace Simple.OData.Client
         private readonly Session _session;
         private readonly RequestRunner _requestRunner;
         private readonly Lazy<IBatchWriter> _lazyBatchWriter;
-        private readonly SimpleDictionary<object, IDictionary<string, object>> _batchEntries;
+        private readonly ConcurrentDictionary<object, IDictionary<string, object>> _batchEntries;
         private readonly ODataResponse _batchResponse;
 
         /// <summary>
@@ -47,7 +48,7 @@ namespace Simple.OData.Client
             _requestRunner = new RequestRunner(_session);
         }
 
-        internal ODataClient(ODataClientSettings settings, SimpleDictionary<object, IDictionary<string, object>> batchEntries)
+        internal ODataClient(ODataClientSettings settings, ConcurrentDictionary<object, IDictionary<string, object>> batchEntries)
             : this(settings)
         {
             if (batchEntries != null)
@@ -57,7 +58,7 @@ namespace Simple.OData.Client
             }
         }
 
-        internal ODataClient(ODataClient client, SimpleDictionary<object, IDictionary<string, object>> batchEntries)
+        internal ODataClient(ODataClient client, ConcurrentDictionary<object, IDictionary<string, object>> batchEntries)
         {
             _settings = client._settings;
             _session = client.Session;
@@ -79,7 +80,7 @@ namespace Simple.OData.Client
         internal ODataResponse BatchResponse { get { return _batchResponse; } }
         internal bool IsBatchRequest { get { return _lazyBatchWriter != null; } }
         internal bool IsBatchResponse { get { return _batchResponse != null; } }
-        internal SimpleDictionary<object, IDictionary<string, object>> BatchEntries { get { return _batchEntries; } }
+        internal ConcurrentDictionary<object, IDictionary<string, object>> BatchEntries { get { return _batchEntries; } }
 
         /// <summary>
         /// Parses the OData service metadata string.
@@ -100,10 +101,7 @@ namespace Simple.OData.Client
         /// </summary>
         public static void ClearMetadataCache()
         {
-            lock (MetadataCache.Instances)
-            {
-                MetadataCache.Instances.Clear();
-            }
+            MetadataCache.Clear();
         }
 
         /// <summary>
@@ -172,15 +170,6 @@ namespace Simple.OData.Client
             where T : class
         {
             return new UnboundClient<T>(this, _session);
-        }
-
-        /// <summary>
-        /// Sets the word pluralizer used when resolving metadata objects.
-        /// </summary>
-        /// <param name="pluralizer">The pluralizer.</param>
-        public void SetPluralizer(IPluralizer pluralizer)
-        {
-            _session.Pluralizer = pluralizer;
         }
 
         /// <summary>

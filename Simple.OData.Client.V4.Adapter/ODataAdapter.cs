@@ -4,8 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Xml;
-using Microsoft.OData.Core;
-using Microsoft.OData.Core.UriParser;
+using Microsoft.OData;
 using Microsoft.OData.Edm;
 using Microsoft.OData.Edm.Csdl;
 using Microsoft.Spatial;
@@ -20,6 +19,8 @@ namespace Simple.OData.Client
         public static void Reference() { }
     }
 }
+
+#pragma warning disable 1591
 
 namespace Simple.OData.Client.V4.Adapter
 {
@@ -40,34 +41,14 @@ namespace Simple.OData.Client.V4.Adapter
             set { base.Model = value; }
         }
 
-        private ODataAdapter(ISession session, string protocolVersion)
+        public ODataAdapter(ISession session, IODataModelAdapter modelAdapter)
         {
             _session = session;
-            ProtocolVersion = protocolVersion;
+            ProtocolVersion = modelAdapter.ProtocolVersion;
+            Model = modelAdapter.Model as IEdmModel;
 
             CustomConverters.RegisterTypeConverter(typeof(GeographyPoint), TypeConverters.CreateGeographyPoint);
             CustomConverters.RegisterTypeConverter(typeof(GeometryPoint), TypeConverters.CreateGeometryPoint);
-        }
-
-        public ODataAdapter(ISession session, string protocolVersion, HttpResponseMessage response)
-            : this(session, protocolVersion)
-        {
-            var readerSettings = new ODataMessageReaderSettings
-            {
-                MessageQuotas = { MaxReceivedMessageSize = Int32.MaxValue }
-            };
-            using (var messageReader = new ODataMessageReader(new ODataResponseMessage(response), readerSettings))
-            {
-                Model = messageReader.ReadMetadataDocument();
-            }
-        }
-
-        public ODataAdapter(ISession session, string protocolVersion, string metadataString)
-            : this(session, protocolVersion)
-        {
-            var reader = XmlReader.Create(new StringReader(metadataString));
-            reader.MoveToContent();
-            Model = EdmxReader.Parse(reader);
         }
 
         public override string GetODataVersionString()

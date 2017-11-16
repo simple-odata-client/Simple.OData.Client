@@ -20,7 +20,7 @@ namespace Simple.OData.Client.Tests
             var command = client
                 .For<Employee>()
                 .Expand(x => x.Subordinates);
-            string commandText = await command.GetCommandTextAsync();
+            var commandText = await command.GetCommandTextAsync();
             Assert.Equal(expectedCommand, commandText);
         }
 
@@ -33,7 +33,7 @@ namespace Simple.OData.Client.Tests
             var command = client
                 .For<Employee>()
                 .Expand(x => new { x.Subordinates, x.Superior });
-            string commandText = await command.GetCommandTextAsync();
+            var commandText = await command.GetCommandTextAsync();
             Assert.Equal(expectedCommand, commandText);
         }
 
@@ -47,7 +47,7 @@ namespace Simple.OData.Client.Tests
                 .For<Employee>()
                 .Expand(x => x.Subordinates)
                 .Expand(x => x.Superior);
-            string commandText = await command.GetCommandTextAsync();
+            var commandText = await command.GetCommandTextAsync();
             Assert.Equal(expectedCommand, commandText);
         }
 
@@ -60,7 +60,7 @@ namespace Simple.OData.Client.Tests
             var command = client
                 .For<Employee>()
                 .Expand(x => x.Subordinates.Select(y => y.Subordinates));
-            string commandText = await command.GetCommandTextAsync();
+            var commandText = await command.GetCommandTextAsync();
             Assert.Equal(expectedCommand, commandText);
         }
 
@@ -73,7 +73,7 @@ namespace Simple.OData.Client.Tests
             var command = client
                 .For<Employee>()
                 .Expand(x => x.Subordinates.Select(y => y.Subordinates.Select(z => z.Subordinates)));
-            string commandText = await command.GetCommandTextAsync();
+            var commandText = await command.GetCommandTextAsync();
             Assert.Equal(expectedCommand, commandText);
         }
 
@@ -88,7 +88,7 @@ namespace Simple.OData.Client.Tests
                 .Expand(x => x.Subordinates)
                 .Select(x => new { x.LastName, x.Subordinates })
                 .OrderBy(x => x.LastName);
-            string commandText = await command.GetCommandTextAsync();
+            var commandText = await command.GetCommandTextAsync();
             Assert.Equal(expectedCommand, commandText);
         }
 
@@ -103,7 +103,7 @@ namespace Simple.OData.Client.Tests
                 .Expand(x => x.Subordinates.Select(y => y.Subordinates))
                 .Select(x => new { x.LastName, x.Subordinates })
                 .Select(x => x.Subordinates.Select(y => new { y.LastName, y.Subordinates }));
-            string commandText = await command.GetCommandTextAsync();
+            var commandText = await command.GetCommandTextAsync();
             Assert.Equal(expectedCommand, commandText);
         }
 
@@ -120,7 +120,7 @@ namespace Simple.OData.Client.Tests
                 .Select(x => x.Subordinates.Select(y => new { y.LastName, y.Subordinates }))
                 .OrderBy(x => x.LastName)
                 .OrderBy(x => x.Subordinates.Select(y => y.LastName));
-            string commandText = await command.GetCommandTextAsync();
+            var commandText = await command.GetCommandTextAsync();
             Assert.Equal(expectedCommand, commandText);
         }
 
@@ -151,7 +151,7 @@ namespace Simple.OData.Client.Tests
                 .OrderBy(x => x.LastName)
                 .OrderBy(x => x.Subordinates.Select(y => y.LastName))
                 .OrderBy(x => x.Subordinates.Select(y => y.Subordinates.Select(z => z.LastName)));
-            string commandText = await command.GetCommandTextAsync();
+            var commandText = await command.GetCommandTextAsync();
             Assert.Equal(expectedCommand, commandText);
         }
 
@@ -166,7 +166,7 @@ namespace Simple.OData.Client.Tests
                 .Expand(x => x.Subordinates)
                 .Select(x => new { x.LastName, x.Subordinates })
                 .OrderBy(x => x.Superior.LastName);
-            string commandText = await command.GetCommandTextAsync();
+            var commandText = await command.GetCommandTextAsync();
             Assert.Equal(expectedCommand, commandText);
         }
 
@@ -180,7 +180,7 @@ namespace Simple.OData.Client.Tests
                 .For<Employee>()
                 .Select(x => new { x.LastName, x.Subordinates })
                 .OrderBy(x => x.Superior.LastName);
-            string commandText = await command.GetCommandTextAsync();
+            var commandText = await command.GetCommandTextAsync();
             Assert.Equal(expectedCommand, commandText);
         }
 
@@ -193,7 +193,7 @@ namespace Simple.OData.Client.Tests
             var command = client.For<Product>()
                 .Expand(p => p.Category)
                 .Select(p => new { p.ProductName, p.Category.CategoryName });
-            string commandText = await command.GetCommandTextAsync();
+            var commandText = await command.GetCommandTextAsync();
             Assert.Equal(expectedCommand, commandText);
         }
 
@@ -207,7 +207,7 @@ namespace Simple.OData.Client.Tests
                 .Expand(p => p.Category)
                 .Select(p => new {p.ProductName, p.Category.CategoryName})
                 .OrderBy(p => p.Category.CategoryName);
-            string commandText = await command.GetCommandTextAsync();
+            var commandText = await command.GetCommandTextAsync();
             Assert.Equal(expectedCommand, commandText);
         }
 
@@ -222,7 +222,7 @@ namespace Simple.OData.Client.Tests
                 .Select(p => new { p.ProductName, p.Category.CategoryName })
                 .OrderBy(p => p.Category.CategoryName)
                 .ThenBy(p => p.ProductName);
-            string commandText = await command.GetCommandTextAsync();
+            var commandText = await command.GetCommandTextAsync();
             Assert.Equal(expectedCommand, commandText);
         }
 
@@ -234,7 +234,7 @@ namespace Simple.OData.Client.Tests
                 .For<Employee>()
                 .Expand(ODataExpandOptions.ByValue(2), x => x.Subordinates);
 
-            string commandText = await command.GetCommandTextAsync();
+            var commandText = await command.GetCommandTextAsync();
             Assert.Equal("Employees?$expand=Subordinates($levels=2)", commandText);
         }
 
@@ -246,7 +246,7 @@ namespace Simple.OData.Client.Tests
                 .For<Employee>()
                 .Expand(ODataExpandOptions.ByReference(2), x => x.Subordinates);
 
-            string commandText = await command.GetCommandTextAsync();
+            var commandText = await command.GetCommandTextAsync();
             Assert.Equal("Employees?$expand=Subordinates/$ref($levels=2)", commandText);
         }
 
@@ -263,7 +263,7 @@ namespace Simple.OData.Client.Tests
                 .Function("GetInvolvedPeople")
                 .Expand(x.Photos);
 
-            string commandText = await command.GetCommandTextAsync();
+            var commandText = await command.GetCommandTextAsync();
             Assert.Equal("People(%27scottketchum%27)/Trips(0)/Microsoft.OData.SampleService.Models.TripPin.GetInvolvedPeople()?$expand=Photo", commandText);
         }
 
@@ -306,7 +306,7 @@ namespace Simple.OData.Client.Tests
                     .Expand(CreateUpdateExpandTables)
                     .Select(CreateUpdateSelectColumns);
 
-            string commandText = await command.GetCommandTextAsync();
+            var commandText = await command.GetCommandTextAsync();
             Console.WriteLine(commandText);
 
             Assert.Equal(expectedResult, commandText);
