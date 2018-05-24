@@ -673,6 +673,48 @@ namespace Simple.OData.Client.Tests
         }
 
         [Fact]
+        public async Task FindAirportOrderedByLocationAddress()
+        {
+            var airports = await _client
+                .For<Airport>()
+                .OrderBy(x => x.Location.Address)
+                .Top(2)
+                .FindEntriesAsync();
+            var first = airports.Select(x => x.Location.Address).First();
+            var second = airports.Select(x => x.Location.Address).Last();
+            Assert.True(first.CompareTo(second) < 0);
+            airports = await _client
+                .For<Airport>()
+                .OrderByDescending(x => x.Location.Address)
+                .Top(2)
+                .FindEntriesAsync();
+            first = airports.Select(x => x.Location.Address).First();
+            second = airports.Select(x => x.Location.Address).Last();
+            Assert.True(first.CompareTo(second) > 0);
+        }
+
+        [Fact]
+        public async Task FindAirportOrderedByLocationCityName()
+        {
+            var airports = await _client
+                .For<Airport>()
+                .OrderBy(x => x.Location.City.Name)
+                .Top(2)
+                .FindEntriesAsync();
+            var first = airports.Select(x => x.Location.City.Name).First();
+            var second = airports.Select(x => x.Location.City.Name).Last();
+            Assert.True(first.CompareTo(second) < 0);
+            airports = await _client
+                .For<Airport>()
+                .OrderByDescending(x => x.Location.City.Name)
+                .Top(2)
+                .FindEntriesAsync();
+            first = airports.Select(x => x.Location.City.Name).First();
+            second = airports.Select(x => x.Location.City.Name).Last();
+            Assert.True(first.CompareTo(second) > 0);
+        }
+
+        [Fact]
         public async Task FindAirportByLocationCityRegionEquals()
         {
             var airport = await _client

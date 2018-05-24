@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Data.Edm;
 using Microsoft.Data.Edm.Library.Values;
@@ -132,6 +133,26 @@ namespace Simple.OData.Client.V3.Adapter
         public override string GetStructuralPropertyExactName(string collectionName, string propertyName)
         {
             return GetStructuralProperty(collectionName, propertyName).Name;
+        }
+
+        public override string GetStructuralPropertyPath(string collectionName, params string[] propertyNames)
+        {
+            if (propertyNames == null || propertyNames.Length == 0)
+                throw new ArgumentNullException(nameof(propertyNames));
+            var property = GetStructuralProperty(collectionName, propertyNames[0]);
+            var exactNames = new List<string>();
+            exactNames.Add(property.Name);
+
+            for (int i = 1; i < propertyNames.Length; i++)
+            {
+                var entityType = GetComplexType(property.Type.FullName());
+                property = GetStructuralProperty(entityType, propertyNames[i]);
+                exactNames.Add(property.Name);
+                
+                if (property.Type.IsPrimitive())
+                    break;
+            }
+            return String.Join("/", exactNames.ToArray());
         }
 
         public override bool HasNavigationProperty(string collectionName, string propertyName)
@@ -324,7 +345,7 @@ namespace Simple.OData.Client.V3.Adapter
             if (TryGetComplexType(typeName, out complexType))
                 return complexType;
 
-            throw new UnresolvableObjectException(typeName, string.Format("Enum [{0}] not found", typeName));
+            throw new UnresolvableObjectException(typeName, string.Format("ComplexType [{0}] not found", typeName));
         }
 
         private bool TryGetComplexType(string typeName, out IEdmComplexType complexType)
@@ -358,7 +379,13 @@ namespace Simple.OData.Client.V3.Adapter
 
         private IEdmStructuralProperty GetStructuralProperty(string entitySetName, string propertyName)
         {
-            var property = GetEntityType(entitySetName).StructuralProperties().BestMatch(
+            var edmType = GetEntityType(entitySetName);
+            return GetStructuralProperty(edmType, propertyName);
+        }
+
+        private IEdmStructuralProperty GetStructuralProperty(IEdmStructuredType edmType, string propertyName)
+        {
+            var property = edmType.StructuralProperties().BestMatch(
                 x => x.Name, propertyName, _session.Pluralizer);
 
             if (property == null)

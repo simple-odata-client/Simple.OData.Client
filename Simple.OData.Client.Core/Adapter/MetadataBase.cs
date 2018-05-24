@@ -21,6 +21,7 @@ namespace Simple.OData.Client
         public abstract IEnumerable<string> GetStructuralPropertyNames(string collectionName);
         public abstract bool HasStructuralProperty(string collectionName, string propertyName);
         public abstract string GetStructuralPropertyExactName(string collectionName, string propertyName);
+        public abstract string GetStructuralPropertyPath(string collectionName, params string[] propertyNames);
         public abstract IEnumerable<string> GetDeclaredKeyPropertyNames(string collectionName);
         public abstract bool HasNavigationProperty(string collectionName, string propertyName);
         public abstract string GetNavigationPropertyExactName(string collectionName, string propertyName);
