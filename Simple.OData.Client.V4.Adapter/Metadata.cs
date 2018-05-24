@@ -189,25 +189,18 @@ namespace Simple.OData.Client.V4.Adapter
         {
             if (propertyNames == null || propertyNames.Length == 0)
                 throw new ArgumentNullException(nameof(propertyNames));
-            var structuralProperty = GetStructuralProperty(collectionName, propertyNames[0]);
+            var property = GetStructuralProperty(collectionName, propertyNames[0]);
             var exactNames = new List<string>();
-            exactNames.Add(structuralProperty.Name);
+            exactNames.Add(property.Name);
 
-            IEdmComplexType entityType;
-            if (!TryGetComplexType(structuralProperty.Type.FullName(), out entityType))
-                throw new UnresolvableObjectException(propertyNames[0], string.Format("No association found for [{0}].", propertyNames[0]));
             for (int i = 1; i < propertyNames.Length; i++)
             {
-                var property = entityType.FindProperty(propertyNames[i]);
-                if (property == null)
-                    throw new UnresolvableObjectException(propertyNames[i], string.Format("No association found for [{0}].", propertyNames[i]));
+                var entityType = GetComplexType(property.Type.FullName());
+                property = GetStructuralProperty(entityType, propertyNames[i]);
                 exactNames.Add(property.Name);
                 
                 if (property.Type.IsPrimitive())
                     break;
-
-                if (!TryGetComplexType(property.Type.FullName(), out entityType))
-                    throw new UnresolvableObjectException(propertyNames[i], string.Format("No association found for [{0}].", propertyNames[i]));
             }
             return String.Join("/", exactNames.ToArray());
         }
@@ -444,7 +437,7 @@ namespace Simple.OData.Client.V4.Adapter
             if (TryGetComplexType(typeName, out complexType))
                 return complexType;
 
-            throw new UnresolvableObjectException(typeName, string.Format("Enum [{0}] not found", typeName));
+            throw new UnresolvableObjectException(typeName, string.Format("ComplexType [{0}] not found", typeName));
         }
 
         private bool TryGetComplexType(string typeName, out IEdmComplexType complexType)
@@ -478,7 +471,13 @@ namespace Simple.OData.Client.V4.Adapter
 
         private IEdmStructuralProperty GetStructuralProperty(string collectionName, string propertyName)
         {
-            var property = GetEntityType(collectionName).StructuralProperties().BestMatch(
+            var edmType = GetEntityType(collectionName);
+            return GetStructuralProperty(edmType, propertyName);
+        }
+
+        private IEdmStructuralProperty GetStructuralProperty(IEdmStructuredType edmType, string propertyName)
+        {
+            var property = edmType.StructuralProperties().BestMatch(
                 x => x.Name, propertyName, _session.Pluralizer);
 
             if (property == null)
