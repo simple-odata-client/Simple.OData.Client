@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Data.Edm;
 using Microsoft.Data.Edm.Library.Values;
@@ -132,6 +133,33 @@ namespace Simple.OData.Client.V3.Adapter
         public override string GetStructuralPropertyExactName(string collectionName, string propertyName)
         {
             return GetStructuralProperty(collectionName, propertyName).Name;
+        }
+
+        public override string GetStructuralPropertyPath(string collectionName, params string[] propertyNames)
+        {
+            if (propertyNames == null || propertyNames.Length == 0)
+                throw new ArgumentNullException(nameof(propertyNames));
+            var structuralProperty = GetStructuralProperty(collectionName, propertyNames[0]);
+            var exactNames = new List<string>();
+            exactNames.Add(structuralProperty.Name);
+
+            IEdmComplexType entityType;
+            if (!TryGetComplexType(structuralProperty.Type.FullName(), out entityType))
+                throw new UnresolvableObjectException(propertyNames[0], string.Format("No association found for [{0}].", propertyNames[0]));
+            for (int i = 1; i < propertyNames.Length; i++)
+            {
+                var property = entityType.FindProperty(propertyNames[i]);
+                if (property == null)
+                    throw new UnresolvableObjectException(propertyNames[i], string.Format("No association found for [{0}].", propertyNames[i]));
+                exactNames.Add(property.Name);
+                
+                if (property.Type.IsPrimitive())
+                    break;
+
+                if (!TryGetComplexType(property.Type.FullName(), out entityType))
+                    throw new UnresolvableObjectException(propertyNames[i], string.Format("No association found for [{0}].", propertyNames[i]));
+            }
+            return String.Join("/", exactNames.ToArray());
         }
 
         public override bool HasNavigationProperty(string collectionName, string propertyName)

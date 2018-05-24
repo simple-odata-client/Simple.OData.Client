@@ -95,6 +95,21 @@ namespace Simple.OData.Client.Tests
         }
 
         [Fact]
+        public async Task OrderByNestedComplex()
+        {
+            var supplier = (await _client
+                .For("Suppliers")
+                .OrderBy("Address/City")
+                .FindEntriesAsync()).First();
+            Assert.Equal("Tokyo Traders", supplier["Name"]);
+            supplier = (await _client
+                .For("Suppliers")
+                .OrderByDescending("Address/City")
+                .FindEntriesAsync()).First();
+            Assert.Equal("Exotic Liquids", supplier["Name"]);
+        }
+
+        [Fact]
         public async Task SelectMultiple()
         {
             var product = await _client

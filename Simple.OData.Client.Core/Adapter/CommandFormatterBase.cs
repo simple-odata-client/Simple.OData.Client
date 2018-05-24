@@ -254,13 +254,27 @@ namespace Simple.OData.Client
             }
             else
             {
-                var associationName = _session.Metadata.GetNavigationPropertyExactName(entityCollection.Name, items.First());
-                var text = associationName;
-                var item = pathWithOrder.Key.Substring(items.First().Length + 1);
-                entityCollection = _session.Metadata.GetEntityCollection(
-                    _session.Metadata.GetNavigationPropertyPartnerTypeName(entityCollection.Name, associationName));
-                return string.Format("{0}/{1}", text,
-                    FormatOrderByItem(new KeyValuePair<string, bool>(item, pathWithOrder.Value), entityCollection));
+                if (_session.Metadata.HasNavigationProperty(entityCollection.Name, items[0]))
+                {
+                    var associationName = _session.Metadata.GetNavigationPropertyExactName(entityCollection.Name, items[0]);
+                    var text = associationName;
+                    var item = pathWithOrder.Key.Substring(items.First().Length + 1);
+                    entityCollection = _session.Metadata.GetEntityCollection(
+                        _session.Metadata.GetNavigationPropertyPartnerTypeName(entityCollection.Name, associationName));
+                    return string.Format("{0}/{1}", text,
+                        FormatOrderByItem(new KeyValuePair<string, bool>(item, pathWithOrder.Value), entityCollection));
+                }
+                else if (_session.Metadata.HasStructuralProperty(entityCollection.Name, items[0]))
+                {
+                    var clause = _session.Metadata.GetStructuralPropertyPath(entityCollection.Name, items);
+                    if (pathWithOrder.Value)
+                        clause += " desc";
+                    return clause;
+                }
+                else
+                {
+                    throw new UnresolvableObjectException(items[0], string.Format("Property path [{0}] not found", items[0]));
+                }
             }
         }
 
