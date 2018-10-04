@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -62,14 +63,14 @@ namespace Simple.OData.Client
             return subset.All(x => superset.Any(y => matchResolver.IsMatch(x, y)));
         }
 
-        public static T BestMatch<T>(this IEnumerable<T> collection, 
+        public static T BestMatch<T>(this IEnumerable<T> collection,
             Func<T, string> fieldFunc, string value, INameMatchResolver matchResolver)
             where T : class
         {
             return collection.FirstOrDefault(x => matchResolver.IsMatch(fieldFunc(x), value));
         }
 
-        public static T BestMatch<T>(this IEnumerable<T> collection, 
+        public static T BestMatch<T>(this IEnumerable<T> collection,
             Func<T, bool> condition, Func<T, string> fieldFunc, string value,
             INameMatchResolver matchResolver)
             where T : class
@@ -187,9 +188,29 @@ namespace Simple.OData.Client
                 {
                     result = Convert(value, Nullable.GetUnderlyingType(targetType));
                 }
-                else
+                else if (value is IConvertible)
                 {
                     result = System.Convert.ChangeType(value, targetType, CultureInfo.InvariantCulture);
+                }
+                else
+                {
+                    var sourceType = value.GetType();
+                    var converter = TypeDescriptor.GetConverter(sourceType);
+                    if (converter.CanConvertTo(targetType))
+                    {
+                        result = converter.ConvertTo(value, targetType);
+                        return true;
+                    }
+
+                    converter = TypeDescriptor.GetConverter(targetType);
+                    if (converter.CanConvertFrom(sourceType))
+                    {
+                        result = converter.ConvertFrom(value);
+                        return true;
+                    }
+
+                    result = null;
+                    return false;
                 }
                 return true;
             }
