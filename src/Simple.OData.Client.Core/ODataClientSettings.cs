@@ -24,7 +24,7 @@ namespace Simple.OData.Client
         /// <value>
         /// The instance of <see cref="System.Net.Http.HttpClient"/>.
         /// </value>
-        public HttpClient HttpClient { get; private set; }
+        public virtual HttpClient HttpClient { get; protected set; }
 
         /// <summary>
         /// Gets or sets the OData service URL.
@@ -193,6 +193,12 @@ namespace Simple.OData.Client
         public Func<HttpMessageHandler> OnCreateMessageHandler { get; set; }
 
         /// <summary>
+        /// Gets or sets the <see cref="System.Net.Http.HttpClient"/> factory
+        /// used when required by the OData client infrastructure.
+        /// </summary>
+        public Func<HttpClient> OnCreateHttpClient { get; set; }
+
+        /// <summary>
         /// Gets or sets the action on HttpClientHandler.
         /// </summary>
         /// <value>
@@ -288,6 +294,16 @@ namespace Simple.OData.Client
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ODataClientSettings"/> class
+        /// with a <see cref="System.Net.Http.HttpClient"/> factory method.
+        /// </summary>
+        /// <param name="httpClientFactory"></param>
+        public ODataClientSettings(Func<HttpClient> httpClientFactory)
+        {
+            this.OnCreateHttpClient = httpClientFactory;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ODataClientSettings"/> class.
         /// </summary>
         /// <param name="httpClient">The instance of <see cref="System.Net.Http.HttpClient"/>.</param>
@@ -324,6 +340,7 @@ namespace Simple.OData.Client
             this.NameMatchResolver = session.Settings.NameMatchResolver;
             this.AdapterFactory = session.Settings.AdapterFactory;
             this.OnCreateMessageHandler = session.Settings.OnCreateMessageHandler;
+            this.OnCreateHttpClient = session.Settings.OnCreateHttpClient;
             this.OnApplyClientHandler = session.Settings.OnApplyClientHandler;
             this.HttpClient = session.Settings.HttpClient;
             this.RequestExecutor = session.Settings.RequestExecutor;
@@ -332,7 +349,7 @@ namespace Simple.OData.Client
             this.AfterResponse = session.Settings.AfterResponse;
             this.AfterResponseAsync = session.Settings.AfterResponseAsync;
             this.OnTrace = session.Settings.OnTrace;
-            this.TraceFilter = session.Settings.TraceFilter;
+            this.TraceFilter = session.Settings.TraceFilter;            
         }
     }
 }
