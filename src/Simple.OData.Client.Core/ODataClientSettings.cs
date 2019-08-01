@@ -196,6 +196,13 @@ namespace Simple.OData.Client
         /// Gets or sets the <see cref="System.Net.Http.HttpClient"/> factory
         /// used when required by the OData client infrastructure.
         /// </summary>
+        /// <remarks>
+        /// When this factory property is set, the control over the <see cref="System.Net.Http.HttpClient"/>
+        /// creation will be fully handed over to the factory, and will override 
+        /// the <see cref="HttpClient"/> property, and the creation of the handlers.
+        /// In addition, the <see cref="System.Net.Http.HttpClient"/> and its handlers 
+        /// will have to be disposed externally by the dependency container.
+        /// </remarks>
         public Func<HttpClient> OnCreateHttpClient { get; set; }
 
         /// <summary>

@@ -7,26 +7,30 @@ namespace Simple.OData.Client
     {
         private HttpMessageHandler _messageHandler;
         private HttpClient _httpClient;
+        private bool _dispose;
 
-        public HttpClient HttpClient { get {  return _httpClient; } }
+        public HttpClient HttpClient { get { return _httpClient; } }
 
         public HttpConnection(ODataClientSettings settings)
         {
             _messageHandler = CreateMessageHandler(settings);
             _httpClient = CreateHttpClient(settings, _messageHandler);
+            _dispose = settings.OnCreateHttpClient == null;
         }
 
         public void Dispose()
         {
             if (_messageHandler != null)
             {
-                _messageHandler.Dispose();
+                if (_dispose)
+                    _messageHandler.Dispose();
                 _messageHandler = null;
             }
 
             if (_httpClient != null)
             {
-                _httpClient.Dispose();
+                if (_dispose)
+                    _httpClient.Dispose();
                 _httpClient = null;
             }
         }
