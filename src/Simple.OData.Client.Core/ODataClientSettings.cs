@@ -17,6 +17,7 @@ namespace Simple.OData.Client
         private readonly IODataAdapterFactory _defaultAdapterFactory = new ODataAdapterFactory();
         private IODataAdapterFactory _adapterFactory;
         private Uri _baseOrRelativeUri;
+        private HttpClient _httpClient;
 
         /// <summary>
         /// Gets or sets external instance of HttpClient to be used when issuing OData requests.
@@ -24,7 +25,22 @@ namespace Simple.OData.Client
         /// <value>
         /// The instance of <see cref="System.Net.Http.HttpClient"/>.
         /// </value>
-        public virtual HttpClient HttpClient { get; protected set; }
+        public virtual HttpClient HttpClient
+        {
+            get
+            {
+                if (_httpClient == null && OnGetHttpClient != null)
+                {
+                    return OnGetHttpClient();
+                }
+
+                return _httpClient;
+            }
+            protected set
+            {
+                _httpClient = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the OData service URL.
@@ -194,7 +210,7 @@ namespace Simple.OData.Client
 
         /// <summary>
         /// Gets or sets the <see cref="System.Net.Http.HttpClient"/> factory
-        /// used when required by the OData client infrastructure.
+        /// used whenever an HttpClient is required by the OData client infrastructure.
         /// </summary>
         /// <remarks>
         /// When this factory property is set, the control over the <see cref="System.Net.Http.HttpClient"/>
@@ -203,7 +219,7 @@ namespace Simple.OData.Client
         /// In addition, the <see cref="System.Net.Http.HttpClient"/> and its handlers 
         /// will have to be disposed externally by the dependency container.
         /// </remarks>
-        public Func<HttpClient> OnCreateHttpClient { get; set; }
+        public Func<HttpClient> OnGetHttpClient { get; set; }
 
         /// <summary>
         /// Gets or sets the action on HttpClientHandler.
@@ -307,7 +323,7 @@ namespace Simple.OData.Client
         /// <param name="httpClientFactory"></param>
         public ODataClientSettings(Func<HttpClient> httpClientFactory)
         {
-            this.OnCreateHttpClient = httpClientFactory;
+            this.OnGetHttpClient = httpClientFactory;
         }
 
         /// <summary>
@@ -347,7 +363,7 @@ namespace Simple.OData.Client
             this.NameMatchResolver = session.Settings.NameMatchResolver;
             this.AdapterFactory = session.Settings.AdapterFactory;
             this.OnCreateMessageHandler = session.Settings.OnCreateMessageHandler;
-            this.OnCreateHttpClient = session.Settings.OnCreateHttpClient;
+            this.OnGetHttpClient = session.Settings.OnGetHttpClient;
             this.OnApplyClientHandler = session.Settings.OnApplyClientHandler;
             this.HttpClient = session.Settings.HttpClient;
             this.RequestExecutor = session.Settings.RequestExecutor;
@@ -356,7 +372,7 @@ namespace Simple.OData.Client
             this.AfterResponse = session.Settings.AfterResponse;
             this.AfterResponseAsync = session.Settings.AfterResponseAsync;
             this.OnTrace = session.Settings.OnTrace;
-            this.TraceFilter = session.Settings.TraceFilter;            
+            this.TraceFilter = session.Settings.TraceFilter;
         }
     }
 }

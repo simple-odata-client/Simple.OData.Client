@@ -15,7 +15,7 @@ namespace Simple.OData.Client
         {
             _messageHandler = CreateMessageHandler(settings);
             _httpClient = CreateHttpClient(settings, _messageHandler);
-            _dispose = settings.OnCreateHttpClient == null;
+            _dispose = settings.OnGetHttpClient == null;
         }
 
         public void Dispose()
@@ -37,8 +37,6 @@ namespace Simple.OData.Client
 
         private static HttpClient CreateHttpClient(ODataClientSettings settings, HttpMessageHandler messageHandler)
         {
-            if (settings.OnCreateHttpClient != null)
-                return settings.OnCreateHttpClient();
             if (settings.HttpClient != null)
                 return settings.HttpClient;
             if (settings.RequestTimeout >= TimeSpan.FromMilliseconds(1))
