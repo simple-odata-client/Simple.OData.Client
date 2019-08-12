@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Simple.OData.Client;
 using Xunit;
 
 namespace Simple.OData.Client.Tests.BasicApi
@@ -29,7 +28,7 @@ namespace Simple.OData.Client.Tests.BasicApi
         }
 
         [Fact]
-        public async Task TestOnGetHttpClient()
+        public void TestOnGetHttpClient()
         {
             var client = new DisposableHttpClient();
             var firstClient = client;
@@ -44,21 +43,23 @@ namespace Simple.OData.Client.Tests.BasicApi
             var settings = new ODataClientSettings { OnGetHttpClient = getFactory };
             var settings2 = new ODataClientSettings { OnGetHttpClient = getFactory };
 
-            Assert.True(ReferenceEquals(settings.HttpClient, settings2.HttpClient));
+
+            Assert.Same(client, settings2.HttpClient);
+            Assert.Same(settings.HttpClient, settings2.HttpClient);
 
             var session = Session.FromSettings(settings);
             var connection = session.GetHttpConnection();
 
-            Assert.True(ReferenceEquals(settings.HttpClient, connection.HttpClient));
+            Assert.Same(settings.HttpClient, connection.HttpClient);
 
             client.Dispose();
 
             var session2 = Session.FromSettings(settings);
             var connection2 = session2.GetHttpConnection();
 
-            Assert.True(!ReferenceEquals(settings.HttpClient, firstClient));
-            Assert.True(ReferenceEquals(connection2.HttpClient, client));
-            Assert.True(!ReferenceEquals(connection2.HttpClient, firstClient));
+            Assert.NotSame(settings.HttpClient, firstClient);
+            Assert.Same(connection2.HttpClient, client);
+            Assert.NotSame(connection2.HttpClient, firstClient);
         }
 
         class DisposableHttpClient : HttpClient
