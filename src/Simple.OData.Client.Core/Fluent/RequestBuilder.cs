@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -131,9 +132,8 @@ namespace Simple.OData.Client
 
             string linkIdent = null;
             if (linkedEntryKey != null)
-            {
-                var linkedCollection = _session.Metadata.GetNavigationPropertyPartnerTypeName(collectionName, linkName);
-                linkIdent = await FormatEntryKeyAsync(linkedCollection, linkedEntryKey, cancellationToken).ConfigureAwait(false);
+            {              
+                linkIdent = FormatUnlinkEntryKey(collectionName, linkedEntryKey, linkName);               
                 if (cancellationToken.IsCancellationRequested) cancellationToken.ThrowIfCancellationRequested();
             }
 
@@ -159,6 +159,19 @@ namespace Simple.OData.Client
                 .GetCommandTextAsync(cancellationToken).ConfigureAwait(false);
 
             return entryIdent;
+        }
+        
+        private string FormatUnlinkEntryKey(string collection, IDictionary<string, object> entryKey, string linkname)
+        {
+            var keyNames = _session.Metadata.GetDeclaredKeyPropertyNames(collection).ToList();
+            var formatter = _session.Adapter.GetCommandFormatter();
+
+            string command = linkname;
+
+            IDictionary<string, object> keys = entryKey.Where(v => keyNames.Contains(v.Key)).ToDictionary(v => v.Key, v => v.Value);
+            command += formatter.ConvertKeyValuesToUriLiteral(keys, true);
+
+            return command;
         }
 
         private void AssertHasKey(FluentCommand command)
