@@ -166,7 +166,7 @@ namespace Simple.OData.Client
             var keyNames = _session.Metadata.GetDeclaredKeyPropertyNames(collection).ToList();
             var formatter = _session.Adapter.GetCommandFormatter();
 
-            string command = linkname;
+            string command = _session.Metadata.GetNavigationPropertyExactName(collection, linkname);
 
             IDictionary<string, object> keys = entryKey.Where(v => keyNames.Contains(v.Key)).ToDictionary(v => v.Key, v => v.Value);
             command += formatter.ConvertKeyValuesToUriLiteral(keys, true);
