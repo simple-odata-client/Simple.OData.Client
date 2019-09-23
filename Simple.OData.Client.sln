@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		build.ps1 = build.ps1
 		src\CommonAssemblyInfo.cs = src\CommonAssemblyInfo.cs
 		src\CommonAssemblyVersion.cs = src\CommonAssemblyVersion.cs
+		Key.snk = Key.snk
 		LICENSE = LICENSE
 		NugetPack.cmd = NugetPack.cmd
 		NugetPush.cmd = NugetPush.cmd
@@ -26,13 +27,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{78D04AF9
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simple.OData.NorthwindModel", "src\Simple.OData.NorthwindModel\Simple.OData.NorthwindModel.csproj", "{2A909E4D-6493-4D36-9FDE-786B89F9A387}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.OData.Client.Core", "src\Simple.OData.Client.Core\Simple.OData.Client.Core.csproj", "{361868B8-A63E-4C74-AA87-B70E1AB22313}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simple.OData.Client.Core", "src\Simple.OData.Client.Core\Simple.OData.Client.Core.csproj", "{361868B8-A63E-4C74-AA87-B70E1AB22313}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.OData.NorthwindService", "src\Simple.OData.NorthwindService\Simple.OData.NorthwindService.csproj", "{14436AD5-8995-406A-8468-F0B4DE53DFDB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simple.OData.NorthwindService", "src\Simple.OData.NorthwindService\Simple.OData.NorthwindService.csproj", "{14436AD5-8995-406A-8468-F0B4DE53DFDB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simple.OData.Client.Dynamic", "src\Simple.OData.Client.Dynamic\Simple.OData.Client.Dynamic.csproj", "{C025FB0F-452B-4795-B9A4-64C9E6ABBEEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.OData.ProductService", "src\Simple.OData.ProductService\Simple.OData.ProductService.csproj", "{276DF698-6E22-4FF2-BAF1-09BCE205CCE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simple.OData.ProductService", "src\Simple.OData.ProductService\Simple.OData.ProductService.csproj", "{276DF698-6E22-4FF2-BAF1-09BCE205CCE5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simple.OData.Client.IntegrationTests", "src\Simple.OData.Client.IntegrationTests\Simple.OData.Client.IntegrationTests.csproj", "{812D678E-B428-41A1-BC05-8160695AD186}"
 EndProject
@@ -40,11 +41,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simple.OData.Client.V3.Adap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simple.OData.Client.V4.Adapter", "src\Simple.OData.Client.V4.Adapter\Simple.OData.Client.V4.Adapter.csproj", "{31D1CC1D-316E-4516-A2BD-F07423B394F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiOData.V4.Samples", "src\WebApiOData.V4.Samples\WebApiOData.V4.Samples.csproj", "{25EEBCD4-0604-4B5A-AAF5-8A788939A217}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiOData.V4.Samples", "src\WebApiOData.V4.Samples\WebApiOData.V4.Samples.csproj", "{25EEBCD4-0604-4B5A-AAF5-8A788939A217}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiOData.V4.Samples.Tests", "src\WebApiOData.V4.Samples.Tests\WebApiOData.V4.Samples.Tests.csproj", "{F01F7750-85F6-43D8-9C7B-34C75A3861E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiOData.V3.Samples", "src\WebApiOData.V3.Samples\WebApiOData.V3.Samples.csproj", "{09CD2CB4-0B5B-4018-BFBB-7367CA7E10A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiOData.V3.Samples", "src\WebApiOData.V3.Samples\WebApiOData.V3.Samples.csproj", "{09CD2CB4-0B5B-4018-BFBB-7367CA7E10A4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiOData.V3.Samples.Tests", "src\WebApiOData.V3.Samples.Tests\WebApiOData.V3.Samples.Tests.csproj", "{57AA878B-3DD3-4B79-AB0B-ECC29563AAAC}"
 EndProject

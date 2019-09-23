@@ -56,11 +56,19 @@ namespace Simple.OData.Client.V4.Adapter
             if (_batchWriter == null)
                 await StartBatchAsync().ConfigureAwait(false);
 
-            return await CreateBatchOperationMessageAsync(uri, method, collection, contentId, resultRequired).ConfigureAwait(false);
+            return await CreateBatchOperationMessageAsync(uri, method, collection, contentId, null, resultRequired).ConfigureAwait(false);
+        }
+
+        protected override async Task<object> CreateOperationMessageAsync(Uri uri, string method, string collection, string contentId, IDictionary<string, string> operationHeaders, bool resultRequired)
+        {
+            if (_batchWriter == null)
+                await StartBatchAsync().ConfigureAwait(false);
+
+            return await CreateBatchOperationMessageAsync(uri, method, collection, contentId, operationHeaders, resultRequired).ConfigureAwait(false);
         }
 
         private async Task<ODataBatchOperationRequestMessage> CreateBatchOperationMessageAsync(
-            Uri uri, string method, string collection, string contentId, bool resultRequired)
+            Uri uri, string method, string collection, string contentId, IDictionary<string, string> operationHeaders, bool resultRequired)
         {
             var message = await _batchWriter.CreateOperationRequestMessageAsync(method, uri, contentId).ConfigureAwait(false);
 
@@ -74,6 +82,16 @@ namespace Simple.OData.Client.V4.Adapter
                 (method == RestVerbs.Put || method == RestVerbs.Patch || method == RestVerbs.Merge || method == RestVerbs.Delete))
             {
                 message.SetHeader(HttpLiteral.IfMatch, EntityTagHeaderValue.Any.Tag);
+            }
+
+            if (operationHeaders != null)
+            {
+                foreach (var operationHeader in operationHeaders)
+                {
+                    message.SetHeader(
+                        operationHeader.Key,
+                        operationHeader.Value);
+                }
             }
 
             return message;

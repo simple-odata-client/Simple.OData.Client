@@ -10,8 +10,8 @@ namespace Simple.OData.Client
     {
         Task<ODataRequest> CreateGetRequestAsync(string commandText, bool scalarResult);
         Task<ODataRequest> CreatePutRequestAsync(string commandText, Stream stream, string contentType, bool optimisticConcurrency);
-        Task<ODataRequest> CreateInsertRequestAsync(string collection, string commandText, IDictionary<string, object> entryData, bool resultRequired);
-        Task<ODataRequest> CreateUpdateRequestAsync(string collection, string entryIdent, IDictionary<string, object> entryKey, IDictionary<string, object> entryData, bool resultRequired);
+        Task<ODataRequest> CreateInsertRequestAsync(string collection, string commandText, IDictionary<string, object> entryData, IDictionary<string, string> operationHeaders, bool resultRequired);
+        Task<ODataRequest> CreateUpdateRequestAsync(string collection, string entryIdent, IDictionary<string, object> entryKey, IDictionary<string, object> entryData, IDictionary<string, string> operationHeaders, bool resultRequired);
         Task<ODataRequest> CreateDeleteRequestAsync(string collection, string entryIdent);
         Task<ODataRequest> CreateLinkRequestAsync(string collection, string linkName, string entryIdent, string linkIdent);
         Task<ODataRequest> CreateUnlinkRequestAsync(string collection, string linkName, string entryIdent, string linkIdent);

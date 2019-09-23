@@ -496,6 +496,12 @@ namespace Simple.OData.Client
         /// <param name="associationsToSetByValue">The list of associations to be passed by value for deep insert/update.</param>
         /// <returns>Self.</returns>
         IBoundClient<T> Set(T entry, Expression<Func<T, object>> associationsToSetByValue);
+        /// <summary>
+        /// Applies the specified set of custom HTTP headers to the operation
+        /// </summary>
+        /// <param name="operationHeaders"></param>
+        /// <returns></returns>
+        IBoundClient<T> WithHeaders(IDictionary<string, string> operationHeaders);
 
         /// <summary>
         /// Gets a value indicating whether the OData command filter represent the entry key.

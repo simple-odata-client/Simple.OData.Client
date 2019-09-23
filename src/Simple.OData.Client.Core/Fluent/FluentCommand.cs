@@ -188,6 +188,15 @@ namespace Simple.OData.Client
             return WithMedia(properties.Select(x => x.Reference));
         }
 
+        public FluentCommand WithHeaders(IDictionary<string, string> operationHeaders)
+        {
+            if (IsBatchResponse)
+                return this;
+
+            _details.OperationHeaders = operationHeaders;
+            return this;
+        }
+
         public FluentCommand For(ODataExpression expression)
         {
             if (IsBatchResponse) return this;
@@ -646,6 +655,10 @@ namespace Simple.OData.Client
         internal string FunctionName => _details.FunctionName;
 
         internal string ActionName => _details.ActionName;
+
+        internal IDictionary<string, string> OperationHeaders => _details.OperationHeaders;
+
+        internal bool HasOperationHeaders => _details.OperationHeaders == null;
 
         private IEnumerable<string> SplitItems(IEnumerable<string> columns)
         {

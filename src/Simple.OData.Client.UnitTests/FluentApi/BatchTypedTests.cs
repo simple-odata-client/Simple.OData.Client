@@ -164,6 +164,59 @@ namespace Simple.OData.Client.Tests.FluentApi
         }
 
         [Fact]
+        public async Task MultipleUpdatesSingleBatch_WithHeaders()
+        {
+            var settings = CreateDefaultSettings().WithHttpMock();
+            Product product = null;
+            Product product1 = null;
+            Product product2 = null;
+
+            var operationHeaders = new System.Collections.Generic.Dictionary<string, string>()
+                    {
+                        { "SomeHeader","SomeValue" }
+                    };
+
+            var batch = new ODataBatch(settings);
+            batch += async c => product = await c
+                .For<Product>()
+                .Set(new { ProductName = "Test11", UnitPrice = 21m })
+                .WithHeaders(operationHeaders)
+                .InsertEntryAsync();
+            await batch.ExecuteAsync();
+
+            batch = new ODataBatch(settings);
+            batch += c => c
+                .For<Product>()
+                .Key(product.ProductID)
+                .Set(new { UnitPrice = 22m })
+                .UpdateEntryAsync(false);
+            batch += async c => product1 = await c
+                .For<Product>()
+                .Filter(x => x.ProductName == "Test11")
+                .FindEntryAsync();
+            batch += c => c
+                .For<Product>()
+                .Key(product.ProductID)
+                .Set(new { UnitPrice = 23m })
+                .UpdateEntryAsync(false);
+            batch += async c => product2 = await c
+                .For<Product>()
+                .Filter(x => x.ProductName == "Test11")
+                .FindEntryAsync();
+            await batch.ExecuteAsync();
+
+            Assert.Equal(22m, product1.UnitPrice);
+            Assert.Equal(23m, product2.UnitPrice);
+
+            var client = new ODataClient(settings);
+            product = await client
+                .For<Product>()
+                .Filter(x => x.ProductName == "Test11")
+                .FindEntryAsync();
+            Assert.Equal(23m, product.UnitPrice);
+        }
+
+        [Fact]
         public async Task UpdateDeleteSingleBatch()
         {
             var settings = CreateDefaultSettings().WithHttpMock();

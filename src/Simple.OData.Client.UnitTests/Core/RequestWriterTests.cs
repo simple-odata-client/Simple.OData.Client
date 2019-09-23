@@ -37,7 +37,7 @@ namespace Simple.OData.Client.Tests.Core
             var requestWriter = await CreateRequestWriter();
             var result = await requestWriter.CreateUpdateRequestAsync("Products", "",
                         new Dictionary<string, object>() { { "ProductID", 1 } },
-                        new Dictionary<string, object>() { { "ProductName", "Chai" } }, false);
+                        new Dictionary<string, object>() { { "ProductName", "Chai" } }, null, false);
             Assert.Equal("PATCH", result.Method);
         }
 
@@ -60,7 +60,7 @@ namespace Simple.OData.Client.Tests.Core
                             { "UnitsOnOrder", 1000 },
                             { "ReorderLevel", 500 },
                             { "Discontinued", false },
-                        }, false);
+                        }, null, false);
             Assert.Equal("PATCH", result.Method);
         }
 
@@ -87,7 +87,7 @@ namespace Simple.OData.Client.Tests.Core
                             { "UnitsOnOrder", 1000 },
                             { "ReorderLevel", 500 },
                             { "Discontinued", false },
-                        }, false);
+                        }, null, false);
                 Assert.Equal("PUT", result.Method);
             }
             finally
@@ -115,7 +115,7 @@ namespace Simple.OData.Client.Tests.Core
                             { "UnitsOnOrder", 1000 },
                             { "ReorderLevel", 500 },
                             { "Discontinued", false },
-                        }, false);
+                        }, null, false);
             Assert.Equal("PUT", result.Method);
         }
 
@@ -128,7 +128,7 @@ namespace Simple.OData.Client.Tests.Core
                 {
                     { "FirstName", "John" },
                     { "LastName", "Smith" },
-                }, false);
+                }, null, false);
             Assert.Equal("POST", result.Method);
         }
 
@@ -142,7 +142,7 @@ namespace Simple.OData.Client.Tests.Core
                     { "FirstName", "John" },
                     { "LastName", "Smith" },
                     { "BirthDate", DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Unspecified) },
-                }, false);
+                }, null, false);
             Assert.Equal("POST", result.Method);
         }
 
@@ -156,7 +156,7 @@ namespace Simple.OData.Client.Tests.Core
                     { "FirstName", "John" },
                     { "LastName", "Smith" },
                     { "BirthDate", null },
-                }, false);
+                }, null, false);
             Assert.Equal("POST", result.Method);
         }
 
@@ -170,7 +170,7 @@ namespace Simple.OData.Client.Tests.Core
                     { "FirstName", "John" },
                     { "LastName", "Smith" },
                     { "BirthDate", DateTimeOffset.Now },
-                }, false);
+                }, null, false);
             Assert.Equal("POST", result.Method);
         }
 
@@ -184,7 +184,7 @@ namespace Simple.OData.Client.Tests.Core
                     { "FirstName", "John" },
                     { "LastName", "Smith" },
                     { "BirthDate", null },
-                }, false);
+                }, null, false);
             Assert.Equal("POST", result.Method);
         }
 
@@ -198,7 +198,7 @@ namespace Simple.OData.Client.Tests.Core
                     { "FirstName", "John" },
                     { "LastName", "Smith" },
                     { "HireDate", DateTimeOffset.Now },
-                }, false);
+                }, null, false);
             Assert.Equal("POST", result.Method);
         }
 
@@ -212,7 +212,7 @@ namespace Simple.OData.Client.Tests.Core
                     { "FirstName", "John" },
                     { "LastName", "Smith" },
                     { "HireDate", null },
-                }, false);
+                }, null, false);
             Assert.Equal("POST", result.Method);
         }
     }

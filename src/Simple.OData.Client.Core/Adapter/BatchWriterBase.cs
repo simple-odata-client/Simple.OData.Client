@@ -59,6 +59,18 @@ namespace Simple.OData.Client
         protected abstract Task EndChangesetAsync();
         protected abstract Task<object> CreateOperationMessageAsync(Uri uri, string method, string collection, string contentId, bool resultRequired);
 
+        /// <summary>
+        /// Creates operation message which allows for adding additional customer HTTP headers on per operation level
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <param name="method"></param>
+        /// <param name="collection"></param>
+        /// <param name="contentId"></param>
+        /// <param name="operationHeaders"></param>
+        /// <param name="resultRequired"></param>
+        /// <returns></returns>
+        protected abstract Task<object> CreateOperationMessageAsync(Uri uri, string method, string collection, string contentId, IDictionary<string,string> operationHeaders, bool resultRequired);
+
         public int LastOperationId => _lastOperationId;
 
         public string NextContentId()
@@ -86,7 +98,7 @@ namespace Simple.OData.Client
 
         public IDictionary<object, IDictionary<string, object>> BatchEntries { get; private set; }
 
-        public async Task<object> CreateOperationMessageAsync(Uri uri, string method, string collection, IDictionary<string, object> entryData, bool resultRequired)
+        public async Task<object> CreateOperationMessageAsync(Uri uri, string method, string collection, IDictionary<string, object> entryData, IDictionary<string, string> operationHeaders, bool resultRequired)
         {
             if (method != RestVerbs.Get && !_pendingChangeSet)
             {
@@ -105,7 +117,7 @@ namespace Simple.OData.Client
                 MapContentId(entryData, contentId);
             }
 
-            return await CreateOperationMessageAsync(uri, method, collection, contentId, resultRequired).ConfigureAwait(false);
+            return await CreateOperationMessageAsync(uri, method, collection, contentId, operationHeaders, resultRequired).ConfigureAwait(false);
         }
 
         public bool HasOperations { get; protected set; }

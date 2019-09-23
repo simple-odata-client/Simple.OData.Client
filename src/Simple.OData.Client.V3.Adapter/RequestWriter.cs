@@ -18,6 +18,8 @@ namespace Simple.OData.Client.V3.Adapter
     public class RequestWriter : RequestWriterBase
     {
         private readonly IEdmModel _model;
+        
+        private Func<IODataRequestMessage, ODataMessageWriterSettings, IEdmModel, ODataMessageWriter> _messageWriterInitializer;
 
         public RequestWriter(ISession session, IEdmModel model, Lazy<IBatchWriter> deferredBatchWriter)
             : base(session, deferredBatchWriter)
@@ -25,10 +27,35 @@ namespace Simple.OData.Client.V3.Adapter
             _model = model;
         }
 
-        protected override async Task<Stream> WriteEntryContentAsync(string method, string collection, string commandText, IDictionary<string, object> entryData, bool resultRequired)
+        protected RequestWriter(ISession session, IEdmModel model, Lazy<IBatchWriter> deferredBatchWriter, 
+            Func<IODataRequestMessage, ODataMessageWriterSettings, IEdmModel, ODataMessageWriter> messageWriterInitializer)
+            : base(session, deferredBatchWriter)
+        {
+            _model = model;
+            _messageWriterInitializer = messageWriterInitializer;
+        }
+
+        protected ODataMessageWriter CreateMessageWriter(IODataRequestMessage message, ODataMessageWriterSettings writerSettings, IEdmModel model)
+        {
+            ODataMessageWriter messageWriter = null;
+            if (_messageWriterInitializer != null)
+            {
+                messageWriter = _messageWriterInitializer(message, writerSettings, model);
+            }
+
+            if (messageWriter == null)
+            {
+                messageWriter = new ODataMessageWriter(
+                    message, writerSettings, model);
+            }
+
+            return messageWriter;
+        }
+
+        protected override async Task<Stream> WriteEntryContentAsync(string method, string collection, string commandText, IDictionary<string, object> entryData, IDictionary<string, string> operationHeaders, bool resultRequired)
         {
             IODataRequestMessageAsync message = IsBatch
-                ? await CreateBatchOperationMessageAsync(method, collection, entryData, commandText, resultRequired).ConfigureAwait(false) 
+                ? await CreateBatchOperationMessageAsync(method, collection, entryData, commandText, operationHeaders, resultRequired).ConfigureAwait(false) 
                 : new ODataRequestMessage();
 
             if (method == RestVerbs.Get || method == RestVerbs.Delete)
@@ -38,7 +65,7 @@ namespace Simple.OData.Client.V3.Adapter
                 _session.Metadata.GetQualifiedTypeName(collection)) as IEdmEntityType;
             var model = (method == RestVerbs.Patch || method == RestVerbs.Merge) ? new EdmDeltaModel(_model, entityType, entryData.Keys) : _model;
 
-            using (var messageWriter = new ODataMessageWriter(message, GetWriterSettings(), model))
+            using (var messageWriter = CreateMessageWriter(message, GetWriterSettings(), model))
             {
                 var contentId = _deferredBatchWriter != null ? _deferredBatchWriter.Value.GetContentId(entryData, null) : null;
                 //var entityCollection = _session.Metadata.GetEntityCollection(collection);
@@ -73,7 +100,7 @@ namespace Simple.OData.Client.V3.Adapter
         protected override async Task<Stream> WriteLinkContentAsync(string method, string commandText, string linkIdent)
         {
             IODataRequestMessageAsync message = IsBatch
-                ? await CreateBatchOperationMessageAsync(method, null, null, commandText, false).ConfigureAwait(false) 
+                ? await CreateBatchOperationMessageAsync(method, null, null, commandText, null, false).ConfigureAwait(false) 
                 : new ODataRequestMessage();
 
             using (var messageWriter = new ODataMessageWriter(message, GetWriterSettings(), _model))
@@ -94,7 +121,7 @@ namespace Simple.OData.Client.V3.Adapter
         protected override async Task<Stream> WriteFunctionContentAsync(string method, string commandText)
         {
             if (IsBatch)
-                await CreateBatchOperationMessageAsync(method, null, null, commandText, true).ConfigureAwait(false);
+                await CreateBatchOperationMessageAsync(method, null, null, commandText, null, true).ConfigureAwait(false);
 
             return null;
         }
@@ -102,7 +129,7 @@ namespace Simple.OData.Client.V3.Adapter
         protected override async Task<Stream> WriteActionContentAsync(string method, string commandText, string actionName, string boundTypeName, IDictionary<string, object> parameters)
         {
             IODataRequestMessageAsync message = IsBatch
-                ? await CreateBatchOperationMessageAsync(method, null, null, commandText, true).ConfigureAwait(false) 
+                ? await CreateBatchOperationMessageAsync(method, null, null, commandText, null, true).ConfigureAwait(false) 
                 : new ODataRequestMessage();
 
             using (var messageWriter = new ODataMessageWriter(message, GetWriterSettings(ODataFormat.Json), _model))
@@ -239,11 +266,11 @@ namespace Simple.OData.Client.V3.Adapter
             return entry;
         }
 
-        private async Task<IODataRequestMessageAsync> CreateBatchOperationMessageAsync(string method, string collection, IDictionary<string, object> entryData, string commandText, bool resultRequired)
+        private async Task<IODataRequestMessageAsync> CreateBatchOperationMessageAsync(string method, string collection, IDictionary<string, object> entryData, string commandText, IDictionary<string, string> operationHeaders,bool resultRequired)
         {
             var message = (await _deferredBatchWriter.Value.CreateOperationMessageAsync(
                 Utils.CreateAbsoluteUri(_session.Settings.BaseUri.AbsoluteUri, commandText),
-                method, collection, entryData, resultRequired).ConfigureAwait(false)) as IODataRequestMessageAsync;
+                method, collection, entryData, operationHeaders, resultRequired).ConfigureAwait(false)) as IODataRequestMessageAsync;
 
             return message;
         }

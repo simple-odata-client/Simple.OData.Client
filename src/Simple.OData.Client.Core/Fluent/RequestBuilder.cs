@@ -47,11 +47,12 @@ namespace Simple.OData.Client
             if (cancellationToken.IsCancellationRequested) cancellationToken.ThrowIfCancellationRequested();
 
             var entryData = _command.CommandData;
+            var operationHeaders = _command.OperationHeaders;
             var commandText = await _command.GetCommandTextAsync(cancellationToken).ConfigureAwait(false);
             if (cancellationToken.IsCancellationRequested) cancellationToken.ThrowIfCancellationRequested();
 
             return await _session.Adapter.GetRequestWriter(_lazyBatchWriter)
-                .CreateInsertRequestAsync(_command.QualifiedEntityCollectionName, commandText, entryData, resultRequired).ConfigureAwait(false);
+                .CreateInsertRequestAsync(_command.QualifiedEntityCollectionName, commandText, entryData, operationHeaders, resultRequired).ConfigureAwait(false);
         }
 
         public async Task<ODataRequest> UpdateRequestAsync(bool resultRequired, CancellationToken cancellationToken)
@@ -64,11 +65,12 @@ namespace Simple.OData.Client
             var collectionName = _command.QualifiedEntityCollectionName;
             var entryKey = _command.HasKey ? _command.KeyValues : _command.FilterAsKey;
             var entryData = _command.CommandData;
+            var operationHeaders = _command.OperationHeaders;
             var entryIdent = await FormatEntryKeyAsync(_command, cancellationToken).ConfigureAwait(false);
             if (cancellationToken.IsCancellationRequested) cancellationToken.ThrowIfCancellationRequested();
 
             return await _session.Adapter.GetRequestWriter(_lazyBatchWriter)
-                .CreateUpdateRequestAsync(collectionName, entryIdent, entryKey, entryData, resultRequired).ConfigureAwait(false);
+                .CreateUpdateRequestAsync(collectionName, entryIdent, entryKey, entryData, operationHeaders, resultRequired).ConfigureAwait(false);
         }
 
         public async Task<ODataRequest> UpdateRequestAsync(Stream stream, string contentType, bool optimisticConcurrency, CancellationToken cancellationToken)

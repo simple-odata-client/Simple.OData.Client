@@ -122,6 +122,12 @@ namespace Simple.OData.Client
             return CreateClientForODataEntry();
         }
 
+        public IBoundClient<T> WithHeaders(IDictionary<string, string> operationHeaders)
+        {
+            this.Command.WithHeaders(operationHeaders);
+            return this;
+        }
+
         public bool FilterIsKey => this.Command.FilterIsKey;
 
         public IDictionary<string, object> FilterAsKey => this.Command.FilterAsKey;
