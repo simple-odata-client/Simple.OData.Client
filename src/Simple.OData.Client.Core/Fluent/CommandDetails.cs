@@ -35,7 +35,7 @@ namespace Simple.OData.Client
         public string MediaName { get; set; }
         public IEnumerable<string> MediaProperties { get; set; }
         public ConcurrentDictionary<object, IDictionary<string, object>> BatchEntries { get; set; }
-        public IDictionary<string,string> OperationHeaders { get; set; }
+        public IDictionary<string, string> OperationHeaders { get; set; }
 
         public CommandDetails(Session session, FluentCommand parent, ConcurrentDictionary<object, IDictionary<string, object>> batchEntries)
         {
