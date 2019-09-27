@@ -85,7 +85,7 @@ namespace Simple.OData.Client
             updateMethod = _session.Settings.PreferredUpdateMethod == ODataUpdateMethod.Merge ? RestVerbs.Merge : updateMethod;
 
             var entryContent = await WriteEntryContentAsync(
-                updateMethod, collection, entryIdent, entryData, operationHeaders ,resultRequired).ConfigureAwait(false);
+                updateMethod, collection, entryIdent, entryData, operationHeaders, resultRequired).ConfigureAwait(false);
 
             var checkOptimisticConcurrency = _session.Metadata.EntityCollectionRequiresOptimisticConcurrencyCheck(collection);
             var request = new ODataRequest(updateMethod, _session, entryIdent, entryData, entryContent)
