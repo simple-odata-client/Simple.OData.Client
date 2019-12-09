@@ -170,8 +170,8 @@ namespace Simple.OData.Client
                 queryClauses.Add(string.Join("&", command.CommandData.Select(x => string.Format("{0}={1}",
                     x.Key, ConvertValueToUriLiteral(x.Value, true)))));
 
-            if (command.Details.Filter != null)
-                queryClauses.Add(string.Format("{0}={1}", ODataLiteral.Filter, EscapeUnescapedString(command.Details.Filter)));
+            if (command.Details.GetFilter(command.EntityCollection.Name)!= null)
+                queryClauses.Add(string.Format("{0}={1}", ODataLiteral.Filter, EscapeUnescapedString(command.Details.GetFilter(command.EntityCollection.Name))));
 
             if (command.Details.Search != null)
                 queryClauses.Add(string.Format("{0}={1}", ODataLiteral.Search, EscapeUnescapedString(command.Details.Search)));

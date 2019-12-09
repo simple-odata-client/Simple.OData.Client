@@ -17,8 +17,6 @@ namespace Simple.OData.Client
         public IList<object> KeyValues { get; set; }
         public IDictionary<string, object> NamedKeyValues { get; set; }
         public IDictionary<string, object> EntryData { get; set; }
-        public string Filter { get; set; }
-        public ODataExpression FilterExpression { get; set; }
         public string Search { get; set; }
         public long SkipCount { get; set; }
         public long TopCount { get; set; }
@@ -35,6 +33,36 @@ namespace Simple.OData.Client
         public string MediaName { get; set; }
         public IEnumerable<string> MediaProperties { get; set; }
         public ConcurrentDictionary<object, IDictionary<string, object>> BatchEntries { get; set; }
+		internal IDictionary<string, ODataExpression> m_FilterExpressions { get; set; } = new Dictionary<string, ODataExpression>();
+		public void AddFilterExpression(string entity, ODataExpression FilterExpression)
+		{
+			if(m_FilterExpressions.TryGetValue(entity, out ODataExpression oldExp))
+				m_FilterExpressions[entity] = oldExp && FilterExpression;
+			else m_FilterExpressions[entity] = FilterExpression;
+		}
+
+		public ODataExpression GetFilterExpression(string entity)
+		{
+			if (m_FilterExpressions.TryGetValue(entity, out ODataExpression FilterExpression))
+				return FilterExpression;
+			else return null;
+		}
+
+		internal IDictionary<string, string> m_Filters { get; set; } = new Dictionary<string, string>();
+		public void SetFilter(string entity, string filter)
+		{
+			m_Filters[entity] = filter;
+		}
+
+		public string GetFilter(string entity)
+		{
+			if (m_Filters.TryGetValue(entity, out string filter))
+				return filter;
+			else return null;
+		}
+
+		public IDictionary<string, string> EntitiesMap = new Dictionary<string, string>();
+
 
         public CommandDetails(Session session, FluentCommand parent, ConcurrentDictionary<object, IDictionary<string, object>> batchEntries)
         {
@@ -63,8 +91,8 @@ namespace Simple.OData.Client
             this.KeyValues = details.KeyValues;
             this.NamedKeyValues = details.NamedKeyValues;
             this.EntryData = details.EntryData;
-            this.Filter = details.Filter;
-            this.FilterExpression = details.FilterExpression;
+            this.m_Filters = new Dictionary<string, string>(details.m_Filters);
+            this.m_FilterExpressions = new Dictionary<string, ODataExpression>(details.m_FilterExpressions);
             this.Search = details.Search;
             this.SkipCount = details.SkipCount;
             this.TopCount = details.TopCount;
