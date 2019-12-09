@@ -80,14 +80,12 @@ namespace Simple.OData.Client
 
             var updateMethod = usePatch ? RestVerbs.Patch : RestVerbs.Put;
 
-            updateMethod = _session.Settings.PreferredUpdateMethod == ODataUpdateMethod.Merge ? RestVerbs.Merge : updateMethod;
+#pragma warning disable CS0618
+			updateMethod = _session.Settings.PreferredUpdateMethod == ODataUpdateMethod.Merge ? RestVerbs.Merge : updateMethod;
+#pragma warning restore CS0618
 
             var entryContent = await WriteEntryContentAsync(
                 updateMethod, collection, entryIdent, entryData, resultRequired).ConfigureAwait(false);
-
-
-
-
 
             var checkOptimisticConcurrency = _session.Metadata.EntityCollectionRequiresOptimisticConcurrencyCheck(collection);
             var request = new ODataRequest(updateMethod, _session, entryIdent, entryData, entryContent)

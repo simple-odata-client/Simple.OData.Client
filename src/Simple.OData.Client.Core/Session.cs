@@ -108,8 +108,17 @@ namespace Simple.OData.Client
                 {
                     lock (this)
                     {
-                        if (_adapter == null)
-                            _adapter = this.MetadataCache.GetODataAdapter(this);
+						if (_adapter == null)
+						{ 
+							if(this.MetadataCache == null)
+							{
+								this.MetadataCache =
+									MetadataCache.GetOrAdd(
+										this.Settings.BaseUri.AbsoluteUri,
+										uri => throw new Exception());
+							}
+							_adapter = this.MetadataCache.GetODataAdapter(this);
+						} 
                     }
                 }
                 return _adapter;

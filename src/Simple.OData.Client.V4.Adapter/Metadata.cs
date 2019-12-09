@@ -386,7 +386,16 @@ namespace Simple.OData.Client.V4.Adapter
                     {
                         return true;
                     }
-                }
+					// ^^^this is fishy NavigateToCollection returns an Entity Collection but then it checks EntityType.Name with that collection
+					// E.g: in TripPin collectionName was People/Friends, then collection is People (as Friends is also a People) but its entity type is Person
+					try
+					{
+						entityType = GetEntityTypes().SingleOrDefault(x => GetEntityCollection(x.Name).Name == collection.Name);
+						if (entityType != null)
+							return true;
+					}
+					catch (UnresolvableObjectException) { }
+				}
             }
             else
             {

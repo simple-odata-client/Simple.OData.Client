@@ -191,7 +191,17 @@ namespace Simple.OData.Client
                 return false;
             }
         }
-    }
+
+		public override bool Equals(object obj)
+		{
+			return base.Equals(obj); // Note that the == and != operators are overriden to return ODataExpressions
+		}
+
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
+		}
+	}
 
     public partial class ODataExpression<T> : ODataExpression
     {
@@ -204,5 +214,15 @@ namespace Simple.OData.Client
             : base(expression)
         {
         }
-    }
+
+		public override bool Equals(object obj)
+		{
+			return base.Equals(obj); // Note that the == and != operators are overriden to return ODataExpressions
+		}
+
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
+		}
+	}
 }
