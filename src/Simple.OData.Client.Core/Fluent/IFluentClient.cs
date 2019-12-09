@@ -155,7 +155,13 @@ namespace Simple.OData.Client
         /// <param name="associations">The associations to expand.</param>
         /// <returns>Self.</returns>
         FT Expand(params string[] associations);
-        /// <summary>
+		/// <summary>
+		/// Expands the top level of the specified associations with entity/name mappings.
+		/// </summary>
+		/// <param name="associations">The associations to expand with their name mappings.</param>
+		/// <returns>Self.</returns>
+		FT ExpandMap(params KeyValuePair<string, string>[] associations);
+		/// <summary>
         /// Expands the number of levels of the specified associations.
         /// </summary>
         /// <param name="expandOptions">The <see cref="ODataExpandOptions"/>.</param>

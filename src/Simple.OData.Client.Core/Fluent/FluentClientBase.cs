@@ -188,7 +188,13 @@ namespace Simple.OData.Client
             return this as FT;
         }
 
-        public FT Expand(ODataExpandOptions expandOptions, params string[] associations)
+		public FT ExpandMap(params KeyValuePair<string, string>[] associations)
+		{
+			this.Command.ExpandMap(associations);
+			return this as FT;
+		}
+
+		public FT Expand(ODataExpandOptions expandOptions, params string[] associations)
         {
             this.Command.Expand(expandOptions, associations);
             return this as FT;
