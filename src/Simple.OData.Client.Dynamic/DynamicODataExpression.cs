@@ -91,11 +91,12 @@ namespace Simple.OData.Client
             public override DynamicMetaObject BindSetMember(SetMemberBinder binder, DynamicMetaObject value)
             {
                 var ctor = CtorWithStringAndValue;
-                Expression objectExpression = Expression.Constant(value.Value);
-                if (value.Value != null && value.Value.GetType().IsValue())
-                {
-                    objectExpression = Expression.Convert(objectExpression, typeof (object));
-                }
+				Expression objectExpression = value.Expression;
+				if ((value.Value != null && value.Value.GetType().IsValue()) ||
+					(value.Value == null && Nullable.GetUnderlyingType(objectExpression.Type) != null))
+				{
+					objectExpression = Expression.Convert(objectExpression, typeof(object));
+				}
                 var ctorArguments = new[] { Expression.Constant(binder.Name), objectExpression };
 
                 return new DynamicMetaObject(
