@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<package xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <id>GXOdata.Client</id>
+    <authors>Vagif Abilov and GeneXus</authors>
+    <version>5.2.2.0</version>
+    <owners>Vagif Abilov</owners>
+    <description>
+      GXOdata.Client is a multiplatform OData client library supporting .NET 4.x, .NET Standard, .NET Core, iOS and Android. The adapter provides a great alternative to WCF Data Services client. It does not require generation of context or entity classes and fits RESTful nature of OData services.
+      The package GXOdata.Client contains libraries that can work with OData feeds that implement both V1-3 and V4 OData protocol.
+    </description>
+    <summary>
+      GXOdata.Client is a multiplatform OData client library supporting .NET 4.x, .NET Standard, .NET Core, iOS and Android. The adapter provides a great alternative to WCF Data Services client. It does not require generation of context or entity classes and fits RESTful nature of OData services.
+      The package GXOdata.Client contains libraries that can work with OData feeds that implement both V1-3 and V4 OData protocol.
+    </summary>
+    <projectUrl>https://github.com/genexuslabs/Simple.OData.Client</projectUrl>
+    <license type="expression">MIT</license>
+    <copyright>Copyright 2012-2018 Vagif Abilov</copyright>
+    <language>en-us</language>
+    <tags>odata data rest client portable pcl netfx net40 net45 netstandard netcore mono adnroid ios</tags>
+    <dependencies>
+      <group targetFramework="net452">
+        <dependency id="Microsoft.Data.OData" version="[5.8.3,6)" />
+        <dependency id="Microsoft.OData.Core" version="[7.4.4,8)" />
+      </group>
+      <group targetFramework="netstandard2.0">
+        <dependency id="Microsoft.Data.OData" version="[5.8.3,6)" />
+        <dependency id="Microsoft.OData.Core" version="[7.4.4,8)" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <!-- NET45 -->
+    <file src="build\Release\GXOdata.Client.All\net452\GXOdata.Client.All.dll" target="lib\net452\GXOdata.Client.All.dll" />
+    <file src="build\Release\GXOdata.Client.All\net452\GXOdata.Client.All.xml" target="lib\net452\GXOdata.Client.All.xml" />
+
+    <!-- NETSTANDARD2.0 -->
+    <file src="build\Release\GXOdata.Client.All\netstandard2.0\GXOdata.Client.All.dll" target="lib\netstandard2.0\GXOdata.Client.All.dll" />
+    <file src="build\Release\GXOdata.Client.All\netstandard2.0\GXOdata.Client.All.xml" target="lib\netstandard2.0\GXOdata.Client.All.xml" />
+  </files>
+</package>
