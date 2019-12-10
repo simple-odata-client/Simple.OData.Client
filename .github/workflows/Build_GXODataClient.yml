@@ -1,0 +1,24 @@
+name: Package GXOdata.Client.All
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - name: Setup MSBuild.exe
+      uses: warrenbuckley/Setup-MSBuild@v1
+    - name: Setup Nuget.exe
+      uses: warrenbuckley/Setup-Nuget@v1
+    - name: Restore
+      run: dotnet restore GXOData.Client.sln
+    - name: Build
+      run: msbuild GXOData.Client.sln /p:Configuration=Release
+    - name: Package
+      run: nuget pack GXOData.Client.nuspec -OutputDirectory build/packages/ -OutputFileNamesWithoutVersion
+    - name: Publish
+      run: nuget push build\packages\GXOData.Client.nupkg -Source GPR
+
+
