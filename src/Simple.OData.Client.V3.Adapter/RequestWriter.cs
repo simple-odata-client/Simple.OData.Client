@@ -19,7 +19,7 @@ namespace Simple.OData.Client.V3.Adapter
     {
         private readonly IEdmModel _model;
         
-        private Func<IODataRequestMessage, ODataMessageWriterSettings, IEdmModel, ODataMessageWriter> _messageWriterInitializer;
+        private readonly Func<IODataRequestMessage, ODataMessageWriterSettings, IEdmModel, ODataMessageWriter> _messageWriterInitializer;
 
         public RequestWriter(ISession session, IEdmModel model, Lazy<IBatchWriter> deferredBatchWriter)
             : base(session, deferredBatchWriter)
