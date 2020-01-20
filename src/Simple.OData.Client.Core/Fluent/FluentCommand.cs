@@ -658,7 +658,7 @@ namespace Simple.OData.Client
 
         internal IDictionary<string, string> OperationHeaders => _details.OperationHeaders;
 
-        internal bool HasOperationHeaders => _details.OperationHeaders == null;
+        internal bool HasOperationHeaders => _details.OperationHeaders != null;
 
         private IEnumerable<string> SplitItems(IEnumerable<string> columns)
         {

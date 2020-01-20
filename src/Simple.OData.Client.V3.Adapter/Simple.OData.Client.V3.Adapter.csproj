@@ -4,8 +4,6 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <OutputPath>$(SolutionDir)/build/$(Configuration)/$(AssemblyName)/$(TargetFramework)/</OutputPath>
     <OutDir>$(OutputPath)</OutDir>
-    <SignAssembly>false</SignAssembly>
-    <AssemblyOriginatorKeyFile>C:\Projects\Simple.OData.Client\Key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="ODataMessageWriterWrapper.cs" />
