@@ -20,7 +20,7 @@ namespace Simple.OData.Client.V4.Adapter
         private readonly Dictionary<ODataResource, ResourceProperties> _resourceEntryMap;
         private readonly Dictionary<ODataResource, List<ODataResource>> _resourceEntries;
 
-        private Func<IODataRequestMessage, ODataMessageWriterSettings, IEdmModel, ODataMessageWriter> _messageWriterInitializer;
+        private readonly Func<IODataRequestMessage, ODataMessageWriterSettings, IEdmModel, ODataMessageWriter> _messageWriterInitializer;
 
         public RequestWriter(ISession session, IEdmModel model, Lazy<IBatchWriter> deferredBatchWriter)
             : base(session, deferredBatchWriter)
