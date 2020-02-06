@@ -125,27 +125,7 @@ namespace Simple.OData.Client.Tests
         }
 
         [Fact]
-        public async Task FindEntryParallelThreadsRenewConnection()
-        {
-            var client = new ODataClient(new ODataClientSettings() { BaseUri = _serviceUri, RenewHttpConnection = true });
-            var products = (await client.FindEntriesAsync("Products")).ToArray();
-
-            var summary = new ExecutionSummary();
-            var tasks = new List<Task>();
-            foreach (var product in products)
-            {
-                var task = RunClient(client, Convert.ToInt32(product["ID"]), summary);
-                tasks.Add(task);
-            }
-            Task.WaitAll(tasks.ToArray());
-
-            Assert.Equal(products.Count(), summary.ExecutionCount);
-            Assert.Equal(0, summary.ExceptionCount);
-            Assert.Equal(0, summary.NonEqualCount);
-        }
-
-        [Fact]
-        public async Task InsertUpdateDeleteSeparateBatchesRenewHttpConnection()
+        public async Task InsertUpdateDeleteSeparateBatches()
         {
             var settings = new ODataClientSettings(_serviceUri)
             {
@@ -163,7 +143,7 @@ namespace Simple.OData.Client.Tests
                 }, false);
             await batch.ExecuteAsync();
 
-            var client = new ODataClient(new ODataClientSettings { BaseUri = _serviceUri, RenewHttpConnection = true });
+            var client = new ODataClient(new ODataClientSettings { BaseUri = _serviceUri });
             var product = await client.FindEntryAsync("Products?$filter=Name eq 'Test1'");
             Assert.Equal(21m, Convert.ToDecimal(product["Price"]));
             var key = new Entry() { { "ID", product["ID"] } };
@@ -182,6 +162,7 @@ namespace Simple.OData.Client.Tests
             product = await client.FindEntryAsync("Products?$filter=Name eq 'Test1'");
             Assert.Null(product);
         }
+
         [Fact]
         public async Task MetadataErrorIsNotCached()
         {

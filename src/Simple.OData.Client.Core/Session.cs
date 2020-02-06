@@ -63,18 +63,6 @@ namespace Simple.OData.Client
 
         public ITypeCache TypeCache => TypeCaches.TypeCache(Settings.BaseUri.AbsoluteUri, Settings.NameMatchResolver);
 
-        public void Dispose()
-        {
-            lock (this)
-            {
-                if (_httpConnection != null)
-                {
-                    _httpConnection.Dispose();
-                    _httpConnection = null;
-                }
-            }
-        }
-
         public async Task Initialize(CancellationToken cancellationToken)
         {
             if (_metadataCache == null)

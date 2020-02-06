@@ -144,6 +144,8 @@ namespace Simple.OData.Client
         /// <value>
         /// <c>true</c> to create a new <see cref="System.Net.Http.HttpClient"/> instance for each request; <c>false</c> to reuse <see cref="System.Net.Http.HttpClient"/> between requests.
         /// </value>
+        [Obsolete(@"HttpClient should be a long lived object. Disposing and creating after each request can cause resource stagnation. This option is ignored.
+See https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests")]
         public bool RenewHttpConnection { get; set; }
 
         /// <summary>

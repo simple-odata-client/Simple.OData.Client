@@ -9,7 +9,7 @@ namespace Simple.OData.Client
     /// <summary>
     /// Provide access to session-specific details.
     /// </summary>
-    public interface ISession : IDisposable
+    public interface ISession
     {
         /// <summary>
         /// Gets OData client configuration settings.

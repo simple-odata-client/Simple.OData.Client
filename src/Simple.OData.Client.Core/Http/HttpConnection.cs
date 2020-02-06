@@ -3,7 +3,7 @@ using System.Net.Http;
 
 namespace Simple.OData.Client
 {
-    public class HttpConnection : IDisposable
+    public class HttpConnection
     {
         private HttpMessageHandler _messageHandler;
         private HttpClient _httpClient;
@@ -14,21 +14,6 @@ namespace Simple.OData.Client
         {
             _messageHandler = CreateMessageHandler(settings);
             _httpClient = CreateHttpClient(settings, _messageHandler);
-        }
-
-        public void Dispose()
-        {
-            if (_messageHandler != null)
-            {
-                _messageHandler.Dispose();
-                _messageHandler = null;
-            }
-
-            if (_httpClient != null)
-            {
-                _httpClient.Dispose();
-                _httpClient = null;
-            }
         }
 
         private static HttpClient CreateHttpClient(ODataClientSettings settings, HttpMessageHandler messageHandler)
