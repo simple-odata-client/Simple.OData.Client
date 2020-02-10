@@ -41,8 +41,9 @@ namespace Simple.OData.Client
                 {
                     httpConnection = _session.GetHttpConnection();
 
-                    response = await httpConnection.HttpClient.SendAsync(request.RequestMessage, cancellationToken).ConfigureAwait(false);
-                    if (cancellationToken.IsCancellationRequested) cancellationToken.ThrowIfCancellationRequested();
+                    response = await httpConnection.HttpClient.SendWithTimeoutAsync(request.RequestMessage, cancellationToken, _session.Settings.RequestTimeout).ConfigureAwait(false);
+                    
+                    cancellationToken.ThrowIfCancellationRequested();
                 }
 
                 _session.Trace("Request completed: {0}", response.StatusCode);

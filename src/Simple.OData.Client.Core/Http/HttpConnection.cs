@@ -1,28 +1,43 @@
 ﻿using System;
 using System.Net.Http;
+using System.Collections.Concurrent;
 
 namespace Simple.OData.Client
 {
     public class HttpConnection
     {
-        private HttpMessageHandler _messageHandler;
-        private HttpClient _httpClient;
+        private static readonly ConcurrentDictionary<string, HttpClient> httpClientCache
+            = new ConcurrentDictionary<string, HttpClient>();
 
-        public HttpClient HttpClient { get {  return _httpClient; } }
+        public HttpClient HttpClient { get; }
 
         public HttpConnection(ODataClientSettings settings)
         {
-            _messageHandler = CreateMessageHandler(settings);
-            _httpClient = CreateHttpClient(settings, _messageHandler);
+            HttpClient = CreateHttpClient(settings);
         }
 
-        private static HttpClient CreateHttpClient(ODataClientSettings settings, HttpMessageHandler messageHandler)
+        private static HttpClient CreateHttpClient(ODataClientSettings settings)
         {
             if (settings.HttpClient != null)
                 return settings.HttpClient;
-            if (settings.RequestTimeout >= TimeSpan.FromMilliseconds(1))
-                return new HttpClient(messageHandler) { Timeout = settings.RequestTimeout };
-            return new HttpClient(messageHandler);
+
+            var baseAddress = settings.BaseUri.ToString();
+
+            if (!httpClientCache.TryGetValue(baseAddress, out var client))
+            {
+                client = new HttpClient(CreateMessageHandler(settings))
+                {
+                    BaseAddress = settings.BaseUri
+                };
+
+                if (!httpClientCache.TryAdd(baseAddress, client)
+                    && httpClientCache.TryGetValue(baseAddress, out client))
+                {
+                    client.Dispose();
+                }
+            }
+
+            return client;
         }
 
         private static HttpMessageHandler CreateMessageHandler(ODataClientSettings settings)
