@@ -15,6 +15,9 @@ namespace Simple.OData.Client
         private readonly Lazy<IBatchWriter> _lazyBatchWriter;
         private readonly ConcurrentDictionary<object, IDictionary<string, object>> _batchEntries;
         private readonly ODataResponse _batchResponse;
+        
+        // Allows access for unit tests
+        public ODataClientSettings ClientSettings { get => _settings; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ODataClient"/> class.
