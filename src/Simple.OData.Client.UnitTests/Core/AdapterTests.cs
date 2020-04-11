@@ -21,9 +21,9 @@ namespace Simple.OData.Client.Tests.Core
                 this.session = session;
             }
 
-            protected override async Task<object> CreateOperationMessageAsync(Uri uri, string method, string collection, string contentId, bool resultRequired)
+            protected override async Task<object> CreateOperationMessageAsync(Uri uri, string method, string collection, string contentId, IDictionary<string,string> operationHeaders, bool resultRequired)
             {
-                var result = await base.CreateOperationMessageAsync(AppendToken(uri), method, collection, contentId, resultRequired);
+                var result = await base.CreateOperationMessageAsync(AppendToken(uri), method, collection, contentId, operationHeaders, resultRequired);
                 if (result is IODataRequestMessage request)
                 {
                     session.Trace("{0} batch request id {1}: {2}", request.Method, contentId, request.Url.AbsoluteUri);
