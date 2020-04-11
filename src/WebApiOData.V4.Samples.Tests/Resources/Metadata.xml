@@ -42,6 +42,10 @@
         <Parameter Name="bindingParameter" Type="Collection(WebApiOData.V4.Samples.Models.Product)" />
         <ReturnType Type="Edm.Double" Nullable="false" />
       </Function>
+      <Function Name="MostExpensives" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Collection(WebApiOData.V4.Samples.Models.Product)" />
+        <ReturnType Type="Collection(WebApiOData.V4.Samples.Models.Product)" />
+      </Function>
       <Function Name="Top10" IsBound="true">
         <Parameter Name="bindingParameter" Type="Collection(WebApiOData.V4.Samples.Models.Product)" />
         <ReturnType Type="Collection(WebApiOData.V4.Samples.Models.Product)" />

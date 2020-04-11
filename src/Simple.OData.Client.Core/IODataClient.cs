@@ -600,5 +600,7 @@ namespace Simple.OData.Client
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>Action execution result.</returns>
         Task<T[]> ExecuteActionAsArrayAsync<T>(string actionName, IDictionary<string, object> parameters, CancellationToken cancellationToken);
+        Task<ODataResponse> GetResponseAsync(ODataRequest request);
+        Task<ODataResponse> GetResponseAsync(ODataRequest request, CancellationToken cancellationToken);
     }
 }

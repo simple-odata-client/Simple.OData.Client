@@ -359,10 +359,17 @@ namespace Simple.OData.Client.V4.Adapter
                 else
                 {
                     var collection = NavigateToCollection(collectionName);
-                    entityType = GetEntityTypes().SingleOrDefault(x => x.Name == collection.Name);
+                    var entityTypes = GetEntityTypes();
+                    entityType = entityTypes.SingleOrDefault(x => x.Name == collection.Name);
                     if (entityType != null)
                     {
                         return true;
+                    }
+                    else
+                    {
+                        entityType = entityTypes.BestMatch(x => (x as IEdmEntityType).Name, collection.Name, NameMatchResolver) as IEdmEntityType;
+                        if (entityType != null)
+                            return true;
                     }
                 }
             }

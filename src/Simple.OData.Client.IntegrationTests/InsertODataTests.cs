@@ -104,5 +104,33 @@ namespace Simple.OData.Client.Tests
             Assert.NotNull(product[ProductCategoryName]);
             Assert.Equal(category["ID"], ProductCategoryFunc(product)["ID"]);
         }
+
+        [Fact]
+        public async Task InsertReadingLocationHeader()
+        {
+            const int id = 5899;
+            var withRequest = await _client
+                .For("Products")
+                .Set(CreateProduct(id, "Test"))
+                .BuildRequestFor()
+                .InsertEntryAsync();
+            var response = await _client.GetResponseAsync(withRequest.GetRequest());
+            Assert.NotNull(response);
+            Assert.Equal($"{_serviceUri}Products({id})", response.Location);
+        }
+
+        [Fact]
+        public async Task InsertWithoutResultsReadingLocationHeader()
+        {
+            const int id = 5900;
+            var withRequest = await _client
+                .For("Products")
+                .Set(CreateProduct(id, "Test"))
+                .BuildRequestFor()
+                .InsertEntryAsync(false);
+            var response = await _client.GetResponseAsync(withRequest.GetRequest());
+            Assert.NotNull(response);
+            Assert.Equal($"{_serviceUri}Products({id})", response.Location);
+        }
     }
 }

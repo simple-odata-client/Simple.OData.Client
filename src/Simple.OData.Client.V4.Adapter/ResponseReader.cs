@@ -28,13 +28,17 @@ namespace Simple.OData.Client.V4.Adapter
 
         public async Task<ODataResponse> GetResponseAsync(IODataResponseMessageAsync responseMessage)
         {
+            if (responseMessage.StatusCode == (int)HttpStatusCode.NoContent)
+            {
+                return ODataResponse.FromStatusCode(TypeCache, responseMessage.StatusCode, responseMessage.Headers);
+            }
             var readerSettings = _session.ToReaderSettings();
             using (var messageReader = new ODataMessageReader(responseMessage, readerSettings, _model))
             {
                 var payloadKind = messageReader.DetectPayloadKind().ToList();
                 if (payloadKind.Any(x => x.PayloadKind == ODataPayloadKind.Error))
                 {
-                    return ODataResponse.FromStatusCode(TypeCache, responseMessage.StatusCode);
+                    return ODataResponse.FromStatusCode(TypeCache, responseMessage.StatusCode, responseMessage.Headers);
                 }
                 else if (payloadKind.Any(x => x.PayloadKind == ODataPayloadKind.Value))
                 {
@@ -53,7 +57,7 @@ namespace Simple.OData.Client.V4.Adapter
                 }
                 else if (payloadKind.Any(x => x.PayloadKind == ODataPayloadKind.ResourceSet))
                 {
-                    return ReadResponse(messageReader.CreateODataResourceSetReader());
+                    return ReadResponse(messageReader.CreateODataResourceSetReader(), responseMessage);
                 }
                 else if (payloadKind.Any(x => x.PayloadKind == ODataPayloadKind.Collection))
                 {
@@ -63,7 +67,7 @@ namespace Simple.OData.Client.V4.Adapter
                 {
                     if (payloadKind.Any(x => x.PayloadKind == ODataPayloadKind.Resource))
                     {
-                        return ReadResponse(messageReader.CreateODataResourceReader());
+                        return ReadResponse(messageReader.CreateODataResourceReader(), responseMessage);
                     }
                     else
                     {
@@ -73,7 +77,7 @@ namespace Simple.OData.Client.V4.Adapter
                 }
                 else
                 {
-                    return ReadResponse(messageReader.CreateODataResourceReader());
+                    return ReadResponse(messageReader.CreateODataResourceReader(), responseMessage);
                 }
             }
         }
@@ -92,10 +96,11 @@ namespace Simple.OData.Client.V4.Adapter
                     case ODataBatchReaderState.Operation:
                         var operationMessage = odataReader.CreateOperationResponseMessage();
                         if (operationMessage.StatusCode == (int)HttpStatusCode.NoContent)
-                            batch.Add(ODataResponse.FromStatusCode(TypeCache, operationMessage.StatusCode));
+                            batch.Add(ODataResponse.FromStatusCode(TypeCache, operationMessage.StatusCode, operationMessage.Headers));
                         else if (operationMessage.StatusCode >= (int)HttpStatusCode.BadRequest)
                             batch.Add(ODataResponse.FromStatusCode(TypeCache, 
                                 operationMessage.StatusCode,
+                                operationMessage.Headers,
                                 await operationMessage.GetStreamAsync().ConfigureAwait(false)));
                         else
                             batch.Add(await GetResponseAsync(operationMessage).ConfigureAwait(false));
@@ -135,7 +140,7 @@ namespace Simple.OData.Client.V4.Adapter
             return ODataResponse.FromCollection(TypeCache, collection);
         }
 
-        private ODataResponse ReadResponse(ODataReader odataReader)
+        private ODataResponse ReadResponse(ODataReader odataReader, IODataResponseMessageAsync responseMessage)
         {
             ResponseNode rootNode = null;
             var nodeStack = new Stack<ResponseNode>();
@@ -173,7 +178,7 @@ namespace Simple.OData.Client.V4.Adapter
                 }
             }
 
-            return ODataResponse.FromNode(TypeCache, rootNode);
+            return ODataResponse.FromNode(TypeCache, rootNode, responseMessage.Headers);
         }
 
         protected override void ConvertEntry(ResponseNode entryNode, object entry)

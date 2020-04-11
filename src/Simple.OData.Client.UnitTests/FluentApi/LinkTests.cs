@@ -5,10 +5,14 @@ namespace Simple.OData.Client.Tests.FluentApi
 {
     public class LinkTests : TestBase
     {
-        [Fact]
-        public async Task LinkEntry()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public async Task LinkEntry(bool useAbsoluteReferenceUris)
         {
-            var client = new ODataClient(CreateDefaultSettings().WithHttpMock());
+            var settings = CreateDefaultSettings().WithHttpMock();
+            settings.UseAbsoluteReferenceUris = useAbsoluteReferenceUris;
+            var client = new ODataClient(settings);
             var category = await client
                 .For("Categories")
                 .Set(new { CategoryName = "Test4" })
@@ -31,10 +35,14 @@ namespace Simple.OData.Client.Tests.FluentApi
             Assert.Equal(category["CategoryID"], product["CategoryID"]);
         }
 
-        [Fact]
-        public async Task UnlinkEntry()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public async Task UnlinkEntry(bool useAbsoluteReferenceUris)
         {
-            var client = new ODataClient(CreateDefaultSettings().WithHttpMock());
+            var settings = CreateDefaultSettings().WithHttpMock();
+            settings.UseAbsoluteReferenceUris = useAbsoluteReferenceUris;
+            var client = new ODataClient(settings);
             var category = await client
                 .For("Categories")
                 .Set(new { CategoryName = "Test4" })

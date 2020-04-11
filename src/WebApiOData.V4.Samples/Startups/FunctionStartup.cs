@@ -40,6 +40,12 @@ namespace WebApiOData.V4.Samples.Startups
                 .Returns<double>();
 
             // Function bound to a collection
+            // Returns top 3 product, a collection
+            productType.Collection
+                .Function("MostExpensives")
+                .ReturnsCollectionFromEntitySet<Product>("Products");
+
+            // Function bound to a collection
             // Returns the top 10 product, a collection
             productType.Collection
                 .Function("Top10")

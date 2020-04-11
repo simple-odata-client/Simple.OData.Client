@@ -122,10 +122,14 @@ namespace Simple.OData.Client.Tests.BasicApi
             Assert.Null(ship);
         }
 
-        [Fact]
-        public async Task LinkEntry()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public async Task LinkEntry(bool useAbsoluteReferenceUris)
         {
-            var client = new ODataClient(CreateDefaultSettings().WithHttpMock());
+            var settings = CreateDefaultSettings().WithHttpMock();
+            settings.UseAbsoluteReferenceUris = useAbsoluteReferenceUris;
+            var client = new ODataClient(settings);
             var category = await client.InsertEntryAsync("Categories", new Entry() { { "CategoryName", "Test4" } }, true);
             var product = await client.InsertEntryAsync("Products", new Entry() { { "ProductName", "Test5" } }, true);
 
@@ -136,10 +140,14 @@ namespace Simple.OData.Client.Tests.BasicApi
             Assert.Equal(category["CategoryID"], product["CategoryID"]);
         }
 
-        [Fact]
-        public async Task UnlinkEntry()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public async Task UnlinkEntry(bool useAbsoluteReferenceUris)
         {
-            var client = new ODataClient(CreateDefaultSettings().WithHttpMock());
+            var settings = CreateDefaultSettings().WithHttpMock();
+            settings.UseAbsoluteReferenceUris = useAbsoluteReferenceUris;
+            var client = new ODataClient(settings);
             var category = await client.InsertEntryAsync("Categories", new Entry() { { "CategoryName", "Test6" } }, true);
             var product = await client.InsertEntryAsync("Products", new Entry() { { "ProductName", "Test7" }, { "CategoryID", category["CategoryID"] } }, true);
             product = await client.FindEntryAsync("Products?$filter=ProductName eq 'Test7'");

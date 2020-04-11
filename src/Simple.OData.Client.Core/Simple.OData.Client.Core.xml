@@ -3389,6 +3389,7 @@
             The <see cref="T:Simple.OData.Client.ODataTrace"/> filter value.
             </value>
         </member>
+        <!-- Badly formed XML comment ignored for member "P:Simple.OData.Client.ODataClientSettings.UseAbsoluteReferenceUris" -->
         <member name="M:Simple.OData.Client.ODataClientSettings.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:Simple.OData.Client.ODataClientSettings"/> class.

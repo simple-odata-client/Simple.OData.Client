@@ -5,11 +5,15 @@ namespace Simple.OData.Client.Tests.FluentApi
 {
     public class LinkDynamicTests : TestBase
     {
-        [Fact]
-        public async Task LinkEntry()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public async Task LinkEntry(bool useAbsoluteReferenceUris)
         {
-            var client = new ODataClient(CreateDefaultSettings().WithHttpMock());
-            var x = ODataDynamic.Expression;
+                var settings = CreateDefaultSettings().WithHttpMock();
+                settings.UseAbsoluteReferenceUris = useAbsoluteReferenceUris;
+                var client = new ODataClient(settings);
+                var x = ODataDynamic.Expression;
             var category = await client
                 .For(x.Categories)
                 .Set(x.CategoryName = "Test4")
@@ -32,10 +36,14 @@ namespace Simple.OData.Client.Tests.FluentApi
             Assert.Equal(category.CategoryID, product.CategoryID);
         }
 
-        [Fact]
-        public async Task UnlinkEntry()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public async Task UnlinkEntry(bool useAbsoluteReferenceUris)
         {
-            var client = new ODataClient(CreateDefaultSettings().WithHttpMock());
+            var settings = CreateDefaultSettings().WithHttpMock();
+            settings.UseAbsoluteReferenceUris = useAbsoluteReferenceUris;
+            var client = new ODataClient(settings);
             var x = ODataDynamic.Expression;
             var category = await client
                 .For(x.Categories)

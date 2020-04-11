@@ -75,6 +75,9 @@ namespace Simple.OData.Client
     public class ODataResponse
     {
         public int StatusCode { get; private set; }
+        public string Location => Headers?.FirstOrDefault(x => x.Key == "Location").Value;
+        public string ODataEntityId => Headers?.FirstOrDefault(x => x.Key == "OData-EntityId").Value;
+        public IEnumerable<KeyValuePair<string, string>> Headers { get; private set; }
         public AnnotatedFeed Feed { get; private set; }
         public IList<ODataResponse> Batch { get; private set; }
         public Exception Exception { get; private set; }
@@ -130,11 +133,12 @@ namespace Simple.OData.Client
                 .ToArray();
         }
 
-        internal static ODataResponse FromNode(ITypeCache typeCache, ResponseNode node)
+        internal static ODataResponse FromNode(ITypeCache typeCache, ResponseNode node, IEnumerable<KeyValuePair<string, string>> headers)
         {
             return new ODataResponse(typeCache)
             {
-                Feed = node.Feed ?? new AnnotatedFeed(node.Entry != null ? new[] { node.Entry } : null)
+                Feed = node.Feed ?? new AnnotatedFeed(node.Entry != null ? new[] { node.Entry } : null),
+                Headers = headers
             };
         }
 
@@ -175,16 +179,17 @@ namespace Simple.OData.Client
         }
 
 
-        internal static ODataResponse FromStatusCode(ITypeCache typeCache, int statusCode, Exception exception = null)
+        internal static ODataResponse FromStatusCode(ITypeCache typeCache, int statusCode, IEnumerable<KeyValuePair<string, string>> headers, Exception exception = null)
         {
             return new ODataResponse(typeCache)
             {
                 StatusCode = statusCode,
                 Exception = exception,
+                Headers = headers
             };
         }
 
-        internal static ODataResponse FromStatusCode(ITypeCache typeCache, int statusCode, Stream responseStream)
+        internal static ODataResponse FromStatusCode(ITypeCache typeCache, int statusCode, IEnumerable<KeyValuePair<string, string>> headers, Stream responseStream)
         {
             if (statusCode >= (int)HttpStatusCode.BadRequest)
             {
@@ -193,6 +198,7 @@ namespace Simple.OData.Client
                 {
                     StatusCode = statusCode,
                     Exception = WebRequestException.CreateFromStatusCode((HttpStatusCode)statusCode, responseContent),
+                    Headers = headers
                 };
             }
             else
@@ -200,6 +206,7 @@ namespace Simple.OData.Client
                 return new ODataResponse(typeCache)
                 {
                     StatusCode = statusCode,
+                    Headers = headers
                 };
             }
         }

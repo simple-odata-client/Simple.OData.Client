@@ -66,7 +66,14 @@ namespace Simple.OData.Client
             Func<T, string> fieldFunc, string value, INameMatchResolver matchResolver)
             where T : class
         {
-            return collection.FirstOrDefault(x => matchResolver.IsMatch(fieldFunc(x), value));
+            if (ReferenceEquals(matchResolver, ODataNameMatchResolver.Strict))
+                return collection.FirstOrDefault(x => matchResolver.IsMatch(fieldFunc(x), value));
+
+            return collection
+                .Where(x => matchResolver.IsMatch(fieldFunc(x), value))
+                .Select(x => new { Match = x, IsStrictMatch = ODataNameMatchResolver.Strict.IsMatch(fieldFunc(x), value) })
+                .OrderBy(x => x.IsStrictMatch ? 0 : 1)
+                .Select(x => x.Match).FirstOrDefault();
         }
 
         public static T BestMatch<T>(this IEnumerable<T> collection, 
@@ -74,7 +81,14 @@ namespace Simple.OData.Client
             INameMatchResolver matchResolver)
             where T : class
         {
-            return collection.FirstOrDefault(x => matchResolver.IsMatch(fieldFunc(x), value) && condition(x));
+            if (ReferenceEquals(matchResolver, ODataNameMatchResolver.Strict))
+                return collection.FirstOrDefault(x => condition(x) && matchResolver.IsMatch(fieldFunc(x), value));
+
+            return collection
+                .Where(x => condition(x) && matchResolver.IsMatch(fieldFunc(x), value))
+                .Select(x => new { Match = x, IsStrictMatch = ODataNameMatchResolver.Strict.IsMatch(fieldFunc(x), value) })
+                .OrderBy(x => x.IsStrictMatch ? 0 : 1)
+                .Select(x => x.Match).FirstOrDefault();
         }
 
         public static Exception NotSupportedExpression(Expression expression)

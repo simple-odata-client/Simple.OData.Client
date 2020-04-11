@@ -258,6 +258,15 @@ namespace Simple.OData.Client
         public ODataTrace TraceFilter { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether reference uris should be written as absolute uris instead of relative uris.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> to extend reference links to absolute uris; otherwise, <c>false</c>.
+        /// </value>
+        /// <summary>
+        public bool UseAbsoluteReferenceUris { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ODataClientSettings"/> class.
         /// </summary>
         public ODataClientSettings()
@@ -333,6 +342,7 @@ namespace Simple.OData.Client
             this.AfterResponseAsync = session.Settings.AfterResponseAsync;
             this.OnTrace = session.Settings.OnTrace;
             this.TraceFilter = session.Settings.TraceFilter;
+            this.UseAbsoluteReferenceUris = session.Settings.UseAbsoluteReferenceUris;
         }
     }
 }

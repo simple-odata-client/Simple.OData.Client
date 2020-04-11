@@ -1,0 +1,1 @@
+{"Content":null,"ContentHeaders":null,"Method":"GET","RequestHeaders":[{"Key":"Accept","Value":["application\/json","application\/xml","application\/text"]},{"Key":"Prefer","Value":["return=representation"]}],"RequestUri":"http:\/\/localhost\/functions\/Products\/Default.MostExpensives()"}

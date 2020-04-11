@@ -738,6 +738,34 @@ namespace Simple.OData.Client
                     .ToArray();
         }
 
+        public Task<ODataResponse> GetResponseAsync(ODataRequest request)
+        {
+            return GetResponseAsync(request, CancellationToken.None);
+        }
+
+        public async Task<ODataResponse> GetResponseAsync(ODataRequest request, CancellationToken cancellationToken)
+        {
+            if (IsBatchResponse)
+                return _batchResponse;
+            ODataResponse EmptyResult() => ODataResponse.EmptyFeeds(Session.TypeCache);
+            if (IsBatchRequest)
+                return EmptyResult();
+            try
+            {
+                using (var response = await _requestRunner.ExecuteRequestAsync(request, cancellationToken).ConfigureAwait(false))
+                {
+                    var responseReader = _session.Adapter.GetResponseReader();
+                    return await responseReader.GetResponseAsync(response).ConfigureAwait(false);
+                }
+            }
+            catch (WebRequestException ex)
+            {
+                if (_settings.IgnoreResourceNotFoundException && ex.Code == HttpStatusCode.NotFound)
+                    return EmptyResult();
+                throw;
+            }
+        }
+
         public Task<Stream> GetResponseStreamAsync(ODataRequest request)
         {
             return GetResponseStreamAsync(request, CancellationToken.None);

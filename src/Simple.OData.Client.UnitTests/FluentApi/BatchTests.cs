@@ -376,10 +376,13 @@ namespace Simple.OData.Client.Tests.FluentApi
             Assert.Equal(1, result);
         }
 
-        [Fact]
-        public async Task LinkEntry()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public async Task LinkEntry(bool useAbsoluteReferenceUris)
         {
             var settings = CreateDefaultSettings().WithHttpMock();
+            settings.UseAbsoluteReferenceUris = useAbsoluteReferenceUris;
             var client = new ODataClient(settings);
             var category = await client
                 .For("Categories")

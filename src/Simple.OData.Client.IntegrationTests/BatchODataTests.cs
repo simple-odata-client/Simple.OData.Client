@@ -225,5 +225,46 @@ namespace Simple.OData.Client.Tests
             Assert.True(milk.ContainsKey("ID"));
         }
 
+        [Fact]
+        public async Task InsertWithoutResultsReadingLocationHeader()
+        {
+            const int id = 5897;
+            ODataResponse response = null;
+            var batch = new ODataBatch(_serviceUri);
+            batch += async x =>
+            {
+                var request = x.For("Products")
+                    .Set(CreateProduct(id, "Test"))
+                    .BuildRequestFor()
+                    .InsertEntryAsync(false)
+                    .Result
+                    .GetRequest();
+                response = await x.GetResponseAsync(request);
+            };
+            await batch.ExecuteAsync();
+            Assert.NotNull(response);
+            Assert.Equal($"{_serviceUri}Products({id})", response.Location);
+        }
+
+        [Fact]
+        public async Task InsertReadingLocationHeader()
+        {
+            const int id = 5898;
+            ODataResponse response = null;
+            var batch = new ODataBatch(_serviceUri);
+            batch += async x =>
+            {
+                var request = x.For("Products")
+                    .Set(CreateProduct(id, "Test"))
+                    .BuildRequestFor()
+                    .InsertEntryAsync(true)
+                    .Result
+                    .GetRequest();
+                response = await x.GetResponseAsync(request);
+            };
+            await batch.ExecuteAsync();
+            Assert.NotNull(response);
+            Assert.Equal($"{_serviceUri}Products({id})", response.Location);
+        }
     }
 }

@@ -112,6 +112,58 @@ namespace WebApiOData.V4.Samples.Tests
         }
 
         [Fact]
+        public async Task Get_the_most_expensives_products_untyped()
+        {
+            var settings = CreateDefaultSettings().WithHttpMock();
+            var client = new ODataClient(settings);
+            var result = await client
+                .FindEntriesAsync("Products/Default.MostExpensives()");
+
+            Assert.Equal(3, result.Count());
+        }
+
+        [Fact]
+        public async Task Get_the_most_expensives_products_typed()
+        {
+            var settings = CreateDefaultSettings().WithHttpMock();
+            var client = new ODataClient(settings);
+            var result = await client
+                .For<Product>()
+                .Function("MostExpensives")
+                .ExecuteAsEnumerableAsync();
+
+            Assert.Equal(3, result.Count());
+        }
+
+        [Fact]
+        public async Task Get_the_most_expensives_products_typed_array()
+        {
+            var settings = CreateDefaultSettings().WithHttpMock();
+            var client = new ODataClient(settings);
+            var result = await client
+                .For<Product>()
+                .Function("MostExpensives")
+                .ExecuteAsArrayAsync<Product>();
+
+            Assert.Equal(3, result.Count());
+        }
+
+        [Fact]
+        public async Task Get_the_most_expensives_products_dynamic()
+        {
+            var settings = CreateDefaultSettings().WithHttpMock();
+            var client = new ODataClient(settings);
+            var x = ODataDynamic.Expression;
+
+            IEnumerable<dynamic> result = await client
+                .For(x.Products)
+                .Function("MostExpensives")
+                .ExecuteAsEnumerableAsync();
+
+            Assert.Equal(3, result.Count());
+        }
+
+        [Fact]
         public async Task Get_the_top_10_expensive_products_untyped()
         {
             var settings = CreateDefaultSettings().WithHttpMock();

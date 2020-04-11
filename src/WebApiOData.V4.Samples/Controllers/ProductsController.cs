@@ -65,6 +65,16 @@ namespace WebApiOData.V4.Samples.Controllers
             return Ok(retval);
         }
 
+        // Returns top 3 most expensive products
+        // This is needed to check function name matching
+        [HttpGet]
+        public IHttpActionResult MostExpensives()
+        {
+            var retval = _data.Values.OrderByDescending(p => p.Price).Take(3).ToList();
+
+            return Ok(retval);
+        }
+
         // Returns the top ten most expensive products
         [HttpGet]
         public IHttpActionResult Top10()
