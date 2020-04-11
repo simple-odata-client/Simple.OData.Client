@@ -336,9 +336,16 @@ namespace Simple.OData.Client.V4.Adapter
 
         protected override string FormatLinkPath(string entryIdent, string navigationPropertyName, string linkIdent = null)
         {
-            return linkIdent == null
-                ? $"{entryIdent}/{navigationPropertyName}/$ref"
-                : $"{entryIdent}/{navigationPropertyName}/$ref?$id={linkIdent}";
+            var linkPath = $"{entryIdent}/{navigationPropertyName}/$ref";
+            if (linkIdent != null)
+            {
+                var link = _session.Settings.UseAbsoluteReferenceUris
+                    ? Utils.CreateAbsoluteUri(_session.Settings.BaseUri.AbsoluteUri, linkIdent).AbsoluteUri
+                    : linkIdent;
+                linkPath += $"?$id={link}";
+            }
+
+            return linkPath;
         }
 
         protected override void AssignHeaders(ODataRequest request)
