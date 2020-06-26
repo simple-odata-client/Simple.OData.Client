@@ -37,7 +37,7 @@ namespace Simple.OData.Client
                 ReturnsScalarResult = scalarResult,
                 ResultRequired = true,
             };
-            AssignHeaders(request);
+            
             return request;
         }
 
