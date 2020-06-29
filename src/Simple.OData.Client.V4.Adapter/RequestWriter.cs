@@ -335,13 +335,18 @@ namespace Simple.OData.Client.V4.Adapter
 
         protected override void AssignHeaders(ODataRequest request)
         {
-            if (request.ResultRequired)
+            // Do not set Prefer headers for GET/DELETE requests per OData spec
+            // http://docs.oasis-open.org/odata/odata/v4.0/os/part1-protocol/odata-v4.0-os-part1-protocol.html#_Toc372793631
+            if ((request.Method != RestVerbs.Get) && (request.Method != RestVerbs.Delete))
             {
-                request.Headers.Add(HttpLiteral.Prefer, HttpLiteral.ReturnRepresentation);
-            }
-            else
-            {
-                request.Headers.Add(HttpLiteral.Prefer, HttpLiteral.ReturnMinimal);
+                if (request.ResultRequired)
+                {
+                    request.Headers.Add(HttpLiteral.Prefer, HttpLiteral.ReturnRepresentation);
+                }
+                else
+                {
+                    request.Headers.Add(HttpLiteral.Prefer, HttpLiteral.ReturnMinimal);
+                }
             }
         }
 
