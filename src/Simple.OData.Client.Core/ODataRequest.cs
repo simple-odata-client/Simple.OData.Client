@@ -134,6 +134,13 @@ namespace Simple.OData.Client
             {
                 Content = this._contentStream != null ? this.GetContent() : null
             };
+
+            if (Headers != null)
+            {
+                foreach (var header in Headers)
+                    _requestMessage.Headers.Add(header.Key, header.Value);
+            }
+
             return _requestMessage;
         }
     }
