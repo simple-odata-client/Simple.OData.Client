@@ -557,8 +557,8 @@ namespace Simple.OData.Client.Tests.FluentApi
                 .BuildRequestFor()
                 .FindEntryAsync();
 
-            Assert.Equal("header1Value", request.GetRequest().Headers["header1"]);
-            Assert.Equal("header2Value", request.GetRequest().Headers["header2"]);
+            Assert.Equal("header1Value", request.GetRequest().RequestMessage.Headers.GetValues("header1").SingleOrDefault());
+            Assert.Equal("header2Value", request.GetRequest().RequestMessage.Headers.GetValues("header2").SingleOrDefault());
         }
 
         [Fact]
@@ -574,8 +574,8 @@ namespace Simple.OData.Client.Tests.FluentApi
                 .BuildRequestFor()
                 .FindEntryAsync();
 
-            Assert.Equal("header1Value", request.GetRequest().Headers["header1"]);
-            Assert.Equal("header2Value", request.GetRequest().Headers["header2"]);
+            Assert.Equal("header1Value", request.GetRequest().RequestMessage.Headers.GetValues("header1").SingleOrDefault()); 
+            Assert.Equal("header2Value", request.GetRequest().RequestMessage.Headers.GetValues("header2").SingleOrDefault());
         }
     }
 }
