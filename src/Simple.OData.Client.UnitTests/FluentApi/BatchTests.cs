@@ -422,5 +422,20 @@ namespace Simple.OData.Client.Tests.FluentApi
 
             Assert.Equal(ExpectedCountOfProducts, count);
         }
+
+        [Fact]
+        public async Task WithHttpHeaders()
+        {
+            var settings = CreateDefaultSettings().WithHttpMock();
+            var batch = new ODataBatch(settings)
+                .WithHeader("batchHeader", "batchHeaderValue");
+
+            batch += async c => await c.InsertEntryAsync("Products", new Entry() { { "ProductName", "Test21" }, { "UnitPrice", 111m } });
+            batch += async c => await c.InsertEntryAsync("Products", new Entry() { { "ProductName", "Test22" }, { "UnitPrice", 111m } });
+            batch += async c => await c.InsertEntryAsync("Products", new Entry() { { "ProductName", "Test23" }, { "UnitPrice", 111m } });
+
+            var request = await batch.BuildRequest();
+            Assert.True(request.RequestMessage.Headers.TryGetValues("batchHeader", out var values) && values.Single() == "batchHeaderValue");
+        }
     }
 }

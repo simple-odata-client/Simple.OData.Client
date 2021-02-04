@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 #pragma warning disable 1591
 
@@ -57,7 +58,13 @@ namespace Simple.OData.Client
         public bool ReturnsScalarResult { get; set; }
         public bool ResultRequired { get; set; }
         public bool CheckOptimisticConcurrency { get; set; }
-        public readonly IDictionary<string, string> Headers = new Dictionary<string, string>();
+        public IDictionary<string, string> Headers { get; } = new Dictionary<string, string>();
+
+        /// <summary>
+        /// Internal state used for batch requests. Needed in order to replay operations to assign return values to closures.
+        /// </summary>
+        internal IList<int> BatchResponseIndeces { get; set; } = new List<int>();
+        internal IList<Func<IODataClient, Task>> BatchActions { get; set; } = new List<Func<IODataClient, Task>>();
 
         internal ODataRequest(string method, ISession session, string commandText, IDictionary<string, string> headers = null)
         {
@@ -69,7 +76,7 @@ namespace Simple.OData.Client
                 ? uri.AbsoluteUri
                 : Utils.CreateAbsoluteUri(session.Settings.BaseUri.AbsoluteUri, commandText).AbsoluteUri;
             _payloadFormat = session.Settings.PayloadFormat;
-            
+
             if (headers != null)
                 Headers = headers;
         }
@@ -134,6 +141,13 @@ namespace Simple.OData.Client
             {
                 Content = this._contentStream != null ? this.GetContent() : null
             };
+
+            if (Headers != null)
+            {
+                foreach (var header in Headers)
+                    _requestMessage.Headers.Add(header.Key, header.Value);
+            }
+
             return _requestMessage;
         }
     }

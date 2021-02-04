@@ -48,13 +48,8 @@ namespace Simple.OData.Client
                 () => new IDictionary<string, object>[] { }).ConfigureAwait(false);
         }
 
-        private async Task ExecuteBatchActionsAsync(IList<Func<IODataClient, Task>> actions, CancellationToken cancellationToken)
+        private async Task ExecuteBatchActionsAsync(ODataRequest request, CancellationToken cancellationToken)
         {
-            if (!actions.Any())
-                return;
-
-            var responseIndexes = new List<int>();
-            var request = await _lazyBatchWriter.Value.CreateBatchRequestAsync(this, actions, responseIndexes).ConfigureAwait(false);
             if (request != null)
             {
                 // Execute batch and get response
@@ -64,7 +59,7 @@ namespace Simple.OData.Client
                     var batchResponse = await responseReader.GetResponseAsync(response).ConfigureAwait(false);
 
                     // Replay batch operations to assign results
-                    await responseReader.AssignBatchActionResultsAsync(this, batchResponse, actions, responseIndexes).ConfigureAwait(false);
+                    await responseReader.AssignBatchActionResultsAsync(this, batchResponse, request.BatchActions, request.BatchResponseIndeces).ConfigureAwait(false);
                 }
             }
         }
@@ -265,7 +260,7 @@ namespace Simple.OData.Client
         private string FormatEntryKey(ResolvedCommand command)
         {
             var entryIdent = command.Details.HasKey
-                ? command.Format() 
+                ? command.Format()
                 : new FluentCommand(command.Details).Key(command.Details.FilterAsKey).Resolve(_session).Format();
 
             return entryIdent;

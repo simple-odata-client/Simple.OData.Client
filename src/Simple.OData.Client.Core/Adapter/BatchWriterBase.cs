@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -27,9 +28,12 @@ namespace Simple.OData.Client
         public abstract Task<HttpRequestMessage> EndBatchAsync();
 
         public async Task<ODataRequest> CreateBatchRequestAsync(
-            IODataClient client, IList<Func<IODataClient, Task>> actions, IList<int> responseIndexes)
+            IODataClient client, IList<Func<IODataClient, Task>> actions, 
+            IDictionary<string, string> headers = null)
         {
             // Write batch operations into a batch content
+            var responseIndeces = new List<int>();
+
             var lastOperationId = 0;
             foreach (var action in actions)
             {
@@ -40,14 +44,22 @@ namespace Simple.OData.Client
                     lastOperationId = LastOperationId;
                     responseIndex = lastOperationId - 1;
                 }
-                responseIndexes.Add(responseIndex);
+                responseIndeces.Add(responseIndex);
             }
 
             if (this.HasOperations)
             {
                 // Create batch request message
                 var requestMessage = await EndBatchAsync().ConfigureAwait(false);
-                return new ODataRequest(RestVerbs.Post, _session, ODataLiteral.Batch, requestMessage);
+
+                foreach (var header in headers)
+                    requestMessage.Headers.Add(header.Key, header.Value);
+
+                return new ODataRequest(RestVerbs.Post, _session, ODataLiteral.Batch, requestMessage)
+                {
+                    BatchActions = actions.ToList(),
+                    BatchResponseIndeces = responseIndeces
+                };
             }
             else
             {

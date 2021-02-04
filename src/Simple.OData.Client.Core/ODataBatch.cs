@@ -14,8 +14,8 @@ namespace Simple.OData.Client
     {
         private readonly ODataClient _client;
         private readonly List<Func<IODataClient, Task>> _actions = new List<Func<IODataClient, Task>>();
-        private readonly ConcurrentDictionary<object, IDictionary<string, object>> _entryMap = new ConcurrentDictionary<object, IDictionary<string, object>>(); 
-
+        private readonly ConcurrentDictionary<object, IDictionary<string, object>> _entryMap = new ConcurrentDictionary<object, IDictionary<string, object>>();
+        private readonly Dictionary<string, string> headers = new Dictionary<string, string>();
         /// <summary>
         /// Initializes a new instance of the <see cref="ODataBatch"/> class.
         /// </summary>
@@ -50,7 +50,7 @@ namespace Simple.OData.Client
         public ODataBatch(IODataClient client, bool reuseSession)
         {
             _client = reuseSession
-                ? new ODataClient((client as ODataClient), _entryMap) 
+                ? new ODataClient((client as ODataClient), _entryMap)
                 : new ODataClient((client as ODataClient).Session.Settings, _entryMap);
         }
         /// <summary>
@@ -81,7 +81,31 @@ namespace Simple.OData.Client
         /// <returns></returns>
         public Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            return _client.ExecuteBatchAsync(_actions, cancellationToken);
+            return _client.ExecuteBatchAsync(_actions, cancellationToken, headers);
+        }
+
+        public Task<ODataRequest> BuildRequest(CancellationToken cancellationToken)
+        {
+            return _client.BuildRequestForBatch(_actions, cancellationToken, headers);
+        }
+
+        public Task<ODataRequest> BuildRequest()
+        {
+            return BuildRequest(CancellationToken.None);
+        }
+
+        public ODataBatch WithHeader(string name, string value)
+        {
+            headers.Add(name, value);
+            return this;
+        }
+
+        public ODataBatch WithHeaders(IDictionary<string,string> headers)
+        {
+            foreach (var header in headers)
+                WithHeader(header.Key, header.Value);
+
+            return this;
         }
     }
 }

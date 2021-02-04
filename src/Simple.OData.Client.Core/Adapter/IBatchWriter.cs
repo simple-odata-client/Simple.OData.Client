@@ -9,7 +9,7 @@ namespace Simple.OData.Client
 {
     public interface IBatchWriter
     {
-        Task<ODataRequest> CreateBatchRequestAsync(IODataClient client, IList<Func<IODataClient, Task>> actions, IList<int> responseIndexes);
+        Task<ODataRequest> CreateBatchRequestAsync(IODataClient client, IList<Func<IODataClient, Task>> actions, IDictionary<string, string> headers = null);
         Task<object> CreateOperationMessageAsync(Uri uri, string method, string collection, IDictionary<string, object> entryData, bool resultRequired);
         bool HasOperations { get; }
         int LastOperationId { get; }

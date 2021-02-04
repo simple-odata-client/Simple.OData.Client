@@ -1120,12 +1120,23 @@ namespace Simple.OData.Client
                 : result.Select(x => (T)x.ToObject(_session.TypeCache, typeof(T))).ToArray();
         }
 
-        internal async Task ExecuteBatchAsync(IList<Func<IODataClient, Task>> actions, CancellationToken cancellationToken)
+        internal async Task<ODataRequest> BuildRequestForBatch(IList<Func<IODataClient, Task>> actions, CancellationToken cancellationToken, IDictionary<string,string> headers = null)
         {
             await _session.ResolveAdapterAsync(cancellationToken).ConfigureAwait(false);
             if (cancellationToken.IsCancellationRequested) cancellationToken.ThrowIfCancellationRequested();
 
-            await ExecuteBatchActionsAsync(actions, cancellationToken).ConfigureAwait(false);
+            if (!actions.Any())
+                return null;
+
+            return await _lazyBatchWriter.Value.CreateBatchRequestAsync(this, actions, headers).ConfigureAwait(false);
+        }
+
+        internal async Task ExecuteBatchAsync(IList<Func<IODataClient, Task>> actions, CancellationToken cancellationToken, IDictionary<string, string> headers = null)
+        {
+            var request = await BuildRequestForBatch(actions, cancellationToken, headers).ConfigureAwait(false);
+
+            if (cancellationToken.IsCancellationRequested) cancellationToken.ThrowIfCancellationRequested();
+            await ExecuteBatchActionsAsync(request, cancellationToken).ConfigureAwait(false);
         }
 
         private string ExtractFilterFromCommandText(string collection, string commandText)
