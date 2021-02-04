@@ -130,14 +130,15 @@ namespace Simple.OData.Client.V4.Adapter
                     }
                     else
                     {
-                        clauses.AddRange(association.ExpandAssociations
+                        var expandedProperties = string.Join(",", association.ExpandAssociations
                             .Where(
                                 a => _session.Metadata.HasNavigationProperty(associatedEntityCollection.Name, a.Name))
                             .Select(a =>
                                 FormatExpansionSegment(a, associatedEntityCollection, ODataExpandOptions.ByValue(),
                                     command,
-                                    false))
-                            .Select(formattedExpand => $"{ODataLiteral.Expand}={formattedExpand}"));
+                                    false)));
+                        if (!string.IsNullOrEmpty(expandedProperties))
+                            clauses.Add($"{ODataLiteral.Expand}={expandedProperties}");
                     }
 
                     var selectColumns = string.Join(",", association.ExpandAssociations

@@ -342,6 +342,22 @@ namespace Simple.OData.Client.Tests.Core
         }
 
         [Theory]
+        [InlineData("Northwind3.xml", "Employees?$expand=Superior,Superior/Subordinates,Superior/Superior")]
+        [InlineData("Northwind4.xml", "Employees?$expand=Superior($expand=Subordinates,Superior)")]
+        public async Task ExpandSuperiorWithSubordinatesAndSuperiorInMultipleExpands(string metadataFile, string expectedCommand)
+        {
+            var client = CreateClient(metadataFile);
+            var command = client
+                .For<Employee>()
+                .Expand(x => x.Superior)
+                .Expand(x => x.Superior.Subordinates)
+                .Expand(x => x.Superior.Superior);
+            
+            var commandText = await command.GetCommandTextAsync();
+            Assert.Equal(expectedCommand, commandText);
+        }
+
+        [Theory]
         [InlineData("Northwind3.xml", "Employees?$expand=Superior/Superior/Superior")]
         [InlineData("Northwind4.xml", "Employees?$expand=Superior($expand=Superior($expand=Superior))")]
         public async Task ExpandSuperiorThreeTimes(string metadataFile, string expectedCommand)
@@ -488,7 +504,7 @@ namespace Simple.OData.Client.Tests.Core
 
             var expectedResult =
                 @"ClientProductSkus/FunctionService.GetCreateUpdateSkuDelta(clientId=35,offsetInMinutes=2000)?" +
-                "$expand=Product($expand=ProductCategory($expand=Category($expand=CategorySalesArea;$select=Code);$select=IsPrimary);$expand=SupplierProductSkuClient($expand=SupplierProductSku($expand=SupplierProductSkuPriceList($expand=SupplierPriceList);$expand=SupplierProductSkuOnHand($expand=Warehouse)));$select=Id,ManufacturerId)," +
+                "$expand=Product($expand=ProductCategory($expand=Category($expand=CategorySalesArea;$select=Code);$select=IsPrimary),SupplierProductSkuClient($expand=SupplierProductSku($expand=SupplierProductSkuPriceList($expand=SupplierPriceList),SupplierProductSkuOnHand($expand=Warehouse)));$select=Id,ManufacturerId)," +
                 "ClientProductSkuPriceList($select=CurrencyId)," +
                 "ClientProductSkuSalesArea&" +
                 "$select=PartNo,ClientId,ErpName,EanCode";
