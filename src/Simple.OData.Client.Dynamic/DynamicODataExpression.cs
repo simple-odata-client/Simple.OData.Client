@@ -72,15 +72,16 @@ namespace Simple.OData.Client
                 if (FunctionMapping.ContainsFunction(binder.Name, 0))
                 {
                     ctor = CtorWithExpressionAndString;
-                    ctorArguments = new[] { Expression.Constant(this.Value), Expression.Constant(binder.Name) };
+                    ctorArguments = new Expression[] { Expression.Convert(Expression, LimitType), Expression.Constant(binder.Name) };
                 }
                 else
                 {
-                    var reference = this.HasValue && !string.IsNullOrEmpty((this.Value as ODataExpression).Reference)
-                        ? string.Join("/", (this.Value as ODataExpression).Reference, binder.Name)
+                    Expression<Func<bool, ODataExpression, string>> calculateReference = (hv, e) => hv && !string.IsNullOrEmpty(e.Reference)
+                        ? string.Join("/", e.Reference, binder.Name)
                         : binder.Name;
+                    var referenceExpression = Expression.Invoke(calculateReference, Expression.Constant(HasValue), Expression.Convert(Expression, LimitType));
                     ctor = CtorWithString;
-                    ctorArguments = new[] { Expression.Constant(reference) };
+                    ctorArguments = new Expression[] { referenceExpression };
                 }
 
                 return new DynamicMetaObject(
@@ -91,11 +92,7 @@ namespace Simple.OData.Client
             public override DynamicMetaObject BindSetMember(SetMemberBinder binder, DynamicMetaObject value)
             {
                 var ctor = CtorWithStringAndValue;
-                Expression objectExpression = Expression.Constant(value.Value);
-                if (value.Value != null && value.Value.GetType().IsValue())
-                {
-                    objectExpression = Expression.Convert(objectExpression, typeof (object));
-                }
+                Expression objectExpression = Expression.Convert(value.Expression, typeof(object));
                 var ctorArguments = new[] { Expression.Constant(binder.Name), objectExpression };
 
                 return new DynamicMetaObject(
@@ -106,82 +103,78 @@ namespace Simple.OData.Client
             public override DynamicMetaObject BindInvokeMember(
                 InvokeMemberBinder binder, DynamicMetaObject[] args)
             {
-                if (FunctionMapping.ContainsFunction(binder.Name, args.Count()))
+                var expressionFunctionConstructor = typeof(ExpressionFunction).GetConstructor(new[] {typeof(string), typeof(IEnumerable<object>)});
+                if (FunctionMapping.ContainsFunction(binder.Name, args.Length))
                 {
-                    var expression = Expression.New(CtorWithExpressionAndExpressionFunction,
-                        new[]
-                        {
-                            Expression.Constant(this.Value), 
-                            Expression.Constant(new ExpressionFunction(binder.Name, args.Select(x => x.Value)))
-                        });
+                    var expression = Expression.New(CtorWithExpressionAndExpressionFunction, 
+                        Expression.Convert(Expression, LimitType), 
+                        Expression.New(expressionFunctionConstructor, 
+                            Expression.Constant(binder.Name), 
+                            Expression.NewArrayInit(typeof(object), args.Select(x => Expression.Convert(x.Expression, typeof(object))))));
 
                     return new DynamicMetaObject(
                         expression,
                         BindingRestrictions.GetTypeRestriction(Expression, LimitType));
                 }
-                else if (string.Equals(binder.Name, ODataLiteral.Any, StringComparison.OrdinalIgnoreCase) ||
-                         string.Equals(binder.Name, ODataLiteral.All, StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(binder.Name, ODataLiteral.Any, StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(binder.Name, ODataLiteral.All, StringComparison.OrdinalIgnoreCase))
                 {
-                    var expression = Expression.New(CtorWithExpressionAndExpressionFunction,
-                        new[]
-                        {
-                            Expression.Constant(this.Value), 
-                            Expression.Constant(new ExpressionFunction(binder.Name, args.Select(x => x.Value)))
-                        });
+                    var expression = Expression.New(CtorWithExpressionAndExpressionFunction, 
+                        Expression.Convert(Expression, LimitType), 
+                        Expression.New(expressionFunctionConstructor, 
+                            Expression.Constant(binder.Name), 
+                            Expression.NewArrayInit(typeof(object), args.Select(x => Expression.Convert(x.Expression, typeof(object))))));
 
                     return new DynamicMetaObject(
                         expression,
                         BindingRestrictions.GetTypeRestriction(Expression, LimitType));
                 }
-                else if (string.Equals(binder.Name, ODataLiteral.IsOf, StringComparison.OrdinalIgnoreCase) ||
-                         string.Equals(binder.Name, ODataLiteral.Is, StringComparison.OrdinalIgnoreCase) ||
-                         string.Equals(binder.Name, ODataLiteral.Cast, StringComparison.OrdinalIgnoreCase) ||
-                         string.Equals(binder.Name, ODataLiteral.As, StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(binder.Name, ODataLiteral.IsOf, StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(binder.Name, ODataLiteral.Is, StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(binder.Name, ODataLiteral.Cast, StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(binder.Name, ODataLiteral.As, StringComparison.OrdinalIgnoreCase))
                 {
                     var functionName = string.Equals(binder.Name, ODataLiteral.Is, StringComparison.OrdinalIgnoreCase)
                         ? ODataLiteral.IsOf
                         : string.Equals(binder.Name, ODataLiteral.As, StringComparison.OrdinalIgnoreCase)
                             ? ODataLiteral.Cast
                             : binder.Name;
-                    var expression = Expression.New(CtorWithExpressionAndExpressionFunction,
-                        new[]
-                        {
-                            Expression.Constant(this.Value), 
-                            Expression.Constant(new ExpressionFunction(
-                                functionName, 
-                                new [] { (this.Value as ODataExpression).IsNull ? null : this.Value, args.First().Value }))
-                        });
+
+                    var isNullProperty = typeof(DynamicODataExpression).GetProperty(nameof(IsNull));
+                    var expressionFunctionArguments = Expression.Condition(Expression.MakeMemberAccess(Expression.Convert(Expression, LimitType), isNullProperty),
+                        Expression.Convert(Expression, typeof(object)),
+                        Expression.Convert(args.First().Expression, typeof(object)));
+                    
+                    var expression = Expression.New(CtorWithExpressionAndExpressionFunction, 
+                        Expression.Convert(Expression, LimitType),
+                        Expression.New(expressionFunctionConstructor, 
+                            Expression.Constant(functionName), 
+                            Expression.NewArrayInit(typeof(object), expressionFunctionArguments)));
 
                     return new DynamicMetaObject(
                         expression,
                         BindingRestrictions.GetTypeRestriction(Expression, LimitType));
                 }
-                else
-                {
-                    return base.BindInvokeMember(binder, args);
-                }
+
+                return base.BindInvokeMember(binder, args);
             }
 
             public override DynamicMetaObject BindBinaryOperation(BinaryOperationBinder binder, DynamicMetaObject arg)
             {
                 if (arg.RuntimeType != null && arg.RuntimeType.IsEnumType())
                 {
-                    var expression = Expression.New(CtorWithExpressionAndExpressionAndOperator,
-                        new[]
-                        {
-                            Expression.Constant(this.Value), 
-                            Expression.Constant(new ODataExpression(arg.Value)),
-                            Expression.Constant(binder.Operation)
-                        });
+                    var ctor = typeof(ODataExpression).GetConstructor(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.NonPublic, null, new[] {typeof(object)}, null);
+                    var expression = Expression.New(CtorWithExpressionAndExpressionAndOperator, 
+                        Expression.Convert(Expression, LimitType), 
+                        Expression.New(ctor, Expression.Convert(arg.Expression, typeof(object))), 
+                        Expression.Constant(binder.Operation));
 
                     return new DynamicMetaObject(
                         expression,
                         BindingRestrictions.GetTypeRestriction(Expression, LimitType));
                 }
-                else
-                {
-                    return base.BindBinaryOperation(binder, arg);
-                }
+
+                return base.BindBinaryOperation(binder, arg);
             }
         }
 

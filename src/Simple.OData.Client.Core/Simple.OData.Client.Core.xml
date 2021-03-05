@@ -164,6 +164,18 @@
             <param name="type"></param>
             <returns></returns>
         </member>
+        <member name="M:Simple.OData.Client.ITypeCache.GetAnnotationsProperty(System.Type)">
+            <summary>
+            Get the OData annotations property if any.
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.GetDerivedTypes(System.Type)">
+            <summary>
+            Get all derived types in the same assembly.
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
         <member name="M:Simple.OData.Client.ITypeCache.GetMappedProperties(System.Type)">
             <summary>
             Get the mapped properties for a type
@@ -366,6 +378,7 @@
             Creates a new instance of the <see cref="T:Simple.OData.Client.TypeCache"/> class.
             </summary>
             <param name="converter"></param>
+            <param name="nameMatchResolver"></param>
         </member>
         <member name="P:Simple.OData.Client.TypeCache.Converter">
             <copydoc cref="P:Simple.OData.Client.ITypeCache.Converter" />
@@ -511,6 +524,11 @@
         <member name="P:Simple.OData.Client.TypeCacheResolver.Type">
             <summary>
             Gets the type we are responsible for.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.TypeCacheResolver.DerivedTypes">
+            <summary>
+            Get all derived types in the same assembly.
             </summary>
         </member>
         <member name="P:Simple.OData.Client.TypeCacheResolver.MappedName">
@@ -2102,36 +2120,40 @@
             The exception that is thrown when the service failed to process the Web request
             </summary>
         </member>
-        <member name="M:Simple.OData.Client.WebRequestException.CreateFromResponseMessageAsync(System.Net.Http.HttpResponseMessage)">
+        <member name="M:Simple.OData.Client.WebRequestException.CreateFromResponseMessageAsync(System.Net.Http.HttpResponseMessage,Simple.OData.Client.WebRequestExceptionMessageSource)">
             <summary>
             Creates from the instance of HttpResponseMessage.
             </summary>
             <param name="response">The instance of <see cref="T:System.Net.Http.HttpResponseMessage"/>.</param>
+            <param name="exceptionMessageSource">The source used to build exception message, see <see cref="T:Simple.OData.Client.WebRequestExceptionMessageSource"/></param>
             <returns>The instance of <see cref="T:Simple.OData.Client.WebRequestException"/>.</returns>
         </member>
-        <member name="M:Simple.OData.Client.WebRequestException.CreateFromWebException(System.Net.WebException)">
+        <member name="M:Simple.OData.Client.WebRequestException.CreateFromWebException(System.Net.WebException,Simple.OData.Client.WebRequestExceptionMessageSource)">
             <summary>
             Creates from the instance of WebException.
             </summary>
             <param name="ex">The instance of <see cref="T:System.Net.WebException"/>.</param>
+            <param name="exceptionMessageSource">The source used to build exception message, see <see cref="T:Simple.OData.Client.WebRequestExceptionMessageSource"/></param>
             <returns>The instance of <see cref="T:Simple.OData.Client.WebRequestException"/>.</returns>
         </member>
-        <member name="M:Simple.OData.Client.WebRequestException.CreateFromStatusCode(System.Net.HttpStatusCode,System.String)">
+        <member name="M:Simple.OData.Client.WebRequestException.CreateFromStatusCode(System.Net.HttpStatusCode,Simple.OData.Client.WebRequestExceptionMessageSource,System.String)">
             <summary>
             Creates from the instance of HttpResponseMessage.
             </summary>
             <param name="statusCode">The HTTP status code.</param>
+            <param name="exceptionMessageSource">The source used to build exception message, see <see cref="T:Simple.OData.Client.WebRequestExceptionMessageSource"/></param>
             <param name="responseContent"></param>
             <returns>The instance of <see cref="T:Simple.OData.Client.WebRequestException"/>.</returns>
         </member>
-        <member name="M:Simple.OData.Client.WebRequestException.#ctor(System.String,System.Net.HttpStatusCode,System.Uri,System.String,System.Exception)">
+        <member name="M:Simple.OData.Client.WebRequestException.#ctor(System.String,System.Net.HttpStatusCode,System.Uri,System.String,Simple.OData.Client.WebRequestExceptionMessageSource,System.Exception)">
             <summary>
             Initializes a new instance of the <see cref="T:Simple.OData.Client.WebRequestException"/> class.
             </summary>
-            <param name="message">The message that describes the error.</param>
+            <param name="reasonPhrase">The message that describes the error.</param>
             <param name="statusCode">The HTTP status code.</param>
             <param name="requestUri">The original request URI.</param>
             <param name="responseContent">The response content.</param>
+            <param name="exceptionMessageSource">The source used to build exception message, see <see cref="T:Simple.OData.Client.WebRequestExceptionMessageSource"/></param>
             <param name="inner">The inner exception.</param>
         </member>
         <member name="M:Simple.OData.Client.WebRequestException.#ctor(System.Net.WebException)">
@@ -2163,6 +2185,31 @@
             <value>
             The original request URI, or the resulting URI if a redirect took place.
             </value>
+        </member>
+        <member name="P:Simple.OData.Client.WebRequestException.ReasonPhrase">
+            <summary>
+            Gets the reason phrase associated with the Http status code.
+            </summary>
+        </member>
+        <member name="T:Simple.OData.Client.WebRequestExceptionMessageSource">
+            <summary>
+            The message of an exception raised after a non successful Http request.
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.WebRequestExceptionMessageSource.ReasonPhrase">
+            <summary>
+            The reason phrase of the HTTP response message.
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.WebRequestExceptionMessageSource.ResponseContent">
+            <summary>
+            The content of the HTTP response message.
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.WebRequestExceptionMessageSource.Both">
+            <summary>
+            Both the reason phrase and content of the http response message.
+            </summary>
         </member>
         <member name="T:Simple.OData.Client.IODataClient">
             <summary>
@@ -3406,6 +3453,25 @@
             <value>
             <c>true</c> (Default) to read untyped values as strings; <c>false</c> otherwise.
             </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.WebRequestExceptionMessageSource">
+            <summary>
+            Gets or sets the source of the message of web request exceptions.
+            </summary>
+            <value>
+            <c>ReasonPhrase</c> (Default) to output the reason phrase of the HTTP request message.
+            </value>
+            <value>
+            <c>ResponseContent</c> (Default) to output the content of the HTTP request message.
+            </value>
+            /// <value>
+            <c>Both</c> (Default) to output both the reason phrase and the content of the HTTP request message.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.Validations">
+            <summary>
+            Gets or sets validations to perform. Default value is <see cref="T:Microsoft.OData.ValidationKinds.All" />,
+            </summary>
         </member>
         <member name="M:Simple.OData.Client.ODataClientSettings.#ctor">
             <summary>

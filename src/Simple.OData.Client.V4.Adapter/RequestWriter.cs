@@ -339,14 +339,8 @@ namespace Simple.OData.Client.V4.Adapter
             // http://docs.oasis-open.org/odata/odata/v4.0/os/part1-protocol/odata-v4.0-os-part1-protocol.html#_Toc372793631
             if ((request.Method != RestVerbs.Get) && (request.Method != RestVerbs.Delete))
             {
-                if (request.ResultRequired)
-                {
-                    request.Headers.Add(HttpLiteral.Prefer, HttpLiteral.ReturnRepresentation);
-                }
-                else
-                {
-                    request.Headers.Add(HttpLiteral.Prefer, HttpLiteral.ReturnMinimal);
-                }
+                request.Headers[HttpLiteral.Prefer] =
+                    request.ResultRequired ? HttpLiteral.ReturnRepresentation : HttpLiteral.ReturnMinimal;
             }
         }
 
@@ -425,6 +419,7 @@ namespace Simple.OData.Client.V4.Adapter
                     RequestUri = _session.Settings.BaseUri,
                 },
                 EnableMessageStreamDisposal = IsBatch,
+                Validations = _session.Settings.Validations
             };
             var contentType = preferredContentType ?? ODataFormat.Json;
             settings.SetContentType(contentType);

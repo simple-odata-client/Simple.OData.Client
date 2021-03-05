@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using Newtonsoft.Json;
 using Xunit;
@@ -8,13 +9,45 @@ namespace Simple.OData.Client.Tests.Core
     public class TypedExpressionV3Tests : TypedExpressionTests
     {
         public override string MetadataFile => "Northwind3.xml";
-        public override IFormatSettings FormatSettings { get { return new ODataV3Format(); } }
+        public override IFormatSettings FormatSettings => new ODataV3Format();
     }
 
     public class TypedExpressionV4Tests : TypedExpressionTests
     {
         public override string MetadataFile => "Northwind4.xml";
-        public override IFormatSettings FormatSettings { get { return new ODataV4Format(); } }
+        public override IFormatSettings FormatSettings => new ODataV4Format();
+        
+        [Fact]
+        public void FilterEntitiesWithContains()
+        {
+            var ids = new List<int> {1, 2, 3};
+            Expression<Func<TestEntity, bool>> filter = x => ids.Contains(x.ProductID);
+            Assert.Equal("ProductID in (1,2,3)", ODataExpression.FromLinqExpression(filter).AsString(_session));
+        }
+        
+        [Fact]
+        public void FilterEntitiesByStringPropertyWithContains()
+        {
+            var names = new List<string> {"Chai", "Milk", "Water"};
+            Expression<Func<TestEntity, bool>> filter = x => names.Contains(x.ProductName);
+            Assert.Equal("ProductName in ('Chai','Milk','Water')", ODataExpression.FromLinqExpression(filter).AsString(_session));
+        }
+        
+        [Fact]
+        public void FilterEntitiesByNestedPropertyWithContains()
+        {
+            var categories = new List<string> {"Chai", "Milk", "Water"};
+            Expression<Func<TestEntity, bool>> filter = x => categories.Contains(x.Nested.ProductName);
+            Assert.Equal("Nested/ProductName in ('Chai','Milk','Water')", ODataExpression.FromLinqExpression(filter).AsString(_session));
+        }
+        
+        [Fact]
+        public void FilterEntitiesByComplexConditionWithContains()
+        {
+            var categories = new List<string> {"chai", "milk", "water"};
+            Expression<Func<TestEntity, bool>> filter = x => categories.Contains(x.ProductName.ToLower());
+            Assert.Equal("tolower(ProductName) in ('chai','milk','water')", ODataExpression.FromLinqExpression(filter).AsString(_session));
+        }
     }
 
     public abstract class TypedExpressionTests : CoreTestBase
@@ -35,7 +68,7 @@ namespace Simple.OData.Client.Tests.Core
             public string PropertyName { get; set; }
         }
 
-        class TestEntity
+        internal class TestEntity
         {
             public int ProductID { get; set; }
             public string ProductName { get; set; }
@@ -299,6 +332,13 @@ namespace Simple.OData.Client.Tests.Core
             Expression<Func<TestEntity, bool>> filter = x => x.ProductName.Contains("ai");
             Assert.Equal(FormatSettings.GetContainsFormat("ProductName", "ai"), ODataExpression.FromLinqExpression(filter).AsString(_session));
         }
+        
+        [Fact]
+        public void StringContainedIn()
+        {
+            Expression<Func<TestEntity, bool>> filter = x => "Chai".Contains(x.ProductName);
+            Assert.Equal(FormatSettings.GetContainedInFormat("ProductName", "Chai"), ODataExpression.FromLinqExpression(filter).AsString(_session));
+        }
 
         [Fact]
         public void StringNotContains()
@@ -558,8 +598,6 @@ namespace Simple.OData.Client.Tests.Core
             Assert.Equal($"Address/Type eq {FormatSettings.GetEnumFormat(AddressType.Corporate, typeof(AddressType), "NorthwindModel")}",
                 ODataExpression.FromLinqExpression(filter).AsString(_session));
         }
-
-        enum TestEnum { Zero, One, Two}
 
         [Fact]
         public void FilterDateTimeRange()

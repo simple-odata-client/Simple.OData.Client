@@ -27,12 +27,12 @@ namespace Simple.OData.Client
 
         protected ITypeConverter Converter => TypeCache.Converter;
 
-        public async Task<ODataRequest> CreateGetRequestAsync(string commandText, bool scalarResult)
+        public async Task<ODataRequest> CreateGetRequestAsync(string commandText, bool scalarResult, IDictionary<string, string> headers = null)
         {
             await WriteEntryContentAsync(
                 RestVerbs.Get, Utils.ExtractCollectionName(commandText), commandText, null, true).ConfigureAwait(false);
 
-            var request = new ODataRequest(RestVerbs.Get, _session, commandText)
+            var request = new ODataRequest(RestVerbs.Get, _session, commandText, headers)
             {
                 ReturnsScalarResult = scalarResult,
                 ResultRequired = true,
@@ -41,17 +41,17 @@ namespace Simple.OData.Client
             return request;
         }
 
-        public async Task<ODataRequest> CreatePutRequestAsync(string commandText, Stream stream, string mediaType = null, bool optimisticConcurrency = false)
+        public async Task<ODataRequest> CreatePutRequestAsync(string commandText, Stream stream, string mediaType = null, bool optimisticConcurrency = false, IDictionary<string, string> headers = null)
         {
             var entryContent = await WriteStreamContentAsync(stream, IsTextMediaType(mediaType));
 
-            var request = new ODataRequest(RestVerbs.Put, _session, commandText, null, entryContent, mediaType);
+            var request = new ODataRequest(RestVerbs.Put, _session, commandText, null, entryContent, mediaType, headers);
             request.CheckOptimisticConcurrency = optimisticConcurrency;
             AssignHeaders(request);
             return request;
         }
 
-        public async Task<ODataRequest> CreateInsertRequestAsync(string collection, string commandText, IDictionary<string, object> entryData, bool resultRequired)
+        public async Task<ODataRequest> CreateInsertRequestAsync(string collection, string commandText, IDictionary<string, object> entryData, bool resultRequired, IDictionary<string, string> headers = null)
         {
             var segments = commandText.Split('/');
             if (segments.Count() > 1 && segments.Last().Contains("."))
@@ -62,7 +62,7 @@ namespace Simple.OData.Client
             var entryContent = await WriteEntryContentAsync(
                 RestVerbs.Post, collection, commandText, entryData, resultRequired).ConfigureAwait(false);
 
-            var request = new ODataRequest(RestVerbs.Post, _session, commandText, entryData, entryContent)
+            var request = new ODataRequest(RestVerbs.Post, _session, commandText, entryData, entryContent, headers: headers)
             {
                 ResultRequired = resultRequired,
             };
@@ -70,7 +70,7 @@ namespace Simple.OData.Client
             return request;
         }
 
-        public async Task<ODataRequest> CreateUpdateRequestAsync(string collection, string entryIdent, IDictionary<string, object> entryKey, IDictionary<string, object> entryData, bool resultRequired)
+        public async Task<ODataRequest> CreateUpdateRequestAsync(string collection, string entryIdent, IDictionary<string, object> entryKey, IDictionary<string, object> entryData, bool resultRequired, IDictionary<string, string> headers = null)
         {
             var entityCollection = _session.Metadata.GetEntityCollection(collection);
             var entryDetails = _session.Metadata.ParseEntryDetails(entityCollection.Name, entryData);
@@ -87,12 +87,8 @@ namespace Simple.OData.Client
             var entryContent = await WriteEntryContentAsync(
                 updateMethod, collection, entryIdent, entryData, resultRequired).ConfigureAwait(false);
 
-
-
-
-
             var checkOptimisticConcurrency = _session.Metadata.EntityCollectionRequiresOptimisticConcurrencyCheck(collection);
-            var request = new ODataRequest(updateMethod, _session, entryIdent, entryData, entryContent)
+            var request = new ODataRequest(updateMethod, _session, entryIdent, entryData, entryContent, headers: headers)
             {
                 ResultRequired = resultRequired,
                 CheckOptimisticConcurrency = checkOptimisticConcurrency
@@ -101,12 +97,12 @@ namespace Simple.OData.Client
             return request;
         }
 
-        public async Task<ODataRequest> CreateDeleteRequestAsync(string collection, string entryIdent)
+        public async Task<ODataRequest> CreateDeleteRequestAsync(string collection, string entryIdent, IDictionary<string, string> headers = null)
         {
             await WriteEntryContentAsync(
                 RestVerbs.Delete, collection, entryIdent, null, false).ConfigureAwait(false);
 
-            var request = new ODataRequest(RestVerbs.Delete, _session, entryIdent)
+            var request = new ODataRequest(RestVerbs.Delete, _session, entryIdent, headers)
             {
                 CheckOptimisticConcurrency = _session.Metadata.EntityCollectionRequiresOptimisticConcurrencyCheck(collection)
             };
@@ -114,7 +110,7 @@ namespace Simple.OData.Client
             return request;
         }
 
-        public async Task<ODataRequest> CreateLinkRequestAsync(string collection, string linkName, string entryIdent, string linkIdent)
+        public async Task<ODataRequest> CreateLinkRequestAsync(string collection, string linkName, string entryIdent, string linkIdent, IDictionary<string, string> headers = null)
         {
             var associationName = _session.Metadata.GetNavigationPropertyExactName(collection, linkName);
             var linkMethod = _session.Metadata.IsNavigationPropertyCollection(collection, associationName) ?
@@ -123,7 +119,7 @@ namespace Simple.OData.Client
 
             var commandText = FormatLinkPath(entryIdent, associationName);
             var linkContent = await WriteLinkContentAsync(linkMethod, commandText, linkIdent).ConfigureAwait(false);
-            var request = new ODataRequest(linkMethod, _session, commandText, null, linkContent)
+            var request = new ODataRequest(linkMethod, _session, commandText, null, linkContent, headers: headers)
             {
                 IsLink = true,
             };
@@ -131,14 +127,14 @@ namespace Simple.OData.Client
             return request;
         }
 
-        public async Task<ODataRequest> CreateUnlinkRequestAsync(string collection, string linkName, string entryIdent, string linkIdent)
+        public async Task<ODataRequest> CreateUnlinkRequestAsync(string collection, string linkName, string entryIdent, string linkIdent, IDictionary<string, string> headers = null)
         {
             var associationName = _session.Metadata.GetNavigationPropertyExactName(collection, linkName);
             var commandText = FormatLinkPath(entryIdent, associationName, linkIdent);
             
             await WriteEntryContentAsync(RestVerbs.Delete, collection, commandText, null, false).ConfigureAwait(false);
             
-            var request = new ODataRequest(RestVerbs.Delete, _session, commandText)
+            var request = new ODataRequest(RestVerbs.Delete, _session, commandText, headers)
             {
                 IsLink = true,
             };
@@ -146,13 +142,13 @@ namespace Simple.OData.Client
             return request;
         }
 
-        public async Task<ODataRequest> CreateFunctionRequestAsync(string commandText, string functionName)
+        public async Task<ODataRequest> CreateFunctionRequestAsync(string commandText, string functionName, IDictionary<string, string> headers = null)
         {
             var verb = _session.Metadata.GetFunctionVerb(functionName);
 
             await WriteFunctionContentAsync(verb, commandText).ConfigureAwait(false);
 
-            var request = new ODataRequest(verb, _session, commandText)
+            var request = new ODataRequest(verb, _session, commandText, headers)
             {
                 ResultRequired = true,
             };
@@ -160,7 +156,7 @@ namespace Simple.OData.Client
             return request;
         }
 
-        public async Task<ODataRequest> CreateActionRequestAsync(string commandText, string actionName, string boundTypeName, IDictionary<string, object> parameters, bool resultRequired)
+        public async Task<ODataRequest> CreateActionRequestAsync(string commandText, string actionName, string boundTypeName, IDictionary<string, object> parameters, bool resultRequired, IDictionary<string, string> headers = null)
         {
             var verb = RestVerbs.Post;
             Stream entryContent = null;
@@ -176,7 +172,7 @@ namespace Simple.OData.Client
                 await WriteFunctionContentAsync(verb, commandText).ConfigureAwait(false);
             }
 
-            var request = new ODataRequest(verb, _session, commandText, parameters, entryContent)
+            var request = new ODataRequest(verb, _session, commandText, parameters, entryContent, headers: headers)
             {
                 ResultRequired = resultRequired,
                 UsePayloadFormat = usePayloadFormat,

@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Xunit;
+﻿using Xunit;
 
 namespace Simple.OData.Client.Tests.Core
 {
@@ -20,7 +19,7 @@ namespace Simple.OData.Client.Tests.Core
         [InlineData("http://company.com/feed", "Products?$filter=Id%20eq%201", "http://company.com/feed/Products?$filter=Id%20eq%201")]
         [InlineData("http://company.com?client=100", "Products?$filter=Id%20eq%201", "http://company.com/Products?$filter=Id%20eq%201&client=100")]
         [InlineData("http://company.com/feed?client=100", "Products?$filter=Id%20eq%201", "http://company.com/feed/Products?$filter=Id%20eq%201&client=100")]
-        public async Task CreateAbsoluteUri(string baseUri, string relativePath, string expected)
+        public void CreateAbsoluteUri(string baseUri, string relativePath, string expected)
         {
             var actual = Utils.CreateAbsoluteUri(baseUri, relativePath);
 

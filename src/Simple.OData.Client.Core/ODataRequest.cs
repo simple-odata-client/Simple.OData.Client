@@ -59,7 +59,7 @@ namespace Simple.OData.Client
         public bool CheckOptimisticConcurrency { get; set; }
         public readonly IDictionary<string, string> Headers = new Dictionary<string, string>();
 
-        internal ODataRequest(string method, ISession session, string commandText)
+        internal ODataRequest(string method, ISession session, string commandText, IDictionary<string, string> headers = null)
         {
             this.CommandText = commandText;
             this.Method = method;
@@ -69,6 +69,9 @@ namespace Simple.OData.Client
                 ? uri.AbsoluteUri
                 : Utils.CreateAbsoluteUri(session.Settings.BaseUri.AbsoluteUri, commandText).AbsoluteUri;
             _payloadFormat = session.Settings.PayloadFormat;
+            
+            if (headers != null)
+                Headers = headers;
         }
 
         internal ODataRequest(string method, ISession session, string commandText, HttpRequestMessage requestMessage)
@@ -77,8 +80,8 @@ namespace Simple.OData.Client
             this.RequestMessage = requestMessage;
         }
 
-        internal ODataRequest(string method, ISession session, string commandText, IDictionary<string, object> entryData, Stream contentStream, string mediaType = null)
-            : this(method, session, commandText)
+        internal ODataRequest(string method, ISession session, string commandText, IDictionary<string, object> entryData, Stream contentStream, string mediaType = null, IDictionary<string, string> headers = null)
+            : this(method, session, commandText, headers)
         {
             EntryData = entryData;
             _contentStream = contentStream;
@@ -131,6 +134,13 @@ namespace Simple.OData.Client
             {
                 Content = this._contentStream != null ? this.GetContent() : null
             };
+
+            if (Headers != null)
+            {
+                foreach (var header in Headers)
+                    _requestMessage.Headers.Add(header.Key, header.Value);
+            }
+
             return _requestMessage;
         }
     }

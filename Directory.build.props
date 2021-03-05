@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <Product>Simple OData Client</Product>
-    <Copyright>© Vagif Abilov and Contributors 2012-2020</Copyright>
+    <Copyright>© Vagif Abilov and contributors 2012-2021</Copyright>
     <Description>OData client library for .NET 4.x, .NET Standard, .NET Core, iOS and Android.</Description>
     <NeutralLanguage>en-US</NeutralLanguage>
   </PropertyGroup>

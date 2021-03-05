@@ -258,6 +258,10 @@ namespace Simple.OData.Client
                 {
                     result = offset.DateTime;
                 }
+                else if ((targetType == typeof(DateTime) || targetType == typeof(DateTime?)) && value is Microsoft.OData.Edm.Date date)
+                {
+                    result = new DateTime(date.Year, date.Month, date.Day);
+                }
                 else if ((targetType == typeof(DateTimeOffset) || targetType == typeof(DateTimeOffset?)) && value is DateTime time)
                 {
                     result = new DateTimeOffset(time);

@@ -29,7 +29,7 @@ namespace Simple.OData.Client
 
         public IBoundClient<T> For(string collectionName = null)
         {
-            this.Command.For(collectionName ?? Command.TypeCache.GetMappedName(typeof(T)));
+            this.Command.For(collectionName ?? _session.TypeCache.GetMappedName(typeof(T)));
             return this;
         }
 
@@ -122,9 +122,9 @@ namespace Simple.OData.Client
             return CreateClientForODataEntry();
         }
 
-        public bool FilterIsKey => this.Command.FilterIsKey;
+        public bool FilterIsKey => this.Command.Details.FilterIsKey;
 
-        public IDictionary<string, object> FilterAsKey => this.Command.FilterAsKey;
+        public IDictionary<string, object> FilterAsKey => this.Command.Details.FilterAsKey;
 
         public IRequestBuilder<T> BuildRequestFor()
         {

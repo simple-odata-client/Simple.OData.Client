@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-
+using Microsoft.OData;
 using Simple.OData.Client.Extensions;
 
 namespace Simple.OData.Client
@@ -287,6 +287,11 @@ namespace Simple.OData.Client
         /// <c>Both</c> (Default) to output both the reason phrase and the content of the HTTP request message.
         /// </value>
         public WebRequestExceptionMessageSource WebRequestExceptionMessageSource { get; set; }
+
+        /// <summary>
+        /// Gets or sets validations to perform. Default value is <see cref="T:Microsoft.OData.ValidationKinds.All" />,
+        /// </summary>
+        public ValidationKinds Validations { get; set; } = ValidationKinds.All;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ODataClientSettings"/> class.

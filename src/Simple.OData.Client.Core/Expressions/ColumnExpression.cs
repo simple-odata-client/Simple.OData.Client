@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Simple.OData.Client.Extensions;
 
 namespace Simple.OData.Client
 {
@@ -36,7 +35,7 @@ namespace Simple.OData.Client
             return expression.ExtractColumnNames(typeCache).Single();
         }
 
-        private static IEnumerable<string> ExtractColumnNames(this Expression expression, ITypeCache typeCache)
+        public static IEnumerable<string> ExtractColumnNames(this Expression expression, ITypeCache typeCache)
         {
             switch (expression.NodeType)
             {

@@ -64,7 +64,7 @@ namespace Simple.OData.Client.Tests.FluentApi
                 .For("Products")
                 .Skip(1)
                 .FindEntriesAsync();
-            Assert.Equal(ExpectedCountOfProducts-1, products.Count());
+            Assert.Equal(ExpectedCountOfProducts - 1, products.Count());
         }
 
         [Fact]
@@ -250,7 +250,7 @@ namespace Simple.OData.Client.Tests.FluentApi
                 .For("Products")
                 .OrderBy("ProductID")
                 .Expand("Category/Products")
-                .Select(new[] {"ProductName", "Category/CategoryName" })
+                .Select(new[] { "ProductName", "Category/CategoryName" })
                 .FindEntriesAsync()).Last();
             Assert.Equal(2, product.Count);
             Assert.Equal(1, (product["Category"] as IDictionary<string, object>).Count);
@@ -543,6 +543,39 @@ namespace Simple.OData.Client.Tests.FluentApi
                 .Filter("Order_Details/all(d:d/Quantity gt 50)")
                 .FindEntriesAsync();
             Assert.Equal(ExpectedCountOfOrdersHavingAllDetails, products.Count());
+        }
+
+        [Fact]
+        public async Task WithHeader()
+        {
+            var client = new ODataClient(CreateDefaultSettings().WithHttpMock());
+            
+            var request = await client
+                .For("Products")
+                .WithHeader("header1", "header1Value")
+                .WithHeader("header2", "header2Value")
+                .BuildRequestFor()
+                .FindEntryAsync();
+
+            Assert.Equal("header1Value", request.GetRequest().RequestMessage.Headers.GetValues("header1").SingleOrDefault());
+            Assert.Equal("header2Value", request.GetRequest().RequestMessage.Headers.GetValues("header2").SingleOrDefault());
+        }
+
+        [Fact]
+        public async Task WithHeaders()
+        {
+            var client = new ODataClient(CreateDefaultSettings().WithHttpMock());
+
+            var request = await client
+                .For("Products")
+                .WithHeaders(new Dictionary<string, string>{
+                    { "header1", "header1Value" },
+                    { "header2", "header2Value" }})
+                .BuildRequestFor()
+                .FindEntryAsync();
+
+            Assert.Equal("header1Value", request.GetRequest().RequestMessage.Headers.GetValues("header1").SingleOrDefault()); 
+            Assert.Equal("header2Value", request.GetRequest().RequestMessage.Headers.GetValues("header2").SingleOrDefault());
         }
     }
 }

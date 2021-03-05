@@ -178,7 +178,7 @@ namespace Simple.OData.Client
                         break;
                     }
                 }
-                if (tmpMatchingNamedKeyValues.Any())
+                if (tmpMatchingNamedKeyValues.Count == keyNames.Count())
                 {
                     matchingNamedKeyValues = tmpMatchingNamedKeyValues;
                     return true;

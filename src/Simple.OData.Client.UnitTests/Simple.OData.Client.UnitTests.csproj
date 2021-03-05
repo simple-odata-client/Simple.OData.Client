@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net461;netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>net5.0</TargetFrameworks>
 	  <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <RootNamespace>Simple.OData.Client.Tests</RootNamespace>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,6 +43,7 @@
     <None Remove="Resources\GoogleMaps.edmx" />
     <None Remove="Resources\Insight.edmx" />
     <None Remove="Resources\iPhone.edmx" />
+    <None Remove="Resources\KeyDemo.xml" />
     <None Remove="Resources\Marathon.edmx" />
     <None Remove="Resources\MultipleCategoriesWithProducts.xml" />
     <None Remove="Resources\MultipleProducts.xml" />
@@ -75,16 +76,16 @@
     <None Remove="Resources\YouTube.edmx" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
-    <PackageReference Include="Microsoft.Net.Test.Sdk" Version="16.1.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-    <PackageReference Include="System.Text.Json" Version="4.7.1" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Net.Test.Sdk" Version="16.8.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="System.Text.Json" Version="5.0.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
+    <PackageReference Include="Moq" Version="4.15.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Moq" Version="4.10.0" />
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
   <ItemGroup>
@@ -134,6 +135,7 @@
     <EmbeddedResource Include="Resources\SingleProductWithCollectionOfPrimitiveProperties.xml" />
     <EmbeddedResource Include="Resources\SingleProductWithComplexProperty.xml" />
     <EmbeddedResource Include="Resources\SingleProductWithEmptyCollectionOfComplexProperties.xml" />
+    <EmbeddedResource Include="Resources\KeyDemo.xml" />
     <EmbeddedResource Include="Resources\TripPin.xml" />
     <EmbeddedResource Include="Resources\Twitter.edmx" />
     <EmbeddedResource Include="Resources\TwitterStatusesSample.txt" />
@@ -164,9 +166,6 @@
   <ItemGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net461|AnyCPU'">
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
     <None Update="MockData\BatchDynamicTests.AllFailures.txt">

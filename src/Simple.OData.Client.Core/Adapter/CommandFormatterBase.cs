@@ -20,9 +20,9 @@ namespace Simple.OData.Client
 
         protected ITypeCache TypeCache => _session.TypeCache;
 
-        public string FormatCommand(FluentCommand command)
+        public string FormatCommand(ResolvedCommand command)
         {
-            if (command.HasFunction && command.HasAction)
+            if (command.Details.HasFunction && command.Details.HasAction)
                 throw new InvalidOperationException("OData function and action may not be combined.");
 
             var commandText = string.Empty;
@@ -32,11 +32,11 @@ namespace Simple.OData.Client
             }
             else if (!string.IsNullOrEmpty(command.Details.LinkName))
             {
-                var parent = new FluentCommand(command.Details.Parent).Resolve();
+                var parent = new FluentCommand(command.Details.Parent).Resolve(_session);
                 commandText += $"{FormatCommand(parent)}/{_session.Metadata.GetNavigationPropertyExactName(parent.EntityCollection.Name, command.Details.LinkName)}";
             }
 
-            if (command.HasKey)
+            if (command.Details.HasKey)
                 commandText += ConvertKeyValuesToUriLiteral(command.KeyValues, !command.Details.IsAlternateKey);
 
             var collectionValues = new List<string>();
@@ -142,20 +142,20 @@ namespace Simple.OData.Client
             return "(" + formattedKeyValues + ")";
         }
 
-        protected abstract void FormatExpandSelectOrderby(IList<string> commandClauses, EntityCollection resultCollection, FluentCommand command);
+        protected abstract void FormatExpandSelectOrderby(IList<string> commandClauses, EntityCollection resultCollection, ResolvedCommand command);
 
         protected abstract void FormatInlineCount(IList<string> commandClauses);
 
         private const string ReservedUriCharacters = @"!*'();:@&=+$,/?#[] ";
 
-        private string EscapeUnescapedString(string text)
+        protected string EscapeUnescapedString(string text)
         {
             return text.ToCharArray().Intersect(ReservedUriCharacters.ToCharArray()).Any()
                 ? Uri.EscapeDataString(text)
                 : text;
         }
 
-        private string FormatClauses(FluentCommand command, IList<string> queryClauses = null)
+        private string FormatClauses(ResolvedCommand command, IList<string> queryClauses = null)
         {
             var text = string.Empty;
             queryClauses = queryClauses ?? new List<string>();
@@ -177,13 +177,13 @@ namespace Simple.OData.Client
             var details = command.Details;
             if (!ReferenceEquals(details.QueryOptionsExpression, null))
             {
-                queryClauses.Add(details.QueryOptionsExpression.Format(new ExpressionContext(details.Session, true)));
+                queryClauses.Add(details.QueryOptionsExpression.Format(new ExpressionContext(_session, true)));
             }
             if (command.Details.QueryOptionsKeyValues != null)
             {
                 foreach (var kv in command.Details.QueryOptionsKeyValues)
                 {
-                    queryClauses.Add($"{kv.Key}={ODataExpression.FromValue(kv.Value).Format(new ExpressionContext(details.Session))}");
+                    queryClauses.Add($"{kv.Key}={ODataExpression.FromValue(kv.Value).Format(new ExpressionContext(_session))}");
                 }
             }
 
@@ -194,11 +194,11 @@ namespace Simple.OData.Client
                 queryClauses.Add($"{ODataLiteral.Top}={command.Details.TopCount}");
 
             EntityCollection resultCollection;
-            if (command.HasFunction)
+            if (command.Details.HasFunction)
             {
                 resultCollection = _session.Adapter.GetMetadata().GetFunctionReturnCollection(command.Details.FunctionName);
             }
-            else if (command.HasAction)
+            else if (command.Details.HasAction)
             {
                 resultCollection = _session.Adapter.GetMetadata().GetActionReturnCollection(command.Details.ActionName);
             }
@@ -297,6 +297,19 @@ namespace Simple.OData.Client
             {
                 commandClauses.Add($"{clauseLiteral}={string.Join(",", clauses.Select(x => formatItem(x, entityCollection)))}");
             }
+        }
+
+        protected static IEnumerable<KeyValuePair<string, ODataExpandOptions>> FlatExpandAssociations(
+            IEnumerable<KeyValuePair<ODataExpandAssociation, ODataExpandOptions>> associations)
+        {
+            return associations
+                .SelectMany(a => a.Key.ExpandAssociations.Any()
+                    ? FlatExpandAssociations(a.Key.ExpandAssociations.Select(x =>
+                            new KeyValuePair<ODataExpandAssociation, ODataExpandOptions>(x,
+                                ODataExpandOptions.ByValue())))
+                        .Select(x => new KeyValuePair<string, ODataExpandOptions>(a.Key.Name + "/" + x.Key, x.Value))
+                    : new[] {new KeyValuePair<string, ODataExpandOptions>(a.Key.Name, a.Value)})
+                .ToList();
         }
     }
 }

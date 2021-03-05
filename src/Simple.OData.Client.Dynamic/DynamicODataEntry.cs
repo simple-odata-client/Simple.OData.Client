@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
-
+using System.Reflection;
 using Simple.OData.Client.Extensions;
 
 #pragma warning disable 1591
@@ -69,7 +70,7 @@ namespace Simple.OData.Client
 
             public override DynamicMetaObject BindGetMember(GetMemberBinder binder)
             {
-                var methodInfo = typeof(DynamicODataEntry).GetDeclaredMethod("GetEntryValue");
+                var methodInfo = typeof(DynamicODataEntry).GetDeclaredMethod(nameof(GetEntryValue));
                 var arguments = new Expression[]
                 {
                     Expression.Constant(binder.Name)
@@ -82,12 +83,14 @@ namespace Simple.OData.Client
 
             public override DynamicMetaObject BindConvert(ConvertBinder binder)
             {
-                var value = HasValue
-                    ? (Value as ODataEntry)?.AsDictionary().ToObject(TypeCache, binder.Type)
+                Expression<Func<bool, ODataEntry, object>> convertValueExpression = (hv, e) => hv
+                    ? e.AsDictionary().ToObject(TypeCache, binder.Type, false)
                     : null;
-
+                var valueExpression = Expression.Convert(Expression.Invoke(convertValueExpression, Expression.Constant(HasValue), Expression.Convert(Expression, LimitType)),
+                    binder.Type);
+                
                 return new DynamicMetaObject(
-                    Expression.Constant(value),
+                    valueExpression,
                     BindingRestrictions.GetTypeRestriction(Expression, LimitType));
             }
         }

@@ -112,37 +112,34 @@ namespace Simple.OData.Client
                         : callExpression.Arguments.Skip(1);
                     return FromFunction(callExpression.Method.Name, ParseLinqExpression(target), callArguments);
                 }
-                else
-                {
-                    throw Utils.NotSupportedExpression(expression);
-                }
+
+                throw Utils.NotSupportedExpression(expression);
             }
-            else
+
+            var arguments = new List<object>();
+            arguments.AddRange(callExpression.Arguments.Select(ParseCallArgumentExpression));
+            switch (callExpression.Object.NodeType)
             {
-                switch (callExpression.Object.NodeType)
-                {
-                    case ExpressionType.MemberAccess:
-                        var memberExpression = callExpression.Object as MemberExpression;
-                        var arguments = new List<object>();
-                        arguments.AddRange(callExpression.Arguments.Select(ParseCallArgumentExpression));
+                case ExpressionType.MemberAccess:
+                    var memberExpression = callExpression.Object as MemberExpression;
+                    return new ODataExpression(
+                        ParseMemberExpression(memberExpression), 
+                        new ExpressionFunction(callExpression.Method.Name, arguments));
+
+                case ExpressionType.Call:
+                    if (string.Equals(callExpression.Method.Name, nameof(object.ToString), StringComparison.Ordinal))
+                        return ParseCallExpression(callExpression.Object);
+                    else
                         return new ODataExpression(
-                            ParseMemberExpression(memberExpression), 
-                            new ExpressionFunction(callExpression.Method.Name, arguments));
+                            new ODataExpression(callExpression.Object), 
+                            new ExpressionFunction(callExpression.Method.Name, callExpression.Arguments));
 
-                    case ExpressionType.Call:
-                        if (string.Equals(callExpression.Method.Name, "ToString", StringComparison.Ordinal))
-                            return ParseCallExpression(callExpression.Object);
-                        else
-                            return new ODataExpression(
-                                new ODataExpression(callExpression.Object), 
-                                new ExpressionFunction(callExpression.Method.Name, callExpression.Arguments));
-
-                    case ExpressionType.Constant:
-                        return new ODataExpression(ParseConstantExpression(callExpression.Object).Value);
-                }
-
-                throw Utils.NotSupportedExpression(callExpression.Object);
+                case ExpressionType.Constant:
+                    return new ODataExpression(ParseConstantExpression(callExpression.Object), 
+                        new ExpressionFunction(callExpression.Method.Name, arguments));
             }
+
+            throw Utils.NotSupportedExpression(callExpression.Object);
         }
 
         private static ODataExpression ParseArrayExpression(Expression expression)
@@ -159,13 +156,15 @@ namespace Simple.OData.Client
             switch (expression.NodeType)
             {
                 case ExpressionType.Constant:
-                    return new ODataExpression(ParseConstantExpression(expression).Value);
+                    return ParseConstantExpression(expression);
                 case ExpressionType.MemberAccess:
-                    return new ODataExpression(ParseMemberExpression(expression).Value);
+                    return ParseMemberExpression(expression);
                 case ExpressionType.ArrayIndex:
-                    return new ODataExpression(ParseArrayExpression(expression).Value);
+                    return ParseArrayExpression(expression);
                 case ExpressionType.Convert:
-                    return new ODataExpression(ParseUnaryExpression(expression));
+                    return ParseUnaryExpression(expression);
+                case ExpressionType.Call:
+                    return ParseCallExpression(expression);
 
                 default:
                     throw Utils.NotSupportedExpression(expression);

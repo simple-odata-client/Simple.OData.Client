@@ -295,6 +295,21 @@ namespace Simple.OData.Client
         FT QueryOptions<U>(Expression<Func<U, bool>> expression);
 
         /// <summary>
+        /// Adds an header to be included in the HTTP request.
+        /// </summary>
+        /// <param name="name">The header name.</param>
+        /// <param name="value">The header value.</param>
+        /// <returns>Self.</returns>
+        FT WithHeader(string name, string value);
+        /// <summary>
+        /// Adds a collection of header to be included in the HTTP request.
+        /// </summary>
+        /// <param name="name">The header name.</param>
+        /// <param name="value">The header value.</param>
+        /// <returns>Self.</returns>
+        FT WithHeaders(IEnumerable<KeyValuePair<string, string>> headers);
+
+        /// <summary>
         /// Selects retrieval of an entity media stream.
         /// </summary>
         /// <returns>Self.</returns>

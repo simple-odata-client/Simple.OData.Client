@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:DataServices>
+    <Schema Namespace="Demo" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityType Name="Activity">
+        <Key>
+          <PropertyRef Name="Id"/>
+        </Key>
+        <Property Name="Option" Type="Demo.Option" Nullable="false"/>
+        <Property Name="Number" Type="Edm.String"/>
+        <Property Name="Title" Type="Edm.String"/>
+        <Property Name="Id" Type="Edm.Int64" Nullable="false"/>        
+        <NavigationProperty Name="Ticket" Type="Demo.Ticket"/>
+      </EntityType>
+      <EntityType Name="Ticket">
+        <Key>
+          <PropertyRef Name="Id"/>
+        </Key>
+        <Property Name="Number" Type="Edm.String"/>
+        <Property Name="Title" Type="Edm.String"/>
+        <Property Name="Id" Type="Edm.Int64" Nullable="false"/>
+      </EntityType>
+      <ComplexType Name="Option">
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="Id" Type="Edm.Int64" Nullable="false"/>
+      </ComplexType>
+    </Schema>
+    <Schema Namespace="Default" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityContainer Name="Container">
+        <EntitySet Name="Activities" EntityType="Demo.Activity"/>
+      </EntityContainer>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

@@ -61,27 +61,7 @@ namespace Simple.OData.Client.Extensions
             // Check before custom converter so we use the most appropriate type.
             if (source.ContainsKey(FluentCommand.AnnotationsLiteral))
             {
-                var annotations = source[FluentCommand.AnnotationsLiteral] as ODataEntryAnnotations;
-                var odataType = annotations?.TypeName;
-                if (!string.IsNullOrEmpty(odataType))
-                {
-                    // TODO: We could cast the ITypeCatcher to TypeCache and use it's property but it's a bit naughty - conditional?
-                    var resolver = ODataNameMatchResolver.NotStrict;
-                    if (!resolver.IsMatch(odataType, type.Name))
-                    {
-                        // Ok, something other than the base type, see if we can match it
-                        var derived = typeCache.GetDerivedTypes(type).FirstOrDefault(x => resolver.IsMatch(odataType, typeCache.GetMappedName(x)));
-                        if (derived != null)
-                        {
-                            // Use the derived type from now on
-                            type = derived;
-                        }
-                        else
-                        {
-                            // TODO: Should we throw an exception here or log a warning here as we don't understand the data
-                        }
-                    }
-                }
+                type = GetTypeFromAnnotation(source, typeCache, type);
             }
 
             if (typeCache.Converter.HasDictionaryConverter(type))
@@ -116,6 +96,42 @@ namespace Simple.OData.Client.Extensions
             }
 
             return instance;
+        }
+
+        private static Type GetTypeFromAnnotation(IDictionary<string, object> source, ITypeCache typeCache, Type type)
+        {
+            var annotations = source[FluentCommand.AnnotationsLiteral] as ODataEntryAnnotations;
+
+            var odataType = annotations?.TypeName;
+
+            if (string.IsNullOrEmpty(odataType))
+            {
+                return type;
+            }
+
+            // TODO: We could cast the ITypeCatcher to TypeCache and use it's property but it's a bit naughty - conditional?
+            var resolver = ODataNameMatchResolver.NotStrict;
+
+            if (!resolver.IsMatch(odataType, type.Name))
+            {
+                // Ok, something other than the base type, see if we can match it
+                var derived = typeCache.GetDerivedTypes(type).FirstOrDefault(x => resolver.IsMatch(odataType, typeCache.GetMappedName(x)));
+                if (derived != null)
+                {
+                    return derived;
+                }
+
+                foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+                {
+                    var typeFound = assembly.GetType(odataType);
+                    if (typeFound != null)
+                        return typeFound;
+                }
+
+                // TODO: Should we throw an exception here or log a warning here as we don't understand the data
+            }
+
+            return type;
         }
 
         private static PropertyInfo FindMatchingProperty(Type type, ITypeCache typeCache, KeyValuePair<string, object> item)

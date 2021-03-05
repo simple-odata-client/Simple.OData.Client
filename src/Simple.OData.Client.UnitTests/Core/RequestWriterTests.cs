@@ -215,5 +215,24 @@ namespace Simple.OData.Client.Tests.Core
                 }, false);
             Assert.Equal("POST", result.Method);
         }
+
+        [Fact]
+        public async Task CreateInsertRequest_With_Headers()
+        {
+            var requestWriter = await CreateRequestWriter();
+            var result = await requestWriter.CreateInsertRequestAsync("Employees", "",
+                new Dictionary<string, object>()
+                {
+                    { "FirstName", "John" },
+                }, false, 
+                new Dictionary<string, string>
+                {
+                    { "header1" , "header1Value" },
+                    { "header2" , "header2Value" }
+                });
+
+            Assert.Equal("header1Value", result.Headers["header1"]);
+            Assert.Equal("header2Value", result.Headers["header2"]);
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace Simple.OData.Client.Tests.Core
         string GetGuidFormat(string text, bool escapeString = false);
         string GetEnumFormat(object value, Type enumType, string ns, bool prefixFree = false, bool escapeString = false);
         string GetContainsFormat(string item, string text, bool escapeString = false);
+        string GetContainedInFormat(string item, string text, bool escapeString = false);
     }
 
     class ODataV3Format : IFormatSettings
@@ -47,6 +48,14 @@ namespace Simple.OData.Client.Tests.Core
         public string GetContainsFormat(string item, string text, bool escapeString = false)
         {
             var result = $"substringof('{text}',{item})";
+            if (escapeString)
+                result = Uri.EscapeDataString(result);
+            return result;
+        }
+        
+        public string GetContainedInFormat(string item, string text, bool escapeString = false)
+        {
+            var result = $"substringof({item},'{text}')";
             if (escapeString)
                 result = Uri.EscapeDataString(result);
             return result;
@@ -88,6 +97,14 @@ namespace Simple.OData.Client.Tests.Core
         public string GetContainsFormat(string item, string text, bool escapeString = false)
         {
             var result = $"contains({item},'{text}')";
+            if (escapeString)
+                result = Uri.EscapeDataString(result);
+            return result;
+        }
+
+        public string GetContainedInFormat(string item, string text, bool escapeString = false)
+        {
+            var result = $"contains('{text}',{item})";
             if (escapeString)
                 result = Uri.EscapeDataString(result);
             return result;

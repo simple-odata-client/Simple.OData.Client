@@ -125,6 +125,32 @@ namespace Simple.OData.Client.Tests.Core
         }
 
         [Theory]
+        [InlineData("KeyDemo.xml", "Activities?$filter=Ticket%2FId%20eq%201")]
+        public async Task PrimaryKey_SingleProperty_NavigationKeyFilter(string metadataFile, string expectedCommand)
+        {
+            ODataExpression.ArgumentCounter = 0;
+            var client = CreateClient(metadataFile);
+            var command = client
+                .For<Activity>()
+                .Filter(x => x.Ticket.Id == 1);
+            var commandText = await command.GetCommandTextAsync();
+            Assert.Equal(expectedCommand, commandText);
+        }
+
+        [Theory]
+        [InlineData("KeyDemo.xml", "Activities?$filter=Option%2FId%20eq%201")]
+        public async Task PrimaryKey_SingleProperty_ComplexKeyFilter(string metadataFile, string expectedCommand)
+        {
+            ODataExpression.ArgumentCounter = 0;
+            var client = CreateClient(metadataFile);
+            var command = client
+                .For<Activity>()
+                .Filter(x => x.Option.Id == 1);
+            var commandText = await command.GetCommandTextAsync();
+            Assert.Equal(expectedCommand, commandText);
+        }
+
+        [Theory]
         [InlineData("Northwind3.xml", "Categories")]
         [InlineData("Northwind4WithAlternateKeys.xml", "Categories(CategoryName=%27Beverages%27)")]
         public async Task AlternateKey_SingleProperty(string metadataFile, string expectedCommand)

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using Microsoft.Data.OData;
 using Microsoft.Data.OData.Query;
 
@@ -30,9 +30,10 @@ namespace Simple.OData.Client.V3.Adapter
                 : ConvertValue(value);
         }
 
-        protected override void FormatExpandSelectOrderby(IList<string> commandClauses, EntityCollection resultCollection, FluentCommand command)
+        protected override void FormatExpandSelectOrderby(IList<string> commandClauses, EntityCollection resultCollection, ResolvedCommand command)
         {
-            FormatClause(commandClauses, resultCollection, command.Details.ExpandAssociations, ODataLiteral.Expand, FormatExpandItem);
+            var expandAssociations = FlatExpandAssociations(command.Details.ExpandAssociations).ToList();
+            FormatClause(commandClauses, resultCollection, expandAssociations, ODataLiteral.Expand, FormatExpandItem);
             FormatClause(commandClauses, resultCollection, command.Details.SelectColumns, ODataLiteral.Select, FormatSelectItem);
             FormatClause(commandClauses, resultCollection, command.Details.OrderbyColumns, ODataLiteral.OrderBy, FormatOrderByItem);
         }

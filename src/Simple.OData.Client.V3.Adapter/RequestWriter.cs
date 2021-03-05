@@ -178,7 +178,8 @@ namespace Simple.OData.Client.V3.Adapter
 
         protected override void AssignHeaders(ODataRequest request)
         {
-            request.Headers.Add(HttpLiteral.Prefer, request.ResultRequired ? HttpLiteral.ReturnContent : HttpLiteral.ReturnNoContent);
+            request.Headers[HttpLiteral.Prefer] =
+                request.ResultRequired ? HttpLiteral.ReturnContent : HttpLiteral.ReturnNoContent;
         }
 
         private ODataMessageWriterSettings GetWriterSettings(ODataFormat preferredContentType = null)

@@ -18,7 +18,7 @@
     </summary>
     <projectUrl>https://github.com/object/Simple.OData.Client</projectUrl>
     <license type="expression">MIT</license>
-    <copyright>Copyright 2012-2020 Vagif Abilov and contributors</copyright>
+    <copyright>Copyright 2012-2021 Vagif Abilov and contributors</copyright>
     <language>en-us</language>
     <tags>odata data rest client portable pcl netfx net40 net45 netstandard netcore mono adnroid ios</tags>
     <dependencies>
