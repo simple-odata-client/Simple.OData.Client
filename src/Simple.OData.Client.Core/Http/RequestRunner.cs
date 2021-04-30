@@ -35,7 +35,7 @@ namespace Simple.OData.Client
                 HttpResponseMessage response;
                 if (_session.Settings.RequestExecutor != null)
                 {
-                    response = await _session.Settings.RequestExecutor(request.RequestMessage);
+                    response = await _session.Settings.RequestExecutor(request.RequestMessage).ConfigureAwait(false);
                 }
                 else
                 {
