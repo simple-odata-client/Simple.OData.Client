@@ -488,6 +488,36 @@ namespace Simple.OData.Client
         /// <summary>
         /// Executes the OData function or action and returns an array.
         /// </summary>
+        /// <param name="annotations">The OData feed annotations.</param>
+        /// <returns>Execution result.</returns>
+        Task<U[]> ExecuteAsArrayAsync<U>(ODataFeedAnnotations annotations);
+
+        /// <summary>
+        /// Executes the OData function or action and returns an array.
+        /// </summary>
+        /// <param name="annotations">The OData feed annotations.</param>
+        /// <returns>Execution result.</returns>
+        Task<T[]> ExecuteAsArrayAsync(ODataFeedAnnotations annotations);
+
+        /// <summary>
+        /// Executes the OData function or action and returns an array.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <param name="annotations">The OData feed annotations.</param>
+        /// <returns>Execution result.</returns>
+        Task<U[]> ExecuteAsArrayAsync<U>(ODataFeedAnnotations annotations, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Executes the OData function or action and returns an array.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <param name="annotations">The OData feed annotations.</param>
+        /// <returns>Execution result.</returns>
+        Task<T[]> ExecuteAsArrayAsync(ODataFeedAnnotations annotations, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Executes the OData function or action and returns an array.
+        /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>Action execution result.</returns>
         Task<T[]> ExecuteAsArrayAsync(CancellationToken cancellationToken);

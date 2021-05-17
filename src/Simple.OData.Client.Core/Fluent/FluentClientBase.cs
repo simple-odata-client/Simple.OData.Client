@@ -625,6 +625,48 @@ namespace Simple.OData.Client
         }
 
         /// <summary>
+        /// Executes the OData function and returns an array.
+        /// </summary>
+        /// <param name="annotations">The OData feed annotations.</param>
+        /// <returns>Execution result.</returns>
+        public Task<U[]> ExecuteAsArrayAsync<U>(ODataFeedAnnotations annotations)
+        {
+            return _client.ExecuteAsArrayAsync<U>(_command, annotations, CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Executes the OData function and returns an array.
+        /// </summary>
+        /// <param name="annotations">The OData feed annotations.</param>
+        /// <returns>Execution result.</returns>
+        public Task<T[]> ExecuteAsArrayAsync(ODataFeedAnnotations annotations)
+        {
+            return ExecuteAsArrayAsync<T>(annotations, CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Executes the OData function and returns an array.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <param name="annotations">The OData feed annotations.</param>
+        /// <returns>Execution result.</returns>
+        public Task<U[]> ExecuteAsArrayAsync<U>(ODataFeedAnnotations annotations, CancellationToken cancellationToken)
+        {
+            return _client.ExecuteAsArrayAsync<U>(_command, annotations, cancellationToken);
+        }
+
+        /// <summary>
+        /// Executes the OData function and returns an array.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <param name="annotations">The OData feed annotations.</param>
+        /// <returns>Execution result.</returns>
+        public Task<T[]> ExecuteAsArrayAsync(ODataFeedAnnotations annotations, CancellationToken cancellationToken)
+        {
+            return ExecuteAsArrayAsync<T>(annotations, cancellationToken);
+        }
+
+        /// <summary>
         /// Gets the OData command text.
         /// </summary>
         /// <returns>The command text.</returns>

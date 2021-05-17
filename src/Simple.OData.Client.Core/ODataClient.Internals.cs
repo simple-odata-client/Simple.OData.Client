@@ -25,6 +25,22 @@ namespace Simple.OData.Client
             return await FindEntryAsync(updatedCommand.Resolve(_session).Format(), cancellationToken).ConfigureAwait(false);
         }
 
+        private async Task<IEnumerable<IDictionary<string, object>>> ExecuteFunctionAsync(ResolvedCommand command, ODataFeedAnnotations annotations, CancellationToken cancellationToken)
+        {
+            var request = await _session.Adapter.GetRequestWriter(_lazyBatchWriter)
+                .CreateFunctionRequestAsync(command.Format(), command.Details.FunctionName, command.Details.Headers).ConfigureAwait(false);
+
+            return await ExecuteRequestWithResultAsync(request, cancellationToken,
+                x =>
+                {
+                    var result = x.AsEntries(_session.Settings.IncludeAnnotationsInResults);
+                    if (annotations != null && x.Feed != null)
+                        annotations.CopyFrom(x.Feed.Annotations);
+                    return result;
+                },
+                () => Array.Empty<IDictionary<string, object>>()).ConfigureAwait(false);
+        }
+
         private async Task<IEnumerable<IDictionary<string, object>>> ExecuteFunctionAsync(ResolvedCommand command, CancellationToken cancellationToken)
         {
             var request = await _session.Adapter.GetRequestWriter(_lazyBatchWriter)
@@ -32,6 +48,25 @@ namespace Simple.OData.Client
 
             return await ExecuteRequestWithResultAsync(request, cancellationToken,
                 x => x.AsEntries(_session.Settings.IncludeAnnotationsInResults),
+                () => Array.Empty<IDictionary<string, object>>()).ConfigureAwait(false);
+        }
+
+        private async Task<IEnumerable<IDictionary<string, object>>> ExecuteActionAsync(ResolvedCommand command, ODataFeedAnnotations annotations, CancellationToken cancellationToken)
+        {
+            var entityTypeName = command.EntityCollection != null
+                ? _session.Metadata.GetQualifiedTypeName(command.EntityCollection.Name)
+                : null;
+            var request = await _session.Adapter.GetRequestWriter(_lazyBatchWriter)
+                .CreateActionRequestAsync(command.Format(), command.Details.ActionName, entityTypeName, command.CommandData, true, command.Details.Headers).ConfigureAwait(false);
+
+            return await ExecuteRequestWithResultAsync(request, cancellationToken,
+                x =>
+                {
+                    var result = x.AsEntries(_session.Settings.IncludeAnnotationsInResults);
+                    if (annotations != null && x.Feed != null)
+                        annotations.CopyFrom(x.Feed.Annotations);
+                    return result;
+                },
                 () => Array.Empty<IDictionary<string, object>>()).ConfigureAwait(false);
         }
 

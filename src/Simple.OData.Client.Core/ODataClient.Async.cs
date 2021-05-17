@@ -1095,6 +1095,23 @@ namespace Simple.OData.Client
             return result?.FirstOrDefault();
         }
 
+        internal async Task<IEnumerable<IDictionary<string, object>>> ExecuteAsEnumerableAsync(FluentCommand command, ODataFeedAnnotations annotations, CancellationToken cancellationToken)
+        {
+            if (IsBatchResponse)
+                return _batchResponse.AsEntries(false);
+
+            await _session.ResolveAdapterAsync(cancellationToken).ConfigureAwait(false);
+            if (cancellationToken.IsCancellationRequested) cancellationToken.ThrowIfCancellationRequested();
+
+            var resolvedCommand = command.Resolve(_session);
+            if (command.Details.HasFunction)
+                return await ExecuteFunctionAsync(resolvedCommand, annotations, cancellationToken).ConfigureAwait(false);
+            else if (command.Details.HasAction)
+                return await ExecuteActionAsync(resolvedCommand, annotations, cancellationToken).ConfigureAwait(false);
+            else
+                throw new InvalidOperationException("Command is expected to be a function or an action.");
+        }
+
         internal async Task<IEnumerable<IDictionary<string, object>>> ExecuteAsEnumerableAsync(FluentCommand command, CancellationToken cancellationToken)
         {
             if (IsBatchResponse)
@@ -1131,6 +1148,21 @@ namespace Simple.OData.Client
                 return _batchResponse.AsArray<T>();
 
             var result = await ExecuteAsEnumerableAsync(command, cancellationToken).ConfigureAwait(false);
+            return IsBatchRequest
+                ? Array.Empty<T>()
+                : result == null
+                ? null
+                : typeof(T) == typeof(string) || typeof(T).IsValue()
+                ? result.SelectMany(x => x.Values).Select(x => _session.TypeCache.Convert<T>(x)).ToArray()
+                : result.Select(x => (T)x.ToObject(_session.TypeCache, typeof(T))).ToArray();
+        }
+
+        internal async Task<T[]> ExecuteAsArrayAsync<T>(FluentCommand command, ODataFeedAnnotations annotations, CancellationToken cancellationToken)
+        {
+            if (IsBatchResponse)
+                return _batchResponse.AsArray<T>();
+
+            var result = await ExecuteAsEnumerableAsync(command, annotations, cancellationToken).ConfigureAwait(false);
             return IsBatchRequest
                 ? Array.Empty<T>()
                 : result == null
