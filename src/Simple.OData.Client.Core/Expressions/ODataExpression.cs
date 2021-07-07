@@ -9,7 +9,11 @@ using Simple.OData.Client.Extensions;
 
 namespace Simple.OData.Client
 {
+#pragma warning disable CS0660 // Type defines operator == or operator != but does not override Object.Equals(object o)
+#pragma warning disable CS0661 // Type defines operator == or operator != but does not override Object.GetHashCode()
     public partial class ODataExpression
+#pragma warning restore CS0661 // Type defines operator == or operator != but does not override Object.GetHashCode()
+#pragma warning restore CS0660 // Type defines operator == or operator != but does not override Object.Equals(object o)
     {
         private readonly ODataExpression _functionCaller;
         private readonly ODataExpression _left;
@@ -201,7 +205,12 @@ namespace Simple.OData.Client
         }
     }
 
+#pragma warning disable CS0660 // Type defines operator == or operator != but does not override Object.Equals(object o)
+#pragma warning disable CS0661 // Type defines operator == or operator != but does not override Object.GetHashCode()
     public partial class ODataExpression<T> : ODataExpression
+#pragma warning restore CS0661 // Type defines operator == or operator != but does not override Object.GetHashCode()
+#pragma warning restore CS0660 // Type defines operator == or operator != but does not override Object.Equals(object o)
+
     {
         public ODataExpression(Expression<Predicate<T>> predicate)
             : base(predicate)

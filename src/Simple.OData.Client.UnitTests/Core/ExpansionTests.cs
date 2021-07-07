@@ -209,9 +209,9 @@ namespace Simple.OData.Client.Tests.Core
         }
 
         [Theory]
-        [InlineData("Northwind3.xml", null)]
-        [InlineData("Northwind4.xml", null)]
-        public void ExpandSubordinatesWithSelectAndInnerOrderby(string metadataFile, string expectedCommand)
+        [InlineData("Northwind3.xml")]
+        [InlineData("Northwind4.xml")]
+        public void ExpandSubordinatesWithSelectAndInnerOrderby(string metadataFile)
         {
             var client = CreateClient(metadataFile);
             Assert.Throws<NotSupportedException>(() => client

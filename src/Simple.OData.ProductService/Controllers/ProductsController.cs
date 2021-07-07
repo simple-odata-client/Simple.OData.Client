@@ -23,14 +23,14 @@ namespace Simple.OData.ProductService.Controllers
 
 
         // GET odata/Products
-        [Queryable]
+        [EnableQuery]
         public IQueryable<Product> GetProducts()
         {
             return db.Products;
         }
 
         // GET odata/Products(5)
-        [Queryable]
+        [EnableQuery]
         public SingleResult<Product> GetProduct([FromODataUri] int key)
         {
             return SingleResult.Create(db.Products.Where(product => product.ID == key));

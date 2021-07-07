@@ -374,7 +374,7 @@ namespace WebApiOData.V4.Samples.Tests
                 .OrderByDescending(x => x.ID)
                 .Skip(1)
                 .FindEntriesAsync();
-            Assert.Equal(1, result.Count());
+            AssertCollectionCount(result, 1);
             Assert.Equal("Fatal Vengeance 2", result.First().Title);
             result = await client
                 .For<Product>()
@@ -385,7 +385,7 @@ namespace WebApiOData.V4.Samples.Tests
                 .Skip(1)
                 .Filter(x => x.ID > 5)
                 .FindEntriesAsync();
-            Assert.Equal(0, result.Count());
+            AssertCollectionCount(result, 0);
         }
 
         [Fact]
@@ -400,7 +400,7 @@ namespace WebApiOData.V4.Samples.Tests
                 .Key(4)
                 .Function("Placements")
                 .FindEntriesAsync();
-            Assert.Equal(3, result.Count());
+            AssertCollectionCount(result, 3);
             result = await client
                 .For(x.Product)
                 .Key(5)
@@ -431,5 +431,14 @@ namespace WebApiOData.V4.Samples.Tests
 
         //    Assert.InRange(result, 5, 20);
         //}
+
+        private void AssertCollectionCount<T>(IEnumerable<T> collection, int expectedCount)
+        {
+            static void stub(T t) { };
+
+            var predicates = Enumerable.Range(0, expectedCount).Select<int, Action<T>>(_ => stub).ToArray();
+
+            Assert.Collection<T>(collection, predicates);
+        }
     }
 }

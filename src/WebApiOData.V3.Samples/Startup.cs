@@ -81,7 +81,7 @@ namespace WebApiOData.V3.Samples
                 if (createLink)
                 {
                     // Return the URI of the action.
-                    return new Uri(ctx.Url.ODataLink(
+                    return new Uri(ctx.Url.CreateODataLink(
                         new EntitySetPathSegment(ctx.EntitySet),
                         new KeyValuePathSegment(ODataUriUtils.ConvertToUriLiteral(movie.ID, ODataVersion.V3)),
                         new ActionPathSegment(checkout.Name)));

@@ -15,14 +15,14 @@ namespace Simple.OData.ProductService.Controllers
 
 
         // GET odata/WorkTaskModels
-        [Queryable]
+        [EnableQuery]
         public IQueryable<WorkTaskModel> GetWorkTaskModels()
         {
             return db.WorkTaskModels;
         }
 
         // GET odata/WorkTaskModels(5)
-        [Queryable]
+        [EnableQuery]
         public SingleResult<WorkTaskModel> GetWorkTaskModel([FromODataUri] Guid key)
         {
             return SingleResult.Create(db.WorkTaskModels.Where(workTaskModel => workTaskModel.Id == key));

@@ -22,8 +22,11 @@ namespace Simple.OData.Client.Tests.Extensions
 
         class ClassType
         {
+#pragma warning disable CS0649 // Unused private types or members should be removed        {
             public string StringField;
             public string[] StringCollectionField;
+#pragma warning restore CS0649 // Unused private types or members should be removed        {
+
 
             public string StringProperty { get; set; }
             public string StringPropertyPrivateSetter { get; private set; }

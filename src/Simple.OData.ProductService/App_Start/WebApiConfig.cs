@@ -1,6 +1,7 @@
 ﻿using System.Web.Http;
 using System.Web.Http.OData.Builder;
 using Simple.OData.ProductService.Models;
+using System.Web.Http.OData.Extensions;
 
 namespace Simple.OData.ProductService.App_Start
 {
@@ -15,8 +16,8 @@ namespace Simple.OData.ProductService.App_Start
             builder.EntitySet<WorkActivityReportModel>("WorkActivityReportModels");
             var model = builder.GetEdmModel();
 
-            config.Routes.MapODataRoute("odata", "odata/open", model);
-            config.Routes.MapODataRoute("odatas", "odata/secure", model);
+            config.Routes.MapODataServiceRoute("odata", "odata/open", model);
+            config.Routes.MapODataServiceRoute("odatas", "odata/secure", model);
         }
     }
 }
