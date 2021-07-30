@@ -9,7 +9,7 @@ namespace Simple.OData.Client.Extensions
     /// <summary>
     /// Extension methods for <see cref="XElement"/>.
     /// </summary>
-    static class XElementExtensions
+    public static class XElementExtensions
     {
         public static XElement Element(this XElement element, string prefix, string name)
         {

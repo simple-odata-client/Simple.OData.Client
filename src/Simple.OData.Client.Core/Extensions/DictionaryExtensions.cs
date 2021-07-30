@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace Simple.OData.Client.Extensions
 {
-    static class DictionaryExtensions
+    public static class DictionaryExtensions
     {
         private static ConcurrentDictionary<Type, ActivatorDelegate> _defaultActivators = new ConcurrentDictionary<Type, ActivatorDelegate>();
         private static ConcurrentDictionary<Tuple<Type,Type>, ActivatorDelegate> _collectionActivators = new ConcurrentDictionary<Tuple<Type,Type>, ActivatorDelegate>();

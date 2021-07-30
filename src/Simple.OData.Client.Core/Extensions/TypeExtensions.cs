@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace Simple.OData.Client.Extensions
 {
-    static class TypeExtensions
+    public static class TypeExtensions
     {
         public static IEnumerable<Type> DerivedTypes(this Type type)
         {

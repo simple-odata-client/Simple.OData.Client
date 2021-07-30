@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Simple.OData.Client.Extensions
 {
-    static class StringExtensions
+    public static class StringExtensions
     {
         public static bool IsAllUpperCase(this string str)
         {
