@@ -102,6 +102,22 @@ namespace Simple.OData.Client
 
         public bool FilterIsKey => this.NamedKeyValues != null;
 
+        public bool HasQueryStringOptions =>
+            (this.HasFilter && !this.FilterIsKey) ||
+            this.HasSearch ||
+            this.HasFunction ||
+            this.SkipCount > 0 ||
+            this.TopCount > 0 ||
+            this.ExpandAssociations?.Count > 0 ||
+            this.SelectColumns?.Count > 0 ||
+            this.OrderbyColumns.Count > 0 ||
+            this.ComputeCount ||
+            this.IncludeCount ||
+            !string.IsNullOrEmpty(this.QueryOptions) ||
+            this.QueryOptionsKeyValues?.Count > 0 ||
+            !ReferenceEquals(this.QueryOptionsExpression, null) ||
+            this.Extensions?.Count > 0;
+
         public IDictionary<string, object> FilterAsKey => this.NamedKeyValues;
     }
 }

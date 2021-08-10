@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -372,6 +373,18 @@ namespace Simple.OData.Client.Tests.FluentApi
                 .Key(3)
                 .FindEntryAsync();
             Assert.Equal("Janet", employee["FirstName"]);
+        }
+
+        [Fact]
+        public async Task NavigateToInvalid()
+        {
+            var client = new ODataClient(CreateDefaultSettings().WithHttpMock());
+            Func<IBoundClient<IDictionary<string,object>>> del = () => client
+                .For("Employees")
+                .Key(14)
+                .Select("ProductName")
+                .NavigateTo("Superior");
+            Assert.Throws<InvalidOperationException>(del);
         }
 
         [Fact]

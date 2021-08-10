@@ -376,9 +376,15 @@ namespace Simple.OData.Client
             return this as FT;
         }
 
-        protected BoundClient<U> Link<U>(FluentCommand command, string linkName = null)
-        where U : class
+        protected BoundClient<U> NavigateToInternal<U>(FluentCommand command, string linkName = null)
+            where U : class
         {
+            if (command.Details.HasQueryStringOptions)
+            {
+                throw new InvalidOperationException(
+                    $"{nameof(NavigateTo)} cannot be called when source command contains query string options ($select, $expand, etc.)");
+            }
+            
             linkName = linkName ?? typeof(U).Name;
             var links = linkName.Split('/');
             var linkCommand = command;
@@ -392,10 +398,10 @@ namespace Simple.OData.Client
             return linkedClient;
         }
 
-        protected BoundClient<U> Link<U>(FluentCommand command, ODataExpression expression)
-        where U : class
+        protected BoundClient<U> NavigateToInternal<U>(FluentCommand command, ODataExpression expression)
+            where U : class
         {
-            return Link<U>(command, expression.Reference);
+            return NavigateToInternal<U>(command, expression.Reference);
         }
 
 #pragma warning restore 1591
@@ -409,7 +415,7 @@ namespace Simple.OData.Client
         public IBoundClient<U> NavigateTo<U>(string linkName = null)
             where U : class
         {
-            return this.Link<U>(this.Command, linkName);
+            return this.NavigateToInternal<U>(this.Command, linkName);
         }
         /// <summary>
         /// Navigates to the linked entity.
@@ -420,7 +426,7 @@ namespace Simple.OData.Client
         public IBoundClient<U> NavigateTo<U>(Expression<Func<T, U>> expression)
             where U : class
         {
-            return this.Link<U>(this.Command, expression.ExtractColumnName(_session.TypeCache));
+            return this.NavigateToInternal<U>(this.Command, expression.ExtractColumnName(_session.TypeCache));
         }
         /// <summary>
         /// Navigates to the linked entity.
@@ -430,7 +436,7 @@ namespace Simple.OData.Client
         /// <returns>Self.</returns>
         public IBoundClient<U> NavigateTo<U>(Expression<Func<T, IEnumerable<U>>> expression) where U : class
         {
-            return this.Link<U>(this.Command, expression.ExtractColumnName(_session.TypeCache));
+            return this.NavigateToInternal<U>(this.Command, expression.ExtractColumnName(_session.TypeCache));
         }
         /// <summary>
         /// Navigates to the linked entity.
@@ -440,7 +446,7 @@ namespace Simple.OData.Client
         /// <returns>Self.</returns>
         public IBoundClient<U> NavigateTo<U>(Expression<Func<T, IList<U>>> expression) where U : class
         {
-            return this.Link<U>(this.Command, expression.ExtractColumnName(_session.TypeCache));
+            return this.NavigateToInternal<U>(this.Command, expression.ExtractColumnName(_session.TypeCache));
         }
         /// <summary>
         /// Navigates to the linked entity.
@@ -450,7 +456,7 @@ namespace Simple.OData.Client
         /// <returns>Self.</returns>
         public IBoundClient<U> NavigateTo<U>(Expression<Func<T, ISet<U>>> expression) where U : class
         {
-            return this.Link<U>(this.Command, expression.ExtractColumnName(_session.TypeCache));
+            return this.NavigateToInternal<U>(this.Command, expression.ExtractColumnName(_session.TypeCache));
         }
         /// <summary>
         /// Navigates to the linked entity.
@@ -460,7 +466,7 @@ namespace Simple.OData.Client
         /// <returns>Self.</returns>
         public IBoundClient<U> NavigateTo<U>(Expression<Func<T, HashSet<U>>> expression) where U : class
         {
-            return this.Link<U>(this.Command, expression.ExtractColumnName(_session.TypeCache));
+            return this.NavigateToInternal<U>(this.Command, expression.ExtractColumnName(_session.TypeCache));
         }
         /// <summary>
         /// Navigates to the linked entity.
@@ -470,7 +476,7 @@ namespace Simple.OData.Client
         /// <returns>Self.</returns>
         public IBoundClient<U> NavigateTo<U>(Expression<Func<T, U[]>> expression) where U : class
         {
-            return this.Link<U>(this.Command, expression.ExtractColumnName(_session.TypeCache));
+            return this.NavigateToInternal<U>(this.Command, expression.ExtractColumnName(_session.TypeCache));
         }
         /// <summary>
         /// Navigates to the linked entity.
@@ -479,7 +485,7 @@ namespace Simple.OData.Client
         /// <returns>Self.</returns>        
         public IBoundClient<IDictionary<string, object>> NavigateTo(string linkName)
         {
-            return this.Link<IDictionary<string, object>>(this.Command, linkName);
+            return this.NavigateToInternal<IDictionary<string, object>>(this.Command, linkName);
         }
         /// <summary>
         /// Navigates to the linked entity.
@@ -488,7 +494,7 @@ namespace Simple.OData.Client
         /// <returns>Self.</returns>
         public IBoundClient<T> NavigateTo(ODataExpression expression)
         {
-            return this.Link<T>(this.Command, expression);
+            return this.NavigateToInternal<T>(this.Command, expression);
         }
 
         /// <summary>
