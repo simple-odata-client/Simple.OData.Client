@@ -200,7 +200,7 @@ namespace Simple.OData.Client
             var entryData = command.CommandData;
 
             IEnumerable<IDictionary<string, object>> result = null;
-            var client = new ODataClient(_settings);
+            var client = new ODataClient(this);
             var entries = await client.FindEntriesAsync(command.Format(), cancellationToken).ConfigureAwait(false);
             if (entries != null)
             {
@@ -223,7 +223,7 @@ namespace Simple.OData.Client
             var collectionName = command.QualifiedEntityCollectionName;
 
             var result = 0;
-            var client = new ODataClient(_settings);
+            var client = new ODataClient(this);
             var entries = await client.FindEntriesAsync(command.Format(), cancellationToken).ConfigureAwait(false);
             if (entries != null)
             {

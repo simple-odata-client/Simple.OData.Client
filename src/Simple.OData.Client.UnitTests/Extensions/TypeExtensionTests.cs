@@ -19,6 +19,12 @@ namespace Simple.OData.Client.Tests
         }
 
         [Fact]
+        public void GetAllProperties_SkipIndexer()
+        {
+            Assert.Single(typeof(TypeWithIndexer).GetAllProperties());
+        }
+
+        [Fact]
         public void GetDeclaredProperties_ExcludeExplicitInterface()
         {
             Assert.Equal(5, typeof(Address).GetAllProperties().Count());

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -57,6 +55,35 @@ namespace Simple.OData.Client.Tests
                 .Filter("Name eq 'Milk'")
                 .FindEntriesAsync();
             Assert.Equal("Milk", products.Single()["Name"]);
+        }
+
+        [Fact]
+        public async Task ParallelBootstrapping()
+        {
+            ODataClient.ClearMetadataCache();
+            int metadataCallsCount = 0;
+            var settings = new ODataClientSettings
+            {
+                BaseUri = _serviceUri,
+                BeforeRequest = _ => metadataCallsCount++
+            };
+            var client = new ODataClient(settings);
+
+            await Task.WhenAll(
+                // Dispatch 10 calls in parallel
+                client.GetMetadataAsStringAsync(),
+                client.GetMetadataAsStringAsync(),
+                client.GetMetadataAsStringAsync(),
+                client.GetMetadataAsStringAsync(),
+                client.GetMetadataAsStringAsync(),
+                client.GetMetadataAsStringAsync(),
+                client.GetMetadataAsStringAsync(),
+                client.GetMetadataAsStringAsync(),
+                client.GetMetadataAsStringAsync(),
+                client.GetMetadataAsStringAsync()
+            );
+
+            Assert.Equal(1, metadataCallsCount);
         }
     }
 }

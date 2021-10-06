@@ -40,6 +40,11 @@ namespace Simple.OData.Client
             // Just allow one schema request at a time, unlikely to be much contention but avoids multiple requests for same endpoint.
             await semaphore.WaitAsync().ConfigureAwait(false);
 
+            if (_instances.TryGetValue(key, out found))
+            {
+                return found;
+            }
+
             try
             {
                 // Can't easily lock, could introduce a semaphoreSlim but not sure if it's worth it.

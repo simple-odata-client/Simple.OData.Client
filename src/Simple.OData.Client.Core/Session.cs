@@ -3,8 +3,6 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Simple.OData.Client.Extensions;
-
 namespace Simple.OData.Client
 {
     class Session : ISession
@@ -75,16 +73,28 @@ namespace Simple.OData.Client
             }
         }
 
+        private readonly SemaphoreSlim _initializeSemaphore = new SemaphoreSlim(1);
         public async Task Initialize(CancellationToken cancellationToken)
         {
-            if (_metadataCache == null)
-            {
-                _metadataCache = await InitializeMetadataCache(cancellationToken).ConfigureAwait(false);
-            }
+            // Just allow one schema request at a time, unlikely to be much contention but avoids multiple requests for same endpoint.
+            await _initializeSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
 
-            if (_adapter == null)
+            try
             {
-                _adapter = _metadataCache.GetODataAdapter(this);
+                if (_metadataCache == null)
+                {
+                    _metadataCache = await InitializeMetadataCache(cancellationToken)
+                        .ConfigureAwait(false);
+                }
+
+                if (_adapter == null)
+                {
+                    _adapter = _metadataCache.GetODataAdapter(this);
+                }
+            }
+            finally
+            {
+                _initializeSemaphore.Release();
             }
         }
 

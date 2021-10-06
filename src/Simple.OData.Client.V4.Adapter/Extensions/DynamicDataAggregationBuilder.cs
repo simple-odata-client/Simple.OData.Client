@@ -50,7 +50,7 @@ namespace Simple.OData.Client.V4.Adapter.Extensions
             var declaredProperties = objectType.GetDeclaredProperties();
             foreach (var property in declaredProperties)
             {
-                var propertyValue = property.GetValue(aggregation);
+                var propertyValue = property.GetValueEx(aggregation);
                 if (propertyValue is ValueTuple<string, ODataExpression> aggregatedProperty) 
                     aggregationClauses.Add(new AggregationClause<object>(property.Name, aggregatedProperty.Item2?.Reference, aggregatedProperty.Item1));
             }
@@ -72,7 +72,7 @@ namespace Simple.OData.Client.V4.Adapter.Extensions
                 var declaredProperties = objectType.GetDeclaredProperties();
                 foreach (var property in declaredProperties)
                 {
-                    var propertyValue = property.GetValue(groupBy);
+                    var propertyValue = property.GetValueEx(groupBy);
                     switch (propertyValue)
                     {
                         case ODataExpression oDataExpression:

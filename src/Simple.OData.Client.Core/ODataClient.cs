@@ -58,11 +58,16 @@ namespace Simple.OData.Client
             }
         }
 
-        internal ODataClient(ODataClient client, ConcurrentDictionary<object, IDictionary<string, object>> batchEntries)
+        internal ODataClient(ODataClient client)
         {
             _settings = client._settings;
             _session = client.Session;
             _requestRunner = client._requestRunner;
+        }
+
+        internal ODataClient(ODataClient client, ConcurrentDictionary<object, IDictionary<string, object>> batchEntries)
+            :this(client)
+        {
             if (batchEntries != null)
             {
                 _batchEntries = batchEntries;

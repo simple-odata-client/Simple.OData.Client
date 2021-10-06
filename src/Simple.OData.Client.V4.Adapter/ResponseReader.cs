@@ -225,6 +225,7 @@ namespace Simple.OData.Client.V4.Adapter
             string id = null;
             Uri readLink = null;
             Uri editLink = null;
+            string etag = null;
             if (_session.Adapter.GetMetadata().IsTypeWithId(odataEntry.TypeName))
             {
                 try
@@ -233,6 +234,7 @@ namespace Simple.OData.Client.V4.Adapter
                     id = odataEntry.Id?.AbsoluteUri;
                     readLink = odataEntry.ReadLink;
                     editLink = odataEntry.EditLink;
+                    etag = odataEntry.ETag;
                 }
                 catch (ODataException)
                 {
@@ -246,7 +248,7 @@ namespace Simple.OData.Client.V4.Adapter
                 TypeName = odataEntry.TypeName,
                 ReadLink = readLink,
                 EditLink = editLink,
-                ETag = odataEntry.ETag,
+                ETag = etag,
                 MediaResource = CreateAnnotations(odataEntry.MediaResource),
                 InstanceAnnotations = odataEntry.InstanceAnnotations,
             };

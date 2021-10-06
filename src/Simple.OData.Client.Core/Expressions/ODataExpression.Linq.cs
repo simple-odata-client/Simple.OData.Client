@@ -336,7 +336,7 @@ namespace Simple.OData.Client
                 case PropertyInfo property:
                     if (property.GetIndexParameters().Length != 0)
                         throw new ArgumentException("cannot eliminate closure references to indexed properties.");
-                    value = property.GetValue(null, null);
+                    value = property.GetValueEx(null);
                     break;
             }
             return value;
@@ -355,10 +355,10 @@ namespace Simple.OData.Client
                 case PropertyInfo property:
                     if (property.GetIndexParameters().Length != 0)
                         throw new ArgumentException("cannot evaluate constant value of indexed properties.");
-                    itemValue = property.GetValue(value, null);
+                    itemValue = property.GetValueEx(value);
                     break;
                 case FieldInfo field:
-                    itemValue = field.GetValue(value);
+                    itemValue = field.GetValueEx(value);
                     break;
                 default:
                     return value;

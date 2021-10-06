@@ -85,7 +85,7 @@ namespace Simple.OData.Client.Extensions
                     var nameProperty = mappingAttribute.GetType().GetNamedProperty(attributeProperty);
                     if (nameProperty != null)
                     {
-                        var propertyValue = nameProperty.GetValue(mappingAttribute, null);
+                        var propertyValue = nameProperty.GetValueEx(mappingAttribute);
                         if (propertyValue != null)
                             return propertyValue.ToString();
                     }
@@ -93,6 +93,16 @@ namespace Simple.OData.Client.Extensions
             }
 
             return name;
+        }
+
+        public static object GetValueEx(this MemberInfo memberInfo, object instance)
+        {
+            return MemberAccessor.GetValue(instance, memberInfo);
+        }
+
+        public static void SetValueEx(this MemberInfo memberInfo, object instance, object value)
+        {
+            MemberAccessor.SetValue(instance, memberInfo, value);
         }
     }
 

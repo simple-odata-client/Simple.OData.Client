@@ -100,11 +100,11 @@ namespace Simple.OData.Client
             var collectionName = _command.QualifiedEntityCollectionName;
             var entryKey = _command.Details.HasKey ? _command.KeyValues : _command.FilterAsKey;
 
-            var entryIdent = await FormatEntryKeyAsync(collectionName, entryKey, cancellationToken);
+            var entryIdent = FormatEntryKey(collectionName, entryKey);
             if (cancellationToken.IsCancellationRequested) cancellationToken.ThrowIfCancellationRequested();
 
             var linkedCollection = _session.Metadata.GetNavigationPropertyPartnerTypeName(collectionName, linkName);
-            var linkIdent = await FormatEntryKeyAsync(linkedCollection, linkedEntryKey, cancellationToken).ConfigureAwait(false);
+            var linkIdent = FormatEntryKey(linkedCollection, linkedEntryKey);
             if (cancellationToken.IsCancellationRequested) cancellationToken.ThrowIfCancellationRequested();
 
             return await _session.Adapter.GetRequestWriter(_lazyBatchWriter)
@@ -121,14 +121,14 @@ namespace Simple.OData.Client
             var collectionName = _command.QualifiedEntityCollectionName;
             var entryKey = _command.Details.HasKey ? _command.KeyValues : _command.FilterAsKey;
 
-            var entryIdent = await FormatEntryKeyAsync(collectionName, entryKey, cancellationToken).ConfigureAwait(false);
+            var entryIdent = FormatEntryKey(collectionName, entryKey);
             if (cancellationToken.IsCancellationRequested) cancellationToken.ThrowIfCancellationRequested();
 
             string linkIdent = null;
             if (linkedEntryKey != null)
             {
                 var linkedCollection = _session.Metadata.GetNavigationPropertyPartnerTypeName(collectionName, linkName);
-                linkIdent = await FormatEntryKeyAsync(linkedCollection, linkedEntryKey, cancellationToken).ConfigureAwait(false);
+                linkIdent = FormatEntryKey(linkedCollection, linkedEntryKey);
                 if (cancellationToken.IsCancellationRequested) cancellationToken.ThrowIfCancellationRequested();
             }
 
@@ -145,15 +145,17 @@ namespace Simple.OData.Client
             return entryIdent;
         }
 
-        private async Task<string> FormatEntryKeyAsync(string collection, IDictionary<string, object> entryKey, CancellationToken cancellationToken)
+        private string FormatEntryKey(string collection, IDictionary<string, object> entryKey)
         {
-            var client = new BoundClient<IDictionary<string, object>>(new ODataClient(_session.Settings), _session);
-            var entryIdent = await client
-                .For(collection)
-                .Key(entryKey)
-                .GetCommandTextAsync(cancellationToken).ConfigureAwait(false);
-
-            return entryIdent;
+            return new ResolvedCommand(
+                new FluentCommand(
+                    new FluentCommandDetails(null, null)
+                    {
+                        CollectionName = collection,
+                        NamedKeyValues = entryKey,
+                    }),
+                    _session)
+                .Format();
         }
 
         private void AssertHasKey(ResolvedCommand command)

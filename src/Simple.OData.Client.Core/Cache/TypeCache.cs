@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 
 namespace Simple.OData.Client
@@ -250,13 +252,17 @@ namespace Simple.OData.Client
                 {
                     result = System.Convert.FromBase64String(value.ToString());
                 }
-                else if (targetType == typeof(string) && value is byte[])
+                else if (targetType == typeof(string) && value is byte[] bytes)
                 {
-                    result = System.Convert.ToBase64String((byte[])value);
+                    result = System.Convert.ToBase64String(bytes);
                 }
                 else if ((targetType == typeof(DateTime) || targetType == typeof(DateTime?)) && value is DateTimeOffset offset)
                 {
                     result = offset.DateTime;
+                }
+                else if ((targetType == typeof(DateTime) || targetType == typeof(DateTime?)) && ImplicitConversionTo<DateTime>(value) is MethodInfo implicitMethod)
+                {
+                    result = (DateTime)implicitMethod.Invoke(value, new object[] { value });
                 }
                 else if ((targetType == typeof(DateTimeOffset) || targetType == typeof(DateTimeOffset?)) && value is DateTime time)
                 {
@@ -274,9 +280,16 @@ namespace Simple.OData.Client
                 {
                     result = Convert(value, Nullable.GetUnderlyingType(targetType));
                 }
+                else if (Converter.HasObjectConverter(targetType))
+                {
+                    result = Converter.Convert(value, targetType);
+                }
                 else
                 {
-                    result = System.Convert.ChangeType(value, targetType, CultureInfo.InvariantCulture);
+                    var descriptor = TypeDescriptor.GetConverter(targetType);
+                    result = descriptor != null & descriptor.CanConvertTo(targetType)
+                        ? descriptor.ConvertTo(value, targetType)
+                        : System.Convert.ChangeType(value, targetType, CultureInfo.InvariantCulture);
                 }
                 return true;
             }
@@ -312,5 +325,10 @@ namespace Simple.OData.Client
 
             return resolver;
         }
+
+        private MethodInfo ImplicitConversionTo<T>(object value)
+            => value.GetType().GetMethods()
+                    .FirstOrDefault(m => string.Equals(m.Name, "op_Implicit")
+                                      && m.ReturnType == typeof(T));
     }
 }
