@@ -173,7 +173,7 @@ internal class SimplePluralizer : IPluralizer
 	{
 		public readonly string Singular;
 		public readonly string Plural;
-		public Word(string singular, string plural, string plural2)
+		public Word(string singular, string plural)
 		{
 			Singular = singular;
 			Plural = plural;
@@ -231,7 +231,7 @@ internal class SimplePluralizer : IPluralizer
 				p = s;
 			}
 
-			var w = new Word(s, p, p2);
+			var w = new Word(s, p);
 			_specialSingulars.Add(s, w);
 			_specialPlurals.Add(p, w);
 			if (!string.IsNullOrEmpty(p2))

@@ -101,7 +101,13 @@ internal static class TypeExtensions
 		return fields.ToArray();
 	}
 
-	public static FieldInfo GetAnyField(this Type type, string fieldName, bool includeNonPublic = false)
+	[Obsolete("The includeNonPublic field is ignored.  Use the method GetAnyField(Type type, string fieldName) instead.")]
+	public static FieldInfo GetAnyField(this Type type, string fieldName, bool includeNonPublic)
+	{
+		return GetAnyField(type, fieldName);
+	}
+
+	public static FieldInfo GetAnyField(this Type type, string fieldName)
 	{
 		var currentType = type;
 		while (currentType != null && currentType != typeof(object))

@@ -56,7 +56,13 @@ public abstract class ResponseReaderBase : IResponseReader
 
 	protected abstract void ConvertEntry(ResponseNode entryNode, object entry);
 
+	[Obsolete("The feed annotations are ignored.  Use the method StartFeed(Stack<ResponseNode> nodeStack) instead.")]
 	protected void StartFeed(Stack<ResponseNode> nodeStack, ODataFeedAnnotations feedAnnotations)
+	{
+		StartFeed(nodeStack);
+	}
+
+	protected void StartFeed(Stack<ResponseNode> nodeStack)
 	{
 		nodeStack.Push(new ResponseNode
 		{

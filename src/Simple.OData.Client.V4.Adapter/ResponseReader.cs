@@ -174,7 +174,7 @@ namespace Simple.OData.Client.V4.Adapter
 				{
 					case ODataReaderState.ResourceSetStart:
 					case ODataReaderState.DeltaResourceSetStart:
-						StartFeed(nodeStack, CreateAnnotations(odataReader.Item as ODataResourceSetBase));
+						StartFeed(nodeStack);
 						break;
 
 					case ODataReaderState.ResourceSetEnd:

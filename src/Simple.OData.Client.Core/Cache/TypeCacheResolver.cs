@@ -168,7 +168,13 @@ public class TypeCacheResolver
 		return TypeInfo.GetDeclaredProperty(propertyName);
 	}
 
-	public FieldInfo GetAnyField(string fieldName, bool includeNonPublic = false)
+	[Obsolete("The includeNonPublic field is ignored.  Use the method GetAnyField(string fieldName) instead.")]
+	public FieldInfo GetAnyField(string fieldName, bool includeNonPublic)
+	{
+		return GetAnyField(fieldName);
+	}
+
+	public FieldInfo GetAnyField(string fieldName)
 	{
 		var currentType = Type;
 		while (currentType != null && currentType != typeof(object))

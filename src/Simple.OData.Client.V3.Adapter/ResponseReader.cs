@@ -1,11 +1,11 @@
-﻿using Microsoft.Data.Edm;
-using Microsoft.Data.OData;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.Data.Edm;
+using Microsoft.Data.OData;
 
 namespace Simple.OData.Client.V3.Adapter
 {
@@ -174,7 +174,7 @@ namespace Simple.OData.Client.V3.Adapter
 				switch (odataReader.State)
 				{
 					case ODataReaderState.FeedStart:
-						StartFeed(nodeStack, CreateAnnotations(odataReader.Item as ODataFeed));
+						StartFeed(nodeStack);
 						break;
 
 					case ODataReaderState.FeedEnd:

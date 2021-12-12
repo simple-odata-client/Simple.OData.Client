@@ -135,9 +135,18 @@ public interface ITypeCache
 	/// </summary>
 	/// <param name="type"></param>
 	/// <param name="fieldName"></param>
+	/// <returns></returns>
+	[Obsolete("The includeNonPublic field is ignored.  Use the method GetAnyField(Type type, string fieldName) instead.")]
+	FieldInfo GetAnyField(Type type, string fieldName, bool includeNonPublic);
+
+	/// <summary>
+	/// Get a field for a type
+	/// </summary>
+	/// <param name="type"></param>
+	/// <param name="fieldName"></param>
 	/// <param name="includeNonPublic"></param>
 	/// <returns></returns>
-	FieldInfo GetAnyField(Type type, string fieldName, bool includeNonPublic = false);
+	FieldInfo GetAnyField(Type type, string fieldName);
 
 	/// <summary>
 	/// Get declared fields for a type

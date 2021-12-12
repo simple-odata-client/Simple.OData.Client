@@ -130,9 +130,17 @@ public class TypeCache : ITypeCache
 	}
 
 	/// <copydoc cref="ITypeCache.GetAnyField" />
-	public FieldInfo GetAnyField(Type type, string fieldName, bool includeNonPublic = false)
+
+	[Obsolete("The includeNonPublic field is ignored.  Use the method GetAnyField(Type type, string fieldName) instead.")]
+	public FieldInfo GetAnyField(Type type, string fieldName, bool includeNonPublic)
 	{
-		return Resolver(type).GetAnyField(fieldName, includeNonPublic);
+		return GetAnyField(type, fieldName);
+	}
+
+	/// <copydoc cref="ITypeCache.GetAnyField" />
+	public FieldInfo GetAnyField(Type type, string fieldName)
+	{
+		return Resolver(type).GetAnyField(fieldName);
 	}
 
 	/// <copydoc cref="ITypeCache.GetDeclaredFields" />
