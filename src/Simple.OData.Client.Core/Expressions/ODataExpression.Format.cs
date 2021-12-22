@@ -194,16 +194,17 @@ public partial class ODataExpression
 	{
 		var navigationPath = FormatCallerReference();
 		EntityCollection entityCollection;
-		if (!context.Session.Metadata.HasNavigationProperty(context.EntityCollection.Name, navigationPath))
-		{
-			//simple collection property
-			entityCollection = context.EntityCollection;
-		}
-		else
+		try
 		{
 			entityCollection = context.Session.Metadata.NavigateToCollection(context.EntityCollection, navigationPath);
 		}
-
+		catch (UnresolvableObjectException)
+		{
+			//assume the simple collection property
+			entityCollection = null;
+		}
+		
+		var formattedNavigationPath = context.Session.Adapter.GetCommandFormatter().FormatNavigationPath(context.EntityCollection, navigationPath);
 		string formattedArguments;
 		if (!Function.Arguments.Any() && string.Equals(Function.FunctionName, ODataLiteral.Any, StringComparison.OrdinalIgnoreCase))
 		{
@@ -215,8 +216,7 @@ public partial class ODataExpression
 			var expressionContext = new ExpressionContext(context.Session, entityCollection, targetQualifier, context.DynamicPropertiesContainerName);
 			formattedArguments = $"{targetQualifier}:{FormatExpression(Function.Arguments.First(), expressionContext)}";
 		}
-
-		var formattedNavigationPath = context.Session.Adapter.GetCommandFormatter().FormatNavigationPath(context.EntityCollection, navigationPath);
+		
 		return FormatScope($"{formattedNavigationPath}/{Function.FunctionName.ToLower()}({formattedArguments})", context);
 	}
 
