@@ -15,6 +15,7 @@ public class PluralizerTests
 	[InlineData("Access", "Accesses")]
 	[InlineData("Life", "Lives")]
 	[InlineData("Codex", "Codices")]
+	[InlineData("Status", "Statuses")]
 	public void PluralizeWord(string word, string expectedResult)
 	{
 		Assert.Equal(expectedResult, _pluralizer.Pluralize(word));
@@ -28,6 +29,7 @@ public class PluralizerTests
 	[InlineData("Accesses", "Access")]
 	[InlineData("Lives", "Life")]
 	[InlineData("Codices", "Codex")]
+	[InlineData("Statuses", "Status")]
 	public void SingularizeWord(string word, string expectedResult)
 	{
 		Assert.Equal(expectedResult, _pluralizer.Singularize(word));

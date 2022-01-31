@@ -117,6 +117,7 @@ internal class SimplePluralizer : IPluralizer
 			"simplex", "simplices", "simplexes",
 			"soliloquy", "soliloquies", "soliloquy",
 			"species", "", "",
+			"status", "statuses", "",
 			"stratum", "strata", "",
 			"swine", "", "",
 			"trout", "", "",
