@@ -221,6 +221,9 @@ namespace Simple.OData.Client.V4.Adapter.Extensions
 					case MemberInitExpression memberInitExpression:
 						columnNames.AddRange(ExtractColumnNames(memberInitExpression));
 						break;
+					case UnaryExpression unaryExpression when unaryExpression.NodeType == ExpressionType.Convert:
+						columnNames.Add(unaryExpression.Operand.ExtractColumnName(_session.TypeCache));
+						break;
 				}
 			}
 
