@@ -58,6 +58,10 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Simple.OData.Client.Core\Simple.OData.Client.Core.csproj">
 		</ProjectReference>
+		<ProjectReference Include="..\Simple.OData.Client.Dynamic\Simple.OData.Client.Dynamic.csproj">
+		</ProjectReference>
+		<ProjectReference Include="..\Simple.OData.Client.V3.Adapter\Simple.OData.Client.V3.Adapter.csproj">
+		</ProjectReference>
 	</ItemGroup>
 	<ItemGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
 		<ProjectReference Include="..\WebApiOData.V3.Samples\WebApiOData.V3.Samples.csproj">

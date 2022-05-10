@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -89,6 +88,13 @@ public abstract class TypedExpressionTests : CoreTestBase
 	{
 		public string Name { get; set; }
 		public string PropertyName { get; set; }
+	}
+
+	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
+	private class JsonPropertyNameAttribute : Attribute
+	{
+		public JsonPropertyNameAttribute(string name) { Name = name; }
+		public string Name { get; }
 	}
 
 	internal class TestEntity
@@ -704,3 +710,4 @@ public abstract class TypedExpressionTests : CoreTestBase
 		Assert.Equal("Name eq 'Other Name'", ODataExpression.FromLinqExpression(filter).AsString(_session));
 	}
 }
+
