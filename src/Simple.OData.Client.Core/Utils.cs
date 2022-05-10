@@ -71,7 +71,7 @@ internal static class Utils
 		return subset.All(x => superset.Any(y => matchResolver.IsMatch(x, y)));
 	}
 
-	public static T BestMatch<T>(this IEnumerable<T> collection,
+	public static T? BestMatch<T>(this IEnumerable<T> collection,
 		Func<T, string> fieldFunc, string value, INameMatchResolver matchResolver)
 		where T : class
 	{
@@ -87,7 +87,7 @@ internal static class Utils
 			.Select(x => x.Match).FirstOrDefault();
 	}
 
-	public static T BestMatch<T>(this IEnumerable<T> collection,
+	public static T? BestMatch<T>(this IEnumerable<T> collection,
 		Func<T, bool> condition, Func<T, string> fieldFunc, string value,
 		INameMatchResolver matchResolver)
 		where T : class
@@ -120,7 +120,7 @@ internal static class Utils
 			baseQuery = baseQuery.Substring(1);
 		}
 
-		if (!basePath.EndsWith("/"))
+		if (!basePath.EndsWith("/", StringComparison.Ordinal))
 		{
 			basePath += "/";
 		}
@@ -158,8 +158,8 @@ internal static class Utils
 	public static bool IsSystemType(Type type)
 	{
 		return
-			type.FullName.StartsWith("System.") ||
-			type.FullName.StartsWith("Microsoft.");
+			type.FullName.StartsWith("System.", StringComparison.Ordinal) ||
+			type.FullName.StartsWith("Microsoft.", StringComparison.Ordinal);
 	}
 
 	public static bool IsDesktopPlatform()
@@ -173,7 +173,11 @@ internal static class Utils
 		return Task.FromResult(result);
 	}
 
-	public static bool NamedKeyValuesMatchKeyNames(IDictionary<string, object> namedKeyValues, INameMatchResolver resolver, IEnumerable<string> keyNames, out IEnumerable<KeyValuePair<string, object>> matchingNamedKeyValues)
+	public static bool NamedKeyValuesMatchKeyNames(
+		IDictionary<string, object>? namedKeyValues,
+		INameMatchResolver resolver,
+		IEnumerable<string>? keyNames,
+		out IEnumerable<KeyValuePair<string, object>>? matchingNamedKeyValues)
 	{
 		matchingNamedKeyValues = null;
 		if (namedKeyValues is null || keyNames is null)
@@ -207,7 +211,11 @@ internal static class Utils
 		return false;
 	}
 
-	public static bool NamedKeyValuesContainKeyNames(IDictionary<string, object> namedKeyValues, INameMatchResolver resolver, IEnumerable<string> keyNames, out IEnumerable<KeyValuePair<string, object>> matchingNamedKeyValues)
+	public static bool NamedKeyValuesContainKeyNames(
+		IDictionary<string, object>? namedKeyValues,
+		INameMatchResolver resolver,
+		IEnumerable<string>? keyNames,
+		out IEnumerable<KeyValuePair<string, object>>? matchingNamedKeyValues)
 	{
 		matchingNamedKeyValues = null;
 		if (namedKeyValues is null || keyNames is null)

@@ -23,7 +23,7 @@ public class FunctionTests : TestBase
 			.Unbound()
 			.Function("ParseInt")
 			.Set(new Entry() { { "number", "1" } })
-			.ExecuteAsScalarAsync<int>();
+			.ExecuteAsScalarAsync<int>().ConfigureAwait(false);
 
 		Assert.Equal(1, result);
 	}
@@ -36,7 +36,7 @@ public class FunctionTests : TestBase
 			.Unbound()
 			.Function("ReturnString")
 			.Set(new Entry() { { "text", "abc" } })
-			.ExecuteAsScalarAsync<string>();
+			.ExecuteAsScalarAsync<string>().ConfigureAwait(false);
 
 		Assert.Equal("abc", result);
 	}
@@ -49,7 +49,7 @@ public class FunctionTests : TestBase
 			.Unbound<string>()
 			.Function("ReturnString")
 			.Set(new Entry() { { "text", "abc" } })
-			.ExecuteAsSingleAsync();
+			.ExecuteAsSingleAsync().ConfigureAwait(false);
 
 		Assert.Equal("abc", result);
 	}
@@ -62,7 +62,7 @@ public class FunctionTests : TestBase
 			.Unbound()
 			.Function("ReturnIntCollection")
 			.Set(new Entry() { { "count", 1 } })
-			.ExecuteAsArrayAsync<int>();
+			.ExecuteAsArrayAsync<int>().ConfigureAwait(false);
 
 		Assert.Equal(new[] { 1 }, result);
 	}
@@ -75,7 +75,7 @@ public class FunctionTests : TestBase
 			.Unbound()
 			.Function("ReturnIntCollection")
 			.Set(new Entry() { { "count", 3 } })
-			.ExecuteAsArrayAsync<int>();
+			.ExecuteAsArrayAsync<int>().ConfigureAwait(false);
 
 		Assert.Equal(new[] { 1, 2, 3 }, result);
 	}
@@ -88,7 +88,7 @@ public class FunctionTests : TestBase
 			.Unbound()
 			.Function("PassThroughLong")
 			.Set(new Entry() { { "number", 1L } })
-			.ExecuteAsScalarAsync<long>();
+			.ExecuteAsScalarAsync<long>().ConfigureAwait(false);
 
 		Assert.Equal(1L, result);
 	}
@@ -102,7 +102,7 @@ public class FunctionTests : TestBase
 			.Unbound()
 			.Function("PassThroughDateTime")
 			.Set(new Entry() { { "dateTime", dateTime } })
-			.ExecuteAsScalarAsync<DateTime>();
+			.ExecuteAsScalarAsync<DateTime>().ConfigureAwait(false);
 
 		Assert.Equal(dateTime, result);
 	}
@@ -116,7 +116,7 @@ public class FunctionTests : TestBase
 			.Unbound()
 			.Function("PassThroughDateTime")
 			.Set(new Entry() { { "dateTime", dateTime } })
-			.ExecuteAsScalarAsync<DateTime>();
+			.ExecuteAsScalarAsync<DateTime>().ConfigureAwait(false);
 
 		Assert.Equal(dateTime, result);
 	}
@@ -130,7 +130,7 @@ public class FunctionTests : TestBase
 			.Unbound()
 			.Function("PassThroughGuid")
 			.Set(new Entry() { { "guid", guid } })
-			.ExecuteAsScalarAsync<Guid>();
+			.ExecuteAsScalarAsync<Guid>().ConfigureAwait(false);
 
 		Assert.Equal(guid, result);
 	}
@@ -144,7 +144,7 @@ public class FunctionTests : TestBase
 			.Unbound<IDictionary<string, object>>()
 			.Action("PassThroughAddress")
 			.Set(new Entry() { { "address", address } })
-			.ExecuteAsSingleAsync();
+			.ExecuteAsSingleAsync().ConfigureAwait(false);
 
 		result = result["PassThroughAddress"] as IDictionary<string, object>;
 		Assert.Equal("Oslo", result["City"]);
@@ -159,7 +159,7 @@ public class FunctionTests : TestBase
 			.Unbound<IDictionary<string, object>>()
 			.Function("ReturnAddressCollection")
 			.Set(new Entry() { { "count", 1 } })
-			.ExecuteAsSingleAsync());
+			.ExecuteAsSingleAsync().ConfigureAwait(false));
 
 		Assert.Equal("Oslo", result["City"]);
 		Assert.Equal("Norway", result["Country"]);
@@ -173,7 +173,7 @@ public class FunctionTests : TestBase
 			.Unbound<IDictionary<string, object>>()
 			.Function("ReturnAddressCollection")
 			.Set(new Entry() { { "count", 3 } })
-			.ExecuteAsEnumerableAsync()).ToArray();
+			.ExecuteAsEnumerableAsync().ConfigureAwait(false)).ToArray();
 
 		Assert.Equal("Oslo", result[0]["City"]);
 		Assert.Equal("Norway", result[0]["Country"]);
@@ -189,7 +189,7 @@ public class FunctionTests : TestBase
 			.Unbound<IDictionary<string, object>>()
 			.Function("ReturnAddressCollection")
 			.Set(new Entry() { { "count", 0 } })
-			.ExecuteAsEnumerableAsync()).ToArray();
+			.ExecuteAsEnumerableAsync().ConfigureAwait(false)).ToArray();
 
 		Assert.Empty(result);
 	}

@@ -11,8 +11,8 @@ public class ODataRequest
 	private readonly string _uri;
 	private HttpRequestMessage _requestMessage;
 	private readonly ODataPayloadFormat _payloadFormat;
-	private readonly Stream _contentStream;
-	private readonly string _contentType;
+	private readonly Stream? _contentStream;
+	private readonly string? _contentType;
 
 	public HttpRequestMessage RequestMessage
 	{
@@ -24,7 +24,7 @@ public class ODataRequest
 	{
 		get
 		{
-			var isMetadataRequest = RequestMessage.RequestUri.LocalPath.EndsWith(ODataLiteral.Metadata);
+			var isMetadataRequest = RequestMessage.RequestUri.LocalPath.EndsWith(ODataLiteral.Metadata, StringComparison.Ordinal);
 			if (!isMetadataRequest && (ReturnsScalarResult || !ResultRequired))
 			{
 				return null;
@@ -47,7 +47,7 @@ public class ODataRequest
 
 	public string CommandText { get; private set; }
 	public string Method { get; private set; }
-	public IDictionary<string, object> EntryData { get; private set; }
+	public IDictionary<string, object>? EntryData { get; private set; }
 	public bool IsLink { get; set; }
 	public ODataPayloadFormat UsePayloadFormat { get; set; }
 	public bool ReturnsScalarResult { get; set; }
@@ -55,7 +55,11 @@ public class ODataRequest
 	public bool CheckOptimisticConcurrency { get; set; }
 	public IDictionary<string, string> Headers { get; } = new Dictionary<string, string>();
 
-	internal ODataRequest(string method, ISession session, string commandText, IDictionary<string, string> headers = null)
+	internal ODataRequest(
+		string method,
+		ISession session,
+		string commandText,
+		IDictionary<string, string>? headers = null)
 	{
 		CommandText = commandText;
 		Method = method;
@@ -78,7 +82,14 @@ public class ODataRequest
 		RequestMessage = requestMessage;
 	}
 
-	internal ODataRequest(string method, ISession session, string commandText, IDictionary<string, object> entryData, Stream contentStream, string mediaType = null, IDictionary<string, string> headers = null)
+	internal ODataRequest(
+		string method,
+		ISession session,
+		string commandText,
+		IDictionary<string, object>? entryData,
+		Stream contentStream,
+		string? mediaType = null,
+		IDictionary<string, string>? headers = null)
 		: this(method, session, commandText, headers)
 	{
 		EntryData = entryData;
@@ -86,7 +97,7 @@ public class ODataRequest
 		_contentType = mediaType;
 	}
 
-	private HttpContent GetContent()
+	private HttpContent? GetContent()
 	{
 		if (_contentStream == null)
 		{

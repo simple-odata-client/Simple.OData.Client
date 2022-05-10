@@ -206,7 +206,10 @@ public class MetadataCache : IMetadata
 		return arc.GetOrAdd(functionName, x => metadata.GetActionReturnCollection(functionName));
 	}
 
-	public EntryDetails ParseEntryDetails(string collectionName, IDictionary<string, object> entryData, string contentId = null)
+	public EntryDetails ParseEntryDetails(
+		string collectionName,
+		IDictionary<string, object> entryData,
+		string? contentId = null)
 	{
 		// Copied from MetadataBase so we use caches for the property acquisition
 		var entryDetails = new EntryDetails();

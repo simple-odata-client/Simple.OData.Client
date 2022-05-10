@@ -63,14 +63,14 @@ public class ActionV3Tests : IDisposable
 		var settings = CreateDefaultSettings().WithHttpMock();
 		var client = new ODataClient(settings);
 		var isCheckedOut = false;
-		Movie result = null;
+		Movie? result = null;
 		try
 		{
 			result = await client
 				.For<Movie>()
 				.Key(1)
 				.Action("CheckOut")
-				.ExecuteAsSingleAsync();
+				.ExecuteAsSingleAsync().ConfigureAwait(false);
 		}
 		catch (WebRequestException)
 		{
@@ -83,13 +83,13 @@ public class ActionV3Tests : IDisposable
 				.For<Movie>()
 				.Key(1)
 				.Action("Return")
-				.ExecuteAsSingleAsync();
+				.ExecuteAsSingleAsync().ConfigureAwait(false);
 
 			result = await client
 				.For<Movie>()
 				.Key(1)
 				.Action("CheckOut")
-				.ExecuteAsSingleAsync();
+				.ExecuteAsSingleAsync().ConfigureAwait(false);
 		}
 
 		Assert.Equal(1, result.ID);
@@ -104,7 +104,7 @@ public class ActionV3Tests : IDisposable
 			.For<Movie>()
 			.Key(1)
 			.Action("Return")
-			.ExecuteAsSingleAsync();
+			.ExecuteAsSingleAsync().ConfigureAwait(false);
 
 		Assert.Equal(1, result.ID);
 	}
@@ -118,7 +118,7 @@ public class ActionV3Tests : IDisposable
 			.For<Movie>()
 			.Action("CheckOutMany")
 			.Set(new Dictionary<string, object>() { { "MovieIDs", new[] { 1, 2, 3 } } })
-			.ExecuteAsEnumerableAsync();
+			.ExecuteAsEnumerableAsync().ConfigureAwait(false);
 
 		Assert.True(result.Count() > 1);
 	}
@@ -133,7 +133,7 @@ public class ActionV3Tests : IDisposable
 			.Unbound<Movie>()
 			.Action("CreateMovie")
 			.Set(new { Title = guid.ToString() })
-			.ExecuteAsSingleAsync();
+			.ExecuteAsSingleAsync().ConfigureAwait(false);
 
 		Assert.True(result.ID > 0);
 	}
@@ -144,14 +144,14 @@ public class ActionV3Tests : IDisposable
 		var settings = CreateDefaultSettings().WithHttpMock();
 		var client = new ODataClient(settings);
 		var guid = new Guid("2C44053F-6790-4221-934E-BA214DFEB643");
-		Movie result = null;
+		Movie? result = null;
 		var batch = new ODataBatch(client);
 		batch += async c => result = await c
 			.Unbound<Movie>()
 			.Action("CreateMovie")
 			.Set(new { Title = guid.ToString() })
-			.ExecuteAsSingleAsync();
-		await batch.ExecuteAsync();
+			.ExecuteAsSingleAsync().ConfigureAwait(false);
+		await batch.ExecuteAsync().ConfigureAwait(false);
 
 		Assert.True(result.ID > 0);
 	}

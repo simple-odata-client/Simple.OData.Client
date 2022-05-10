@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -25,13 +26,14 @@ public abstract class BatchWriterBase : IBatchWriter
 
 	public async Task<ODataRequest> CreateBatchRequestAsync(
 		IODataClient client, IList<Func<IODataClient, Task>> actions, IList<int> responseIndexes,
-		IDictionary<string, string> headers = null)
+		IDictionary<string, string>? headers = null)
 	{
 		// Write batch operations into a batch content
 		var lastOperationId = 0;
 		foreach (var action in actions)
 		{
-			await action(client).ConfigureAwait(false);
+			await action(client)
+				.ConfigureAwait(false);
 			var responseIndex = -1;
 			if (LastOperationId > lastOperationId)
 			{
@@ -45,7 +47,8 @@ public abstract class BatchWriterBase : IBatchWriter
 		if (HasOperations)
 		{
 			// Create batch request message
-			var requestMessage = await EndBatchAsync().ConfigureAwait(false);
+			var requestMessage = await EndBatchAsync()
+				.ConfigureAwait(false);
 
 			foreach (var header in headers)
 			{
@@ -68,7 +71,7 @@ public abstract class BatchWriterBase : IBatchWriter
 
 	public string NextContentId()
 	{
-		return (++LastOperationId).ToString();
+		return (++LastOperationId).ToString(CultureInfo.InvariantCulture);
 	}
 
 	public string GetContentId(IDictionary<string, object> entryData, object linkData)
@@ -98,12 +101,14 @@ public abstract class BatchWriterBase : IBatchWriter
 	{
 		if (method != RestVerbs.Get && !_pendingChangeSet)
 		{
-			await StartChangesetAsync().ConfigureAwait(false);
+			await StartChangesetAsync()
+				.ConfigureAwait(false);
 			_pendingChangeSet = true;
 		}
 		else if (method == RestVerbs.Get && _pendingChangeSet)
 		{
-			await EndChangesetAsync().ConfigureAwait(false);
+			await EndChangesetAsync()
+				.ConfigureAwait(false);
 			_pendingChangeSet = false;
 		}
 
@@ -113,7 +118,8 @@ public abstract class BatchWriterBase : IBatchWriter
 			MapContentId(entryData, contentId);
 		}
 
-		return await CreateOperationMessageAsync(uri, method, collection, contentId, resultRequired).ConfigureAwait(false);
+		return await CreateOperationMessageAsync(uri, method, collection, contentId, resultRequired)
+			.ConfigureAwait(false);
 	}
 
 	public bool HasOperations { get; protected set; }

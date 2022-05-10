@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -114,7 +115,7 @@ public partial class ODataExpression
 			return FormatMappedOperator(context, operatorMapping);
 		}
 
-		if (FunctionMapping.TryGetFunctionMapping(Function.FunctionName, Function.Arguments.Count(), adapterVersion, out var functionMapping))
+		if (FunctionMapping.TryGetFunctionMapping(Function.FunctionName, Function.Arguments.Count, adapterVersion, out var functionMapping))
 		{
 			return FormatMappedFunction(context, functionMapping);
 		}
@@ -149,21 +150,21 @@ public partial class ODataExpression
 			if (val.Value != null)
 			{
 				var formattedVal = ODataExpression.FromValue(
-					string.Equals(Function.FunctionName, "ToBoolean", StringComparison.Ordinal) ? Convert.ToBoolean(val.Value) :
-					string.Equals(Function.FunctionName, "ToByte", StringComparison.Ordinal) ? Convert.ToByte(val.Value) :
-					string.Equals(Function.FunctionName, "ToChar", StringComparison.Ordinal) ? Convert.ToChar(val.Value) :
-					string.Equals(Function.FunctionName, "ToDateTime", StringComparison.Ordinal) ? Convert.ToDateTime(val.Value) :
-					string.Equals(Function.FunctionName, "ToDecimal", StringComparison.Ordinal) ? Convert.ToDecimal(val.Value) :
-					string.Equals(Function.FunctionName, "ToDouble", StringComparison.Ordinal) ? Convert.ToDouble(val.Value) :
-					string.Equals(Function.FunctionName, "ToInt16", StringComparison.Ordinal) ? Convert.ToInt16(val.Value) :
-					string.Equals(Function.FunctionName, "ToInt32", StringComparison.Ordinal) ? Convert.ToInt32(val.Value) :
-					string.Equals(Function.FunctionName, "ToInt64", StringComparison.Ordinal) ? Convert.ToInt64(val.Value) :
-					string.Equals(Function.FunctionName, "ToSByte", StringComparison.Ordinal) ? Convert.ToSByte(val.Value) :
-					string.Equals(Function.FunctionName, "ToSingle", StringComparison.Ordinal) ? Convert.ToSingle(val.Value) :
-					string.Equals(Function.FunctionName, "ToString", StringComparison.Ordinal) ? Convert.ToString(val.Value) :
-					string.Equals(Function.FunctionName, "ToUInt16", StringComparison.Ordinal) ? Convert.ToUInt16(val.Value) :
-					string.Equals(Function.FunctionName, "ToUInt32", StringComparison.Ordinal) ? Convert.ToUInt32(val.Value) :
-					string.Equals(Function.FunctionName, "ToUInt64", StringComparison.Ordinal) ? Convert.ToUInt64(val.Value)
+					string.Equals(Function.FunctionName, "ToBoolean", StringComparison.Ordinal) ? Convert.ToBoolean(val.Value, CultureInfo.InvariantCulture) :
+					string.Equals(Function.FunctionName, "ToByte", StringComparison.Ordinal) ? Convert.ToByte(val.Value, CultureInfo.InvariantCulture) :
+					string.Equals(Function.FunctionName, "ToChar", StringComparison.Ordinal) ? Convert.ToChar(val.Value, CultureInfo.InvariantCulture) :
+					string.Equals(Function.FunctionName, "ToDateTime", StringComparison.Ordinal) ? Convert.ToDateTime(val.Value, CultureInfo.InvariantCulture) :
+					string.Equals(Function.FunctionName, "ToDecimal", StringComparison.Ordinal) ? Convert.ToDecimal(val.Value, CultureInfo.InvariantCulture) :
+					string.Equals(Function.FunctionName, "ToDouble", StringComparison.Ordinal) ? Convert.ToDouble(val.Value, CultureInfo.InvariantCulture) :
+					string.Equals(Function.FunctionName, "ToInt16", StringComparison.Ordinal) ? Convert.ToInt16(val.Value, CultureInfo.InvariantCulture) :
+					string.Equals(Function.FunctionName, "ToInt32", StringComparison.Ordinal) ? Convert.ToInt32(val.Value, CultureInfo.InvariantCulture) :
+					string.Equals(Function.FunctionName, "ToInt64", StringComparison.Ordinal) ? Convert.ToInt64(val.Value, CultureInfo.InvariantCulture) :
+					string.Equals(Function.FunctionName, "ToSByte", StringComparison.Ordinal) ? Convert.ToSByte(val.Value, CultureInfo.InvariantCulture) :
+					string.Equals(Function.FunctionName, "ToSingle", StringComparison.Ordinal) ? Convert.ToSingle(val.Value, CultureInfo.InvariantCulture) :
+					string.Equals(Function.FunctionName, "ToString", StringComparison.Ordinal) ? Convert.ToString(val.Value, CultureInfo.InvariantCulture) :
+					string.Equals(Function.FunctionName, "ToUInt16", StringComparison.Ordinal) ? Convert.ToUInt16(val.Value, CultureInfo.InvariantCulture) :
+					string.Equals(Function.FunctionName, "ToUInt32", StringComparison.Ordinal) ? Convert.ToUInt32(val.Value, CultureInfo.InvariantCulture) :
+					string.Equals(Function.FunctionName, "ToUInt64", StringComparison.Ordinal) ? Convert.ToUInt64(val.Value, CultureInfo.InvariantCulture)
 					: null);
 				if (formattedVal.Value != null)
 				{
@@ -211,13 +212,13 @@ public partial class ODataExpression
 		}
 		else
 		{
-			var targetQualifier = $"x{(ArgumentCounter >= 0 ? (1 + (ArgumentCounter++) % 9).ToString() : string.Empty)}";
+			var targetQualifier = $"x{(ArgumentCounter >= 0 ? (1 + (ArgumentCounter++) % 9).ToString(CultureInfo.InvariantCulture) : string.Empty)}";
 			var expressionContext = new ExpressionContext(context.Session, entityCollection, targetQualifier, context.DynamicPropertiesContainerName);
 			formattedArguments = $"{targetQualifier}:{FormatExpression(Function.Arguments.First(), expressionContext)}";
 		}
 
 		var formattedNavigationPath = context.Session.Adapter.GetCommandFormatter().FormatNavigationPath(context.EntityCollection, navigationPath);
-		return FormatScope($"{formattedNavigationPath}/{Function.FunctionName.ToLower()}({formattedArguments})", context);
+		return FormatScope($"{formattedNavigationPath}/{Function.FunctionName.ToLowerInvariant()}({formattedArguments})", context);
 	}
 
 	private string FormatIsOfCastFunction(ExpressionContext context)
@@ -231,7 +232,7 @@ public partial class ODataExpression
 
 		formattedArguments += FormatExpression(Function.Arguments.Last(), new ExpressionContext(context.Session));
 
-		return $"{Function.FunctionName.ToLower()}({formattedArguments})";
+		return $"{Function.FunctionName.ToLowerInvariant()}({formattedArguments})";
 	}
 
 	private string FormatEnumHasFlagFunction(ExpressionContext context)

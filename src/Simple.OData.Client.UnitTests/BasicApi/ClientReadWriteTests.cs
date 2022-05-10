@@ -11,7 +11,7 @@ public class ClientReadWriteTests : TestBase
 	public async Task InsertEntryWithResult()
 	{
 		var client = new ODataClient(CreateDefaultSettings().WithHttpMock());
-		var product = await client.InsertEntryAsync("Products", new Entry() { { "ProductName", "Test1" }, { "UnitPrice", 18m } }, true);
+		var product = await client.InsertEntryAsync("Products", new Entry() { { "ProductName", "Test1" }, { "UnitPrice", 18m } }, true).ConfigureAwait(false);
 
 		Assert.Equal("Test1", product["ProductName"]);
 	}
@@ -20,7 +20,7 @@ public class ClientReadWriteTests : TestBase
 	public async Task InsertEntryNoResult()
 	{
 		var client = new ODataClient(CreateDefaultSettings().WithHttpMock());
-		var product = await client.InsertEntryAsync("Products", new Entry() { { "ProductName", "Test2" }, { "UnitPrice", 18m } }, false);
+		var product = await client.InsertEntryAsync("Products", new Entry() { { "ProductName", "Test2" }, { "UnitPrice", 18m } }, false).ConfigureAwait(false);
 
 		Assert.Null(product);
 	}
@@ -29,7 +29,7 @@ public class ClientReadWriteTests : TestBase
 	public async Task InsertEntrySubcollection()
 	{
 		var client = new ODataClient(CreateDefaultSettings().WithHttpMock());
-		var ship = await client.InsertEntryAsync("Transport/Ships", new Entry() { { "ShipName", "Test1" } }, true);
+		var ship = await client.InsertEntryAsync("Transport/Ships", new Entry() { { "ShipName", "Test1" } }, true).ConfigureAwait(false);
 
 		Assert.Equal("Test1", ship["ShipName"]);
 	}
@@ -39,7 +39,7 @@ public class ClientReadWriteTests : TestBase
 	{
 		var client = new ODataClient(CreateDefaultSettings().WithHttpMock());
 		var key = new Entry() { { "ProductID", 1 } };
-		var product = await client.UpdateEntryAsync("Products", key, new Entry() { { "ProductName", "Chai" }, { "UnitPrice", 123m } }, true);
+		var product = await client.UpdateEntryAsync("Products", key, new Entry() { { "ProductName", "Chai" }, { "UnitPrice", 123m } }, true).ConfigureAwait(false);
 
 		Assert.Equal(123m, product["UnitPrice"]);
 	}
@@ -49,10 +49,10 @@ public class ClientReadWriteTests : TestBase
 	{
 		var client = new ODataClient(CreateDefaultSettings().WithHttpMock());
 		var key = new Entry() { { "ProductID", 1 } };
-		var product = await client.UpdateEntryAsync("Products", key, new Entry() { { "ProductName", "Chai" }, { "UnitPrice", 123m } }, false);
+		var product = await client.UpdateEntryAsync("Products", key, new Entry() { { "ProductName", "Chai" }, { "UnitPrice", 123m } }, false).ConfigureAwait(false);
 		Assert.Null(product);
 
-		product = await client.GetEntryAsync("Products", key);
+		product = await client.GetEntryAsync("Products", key).ConfigureAwait(false);
 		Assert.Equal(123m, product["UnitPrice"]);
 	}
 
@@ -60,11 +60,11 @@ public class ClientReadWriteTests : TestBase
 	public async Task UpdateEntrySubcollection()
 	{
 		var client = new ODataClient(CreateDefaultSettings().WithHttpMock());
-		var ship = await client.InsertEntryAsync("Transport/Ships", new Entry() { { "ShipName", "Test1" } }, true);
+		var ship = await client.InsertEntryAsync("Transport/Ships", new Entry() { { "ShipName", "Test1" } }, true).ConfigureAwait(false);
 		var key = new Entry() { { "TransportID", ship["TransportID"] } };
-		await client.UpdateEntryAsync("Transport/Ships", key, new Entry() { { "ShipName", "Test2" } });
+		await client.UpdateEntryAsync("Transport/Ships", key, new Entry() { { "ShipName", "Test2" } }).ConfigureAwait(false);
 
-		ship = await client.GetEntryAsync("Transport", key);
+		ship = await client.GetEntryAsync("Transport", key).ConfigureAwait(false);
 		Assert.Equal("Test2", ship["ShipName"]);
 	}
 
@@ -72,11 +72,11 @@ public class ClientReadWriteTests : TestBase
 	public async Task UpdateEntrySubcollectionWithAnnotations()
 	{
 		var client = new ODataClient(CreateDefaultSettings().WithAnnotations().WithHttpMock());
-		var ship = await client.InsertEntryAsync("Transport/Ships", new Entry() { { "ShipName", "Test1" } }, true);
+		var ship = await client.InsertEntryAsync("Transport/Ships", new Entry() { { "ShipName", "Test1" } }, true).ConfigureAwait(false);
 		var key = new Entry() { { "TransportID", ship["TransportID"] } };
-		await client.UpdateEntryAsync("Transport/Ships", key, new Entry() { { "ShipName", "Test2" } });
+		await client.UpdateEntryAsync("Transport/Ships", key, new Entry() { { "ShipName", "Test2" } }).ConfigureAwait(false);
 
-		ship = await client.GetEntryAsync("Transport", key);
+		ship = await client.GetEntryAsync("Transport", key).ConfigureAwait(false);
 		Assert.Equal("Test2", ship["ShipName"]);
 	}
 
@@ -84,13 +84,13 @@ public class ClientReadWriteTests : TestBase
 	public async Task DeleteEntry()
 	{
 		var client = new ODataClient(CreateDefaultSettings().WithHttpMock());
-		_ = await client.InsertEntryAsync("Products", new Entry() { { "ProductName", "Test3" }, { "UnitPrice", 18m } }, true);
-		var product = await client.FindEntryAsync("Products?$filter=ProductName eq 'Test3'");
+		_ = await client.InsertEntryAsync("Products", new Entry() { { "ProductName", "Test3" }, { "UnitPrice", 18m } }, true).ConfigureAwait(false);
+		var product = await client.FindEntryAsync("Products?$filter=ProductName eq 'Test3'").ConfigureAwait(false);
 		Assert.NotNull(product);
 
-		await client.DeleteEntryAsync("Products", product);
+		await client.DeleteEntryAsync("Products", product).ConfigureAwait(false);
 
-		product = await client.FindEntryAsync("Products?$filter=ProductName eq 'Test3'");
+		product = await client.FindEntryAsync("Products?$filter=ProductName eq 'Test3'").ConfigureAwait(false);
 		Assert.Null(product);
 	}
 
@@ -98,13 +98,13 @@ public class ClientReadWriteTests : TestBase
 	public async Task DeleteEntrySubCollection()
 	{
 		var client = new ODataClient(CreateDefaultSettings().WithHttpMock());
-		var ship = await client.InsertEntryAsync("Transport/Ships", new Entry() { { "ShipName", "Test3" } }, true);
-		ship = await client.FindEntryAsync("Transport?$filter=TransportID eq " + ship["TransportID"]);
+		var ship = await client.InsertEntryAsync("Transport/Ships", new Entry() { { "ShipName", "Test3" } }, true).ConfigureAwait(false);
+		ship = await client.FindEntryAsync("Transport?$filter=TransportID eq " + ship["TransportID"]).ConfigureAwait(false);
 		Assert.NotNull(ship);
 
-		await client.DeleteEntryAsync("Transport", ship);
+		await client.DeleteEntryAsync("Transport", ship).ConfigureAwait(false);
 
-		ship = await client.FindEntryAsync("Transport?$filter=TransportID eq " + ship["TransportID"]);
+		ship = await client.FindEntryAsync("Transport?$filter=TransportID eq " + ship["TransportID"]).ConfigureAwait(false);
 		Assert.Null(ship);
 	}
 
@@ -112,13 +112,13 @@ public class ClientReadWriteTests : TestBase
 	public async Task DeleteEntrySubCollectionWithAnnotations()
 	{
 		var client = new ODataClient(CreateDefaultSettings().WithAnnotations().WithHttpMock());
-		var ship = await client.InsertEntryAsync("Transport/Ships", new Entry() { { "ShipName", "Test3" } }, true);
-		ship = await client.FindEntryAsync("Transport?$filter=TransportID eq " + ship["TransportID"]);
+		var ship = await client.InsertEntryAsync("Transport/Ships", new Entry() { { "ShipName", "Test3" } }, true).ConfigureAwait(false);
+		ship = await client.FindEntryAsync("Transport?$filter=TransportID eq " + ship["TransportID"]).ConfigureAwait(false);
 		Assert.NotNull(ship);
 
-		await client.DeleteEntryAsync("Transport", ship);
+		await client.DeleteEntryAsync("Transport", ship).ConfigureAwait(false);
 
-		ship = await client.FindEntryAsync("Transport?$filter=TransportID eq " + ship["TransportID"]);
+		ship = await client.FindEntryAsync("Transport?$filter=TransportID eq " + ship["TransportID"]).ConfigureAwait(false);
 		Assert.Null(ship);
 	}
 
@@ -130,12 +130,12 @@ public class ClientReadWriteTests : TestBase
 		var settings = CreateDefaultSettings().WithHttpMock();
 		settings.UseAbsoluteReferenceUris = useAbsoluteReferenceUris;
 		var client = new ODataClient(settings);
-		var category = await client.InsertEntryAsync("Categories", new Entry() { { "CategoryName", "Test4" } }, true);
-		var product = await client.InsertEntryAsync("Products", new Entry() { { "ProductName", "Test5" } }, true);
+		var category = await client.InsertEntryAsync("Categories", new Entry() { { "CategoryName", "Test4" } }, true).ConfigureAwait(false);
+		var product = await client.InsertEntryAsync("Products", new Entry() { { "ProductName", "Test5" } }, true).ConfigureAwait(false);
 
-		await client.LinkEntryAsync("Products", product, "Category", category);
+		await client.LinkEntryAsync("Products", product, "Category", category).ConfigureAwait(false);
 
-		product = await client.FindEntryAsync("Products?$filter=ProductName eq 'Test5'");
+		product = await client.FindEntryAsync("Products?$filter=ProductName eq 'Test5'").ConfigureAwait(false);
 		Assert.NotNull(product["CategoryID"]);
 		Assert.Equal(category["CategoryID"], product["CategoryID"]);
 	}
@@ -148,15 +148,15 @@ public class ClientReadWriteTests : TestBase
 		var settings = CreateDefaultSettings().WithHttpMock();
 		settings.UseAbsoluteReferenceUris = useAbsoluteReferenceUris;
 		var client = new ODataClient(settings);
-		var category = await client.InsertEntryAsync("Categories", new Entry() { { "CategoryName", "Test6" } }, true);
-		_ = await client.InsertEntryAsync("Products", new Entry() { { "ProductName", "Test7" }, { "CategoryID", category["CategoryID"] } }, true);
-		var product = await client.FindEntryAsync("Products?$filter=ProductName eq 'Test7'");
+		var category = await client.InsertEntryAsync("Categories", new Entry() { { "CategoryName", "Test6" } }, true).ConfigureAwait(false);
+		_ = await client.InsertEntryAsync("Products", new Entry() { { "ProductName", "Test7" }, { "CategoryID", category["CategoryID"] } }, true).ConfigureAwait(false);
+		var product = await client.FindEntryAsync("Products?$filter=ProductName eq 'Test7'").ConfigureAwait(false);
 		Assert.NotNull(product["CategoryID"]);
 		Assert.Equal(category["CategoryID"], product["CategoryID"]);
 
-		await client.UnlinkEntryAsync("Products", product, "Category");
+		await client.UnlinkEntryAsync("Products", product, "Category").ConfigureAwait(false);
 
-		product = await client.FindEntryAsync("Products?$filter=ProductName eq 'Test7'");
+		product = await client.FindEntryAsync("Products?$filter=ProductName eq 'Test7'").ConfigureAwait(false);
 		Assert.Null(product["CategoryID"]);
 	}
 }

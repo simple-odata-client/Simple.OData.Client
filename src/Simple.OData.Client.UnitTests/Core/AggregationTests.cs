@@ -19,7 +19,7 @@ public class AggregationTests : CoreTestBase
 		var command = client
 			.For<Employee>()
 			.Filter(x => x.Subordinates.Any(y => y.EmployeeID == 1));
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal(expectedCommand, commandText);
 	}
 
@@ -33,7 +33,7 @@ public class AggregationTests : CoreTestBase
 		var command = client
 			.For<Employee>()
 			.Filter(x => x.Subordinates.Any(y => y.EmployeeID == 1 && y.FirstName == "abc"));
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal(expectedCommand, commandText);
 	}
 
@@ -47,7 +47,7 @@ public class AggregationTests : CoreTestBase
 		var command = client
 			.For<Employee>()
 			.Filter(x => x.Subordinates.Any(y => y.EmployeeID == 1 && y.FirstName.Contains("abc")));
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal(expectedCommand, commandText);
 	}
 
@@ -61,7 +61,7 @@ public class AggregationTests : CoreTestBase
 		var command = client
 			.For<Product>()
 			.Filter(x => x.Category.Products.Any(y => y.ProductID == 1));
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal(expectedCommand, commandText);
 	}
 
@@ -75,7 +75,7 @@ public class AggregationTests : CoreTestBase
 		var command = client
 			.For<Product>()
 			.Filter(x => x.Category.Products.Any(y => y.Category.Products.Any(z => z.ProductID == 1)));
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal(expectedCommand, commandText);
 	}
 }

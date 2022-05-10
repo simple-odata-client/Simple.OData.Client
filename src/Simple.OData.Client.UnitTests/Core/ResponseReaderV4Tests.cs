@@ -19,8 +19,8 @@ public class ResponseReaderV4Tests : CoreTestBase
 	public async Task GetExpandedLinkAnnotationOnlyLink()
 	{
 		var response = SetUpResourceMock("AccountTasksOnlyLink.json");
-		var responseReader = new ResponseReader(_session, await _client.GetMetadataAsync<IEdmModel>());
-		var result = (await responseReader.GetResponseAsync(response)).Feed;
+		var responseReader = new ResponseReader(_session, await _client.GetMetadataAsync<IEdmModel>().ConfigureAwait(false));
+		var result = (await responseReader.GetResponseAsync(response).ConfigureAwait(false)).Feed;
 		Assert.NotNull(result.Entries.First().LinkAnnotations);
 	}
 
@@ -28,8 +28,8 @@ public class ResponseReaderV4Tests : CoreTestBase
 	public async Task GetExpandedLinkAnnotationDataAndLink()
 	{
 		var response = SetUpResourceMock("AccountTasksAndLink.json");
-		var responseReader = new ResponseReader(_session, await _client.GetMetadataAsync<IEdmModel>());
-		var result = (await responseReader.GetResponseAsync(response)).Feed;
+		var responseReader = new ResponseReader(_session, await _client.GetMetadataAsync<IEdmModel>().ConfigureAwait(false));
+		var result = (await responseReader.GetResponseAsync(response).ConfigureAwait(false)).Feed;
 		Assert.NotNull(result.Entries.First().LinkAnnotations);
 	}
 
@@ -37,8 +37,8 @@ public class ResponseReaderV4Tests : CoreTestBase
 	public async Task ExampleActionReturnsComplexType()
 	{
 		var response = SetUpResourceMock("ExampleActionComplexType.json");
-		var responseReader = new ResponseReader(_session, await _client.GetMetadataAsync<IEdmModel>());
-		var result = (await responseReader.GetResponseAsync(response)).Feed;
+		var responseReader = new ResponseReader(_session, await _client.GetMetadataAsync<IEdmModel>().ConfigureAwait(false));
+		var result = (await responseReader.GetResponseAsync(response).ConfigureAwait(false)).Feed;
 		var entry = result.Entries.First();
 		Assert.NotNull(entry);
 		Assert.Equal("MyPropertyValue", entry.Data["SomeProperty"]);

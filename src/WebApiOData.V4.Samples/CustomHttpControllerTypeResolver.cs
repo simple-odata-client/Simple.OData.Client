@@ -13,7 +13,7 @@ public class CustomHttpControllerTypeResolver : DefaultHttpControllerTypeResolve
 
 	private static Predicate<Type> IsController(Type controllerType)
 	{
-		Predicate<Type> predicate = t =>
+		bool predicate(Type t) =>
 			t == typeof(MetadataController)
 			|| t == controllerType;
 

@@ -36,7 +36,7 @@ public class Metadata : MetadataBase
 
 	public override bool EntityCollectionRequiresOptimisticConcurrencyCheck(string collectionName)
 	{
-		IEdmVocabularyAnnotatable annotatable = null;
+		IEdmVocabularyAnnotatable? annotatable = null;
 		if (TryGetEntitySet(collectionName, out var entitySet))
 		{
 			annotatable = entitySet;
@@ -188,7 +188,7 @@ public class Metadata : MetadataBase
 		return GetStructuralProperty(collectionName, propertyName).Name;
 	}
 
-	public override string GetStructuralPropertyPath(string collectionName, params string[] propertyNames)
+	public override string GetStructuralPropertyPath(string collectionName, params string[]? propertyNames)
 	{
 		if (propertyNames == null || propertyNames.Length == 0)
 		{
@@ -280,7 +280,7 @@ public class Metadata : MetadataBase
 		return function.IsBound && !UnqualifiedNameCall ? function.ShortQualifiedName() : function.Name;
 	}
 
-	public override EntityCollection GetFunctionReturnCollection(string functionName)
+	public override EntityCollection? GetFunctionReturnCollection(string functionName)
 	{
 		var function = GetFunction(functionName);
 
@@ -303,7 +303,7 @@ public class Metadata : MetadataBase
 		return action.IsBound && !UnqualifiedNameCall ? action.ShortQualifiedName() : action.Name;
 	}
 
-	public override EntityCollection GetActionReturnCollection(string actionName)
+	public override EntityCollection? GetActionReturnCollection(string actionName)
 	{
 		var action = GetAction(actionName);
 
@@ -376,7 +376,7 @@ public class Metadata : MetadataBase
 		throw new UnresolvableObjectException(collectionName, $"Entity type [{collectionName}] not found");
 	}
 
-	private bool TryGetEntityType(string collectionName, out IEdmEntityType entityType)
+	private bool TryGetEntityType(string collectionName, out IEdmEntityType? entityType)
 	{
 		entityType = null;
 		if (collectionName.Contains("/"))
@@ -523,7 +523,7 @@ public class Metadata : MetadataBase
 
 	private IEdmFunction GetFunction(string functionName)
 	{
-		IEdmFunction function = null;
+		IEdmFunction? function = null;
 		if (_model.SchemaElements
 			.Where(x => x.SchemaElementKind == EdmSchemaElementKind.EntityContainer)
 			.SelectMany(x => (x as IEdmEntityContainer).Elements
@@ -550,7 +550,7 @@ public class Metadata : MetadataBase
 
 	private IEdmAction GetAction(string actionName)
 	{
-		IEdmAction action = null;
+		IEdmAction? action = null;
 		if (_model.SchemaElements
 			.Where(x => x.SchemaElementKind == EdmSchemaElementKind.EntityContainer)
 			.SelectMany(x => (x as IEdmEntityContainer).Elements

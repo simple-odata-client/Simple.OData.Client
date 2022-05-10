@@ -13,9 +13,9 @@ public partial class ODataExpression
 	private readonly ExpressionType _operator = ExpressionType.Default;
 	private readonly Type _conversionType;
 
-	public string Reference { get; private set; }
-	public object Value { get; private set; }
-	public ExpressionFunction Function { get; private set; }
+	public string? Reference { get; private set; }
+	public object? Value { get; private set; }
+	public ExpressionFunction? Function { get; private set; }
 	public bool IsValueConversion => _conversionType != null;
 
 	internal ODataExpression()
@@ -180,7 +180,7 @@ public partial class ODataExpression
 		}
 	}
 
-	internal bool HasTypeConstraint(string typeName)
+	internal bool HasTypeConstraint(string? typeName)
 	{
 		if (_operator == ExpressionType.And)
 		{
@@ -192,7 +192,7 @@ public partial class ODataExpression
 		}
 		else if (Value != null)
 		{
-			return Value is Type && (Value as Type).Name == typeName;
+			return Value is Type valueType && valueType.Name == typeName;
 		}
 		else
 		{

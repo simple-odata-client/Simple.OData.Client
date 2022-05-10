@@ -34,7 +34,8 @@ public abstract class ResponseReaderBase : IResponseReader
 				{
 					if (actionResponse.StatusCode == (int)HttpStatusCode.NotFound && _session.Settings.IgnoreResourceNotFoundException)
 					{
-						await actions[actionIndex](new ODataClient(client as ODataClient, actionResponse)).ConfigureAwait(false);
+						await actions[actionIndex](new ODataClient(client as ODataClient, actionResponse))
+							.ConfigureAwait(false);
 					}
 					else
 					{
@@ -43,7 +44,8 @@ public abstract class ResponseReaderBase : IResponseReader
 				}
 				else
 				{
-					await actions[actionIndex](new ODataClient(client as ODataClient, actionResponse)).ConfigureAwait(false);
+					await actions[actionIndex](new ODataClient(client as ODataClient, actionResponse))
+						.ConfigureAwait(false);
 				}
 			}
 		}

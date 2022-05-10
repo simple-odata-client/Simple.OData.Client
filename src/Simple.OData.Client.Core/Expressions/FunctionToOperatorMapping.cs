@@ -36,7 +36,7 @@ internal class InOperatorMapping : FunctionToOperatorMapping
 
 		var listAsString = new StringBuilder();
 		var delimiter = string.Empty;
-		listAsString.Append("(");
+		listAsString.Append('(');
 		foreach (var item in list)
 		{
 			listAsString.Append(delimiter);
@@ -44,7 +44,7 @@ internal class InOperatorMapping : FunctionToOperatorMapping
 			delimiter = ",";
 		}
 
-		listAsString.Append(")");
+		listAsString.Append(')');
 
 		// to work around the issue in OData/odata.net (https://github.com/OData/odata.net/issues/2016) the 'in' is always grouped
 		// the workaround can be removed later if this issue is fixed
@@ -61,7 +61,7 @@ internal class InOperatorMapping : FunctionToOperatorMapping
 			   adapterVersion == AdapterVersion.V4;
 	}
 
-	private static bool IsInstanceOfType(Type expectedType, object value)
+	private static bool IsInstanceOfType(Type expectedType, object? value)
 	{
 		if (value == null)
 		{

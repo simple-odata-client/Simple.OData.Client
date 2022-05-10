@@ -290,7 +290,7 @@ public class CommandFormatter : CommandFormatterBase
 			expandedPaths.Select(FormatFirstSegment));
 
 		return columns
-			.Where(x => !expandedNavigationProperties.Any(y => y.Equals(FormatFirstSegment(x))))
+			.Where(x => !expandedNavigationProperties.Any(y => y.Equals(FormatFirstSegment(x), StringComparison.Ordinal)))
 			.ToList();
 	}
 
@@ -308,7 +308,7 @@ public class CommandFormatter : CommandFormatterBase
 			return true;
 		}
 
-		if (items.Count() > 1)
+		if (items.Length > 1)
 		{
 			expandAssociation = expandAssociation.Substring(items.First().Length + 1);
 			entityCollection = _session.Metadata.GetEntityCollection(

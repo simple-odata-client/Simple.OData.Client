@@ -16,7 +16,7 @@ public class RequestWriterBatchV3Tests : RequestWriterBatchTests
 	{
 		return new V3.Adapter.RequestWriter(
 			_session,
-			await _client.GetMetadataAsync<Microsoft.Data.Edm.IEdmModel>(),
+			await _client.GetMetadataAsync<Microsoft.Data.Edm.IEdmModel>().ConfigureAwait(false),
 			new Lazy<IBatchWriter>(() => _session.Adapter.GetBatchWriter(
 				new Dictionary<object, IDictionary<string, object>>())));
 	}
@@ -31,7 +31,7 @@ public class RequestWriterBatchV4Tests : RequestWriterBatchTests
 	{
 		return new V4.Adapter.RequestWriter(
 			_session,
-			await _client.GetMetadataAsync<Microsoft.OData.Edm.IEdmModel>(),
+			await _client.GetMetadataAsync<Microsoft.OData.Edm.IEdmModel>().ConfigureAwait(false),
 			new Lazy<IBatchWriter>(() => base.BatchWriter));
 	}
 }
@@ -48,7 +48,7 @@ public abstract class RequestWriterBatchTests : CoreTestBase
 	[Fact]
 	public async Task CreateUpdateRequest_NoPreferredVerb_AllProperties_OperationHeaders_Patch()
 	{
-		var requestWriter = await CreateBatchRequestWriter();
+		var requestWriter = await CreateBatchRequestWriter().ConfigureAwait(false);
 
 		var result = await requestWriter.CreateUpdateRequestAsync("Products", "",
 					new Dictionary<string, object>() { { "ProductID", 1 } },
@@ -70,7 +70,7 @@ public abstract class RequestWriterBatchTests : CoreTestBase
 					new Dictionary<string, string>()
 					{
 							{ "Header1","HeaderValue1"}
-					});
+					}).ConfigureAwait(false);
 
 		Assert.Equal("PATCH", result.Method);
 		Assert.True(result.Headers.TryGetValue("Header1", out var value) && value == "HeaderValue1");

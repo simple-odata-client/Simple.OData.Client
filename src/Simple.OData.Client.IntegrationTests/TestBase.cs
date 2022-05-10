@@ -50,7 +50,7 @@ public abstract class TestBase : IDisposable
 		{
 			var i1 = uri.IndexOf(".org/V");
 			var i2 = uri.IndexOf("/OData/");
-			uri = uri[..(i1 + 5)] + uri.Substring(i1 + 8, i2 - i1 - 7) + uri.Substring(i1 + 5, 2) + uri[i2..];
+			uri = string.Concat(uri[..(i1 + 5)], uri.AsSpan(i1 + 8, i2 - i1 - 7), uri.AsSpan(i1 + 5, 2), uri[i2..]);
 		}
 
 		return uri;
@@ -107,7 +107,7 @@ public abstract class TestBase : IDisposable
 	{
 		try
 		{
-			await testCode();
+			await testCode().ConfigureAwait(false);
 			throw new Exception($"Expected exception: {typeof(T)}");
 		}
 		catch (T)

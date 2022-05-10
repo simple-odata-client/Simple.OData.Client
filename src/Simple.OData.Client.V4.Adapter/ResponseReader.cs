@@ -160,7 +160,7 @@ namespace Simple.OData.Client.V4.Adapter
 
 		private ODataResponse ReadResponse(ODataReader odataReader, IODataResponseMessageAsync responseMessage)
 		{
-			ResponseNode rootNode = null;
+			ResponseNode? rootNode = null;
 			var nodeStack = new Stack<ResponseNode>();
 
 			while (odataReader.Read())
@@ -231,10 +231,10 @@ namespace Simple.OData.Client.V4.Adapter
 
 		private ODataEntryAnnotations CreateAnnotations(ODataResource odataEntry)
 		{
-			string id = null;
-			Uri readLink = null;
-			Uri editLink = null;
-			string etag = null;
+			string? id = null;
+			Uri? readLink = null;
+			Uri? editLink = null;
+			string? etag = null;
 			if (_session.Adapter.GetMetadata().IsTypeWithId(odataEntry.TypeName))
 			{
 				try
@@ -263,7 +263,7 @@ namespace Simple.OData.Client.V4.Adapter
 			};
 		}
 
-		private ODataMediaAnnotations CreateAnnotations(ODataStreamReferenceValue value)
+		private ODataMediaAnnotations? CreateAnnotations(ODataStreamReferenceValue value)
 		{
 			return value == null ? null : new ODataMediaAnnotations
 			{
@@ -295,7 +295,7 @@ namespace Simple.OData.Client.V4.Adapter
 				{
 					// Remove extra quoting as has been read as a string
 					// Don't just replace \" in case we have embedded quotes
-					if (result.StartsWith("\"") && result.EndsWith("\""))
+					if (result.StartsWith("\"", StringComparison.Ordinal) && result.EndsWith("\"", StringComparison.Ordinal))
 					{
 						result = result.Substring(1, result.Length - 2);
 					}

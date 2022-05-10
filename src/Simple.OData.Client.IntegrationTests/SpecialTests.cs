@@ -26,7 +26,7 @@ public class SpecialTests : ODataTestBase
 			BeforeRequest = x => x.Method = new HttpMethod("PUT")
 		};
 		var client = new ODataClient(settings);
-		await AssertThrowsAsync<WebRequestException>(async () => await client.FindEntriesAsync("Products"));
+		await AssertThrowsAsync<WebRequestException>(async () => await client.FindEntriesAsync("Products").ConfigureAwait(false)).ConfigureAwait(false);
 	}
 
 	[Fact]
@@ -46,7 +46,7 @@ public class SpecialTests : ODataTestBase
 			}
 		};
 		var client = new ODataClient(settings);
-		await AssertThrowsAsync<WebRequestException>(async () => await client.FindEntriesAsync("Products"));
+		await AssertThrowsAsync<WebRequestException>(async () => await client.FindEntriesAsync("Products").ConfigureAwait(false)).ConfigureAwait(false);
 	}
 
 	[Fact]
@@ -58,7 +58,7 @@ public class SpecialTests : ODataTestBase
 			AfterResponse = x => throw new InvalidOperationException()
 		};
 		var client = new ODataClient(settings);
-		await AssertThrowsAsync<InvalidOperationException>(async () => await client.FindEntriesAsync("Products"));
+		await AssertThrowsAsync<InvalidOperationException>(async () => await client.FindEntriesAsync("Products").ConfigureAwait(false)).ConfigureAwait(false);
 	}
 
 	[Fact]
@@ -70,16 +70,16 @@ public class SpecialTests : ODataTestBase
 			AfterResponseAsync = x => { throw new InvalidOperationException(); },
 		};
 		var client = new ODataClient(settings);
-		await AssertThrowsAsync<InvalidOperationException>(async () => await client.FindEntriesAsync("Products"));
+		await AssertThrowsAsync<InvalidOperationException>(async () => await client.FindEntriesAsync("Products").ConfigureAwait(false)).ConfigureAwait(false);
 	}
 
 	[Fact]
 	public async Task InsertUsingModifiedSchema()
 	{
 		await AssertThrowsAsync<Microsoft.Data.OData.ODataException>(async () =>
-			await _client.InsertEntryAsync("Products", new Entry() { { "Price", null } }));
+			await _client.InsertEntryAsync("Products", new Entry() { { "Price", null } }).ConfigureAwait(false)).ConfigureAwait(false);
 
-		var metadataDocument = await _client.GetMetadataDocumentAsync();
+		var metadataDocument = await _client.GetMetadataDocumentAsync().ConfigureAwait(false);
 		metadataDocument = metadataDocument.Replace(@"Name=""Price"" Type=""Edm.Double"" Nullable=""false""", @"Name=""Price"" Type=""Edm.Double"" Nullable=""true""");
 		ODataClient.ClearMetadataCache();
 		var settings = new ODataClientSettings
@@ -88,7 +88,7 @@ public class SpecialTests : ODataTestBase
 			MetadataDocument = metadataDocument,
 		};
 		var client = new ODataClient(settings);
-		var model = await client.GetMetadataAsync<IEdmModel>();
+		var model = await client.GetMetadataAsync<IEdmModel>().ConfigureAwait(false);
 		var type = model.FindDeclaredType("ODataDemo.Product");
 		var property = (type as IEdmEntityType).DeclaredProperties.Single(x => x.Name == "Price");
 		Assert.True(property.Type.IsNullable);
@@ -100,7 +100,7 @@ public class SpecialTests : ODataTestBase
 						{ "Name", "Test"},
 						{ "Description", "Test" },
 						{ "Price", null }
-				}));
+				}).ConfigureAwait(false)).ConfigureAwait(false);
 
 		ODataClient.ClearMetadataCache();
 	}
@@ -108,7 +108,7 @@ public class SpecialTests : ODataTestBase
 	[Fact]
 	public async Task FindEntryParallelThreads()
 	{
-		var products = (await _client.FindEntriesAsync("Products")).ToArray();
+		var products = (await _client.FindEntriesAsync("Products").ConfigureAwait(false)).ToArray();
 
 		var summary = new ExecutionSummary();
 		var tasks = new List<Task>();
@@ -129,7 +129,7 @@ public class SpecialTests : ODataTestBase
 	public async Task FindEntryParallelThreadsRenewConnection()
 	{
 		var client = new ODataClient(new ODataClientSettings() { BaseUri = _serviceUri, RenewHttpConnection = true });
-		var products = (await client.FindEntriesAsync("Products")).ToArray();
+		var products = (await client.FindEntriesAsync("Products").ConfigureAwait(false)).ToArray();
 
 		var summary = new ExecutionSummary();
 		var tasks = new List<Task>();
@@ -163,25 +163,25 @@ public class SpecialTests : ODataTestBase
 					{ "ReleaseDate", DateTime.Now },
 					{ "Rating", 1 },
 			}, false);
-		await batch.ExecuteAsync();
+		await batch.ExecuteAsync().ConfigureAwait(false);
 
 		var client = new ODataClient(new ODataClientSettings { BaseUri = _serviceUri, RenewHttpConnection = true });
-		var product = await client.FindEntryAsync("Products?$filter=Name eq 'Test1'");
+		var product = await client.FindEntryAsync("Products?$filter=Name eq 'Test1'").ConfigureAwait(false);
 		Assert.Equal(21m, Convert.ToDecimal(product["Price"]));
 		var key = new Entry() { { "ID", product["ID"] } };
 
 		batch = new ODataBatch(settings);
 		batch += c => c.UpdateEntryAsync("Products", key, new Entry() { { "Price", 22m } });
-		await batch.ExecuteAsync();
+		await batch.ExecuteAsync().ConfigureAwait(false);
 
-		product = await client.FindEntryAsync("Products?$filter=Name eq 'Test1'");
+		product = await client.FindEntryAsync("Products?$filter=Name eq 'Test1'").ConfigureAwait(false);
 		Assert.Equal(22m, Convert.ToDecimal(product["Price"]));
 
 		batch = new ODataBatch(settings);
 		batch += c => c.DeleteEntryAsync("Products", key);
-		await batch.ExecuteAsync();
+		await batch.ExecuteAsync().ConfigureAwait(false);
 
-		product = await client.FindEntryAsync("Products?$filter=Name eq 'Test1'");
+		product = await client.FindEntryAsync("Products?$filter=Name eq 'Test1'").ConfigureAwait(false);
 		Assert.Null(product);
 	}
 	[Fact]
@@ -193,7 +193,7 @@ public class SpecialTests : ODataTestBase
 		{
 			var settings = new ODataClientSettings { BaseUri = baseUri };
 			var client = new ODataClient(settings);
-			await client.GetMetadataAsync();
+			await client.GetMetadataAsync().ConfigureAwait(false);
 		}
 		catch (NotSupportedException)
 		{
@@ -216,15 +216,15 @@ public class SpecialTests : ODataTestBase
 		var settings = new ODataClientSettings { BaseUri = _serviceUri };
 		var client = new ODataClient(settings);
 
-		await client.GetMetadataAsync();
+		await client.GetMetadataAsync().ConfigureAwait(false);
 		EdmMetadataCache.GetOrAdd(_serviceUri.ToString(), x => throw new Exception("metadata was not cached."));
 
 		settings.BeforeRequest = x => throw new Exception("metadata cache was not used.");
-		await client.GetMetadataAsync();
+		await client.GetMetadataAsync().ConfigureAwait(false);
 
 		settings = new ODataClientSettings { BaseUri = _serviceUri, BeforeRequest = x => throw new Exception("not reusing settings will defeat metadata cache.") };
 		client = new ODataClient(settings);
-		await client.GetMetadataAsync();
+		await client.GetMetadataAsync().ConfigureAwait(false);
 	}
 
 	private class ExecutionSummary
@@ -238,7 +238,7 @@ public class SpecialTests : ODataTestBase
 	{
 		try
 		{
-			var product = await client.FindEntryAsync($"Products({productID})");
+			var product = await client.FindEntryAsync($"Products({productID})").ConfigureAwait(false);
 			if (productID != Convert.ToInt32(product["ID"]))
 			{
 				lock (result)

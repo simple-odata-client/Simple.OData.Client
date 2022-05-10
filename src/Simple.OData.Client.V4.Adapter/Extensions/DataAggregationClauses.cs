@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -51,9 +52,11 @@ internal class FilterClause : IDataAggregationClause
 internal class GroupByClause<T> : IDataAggregationClause
 {
 	private readonly IEnumerable<string> _columns;
-	private readonly AggregationClauseCollection<T> _aggregation;
+	private readonly AggregationClauseCollection<T>? _aggregation;
 
-	internal GroupByClause(IEnumerable<string> columns, AggregationClauseCollection<T> aggregation = null)
+	internal GroupByClause(
+		IEnumerable<string> columns,
+		AggregationClauseCollection<T>? aggregation = null)
 	{
 		_columns = columns;
 		_aggregation = aggregation;
@@ -144,7 +147,7 @@ internal class AggregationClause<T>
 
 		if (KnownFunctionTemplates.TryGetValue(_aggregationMethodName, out var function))
 		{
-			return string.Format(function, _aggregatedColumnName);
+			return string.Format(CultureInfo.InvariantCulture, function, _aggregatedColumnName);
 		}
 
 		throw new InvalidOperationException($"Unknown aggregation method '{_aggregationMethodName}'");

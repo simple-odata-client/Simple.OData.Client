@@ -14,18 +14,18 @@ public class UpdateTypedTests : TestBase
 		var product = await client
 			.For<Product>()
 			.Set(new { ProductName = "Test1", UnitPrice = 18m })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		await client
 			.For<Product>()
 			.Key(product.ProductID)
 			.Set(new { UnitPrice = 123m })
-			.UpdateEntryAsync();
+			.UpdateEntryAsync().ConfigureAwait(false);
 
 		product = await client
 			.For<Product>()
 			.Filter(x => x.ProductName == "Test1")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 
 		Assert.Equal(123m, product.UnitPrice);
 	}
@@ -37,18 +37,18 @@ public class UpdateTypedTests : TestBase
 		var product = await client
 			.For<Product>()
 			.Set(new { ProductName = "Test1", UnitPrice = 18m })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		await client
 			.For<Product>()
 			.Filter(x => x.ProductName == "Test1")
 			.Set(new { UnitPrice = 123m })
-			.UpdateEntryAsync();
+			.UpdateEntryAsync().ConfigureAwait(false);
 
 		product = await client
 			.For<Product>()
 			.Filter(x => x.ProductName == "Test1")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 
 		Assert.Equal(123m, product.UnitPrice);
 	}
@@ -60,13 +60,13 @@ public class UpdateTypedTests : TestBase
 		var product = await client
 			.For<Product>()
 			.Set(new { ProductName = "Test1", UnitPrice = 18m })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		product = (await client
 			.For<Product>()
 			.Filter(x => x.ProductName == "Test1")
 			.Set(new { UnitPrice = 123m })
-			.UpdateEntriesAsync()).Single();
+			.UpdateEntriesAsync().ConfigureAwait(false)).Single();
 
 		Assert.Equal(123m, product.UnitPrice);
 	}
@@ -78,19 +78,19 @@ public class UpdateTypedTests : TestBase
 		var product = await client
 			.For<Product>()
 			.Set(new { ProductName = "Test1", UnitPrice = 18m })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		product = (await client
 			.For<Product>()
 			.Filter(x => x.ProductName == "Test1")
 			.Set(new { UnitPrice = 123m })
-			.UpdateEntriesAsync(false)).Single();
+			.UpdateEntriesAsync(false).ConfigureAwait(false)).Single();
 		Assert.Null(product);
 
 		product = await client
 			.For<Product>()
 			.Filter(x => x.ProductName == "Test1")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 
 		Assert.Equal(123m, product.UnitPrice);
 	}
@@ -102,18 +102,18 @@ public class UpdateTypedTests : TestBase
 		var product = await client
 			.For<Product>()
 			.Set(new { ProductName = "Test1", UnitPrice = 18m })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		await client
 			.For<Product>()
 			.Key(product)
 			.Set(new { UnitPrice = 456m })
-			.UpdateEntryAsync();
+			.UpdateEntryAsync().ConfigureAwait(false);
 
 		product = await client
 			.For<Product>()
 			.Filter(x => x.ProductName == "Test1")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 
 		Assert.Equal(456m, product.UnitPrice);
 	}
@@ -125,19 +125,19 @@ public class UpdateTypedTests : TestBase
 		var product = await client
 			.For<Product>()
 			.Set(new { ProductName = "Test1", UnitPrice = 18m })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		product.UnitPrice = 456m;
 		await client
 			.For<Product>()
 			.Key(product)
 			.Set(product)
-			.UpdateEntryAsync();
+			.UpdateEntryAsync().ConfigureAwait(false);
 
 		product = await client
 			.For<Product>()
 			.Filter(x => x.ProductName == "Test1")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 
 		Assert.Equal(456m, product.UnitPrice);
 	}
@@ -152,18 +152,18 @@ public class UpdateTypedTests : TestBase
 		var employee = await client
 			.For<Employee>()
 			.Set(new { FirstName = "Test1", LastName = "Test1", HireDate = today })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		await client
 			.For<Employee>()
 			.Key(employee.EmployeeID)
 			.Set(new { HireDate = tomorrow })
-			.UpdateEntryAsync();
+			.UpdateEntryAsync().ConfigureAwait(false);
 
 		employee = await client
 			.For<Employee>()
 			.Key(employee.EmployeeID)
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 
 		Assert.Equal(tomorrow, employee.HireDate);
 	}
@@ -175,28 +175,28 @@ public class UpdateTypedTests : TestBase
 		var category = await client
 			.For<Category>()
 			.Set(new { CategoryName = "Test1" })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 		var product = await client
 			.For<Product>()
 			.Set(new { ProductName = "Test2", UnitPrice = 18m })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		await client
 			.For<Product>()
 			.Key(product.ProductID)
 			.Set(new { Category = category })
-			.UpdateEntryAsync();
+			.UpdateEntryAsync().ConfigureAwait(false);
 
 		product = await client
 			.For<Product>()
 			.Filter(x => x.ProductID == product.ProductID)
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 		Assert.Equal(category.CategoryID, product.CategoryID);
 		category = await client
 			.For<Category>()
 			.Filter(x => x.CategoryID == category.CategoryID)
 			.Expand(x => x.Products)
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 		Assert.Single(category.Products);
 	}
 
@@ -207,28 +207,28 @@ public class UpdateTypedTests : TestBase
 		var category = await client
 			.For<Category>()
 			.Set(new { CategoryName = "Test1" })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 		var product = await client
 			.For<Product>()
 			.Set(new { ProductName = "Test2", UnitPrice = 18m, CategoryID = 1 })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		await client
 			.For<Product>()
 			.Key(product.ProductID)
 			.Set(new { Category = category })
-			.UpdateEntryAsync();
+			.UpdateEntryAsync().ConfigureAwait(false);
 
 		product = await client
 			.For<Product>()
 			.Filter(x => x.ProductID == product.ProductID)
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 		Assert.Equal(category.CategoryID, product.CategoryID);
 		category = await client
 			.For<Category>()
 			.Filter(x => x.CategoryID == category.CategoryID)
 			.Expand(x => x.Products)
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 		Assert.Single(category.Products);
 	}
 
@@ -239,22 +239,22 @@ public class UpdateTypedTests : TestBase
 		var category = await client
 			.For<Category>()
 			.Set(new { CategoryName = "Test6" })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 		var product = await client
 			.For<Product>()
 			.Set(new { ProductName = "Test7", UnitPrice = 18m, Category = category })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		await client
 			.For<Product>()
 			.Key(product.ProductID)
 			.Set(new { Category = (int?)null })
-			.UpdateEntryAsync();
+			.UpdateEntryAsync().ConfigureAwait(false);
 
 		product = await client
 			.For<Product>()
 			.Filter(x => x.ProductID == product.ProductID)
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 		Assert.Null(product.CategoryID);
 	}
 
@@ -265,27 +265,27 @@ public class UpdateTypedTests : TestBase
 		var category = await client
 			.For<Category>()
 			.Set(new { CategoryName = "Test3" })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 		var product1 = await client
 			.For<Product>()
 			.Set(new { ProductName = "Test4", UnitPrice = 18m, CategoryID = 1 })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 		var product2 = await client
 			.For<Product>()
 			.Set(new { ProductName = "Test5", UnitPrice = 18m, CategoryID = 1 })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		await client
 			.For<Category>()
 			.Key(category.CategoryID)
 			.Set(new { Products = new[] { product1, product2 } })
-			.UpdateEntryAsync();
+			.UpdateEntryAsync().ConfigureAwait(false);
 
 		category = await client
 			.For<Category>()
 			.Filter(x => x.CategoryID == category.CategoryID)
 			.Expand(x => x.Products)
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 		Assert.Equal(2, category.Products.Length);
 	}
 
@@ -296,16 +296,16 @@ public class UpdateTypedTests : TestBase
 		var category = await client
 			.For<Category>()
 			.Set(new { CategoryName = "Test5" })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 		await client
 			.For<Product>()
 			.Set(new { ProductName = "Test6", UnitPrice = 18m, CategoryID = category.CategoryID })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		var product = await client
 			.For<ProductWithNoCategoryLink>("Products")
 			.Filter(x => x.ProductName == "Test6")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 
 		product.ProductName = "Test7";
 
@@ -313,12 +313,12 @@ public class UpdateTypedTests : TestBase
 			.For<ProductWithNoCategoryLink>("Products")
 			.Key(product.ProductID)
 			.Set(product)
-			.UpdateEntryAsync();
+			.UpdateEntryAsync().ConfigureAwait(false);
 
 		product = await client
 			.For<ProductWithNoCategoryLink>("Products")
 			.Key(product.ProductID)
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 		Assert.Equal("Test7", product.ProductName);
 		Assert.NotNull(product.CategoryID);
 	}
@@ -331,14 +331,14 @@ public class UpdateTypedTests : TestBase
 			.For<Transport>()
 			.As<Ship>()
 			.Set(new Ship { ShipName = "Test1" })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		ship = await client
 			.For<Transport>()
 			.As<Ship>()
 			.Key(ship.TransportID)
 			.Set(new { ShipName = "Test2" })
-			.UpdateEntryAsync();
+			.UpdateEntryAsync().ConfigureAwait(false);
 
 		Assert.Equal("Test2", ship.ShipName);
 	}

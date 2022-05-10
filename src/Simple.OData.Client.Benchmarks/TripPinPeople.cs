@@ -22,7 +22,7 @@ public class TripPinPeople
 		var result = await Utils.GetClient("TripPin.xml", "TripPin_result_20.json")
 			.For<Person>()
 			.Expand(x => new { x.Trips, x.Friends })
-			.FindEntriesAsync();
+			.FindEntriesAsync().ConfigureAwait(false);
 
 		Assert.Equal(20, result.ToList().Count);
 	}
@@ -33,7 +33,7 @@ public class TripPinPeople
 		var result = await Utils.GetClient("TripPin.xml", "TripPin_result_20.json")
 			.For("People")
 			.Expand(new[] { "Trips", "Friends" })
-			.FindEntriesAsync();
+			.FindEntriesAsync().ConfigureAwait(false);
 
 		Assert.Equal(20, result.ToList().Count);
 	}

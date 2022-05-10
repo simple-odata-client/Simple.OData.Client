@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Microsoft.Data.OData;
 using Microsoft.Data.OData.Query;
@@ -19,7 +20,7 @@ public class CommandFormatter : CommandFormatterBase
 	{
 		if (value != null && _session.TypeCache.IsEnumType(value.GetType()))
 		{
-			value = Convert.ToInt32(value);
+			value = Convert.ToInt32(value, CultureInfo.InvariantCulture);
 		}
 
 		if (value is ODataExpression expression)

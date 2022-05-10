@@ -21,9 +21,9 @@ public class ActionWithEnumTests : CoreTestBase
 	[Fact]
 	public async Task ActionWithEnum()
 	{
-		var requestWriter = new RequestWriter(_session, await _client.GetMetadataAsync<IEdmModel>(), null);
+		var requestWriter = new RequestWriter(_session, await _client.GetMetadataAsync<IEdmModel>().ConfigureAwait(false), null);
 		var result = await requestWriter.CreateActionRequestAsync("Entity", "MakeFromParam", null,
-					new Dictionary<string, object>() { { "Name", "Entity Name" }, { "Rank", Rank.Second } }, false);
+					new Dictionary<string, object>() { { "Name", "Entity Name" }, { "Rank", Rank.Second } }, false).ConfigureAwait(false);
 		Assert.Equal("POST", result.Method);
 	}
 }

@@ -38,7 +38,9 @@ internal class EdmMetadataCache
 		}
 
 		// Just allow one schema request at a time, unlikely to be much contention but avoids multiple requests for same endpoint.
-		await semaphore.WaitAsync().ConfigureAwait(false);
+		await semaphore
+			.WaitAsync()
+			.ConfigureAwait(false);
 
 		try
 		{
@@ -47,7 +49,8 @@ internal class EdmMetadataCache
 				return found;
 			}
 
-			found = await valueFactory(key).ConfigureAwait(false);
+			found = await valueFactory(key)
+				.ConfigureAwait(false);
 
 			return _instances.GetOrAdd(key, found);
 		}

@@ -8,7 +8,7 @@ namespace Simple.OData.Client.V4.Adapter.Extensions
 	internal abstract class DataAggregationBuilder
 	{
 		protected readonly List<IDataAggregationClause> DataAggregationClauses;
-		private DataAggregationBuilder _nextDataAggregationBuilder;
+		private DataAggregationBuilder? _nextDataAggregationBuilder;
 
 		protected DataAggregationBuilder()
 		{
@@ -148,7 +148,7 @@ namespace Simple.OData.Client.V4.Adapter.Extensions
 		public IDataAggregation<TR> GroupBy<TR>(Expression<Func<T, IAggregationFunction<T>, TR>> groupBy) where TR : class
 		{
 			var groupByColumns = new List<string>();
-			AggregationClauseCollection<T> aggregationClauses = null;
+			AggregationClauseCollection<T>? aggregationClauses = null;
 			if (groupBy.Body is MemberExpression memberExpression)
 			{
 				groupByColumns.Add(memberExpression.ExtractColumnName(_session.TypeCache));

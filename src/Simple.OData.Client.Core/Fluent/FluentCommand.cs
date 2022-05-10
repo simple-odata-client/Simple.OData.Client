@@ -45,7 +45,7 @@ public class FluentCommand
 	public FluentCommand For(string collectionName)
 	{
 		var items = collectionName.Split('/');
-		if (items.Count() > 1)
+		if (items.Length > 1)
 		{
 			Details.CollectionName = items[0];
 			Details.DerivedCollectionName = items[1];

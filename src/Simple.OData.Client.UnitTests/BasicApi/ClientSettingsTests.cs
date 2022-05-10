@@ -22,6 +22,6 @@ public class ClientSettingsTests : TestBase
 		Assert.NotNull(concreteClient.Session.Settings.BeforeRequest);
 
 		// Make sure we can still execute a request
-		await concreteClient.GetMetadataDocumentAsync();
+		await concreteClient.GetMetadataDocumentAsync().ConfigureAwait(false);
 	}
 }

@@ -20,7 +20,11 @@ public class TypeCacheResolver
 	/// <param name="nameMatchResolver">Name match resolver.</param>
 	/// <param name="dynamicType">Whether the cached type is dynamic.</param>
 	/// <param name="dynamicContainerName">Dynamic container name.</param>
-	public TypeCacheResolver(Type type, INameMatchResolver nameMatchResolver, bool dynamicType = false, string dynamicContainerName = "DynamicProperties")
+	public TypeCacheResolver(
+		Type type,
+		INameMatchResolver nameMatchResolver,
+		bool dynamicType = false,
+		string dynamicContainerName = "DynamicProperties")
 	{
 		_nameMatchResolver = nameMatchResolver;
 

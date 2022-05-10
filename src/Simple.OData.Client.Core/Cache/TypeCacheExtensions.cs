@@ -21,7 +21,7 @@ internal static class TypeCacheExtensions
 		return (T)typeCache.Convert(value, typeof(T));
 	}
 
-	public static object Convert(this ITypeCache typeCache, object value, Type targetType)
+	public static object? Convert(this ITypeCache typeCache, object? value, Type targetType)
 	{
 		if (value == null && !typeCache.IsValue(targetType))
 		{
@@ -36,7 +36,7 @@ internal static class TypeCacheExtensions
 	}
 
 	[Obsolete("Use ITypeCache.TryConvert")]
-	public static bool TryConvert(this ITypeCache typeCache, object value, Type targetType, out object result)
+	public static bool TryConvert(this ITypeCache typeCache, object? value, Type targetType, out object? result)
 	{
 		try
 		{

@@ -9,7 +9,7 @@ namespace Simple.OData.Client.V3.Adapter;
 
 public class BatchWriter : BatchWriterBase
 {
-	private ODataBatchWriter _batchWriter;
+	private ODataBatchWriter? _batchWriter;
 	private ODataRequestMessage _requestMessage;
 	private ODataMessageWriter _messageWriter;
 

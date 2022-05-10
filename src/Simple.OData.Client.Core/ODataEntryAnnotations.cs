@@ -28,42 +28,42 @@ public class ODataEntryAnnotations
 	/// <summary>
 	/// The entry ID.
 	/// </summary>
-	public string Id { get; set; }
+	public string? Id { get; set; }
 
 	/// <summary>
 	/// The type name of the entry.
 	/// </summary>
-	public string TypeName { get; set; }
+	public string? TypeName { get; set; }
 
 	/// <summary>
 	/// The link that can be used to read the entry.
 	/// </summary>
-	public Uri ReadLink { get; set; }
+	public Uri? ReadLink { get; set; }
 
 	/// <summary>
 	/// The link can be used to edit the entry.
 	/// </summary>
-	public Uri EditLink { get; set; }
+	public Uri? EditLink { get; set; }
 
 	/// <summary>
 	/// The entry ETag.
 	/// </summary>
-	public string ETag { get; set; }
+	public string? ETag { get; set; }
 
 	/// <summary>
 	/// The collection of entry association links.
 	/// </summary>
-	public IEnumerable<AssociationLink> AssociationLinks { get; set; }
+	public IEnumerable<AssociationLink>? AssociationLinks { get; set; }
 
 	/// <summary>
 	/// The media resource annotations.
 	/// </summary>
-	public ODataMediaAnnotations MediaResource { get; set; }
+	public ODataMediaAnnotations? MediaResource { get; set; }
 
 	/// <summary>
 	/// Custom feed annotations.
 	/// </summary>
-	public IEnumerable<object> InstanceAnnotations { get; internal set; }
+	public IEnumerable<object>? InstanceAnnotations { get; internal set; }
 
 	/// <summary>
 	/// Custom feed annotations returned as an adapter-specific annotation type

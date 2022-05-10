@@ -29,7 +29,7 @@ public interface IODataClient
 	/// </summary>
 	/// <param name="collectionName">Name of the collection.</param>
 	/// <returns>The fluent OData client instance.</returns>
-	IBoundClient<T> For<T>(string collectionName = null) where T : class;
+	IBoundClient<T> For<T>(string? collectionName = null) where T : class;
 
 	/// <summary>
 	/// Returns an instance of a fluent OData client for unbound operations (functions and actions).
@@ -158,6 +158,16 @@ public interface IODataClient
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>Entries found with entry count.</returns>
 	Task<IEnumerable<IDictionary<string, object>>> FindEntriesAsync(string commandText, ODataFeedAnnotations annotations, CancellationToken cancellationToken);
+
+	/// <summary>
+	/// Retrieves entries by executing OData GET request and assigns OData feed annotations.
+	/// </summary>
+	/// <param name="commandText">The OData command text.</param>
+	/// <param name="annotations">The OData feed annotations.</param>
+	/// <param name="headers">The additional headers to send.</param>
+	/// <param name="cancellationToken">The cancellation token.</param>
+	/// <returns>Entries found with entry count.</returns>
+	Task<IEnumerable<IDictionary<string, object>>> FindEntriesAsync(string commandText, ODataFeedAnnotations annotations, IDictionary<string, string> headers, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Retrieves an entry by executing OData GET request.

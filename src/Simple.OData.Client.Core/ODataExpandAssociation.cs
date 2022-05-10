@@ -52,7 +52,7 @@ public class ODataExpandAssociation : IEquatable<ODataExpandAssociation>
 		return clone;
 	}
 
-	public bool Equals(ODataExpandAssociation other)
+	public bool Equals(ODataExpandAssociation? other)
 	{
 		if (other == null)
 		{

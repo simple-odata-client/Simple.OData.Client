@@ -26,7 +26,9 @@ public class ODataAdapterFactory : IODataAdapterFactory
 	/// <inheritdoc />
 	public async virtual Task<IODataModelAdapter> CreateModelAdapterAsync(HttpResponseMessage response, ITypeCache typeCache)
 	{
-		var protocolVersions = (await GetSupportedProtocolVersionsAsync(response).ConfigureAwait(false)).ToArray();
+		var protocolVersions = (await GetSupportedProtocolVersionsAsync(response)
+			.ConfigureAwait(false)
+		).ToArray();
 
 		foreach (var protocolVersion in protocolVersions)
 		{
@@ -84,7 +86,10 @@ public class ODataAdapterFactory : IODataAdapterFactory
 		{
 			try
 			{
-				var metadataString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+				var metadataString = await response
+					.Content
+					.ReadAsStringAsync()
+					.ConfigureAwait(false);
 				var protocolVersion = GetMetadataProtocolVersion(metadataString);
 				return new[] { protocolVersion };
 			}
@@ -95,7 +100,7 @@ public class ODataAdapterFactory : IODataAdapterFactory
 		}
 	}
 
-	private Func<ISession, IODataAdapter> GetAdapterLoader(IODataModelAdapter modelAdapter, ITypeCache typeCache)
+	private Func<ISession, IODataAdapter>? GetAdapterLoader(IODataModelAdapter modelAdapter, ITypeCache typeCache)
 	{
 		if (modelAdapter.ProtocolVersion == ODataProtocolVersion.V1 ||
 			modelAdapter.ProtocolVersion == ODataProtocolVersion.V2 ||
@@ -112,7 +117,7 @@ public class ODataAdapterFactory : IODataAdapterFactory
 		return null;
 	}
 
-	private Func<IODataModelAdapter> GetModelAdapterLoader(string protocolVersion, object extraInfo, ITypeCache typeCache)
+	private Func<IODataModelAdapter>? GetModelAdapterLoader(string protocolVersion, object extraInfo, ITypeCache typeCache)
 	{
 		if (protocolVersion == ODataProtocolVersion.V1 ||
 			protocolVersion == ODataProtocolVersion.V2 ||
@@ -166,7 +171,7 @@ public class ODataAdapterFactory : IODataAdapterFactory
 	{
 		var constructors = typeCache.GetDeclaredConstructors(type);
 		return constructors.Single(x =>
-			x.GetParameters().Count() == ctorParams.Count() &&
+			x.GetParameters().Length == ctorParams.Length &&
 			x.GetParameters().Last().ParameterType.GetTypeInfo().IsAssignableFrom(ctorParams.Last().GetType().GetTypeInfo()));
 	}
 
@@ -179,7 +184,7 @@ public class ODataAdapterFactory : IODataAdapterFactory
 			var constructors = typeCache.GetDeclaredConstructors(type);
 
 			var ctor = constructors.Single(x =>
-				x.GetParameters().Count() == ctorParams.Count() &&
+				x.GetParameters().Length == ctorParams.Length &&
 				x.GetParameters().Last().ParameterType.IsInstanceOfType(ctorParams.Last()));
 
 			return ctor.Invoke(ctorParams) as IODataAdapter;

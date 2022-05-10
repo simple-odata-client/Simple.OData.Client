@@ -222,7 +222,7 @@ internal static class MemberAccessor
 		return GetValue<TMember>(instance, memberInfo);
 	}
 
-	public static object GetValue(object instance, MemberInfo memberInfo)
+	public static object GetValue(object? instance, MemberInfo memberInfo)
 	{
 		return GetValue<object>(instance, memberInfo);
 	}

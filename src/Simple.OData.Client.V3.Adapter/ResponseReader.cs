@@ -1,11 +1,11 @@
-﻿using Microsoft.Data.Edm;
-using Microsoft.Data.OData;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.Data.Edm;
+using Microsoft.Data.OData;
 
 namespace Simple.OData.Client.V3.Adapter
 {
@@ -161,7 +161,7 @@ namespace Simple.OData.Client.V3.Adapter
 
 		private ODataResponse ReadResponse(ODataReader odataReader, IODataResponseMessageAsync responseMessage)
 		{
-			ResponseNode rootNode = null;
+			ResponseNode? rootNode = null;
 			var nodeStack = new Stack<ResponseNode>();
 
 			while (odataReader.Read())
@@ -230,10 +230,10 @@ namespace Simple.OData.Client.V3.Adapter
 
 		private ODataEntryAnnotations CreateAnnotations(Microsoft.Data.OData.ODataEntry odataEntry)
 		{
-			string id = null;
-			Uri readLink = null;
-			Uri editLink = null;
-			IEnumerable<ODataAssociationLink> associationLinks = null;
+			string? id = null;
+			Uri? readLink = null;
+			Uri? editLink = null;
+			IEnumerable<ODataAssociationLink>? associationLinks = null;
 			if (_session.Adapter.GetMetadata().IsTypeWithId(odataEntry.TypeName))
 			{
 				try
@@ -269,7 +269,7 @@ namespace Simple.OData.Client.V3.Adapter
 			};
 		}
 
-		private ODataMediaAnnotations CreateAnnotations(ODataStreamReferenceValue value)
+		private ODataMediaAnnotations? CreateAnnotations(ODataStreamReferenceValue value)
 		{
 			return value == null ? null : new ODataMediaAnnotations
 			{
@@ -280,21 +280,21 @@ namespace Simple.OData.Client.V3.Adapter
 			};
 		}
 
-		private object GetPropertyValue(object value)
+		private object? GetPropertyValue(object value)
 		{
-			if (value is ODataComplexValue)
+			if (value is ODataComplexValue oDataComplexValue)
 			{
-				return (value as ODataComplexValue).Properties.ToDictionary(
+				return oDataComplexValue.Properties.ToDictionary(
 					x => x.Name, x => GetPropertyValue(x.Value));
 			}
-			else if (value is ODataCollectionValue)
+			else if (value is ODataCollectionValue oDataCollectionValue)
 			{
-				return (value as ODataCollectionValue).Items.Cast<object>()
+				return oDataCollectionValue.Items.Cast<object>()
 					.Select(GetPropertyValue).ToList();
 			}
-			else if (value is ODataStreamReferenceValue)
+			else if (value is ODataStreamReferenceValue oDataStreamReferenceValue)
 			{
-				return CreateAnnotations(value as ODataStreamReferenceValue);
+				return CreateAnnotations(oDataStreamReferenceValue);
 			}
 			else
 			{

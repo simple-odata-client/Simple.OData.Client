@@ -18,3 +18,10 @@ using System.Diagnostics.CodeAnalysis;
 	Scope = "member",
 	Target = "~M:Simple.OData.Client.ODataExpression.op_False(Simple.OData.Client.ODataExpression)~System.Boolean")
 ]
+[assembly: SuppressMessage(
+	"Globalization",
+	"CA1308:Normalize strings to uppercase",
+	Justification = "Case is important",
+	Scope = "namespaceanddescendants",
+	Target = "~N:Simple.OData.Client")
+]

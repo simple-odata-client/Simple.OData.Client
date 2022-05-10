@@ -68,8 +68,8 @@ public class BasicAuthenticationModule : IHttpModule
 		var authorizationHeader = context.Request.Headers[HttpAuthorizationHeader];
 
 		// Extract the basic authentication credentials from the request
-		string userName = null;
-		string password = null;
+		string? userName = null;
+		string? password = null;
 		if (!ExtractBasicCredentials(authorizationHeader, ref userName, ref password))
 		{
 			return;
@@ -100,8 +100,8 @@ public class BasicAuthenticationModule : IHttpModule
 
 		var authorizationHeader = context.Request.Headers[HttpAuthorizationHeader];
 
-		string userName = null;
-		string password = null;
+		string? userName = null;
+		string? password = null;
 		if (ExtractBasicCredentials(authorizationHeader, ref userName, ref password) &&
 			ValidateCredentials(userName, password))
 		{
@@ -132,7 +132,7 @@ public class BasicAuthenticationModule : IHttpModule
 		return false;
 	}
 
-	protected virtual bool ExtractBasicCredentials(string authorizationHeader, ref string username, ref string password)
+	protected virtual bool ExtractBasicCredentials(string authorizationHeader, ref string? username, ref string? password)
 	{
 		if (string.IsNullOrEmpty(authorizationHeader))
 		{

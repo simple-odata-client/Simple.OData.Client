@@ -16,7 +16,7 @@ public class InsertTests : TestBase
 		var product = await client
 			.For("Products")
 			.Set(new Entry() { { "ProductName", "Test1" }, { "UnitPrice", 18m } })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		Assert.Equal("Test1", product["ProductName"]);
 	}
@@ -28,7 +28,7 @@ public class InsertTests : TestBase
 		var product = await client
 			.For("Products")
 			.Set(new Entry() { { "ProductName", "Test1" }, { "UnitPrice", 18.0d } })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		Assert.Equal("Test1", product["ProductName"]);
 	}
@@ -40,7 +40,7 @@ public class InsertTests : TestBase
 		var product = await client
 			.For("Products")
 			.Set(new { ProductName = "Test1", UnitPrice = 18m })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		Assert.True((int)product["ProductID"] > 0);
 		Assert.Equal("Test1", product["ProductName"]);
@@ -54,10 +54,10 @@ public class InsertTests : TestBase
 		expando.ProductName = "Test9";
 		expando.UnitPrice = 18m;
 
-		var product = await (Task<IDictionary<string, object>>)client
+		var product = await ((Task<IDictionary<string, object>>)client
 			.For("Products")
 			.Set(expando)
-			.InsertEntryAsync();
+			.InsertEntryAsync()).ConfigureAwait(false);
 
 		Assert.True((int)product["ProductID"] > 0);
 	}
@@ -69,11 +69,11 @@ public class InsertTests : TestBase
 		var category = await client
 			.For("Categories")
 			.Set(new { CategoryName = "Test3" })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 		var product = await client
 			.For("Products")
 			.Set(new { ProductName = "Test4", UnitPrice = 18m, CategoryID = category["CategoryID"] })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		Assert.Equal("Test4", product["ProductName"]);
 		Assert.Equal(category["CategoryID"], product["CategoryID"]);
@@ -81,7 +81,7 @@ public class InsertTests : TestBase
 			.For("Categories")
 			.Expand("Products")
 			.Filter("CategoryName eq 'Test3'")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 		Assert.True((category["Products"] as IEnumerable<object>).Count() == 1);
 	}
 
@@ -93,11 +93,11 @@ public class InsertTests : TestBase
 		var category = await client
 			.For("Categories")
 			.Set(new { CategoryName = "Test3" })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 		var product = await client
 			.For("Products")
 			.Set(new { ProductName = "Test4", UnitPrice = 18m, CategoryID = category["CategoryID"] })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		Assert.Equal("Test4", product["ProductName"]);
 		Assert.Equal(category["CategoryID"], product["CategoryID"]);
@@ -105,7 +105,7 @@ public class InsertTests : TestBase
 			.For("Categories")
 			.Expand("Products")
 			.Filter("CategoryName eq 'Test3'")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 		Assert.True((category["Products"] as IEnumerable<object>).Count() == 1);
 	}
 
@@ -116,11 +116,11 @@ public class InsertTests : TestBase
 		var category = await client
 			.For("Categories")
 			.Set(new { CategoryName = "Test5" })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 		var product = await client
 			.For("Products")
 			.Set(new { ProductName = "Test6", UnitPrice = 18m, Category = category })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		Assert.Equal("Test6", product["ProductName"]);
 		Assert.Equal(category["CategoryID"], product["CategoryID"]);
@@ -128,7 +128,7 @@ public class InsertTests : TestBase
 			.For("Categories")
 			.Expand("Products")
 			.Filter("CategoryName eq 'Test5'")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 		Assert.True((category["Products"] as IEnumerable<object>).Count() == 1);
 	}
 
@@ -140,7 +140,7 @@ public class InsertTests : TestBase
 			.For("Transport")
 			.As("Ship")
 			.Set(new { ShipName = "Test1" })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		Assert.Equal("Test1", ship["ShipName"]);
 	}

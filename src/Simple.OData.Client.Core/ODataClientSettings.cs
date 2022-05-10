@@ -11,10 +11,10 @@ namespace Simple.OData.Client;
 public class ODataClientSettings
 {
 	private readonly INameMatchResolver _defaultNameMatchResolver = new BestMatchResolver();
-	private INameMatchResolver _nameMatchResolver;
+	private INameMatchResolver? _nameMatchResolver;
 	private readonly IODataAdapterFactory _defaultAdapterFactory = new ODataAdapterFactory();
-	private IODataAdapterFactory _adapterFactory;
-	private Uri _baseOrRelativeUri;
+	private IODataAdapterFactory? _adapterFactory;
+	private Uri? _baseOrRelativeUri;
 
 	/// <summary>
 	/// Gets or sets external instance of HttpClient to be used when issuing OData requests.
@@ -22,7 +22,7 @@ public class ODataClientSettings
 	/// <value>
 	/// The instance of <see cref="System.Net.Http.HttpClient"/>.
 	/// </value>
-	public HttpClient HttpClient { get; private set; }
+	public HttpClient? HttpClient { get; private set; }
 
 	/// <summary>
 	/// Gets or sets the OData service URL.
@@ -30,7 +30,7 @@ public class ODataClientSettings
 	/// <value>
 	/// The URL address.
 	/// </value>
-	public Uri BaseUri
+	public Uri? BaseUri
 	{
 		get
 		{
@@ -67,7 +67,7 @@ public class ODataClientSettings
 	/// <value>
 	/// The client credentials.
 	/// </value>
-	public ICredentials Credentials { get; set; }
+	public ICredentials? Credentials { get; set; }
 
 	/// <summary>
 	/// Gets or sets the OData payload format.
@@ -124,7 +124,7 @@ public class ODataClientSettings
 	/// <value>
 	/// The content of the service metadata document.
 	/// </value>
-	public string MetadataDocument { get; set; }
+	public string? MetadataDocument { get; set; }
 
 	/// <summary>
 	/// Gets the <see cref="ITypeCache"/> associated with the uri, used to register converters and dynamic types.
@@ -194,7 +194,7 @@ public class ODataClientSettings
 	/// <value>
 	/// The action on <see cref="HttpMessageHandler"/>.
 	/// </value>
-	public Func<HttpMessageHandler> OnCreateMessageHandler { get; set; }
+	public Func<HttpMessageHandler>? OnCreateMessageHandler { get; set; }
 
 	/// <summary>
 	/// Gets or sets the action on HttpClientHandler.
@@ -202,7 +202,7 @@ public class ODataClientSettings
 	/// <value>
 	/// The action on <see cref="HttpClientHandler"/>.
 	/// </value>
-	public Action<HttpClientHandler> OnApplyClientHandler { get; set; }
+	public Action<HttpClientHandler>? OnApplyClientHandler { get; set; }
 
 	/// <summary>
 	/// Gets or sets the handler that executes <see cref="HttpRequestMessage"/> and returns <see cref="HttpResponseMessage"/>.
@@ -211,7 +211,7 @@ public class ODataClientSettings
 	/// <value>
 	/// The <see cref="HttpRequestMessage"/> executor.
 	/// </value>
-	public Func<HttpRequestMessage, Task<HttpResponseMessage>> RequestExecutor { get; set; }
+	public Func<HttpRequestMessage, Task<HttpResponseMessage>>? RequestExecutor { get; set; }
 
 	/// <summary>
 	/// Gets or sets the action executed before the OData request.
@@ -219,7 +219,7 @@ public class ODataClientSettings
 	/// <value>
 	/// The action on <see cref="HttpRequestMessage"/>.
 	/// </value>
-	public Action<HttpRequestMessage> BeforeRequest { get; set; }
+	public Action<HttpRequestMessage>? BeforeRequest { get; set; }
 
 	/// <summary>
 	/// Gets or sets the action executed before the OData request.
@@ -227,7 +227,7 @@ public class ODataClientSettings
 	/// <value>
 	/// The action on <see cref="HttpRequestMessage"/>.
 	/// </value>
-	public Func<HttpRequestMessage, Task> BeforeRequestAsync { get; set; }
+	public Func<HttpRequestMessage, Task>? BeforeRequestAsync { get; set; }
 
 	/// <summary>
 	/// Gets or sets the action executed after the OData request.
@@ -235,7 +235,7 @@ public class ODataClientSettings
 	/// <value>
 	/// The action on <see cref="HttpResponseMessage"/>.
 	/// </value>
-	public Action<HttpResponseMessage> AfterResponse { get; set; }
+	public Action<HttpResponseMessage>? AfterResponse { get; set; }
 
 	/// <summary>
 	/// Gets or sets the action executed after the OData request.
@@ -243,7 +243,7 @@ public class ODataClientSettings
 	/// <value>
 	/// The action on <see cref="HttpResponseMessage"/>.
 	/// </value>
-	public Func<HttpResponseMessage, Task> AfterResponseAsync { get; set; }
+	public Func<HttpResponseMessage, Task>? AfterResponseAsync { get; set; }
 
 	/// <summary>
 	/// Gets or sets the method that will be executed to write trace messages.
@@ -251,7 +251,7 @@ public class ODataClientSettings
 	/// <value>
 	/// The trace message handler.
 	/// </value>
-	public Action<string, object[]> OnTrace { get; set; }
+	public Action<string, object[]>? OnTrace { get; set; }
 
 	/// <summary>
 	/// Gets or sets the filter of information that is written to trace messages.
@@ -325,7 +325,9 @@ public class ODataClientSettings
 	/// <param name="baseUri">The URL address.</param>
 	/// <param name="credentials">The client credentials.</param>
 	[Obsolete("Use of string-typed baseUri is deprecated, please use Uri-typed baseUri instead.")]
-	public ODataClientSettings(string baseUri, ICredentials credentials = null)
+	public ODataClientSettings(
+		string baseUri,
+		ICredentials? credentials = null)
 	{
 		BaseUri = new Uri(baseUri);
 		Credentials = credentials;
@@ -336,7 +338,9 @@ public class ODataClientSettings
 	/// </summary>
 	/// <param name="baseUri">The URL address.</param>
 	/// <param name="credentials">The client credentials.</param>
-	public ODataClientSettings(Uri baseUri, ICredentials credentials = null)
+	public ODataClientSettings(
+		Uri baseUri,
+		ICredentials? credentials = null)
 	{
 		BaseUri = baseUri;
 		Credentials = credentials;
@@ -348,9 +352,14 @@ public class ODataClientSettings
 	/// <param name="httpClient">The instance of <see cref="System.Net.Http.HttpClient"/>.</param>
 	/// <param name="relativeUri">The URL address.</param>
 	/// <param name="credentials">The client credentials.</param>
-	public ODataClientSettings(HttpClient httpClient, Uri relativeUri = null, ICredentials credentials = null)
+	public ODataClientSettings(
+		HttpClient httpClient,
+		Uri? relativeUri = null,
+		ICredentials? credentials = null)
 	{
-		if (httpClient != null && httpClient.BaseAddress != null && !httpClient.BaseAddress.IsAbsoluteUri)
+		HttpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+
+		if (httpClient.BaseAddress != null && !httpClient.BaseAddress.IsAbsoluteUri)
 		{
 			throw new ArgumentException("HttpClient BaseAddress must be an absolute URI", nameof(httpClient));
 		}
@@ -360,12 +369,11 @@ public class ODataClientSettings
 			throw new ArgumentException("Must be a relative URI", nameof(relativeUri));
 		}
 
-		if (httpClient != null && httpClient.BaseAddress == null && relativeUri != null)
+		if (httpClient.BaseAddress == null && relativeUri != null)
 		{
 			throw new ArgumentException("Must not specify relative URI when HttpClient has no BaseAddress", nameof(relativeUri));
 		}
 
-		HttpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
 		BaseUri = relativeUri;
 		Credentials = credentials;
 	}

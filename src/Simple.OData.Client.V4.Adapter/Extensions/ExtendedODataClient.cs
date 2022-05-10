@@ -32,7 +32,7 @@ public class ExtendedODataClient : IExtendedODataClient
 		return client;
 	}
 
-	public IExtendedBoundClient<T> For<T>(string collectionName = null) where T : class
+	public IExtendedBoundClient<T> For<T>(string? collectionName = null) where T : class
 	{
 		var client = new ExtendedBoundClient<T>(_baseClient, _baseClient.Session);
 		client.For(collectionName);

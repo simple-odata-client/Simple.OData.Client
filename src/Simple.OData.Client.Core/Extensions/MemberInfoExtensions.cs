@@ -95,7 +95,7 @@ public static class MemberInfoExtensions
 		return name;
 	}
 
-	public static object GetValueEx(this MemberInfo memberInfo, object instance)
+	public static object GetValueEx(this MemberInfo memberInfo, object? instance)
 	{
 		return MemberAccessor.GetValue(instance, memberInfo);
 	}

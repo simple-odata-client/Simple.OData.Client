@@ -11,7 +11,7 @@ namespace Simple.OData.Client.V3.Adapter;
 public class ODataAdapter : ODataAdapterBase
 {
 	private readonly ISession _session;
-	private IMetadata _metadata;
+	private IMetadata? _metadata;
 
 	public override AdapterVersion AdapterVersion => AdapterVersion.V3;
 

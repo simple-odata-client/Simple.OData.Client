@@ -21,5 +21,5 @@ public interface IExtendedODataClient
 	/// </summary>
 	/// <param name="collectionName">Name of the collection.</param>
 	/// <returns>The fluent extended OData client instance.</returns>
-	IExtendedBoundClient<T> For<T>(string collectionName = null) where T : class;
+	IExtendedBoundClient<T> For<T>(string? collectionName = null) where T : class;
 }

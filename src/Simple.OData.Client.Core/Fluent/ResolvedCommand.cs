@@ -26,7 +26,7 @@ public class ResolvedCommand
 
 	internal FluentCommandDetails Details { get; private set; }
 
-	internal EntityCollection EntityCollection { get; private set; }
+	internal EntityCollection? EntityCollection { get; private set; }
 
 	public string QualifiedEntityCollectionName
 	{
@@ -47,7 +47,7 @@ public class ResolvedCommand
 		{
 			var collectionName = details.CollectionExpression.AsString(_sesson);
 			var items = collectionName.Split('/');
-			if (items.Count() > 1)
+			if (items.Length > 1)
 			{
 				Details.CollectionName = items[0];
 				Details.DerivedCollectionName = items[1];
@@ -302,7 +302,7 @@ public class ResolvedCommand
 		return Utils.NamedKeyValuesMatchKeyNames(namedKeyValues, _sesson.Settings.NameMatchResolver, keyNames, out matchingNamedKeyValues);
 	}
 
-	private bool NamedKeyValuesMatchAlternateKey(IDictionary<string, object> namedKeyValues, out IEnumerable<KeyValuePair<string, object>> alternateKeyNamedValues)
+	private bool NamedKeyValuesMatchAlternateKey(IDictionary<string, object> namedKeyValues, out IEnumerable<KeyValuePair<string, object>>? alternateKeyNamedValues)
 	{
 		alternateKeyNamedValues = null;
 

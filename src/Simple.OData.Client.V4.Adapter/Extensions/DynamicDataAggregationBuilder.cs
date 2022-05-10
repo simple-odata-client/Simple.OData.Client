@@ -106,7 +106,8 @@ namespace Simple.OData.Client.V4.Adapter.Extensions
 				DataAggregationClauses.Add(dataAggregationClause);
 			}
 
-			internal IDataAggregationClause LastOrDefault(Func<IDataAggregationClause, bool> predicate = null)
+			internal IDataAggregationClause LastOrDefault(
+				Func<IDataAggregationClause, bool>? predicate = null)
 			{
 				return DataAggregationClauses.LastOrDefault(predicate ?? (x => true));
 			}

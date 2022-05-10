@@ -5,20 +5,20 @@ namespace Simple.OData.Client;
 
 internal class FluentCommandDetails
 {
-	public FluentCommandDetails Parent { get; private set; }
-	public string CollectionName { get; set; }
+	public FluentCommandDetails? Parent { get; private set; }
+	public string? CollectionName { get; set; }
 	public ODataExpression CollectionExpression { get; set; }
-	public string DerivedCollectionName { get; set; }
+	public string? DerivedCollectionName { get; set; }
 	public ODataExpression DerivedCollectionExpression { get; set; }
 	public string DynamicPropertiesContainerName { get; set; }
 	public string FunctionName { get; set; }
 	public string ActionName { get; set; }
 	public bool IsAlternateKey { get; set; }
-	public IList<object> KeyValues { get; set; }
-	public IDictionary<string, object> NamedKeyValues { get; set; }
+	public IList<object>? KeyValues { get; set; }
+	public IDictionary<string, object>? NamedKeyValues { get; set; }
 	public object EntryValue { get; set; }
-	public IDictionary<string, object> EntryData { get; set; }
-	public string Filter { get; set; }
+	public IDictionary<string, object>? EntryData { get; set; }
+	public string? Filter { get; set; }
 	public ODataExpression FilterExpression { get; set; }
 	public string Search { get; set; }
 	public long SkipCount { get; set; }
@@ -28,18 +28,20 @@ internal class FluentCommandDetails
 	public List<KeyValuePair<string, bool>> OrderbyColumns { get; private set; }
 	public bool ComputeCount { get; set; }
 	public bool IncludeCount { get; set; }
-	public string LinkName { get; set; }
+	public string? LinkName { get; set; }
 	public ODataExpression LinkExpression { get; set; }
-	public string QueryOptions { get; set; }
+	public string? QueryOptions { get; set; }
 	public ODataExpression QueryOptionsExpression { get; set; }
 	public IDictionary<string, object> QueryOptionsKeyValues { get; set; }
 	public string MediaName { get; set; }
 	public IEnumerable<string> MediaProperties { get; set; }
-	public ConcurrentDictionary<object, IDictionary<string, object>> BatchEntries { get; set; }
+	public ConcurrentDictionary<object, IDictionary<string, object>>? BatchEntries { get; set; }
 	public IDictionary<string, string> Headers { get; set; }
 	public IDictionary<string, object> Extensions { get; set; }
 
-	public FluentCommandDetails(FluentCommandDetails parent, ConcurrentDictionary<object, IDictionary<string, object>> batchEntries)
+	public FluentCommandDetails(
+		FluentCommandDetails? parent,
+		ConcurrentDictionary<object, IDictionary<string, object>>? batchEntries)
 	{
 		Parent = parent;
 		SkipCount = -1;

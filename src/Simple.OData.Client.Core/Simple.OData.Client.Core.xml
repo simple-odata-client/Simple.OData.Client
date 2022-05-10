@@ -2486,6 +2486,16 @@
             <param name="cancellationToken">The cancellation token.</param>
             <returns>Entries found with entry count.</returns>
         </member>
+        <member name="M:Simple.OData.Client.IODataClient.FindEntriesAsync(System.String,Simple.OData.Client.ODataFeedAnnotations,System.Collections.Generic.IDictionary{System.String,System.String},System.Threading.CancellationToken)">
+            <summary>
+            Retrieves entries by executing OData GET request and assigns OData feed annotations.
+            </summary>
+            <param name="commandText">The OData command text.</param>
+            <param name="annotations">The OData feed annotations.</param>
+            <param name="headers">The additional headers to send.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Entries found with entry count.</returns>
+        </member>
         <member name="M:Simple.OData.Client.IODataClient.FindEntryAsync(System.String)">
             <summary>
             Retrieves an entry by executing OData GET request.

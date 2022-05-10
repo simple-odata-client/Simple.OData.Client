@@ -41,17 +41,17 @@ public abstract class DeleteODataTests : ODataTestBase
 		var product = await _client
 			.For("Products")
 			.Set(CreateProduct(3001, "Test1"))
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		await _client
 			.For("Products")
 			.Key(product["ID"])
-			.DeleteEntryAsync();
+			.DeleteEntryAsync().ConfigureAwait(false);
 
 		product = await _client
 			.For("Products")
 			.Filter("Name eq 'Test1'")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 
 		Assert.Null(product);
 	}
@@ -62,17 +62,17 @@ public abstract class DeleteODataTests : ODataTestBase
 		_ = await _client
 			.For("Products")
 			.Set(CreateProduct(3002, "Test1"))
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		await _client
 			.For("Products")
 			.Filter("Name eq 'Test1'")
-			.DeleteEntryAsync();
+			.DeleteEntryAsync().ConfigureAwait(false);
 
 		var product = await _client
 			.For("Products")
 			.Filter("Name eq 'Test1'")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 
 		Assert.Null(product);
 	}
@@ -83,17 +83,17 @@ public abstract class DeleteODataTests : ODataTestBase
 		var product = await _client
 			.For("Products")
 			.Set(CreateProduct(3003, "Test1"))
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		await _client
 			.For("Products")
 			.Key(product)
-			.DeleteEntryAsync();
+			.DeleteEntryAsync().ConfigureAwait(false);
 
 		product = await _client
 			.For("Products")
 			.Filter("Name eq 'Test1'")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 
 		Assert.Null(product);
 	}

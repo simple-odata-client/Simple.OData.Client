@@ -94,7 +94,11 @@ internal class FunctionMapping
 		return DefinedFunctions.Any(x => x.FunctionCall.Equals(new ExpressionFunction.FunctionCall(functionName, argumentCount)));
 	}
 
-	public static bool TryGetFunctionMapping(string functionName, int argumentCount, AdapterVersion adapterVersion, out FunctionMapping functionMapping)
+	public static bool TryGetFunctionMapping(
+		string functionName,
+		int argumentCount,
+		AdapterVersion adapterVersion,
+		out FunctionMapping? functionMapping)
 	{
 		functionMapping = null;
 		var function = DefinedFunctions.SingleOrDefault(x =>

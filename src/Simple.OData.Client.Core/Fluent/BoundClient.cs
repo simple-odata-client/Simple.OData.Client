@@ -16,12 +16,17 @@ namespace Simple.OData.Client;
 public partial class BoundClient<T> : FluentClientBase<T, IBoundClient<T>>, IBoundClient<T>
 	where T : class
 {
-	internal BoundClient(ODataClient client, Session session, FluentCommand parentCommand = null, FluentCommand command = null, bool dynamicResults = false)
+	internal BoundClient(
+		ODataClient client,
+		Session session,
+		FluentCommand? parentCommand = null,
+		FluentCommand? command = null,
+		bool dynamicResults = false)
 		: base(client, session, parentCommand, command, dynamicResults)
 	{
 	}
 
-	public IBoundClient<T> For(string collectionName = null)
+	public IBoundClient<T> For(string? collectionName = null)
 	{
 		Command.For(collectionName ?? _session.TypeCache.GetMappedName(typeof(T)));
 		return this;
@@ -103,7 +108,7 @@ public partial class BoundClient<T> : FluentClientBase<T, IBoundClient<T>>, IBou
 		throw new NotImplementedException();
 	}
 
-	public IBoundClient<U> As<U>(string derivedCollectionName = null)
+	public IBoundClient<U> As<U>(string? derivedCollectionName = null)
 	where U : class
 	{
 		Command.As(derivedCollectionName ?? typeof(U).Name);

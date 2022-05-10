@@ -21,7 +21,7 @@ public class BatchDynamicTests : TestBase
 			.For<Product>()
 			.Set(x.ProductName = "Test2", x.UnitPrice = 20m)
 			.InsertEntryAsync(false);
-		await batch.ExecuteAsync();
+		await batch.ExecuteAsync().ConfigureAwait(false);
 
 		var client = new ODataClient(settings);
 		var product = await client
@@ -41,8 +41,8 @@ public class BatchDynamicTests : TestBase
 	{
 		var settings = CreateDefaultSettings().WithHttpMock();
 		var x = ODataDynamic.Expression;
-		dynamic product1 = null;
-		dynamic product2 = null;
+		dynamic? product1 = null;
+		dynamic? product2 = null;
 
 		var batch = new ODataBatch(settings);
 		batch += async c => product1 = await c
@@ -53,7 +53,7 @@ public class BatchDynamicTests : TestBase
 			.For(x.Products)
 			.Set(x.ProductName = "Test2", x.UnitPrice = 20m)
 			.InsertEntryAsync();
-		await batch.ExecuteAsync();
+		await batch.ExecuteAsync().ConfigureAwait(false);
 
 		Assert.NotEqual(0, product1.ProductID);
 		Assert.NotEqual(0, product2.ProductID);
@@ -88,7 +88,7 @@ public class BatchDynamicTests : TestBase
 
 		try
 		{
-			await batch.ExecuteAsync();
+			await batch.ExecuteAsync().ConfigureAwait(false);
 		}
 		catch (WebRequestException exception)
 		{
@@ -113,7 +113,7 @@ public class BatchDynamicTests : TestBase
 
 		try
 		{
-			await batch.ExecuteAsync();
+			await batch.ExecuteAsync().ConfigureAwait(false);
 		}
 		catch (WebRequestException exception)
 		{
@@ -126,16 +126,16 @@ public class BatchDynamicTests : TestBase
 	{
 		var settings = CreateDefaultSettings().WithHttpMock();
 		var x = ODataDynamic.Expression;
-		dynamic product = null;
-		dynamic product1 = null;
-		dynamic product2 = null;
+		dynamic? product = null;
+		dynamic? product1 = null;
+		dynamic? product2 = null;
 
 		var batch = new ODataBatch(settings);
 		batch += async c => product = await c
 			.For(x.Products)
 			.Set(x.ProductName = "Test11", x.UnitPrice = 21m)
 			.InsertEntryAsync();
-		await batch.ExecuteAsync();
+		await batch.ExecuteAsync().ConfigureAwait(false);
 
 		batch = new ODataBatch(settings);
 		batch += c => c
@@ -156,7 +156,7 @@ public class BatchDynamicTests : TestBase
 			.For(x.Products)
 			.Filter(x.ProductName == "Test11")
 			.FindEntryAsync();
-		await batch.ExecuteAsync();
+		await batch.ExecuteAsync().ConfigureAwait(false);
 
 		Assert.Equal(22m, product1.UnitPrice);
 		Assert.Equal(23m, product2.UnitPrice);
@@ -174,16 +174,16 @@ public class BatchDynamicTests : TestBase
 	{
 		var settings = CreateDefaultSettings().WithHttpMock();
 		var x = ODataDynamic.Expression;
-		dynamic product = null;
-		dynamic product1 = null;
-		dynamic product2 = null;
+		dynamic? product = null;
+		dynamic? product1 = null;
+		dynamic? product2 = null;
 
 		var batch = new ODataBatch(settings);
 		batch += async c => product = await c
 			.For(x.Products)
 			.Set(x.ProductName = "Test11", x.UnitPrice = 21m)
 			.InsertEntryAsync();
-		await batch.ExecuteAsync();
+		await batch.ExecuteAsync().ConfigureAwait(false);
 
 		batch = new ODataBatch(settings);
 		batch += c => c
@@ -203,7 +203,7 @@ public class BatchDynamicTests : TestBase
 			.For(x.Products)
 			.Filter(x.ProductName == "Test11")
 			.FindEntryAsync();
-		await batch.ExecuteAsync();
+		await batch.ExecuteAsync().ConfigureAwait(false);
 
 		Assert.Equal(22m, product1.UnitPrice);
 		Assert.Null(product2);
@@ -226,7 +226,7 @@ public class BatchDynamicTests : TestBase
 			.For(x.Products)
 			.Set(new { ProductName = "Test12", UnitPrice = 21m })
 			.InsertEntryAsync(false);
-		await batch.ExecuteAsync();
+		await batch.ExecuteAsync().ConfigureAwait(false);
 
 		var client = new ODataClient(settings);
 		var product = await client
@@ -242,7 +242,7 @@ public class BatchDynamicTests : TestBase
 			.Key(productID)
 			.Set(x.UnitPrice = 22m)
 			.UpdateEntryAsync(false);
-		await batch.ExecuteAsync();
+		await batch.ExecuteAsync().ConfigureAwait(false);
 
 		product = await client
 			.For(x.Products)
@@ -255,7 +255,7 @@ public class BatchDynamicTests : TestBase
 			.For(x.Products)
 			.Key(productID)
 			.DeleteEntryAsync();
-		await batch.ExecuteAsync();
+		await batch.ExecuteAsync().ConfigureAwait(false);
 
 		product = await client
 			.For(x.Products)
@@ -279,7 +279,7 @@ public class BatchDynamicTests : TestBase
 			.For(x.Products)
 			.Set(x.ProductName = "Test14", x.UnitPrice = 21m, x.Category = category)
 			.InsertEntryAsync();
-		await batch.ExecuteAsync();
+		await batch.ExecuteAsync().ConfigureAwait(false);
 
 		var client = new ODataClient(settings);
 		var product = await client
@@ -311,7 +311,7 @@ public class BatchDynamicTests : TestBase
 			.For(x.Categories)
 			.Set(x.CategoryName = "Test17", x.Products = new[] { product1, product2 })
 			.InsertEntryAsync(false);
-		await batch.ExecuteAsync();
+		await batch.ExecuteAsync().ConfigureAwait(false);
 
 		var client = new ODataClient(settings);
 		var category = await client

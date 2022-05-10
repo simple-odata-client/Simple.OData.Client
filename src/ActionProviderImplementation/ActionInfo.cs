@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Linq;
-using System.Reflection;
 using System.Data.Services;
 using System.Data.Services.Providers;
+using System.Linq;
+using System.Reflection;
 
 namespace ActionProviderImplementation;
 
@@ -34,7 +34,7 @@ public class ActionInfo
 
 	public OperationParameterBindingKind Binding { get; private set; }
 
-	public void AssertAvailable(object context, object entity, bool inFeedContext)
+	public void AssertAvailable(object context, object? entity, bool inFeedContext)
 	{
 		if (entity == null)
 		{
@@ -69,7 +69,7 @@ public class ActionInfo
 
 	private MethodInfo AvailabilityCheckMethod { get; set; }
 	private bool SkipAvailabilityCheckForFeeds { get; set; }
-	private MethodInfo GetAvailabilityMethod(string availabilityMethodName)
+	private MethodInfo GetAvailabilityMethod(string? availabilityMethodName)
 	{
 		if (availabilityMethodName == null)
 		{

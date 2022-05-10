@@ -30,7 +30,7 @@ internal class SimplePluralizer : IPluralizer
 
 	public bool IsNounPluralOfNoun(string plural, string singular)
 	{
-		return string.Compare(ToSingularInternal(plural), singular, StringComparison.OrdinalIgnoreCase) == 0;
+		return string.Equals(ToSingularInternal(plural), singular, StringComparison.OrdinalIgnoreCase);
 	}
 
 	private static readonly string[] _specialWordsStringTable =
@@ -117,6 +117,7 @@ internal class SimplePluralizer : IPluralizer
 			"simplex", "simplices", "simplexes",
 			"soliloquy", "soliloquies", "soliloquy",
 			"species", "", "",
+			"status", "statuses", "",
 			"stratum", "strata", "",
 			"swine", "", "",
 			"trout", "", "",

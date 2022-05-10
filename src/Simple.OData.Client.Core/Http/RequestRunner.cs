@@ -19,7 +19,7 @@ internal class RequestRunner
 
 	public async Task<HttpResponseMessage> ExecuteRequestAsync(ODataRequest request, CancellationToken cancellationToken)
 	{
-		HttpConnection httpConnection = null;
+		HttpConnection? httpConnection = null;
 		try
 		{
 			await PreExecuteAsync(request).ConfigureAwait(false);
