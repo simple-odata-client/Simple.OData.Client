@@ -19,8 +19,8 @@ public class ResponseReaderV3Tests : CoreTestBase
 	public async Task GetSingleProduct()
 	{
 		var response = SetUpResourceMock("SingleProduct.xml");
-		var responseReader = new ResponseReader(_session, await _client.GetMetadataAsync<IEdmModel>());
-		var result = (await responseReader.GetResponseAsync(response)).AsEntry(false);
+		var responseReader = new ResponseReader(_session, await _client.GetMetadataAsync<IEdmModel>().ConfigureAwait(false));
+		var result = (await responseReader.GetResponseAsync(response).ConfigureAwait(false)).AsEntry(false);
 		Assert.Equal(productProperties, result.Count);
 	}
 
@@ -28,8 +28,8 @@ public class ResponseReaderV3Tests : CoreTestBase
 	public async Task GetMultipleProducts()
 	{
 		var response = SetUpResourceMock("MultipleProducts.xml");
-		var responseReader = new ResponseReader(_session, await _client.GetMetadataAsync<IEdmModel>());
-		var result = (await responseReader.GetResponseAsync(response)).Feed.Entries;
+		var responseReader = new ResponseReader(_session, await _client.GetMetadataAsync<IEdmModel>().ConfigureAwait(false));
+		var result = (await responseReader.GetResponseAsync(response).ConfigureAwait(false)).Feed.Entries;
 		Assert.Equal(20, result.Count);
 		Assert.Equal(productProperties, result.First().Data.Count);
 	}
@@ -38,8 +38,8 @@ public class ResponseReaderV3Tests : CoreTestBase
 	public async Task GetSingleProductWithCategory()
 	{
 		var response = SetUpResourceMock("SingleProductWithCategory.xml");
-		var responseReader = new ResponseReader(_session, await _client.GetMetadataAsync<IEdmModel>());
-		var result = (await responseReader.GetResponseAsync(response)).AsEntry(false);
+		var responseReader = new ResponseReader(_session, await _client.GetMetadataAsync<IEdmModel>().ConfigureAwait(false));
+		var result = (await responseReader.GetResponseAsync(response).ConfigureAwait(false)).AsEntry(false);
 		Assert.Equal(productProperties + 1, result.Count);
 		Assert.Equal(categoryProperties, (result["Category"] as IDictionary<string, object>).Count);
 	}
@@ -48,8 +48,8 @@ public class ResponseReaderV3Tests : CoreTestBase
 	public async Task GetMultipleProductsWithCategory()
 	{
 		var response = SetUpResourceMock("MultipleProductsWithCategory.xml");
-		var responseReader = new ResponseReader(_session, await _client.GetMetadataAsync<IEdmModel>());
-		var result = (await responseReader.GetResponseAsync(response)).Feed.Entries;
+		var responseReader = new ResponseReader(_session, await _client.GetMetadataAsync<IEdmModel>().ConfigureAwait(false));
+		var result = (await responseReader.GetResponseAsync(response).ConfigureAwait(false)).Feed.Entries;
 		Assert.Equal(20, result.Count);
 		Assert.Equal(productProperties + 1, result.First().Data.Count);
 		Assert.Equal(categoryProperties, (result.First().Data["Category"] as IDictionary<string, object>).Count);
@@ -59,8 +59,8 @@ public class ResponseReaderV3Tests : CoreTestBase
 	public async Task GetSingleCategoryWithProducts()
 	{
 		var response = SetUpResourceMock("SingleCategoryWithProducts.xml");
-		var responseReader = new ResponseReader(_session, await _client.GetMetadataAsync<IEdmModel>());
-		var result = (await responseReader.GetResponseAsync(response)).AsEntry(false);
+		var responseReader = new ResponseReader(_session, await _client.GetMetadataAsync<IEdmModel>().ConfigureAwait(false));
+		var result = (await responseReader.GetResponseAsync(response).ConfigureAwait(false)).AsEntry(false);
 		Assert.Equal(categoryProperties + 1, result.Count);
 		Assert.Equal(12, (result["Products"] as IEnumerable<IDictionary<string, object>>).Count());
 		Assert.Equal(productProperties, (result["Products"] as IEnumerable<IDictionary<string, object>>).First().Count);
@@ -70,8 +70,8 @@ public class ResponseReaderV3Tests : CoreTestBase
 	public async Task GetMultipleCategoriesWithProducts()
 	{
 		var response = SetUpResourceMock("MultipleCategoriesWithProducts.xml");
-		var responseReader = new ResponseReader(_session, await _client.GetMetadataAsync<IEdmModel>());
-		var result = (await responseReader.GetResponseAsync(response)).Feed.Entries;
+		var responseReader = new ResponseReader(_session, await _client.GetMetadataAsync<IEdmModel>().ConfigureAwait(false));
+		var result = (await responseReader.GetResponseAsync(response).ConfigureAwait(false)).Feed.Entries;
 		Assert.Equal(8, result.Count);
 		Assert.Equal(categoryProperties + 1, result.First().Data.Count);
 		Assert.Equal(12, (result.First().Data["Products"] as IEnumerable<IDictionary<string, object>>).Count());
@@ -83,7 +83,7 @@ public class ResponseReaderV3Tests : CoreTestBase
 	{
 		var response = SetUpResourceMock("SingleProductWithComplexProperty.xml");
 		var responseReader = new ResponseReader(_session, null);
-		var result = (await responseReader.GetResponseAsync(response)).AsEntry(false);
+		var result = (await responseReader.GetResponseAsync(response).ConfigureAwait(false)).AsEntry(false);
 		Assert.Equal(productProperties + 1, result.Count);
 		var quantity = result["Quantity"] as IDictionary<string, object>;
 		Assert.NotNull(quantity);
@@ -96,7 +96,7 @@ public class ResponseReaderV3Tests : CoreTestBase
 	{
 		var response = SetUpResourceMock("SingleProductWithCollectionOfPrimitiveProperties.xml");
 		var responseReader = new ResponseReader(_session, null);
-		var result = (await responseReader.GetResponseAsync(response)).AsEntry(false);
+		var result = (await responseReader.GetResponseAsync(response).ConfigureAwait(false)).AsEntry(false);
 		Assert.Equal(productProperties + 2, result.Count);
 		var tags = result["Tags"] as IList<dynamic>;
 		Assert.Equal(2, tags.Count);
@@ -113,7 +113,7 @@ public class ResponseReaderV3Tests : CoreTestBase
 	{
 		var response = SetUpResourceMock("SingleProductWithCollectionOfComplexProperties.xml");
 		var responseReader = new ResponseReader(_session, null);
-		var result = (await responseReader.GetResponseAsync(response)).AsEntry(false);
+		var result = (await responseReader.GetResponseAsync(response).ConfigureAwait(false)).AsEntry(false);
 		Assert.Equal(productProperties + 1, result.Count);
 		var tags = result["Tags"] as IList<dynamic>;
 		Assert.Equal(2, tags.Count);
@@ -128,7 +128,7 @@ public class ResponseReaderV3Tests : CoreTestBase
 	{
 		var response = SetUpResourceMock("SingleProductWithEmptyCollectionOfComplexProperties.xml");
 		var responseReader = new ResponseReader(_session, null);
-		var result = (await responseReader.GetResponseAsync(response)).AsEntry(false);
+		var result = (await responseReader.GetResponseAsync(response).ConfigureAwait(false)).AsEntry(false);
 		Assert.Equal(productProperties + 1, result.Count);
 		var tags = result["Tags"] as IList<dynamic>;
 		Assert.Equal(0, tags.Count);

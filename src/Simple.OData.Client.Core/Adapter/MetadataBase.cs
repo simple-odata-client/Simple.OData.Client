@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Simple.OData.Client;
@@ -58,7 +59,7 @@ public abstract class MetadataBase : IMetadata
 
 	public abstract string GetFunctionFullName(string functionName);
 
-	public abstract EntityCollection GetFunctionReturnCollection(string functionName);
+	public abstract EntityCollection? GetFunctionReturnCollection(string functionName);
 
 	public abstract string GetFunctionVerb(string functionName);
 
@@ -69,7 +70,7 @@ public abstract class MetadataBase : IMetadata
 	public EntityCollection GetEntityCollection(string collectionPath)
 	{
 		var segments = collectionPath.Split('/');
-		if (segments.Count() > 1)
+		if (segments.Length > 1)
 		{
 			if (SegmentsIncludeTypeSpecification(segments))
 			{
@@ -134,7 +135,10 @@ public abstract class MetadataBase : IMetadata
 		return segments.Count() == 2 && SegmentsIncludeTypeSpecification(segments);
 	}
 
-	public EntryDetails ParseEntryDetails(string collectionName, IDictionary<string, object> entryData, string contentId = null)
+	public EntryDetails ParseEntryDetails(
+		string collectionName,
+		IDictionary<string, object> entryData,
+		string? contentId = null)
 	{
 		var entryDetails = new EntryDetails();
 
@@ -183,6 +187,6 @@ public abstract class MetadataBase : IMetadata
 
 	public IEnumerable<string> GetCollectionPathSegments(string path)
 	{
-		return path.Split('/').Select(x => x.Contains("(") ? x.Substring(0, x.IndexOf("(")) : x);
+		return path.Split('/').Select(x => x.Contains("(") ? x.Substring(0, x.IndexOf("(", StringComparison.Ordinal)) : x);
 	}
 }

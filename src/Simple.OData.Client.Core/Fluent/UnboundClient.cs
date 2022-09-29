@@ -11,7 +11,11 @@ namespace Simple.OData.Client;
 public partial class UnboundClient<T> : FluentClientBase<T, IUnboundClient<T>>, IUnboundClient<T>
 	where T : class
 {
-	internal UnboundClient(ODataClient client, Session session, FluentCommand command = null, bool dynamicResults = false)
+	internal UnboundClient(
+		ODataClient client,
+		Session session,
+		FluentCommand? command = null,
+		bool dynamicResults = false)
 		: base(client, session, null, command, dynamicResults)
 	{
 	}
@@ -86,7 +90,7 @@ public partial class UnboundClient<T> : FluentClientBase<T, IUnboundClient<T>>, 
 		return new UnboundClient<IDictionary<string, object>>(_client, _session, Command, _dynamicResults);
 	}
 
-	public IUnboundClient<U> As<U>(string derivedCollectionName = null)
+	public IUnboundClient<U> As<U>(string? derivedCollectionName = null)
 	where U : class
 	{
 		Command.As(derivedCollectionName ?? typeof(U).Name);

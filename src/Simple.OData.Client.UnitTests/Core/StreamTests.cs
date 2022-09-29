@@ -24,7 +24,7 @@ public class StreamTests : CoreTestBase
 			.Key(1)
 			.QueryOptions(new Dictionary<string, object>() { { "IntOption", 42 }, { "StringOption", "xyz" } })
 			.Media();
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal("Photos(1)/$value?IntOption=42&StringOption='xyz'", commandText);
 	}
 }

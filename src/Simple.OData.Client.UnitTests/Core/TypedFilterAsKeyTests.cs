@@ -18,7 +18,7 @@ public class TypedFilterAsKeyV3Tests : TypedFilterAsKeyTests
 		var command = _client
 			.For<Product>()
 			.Filter(x => list.Contains(x.ProductID));
-		await Assert.ThrowsAsync<ODataException>(() => command.GetCommandTextAsync());
+		await Assert.ThrowsAsync<ODataException>(() => command.GetCommandTextAsync()).ConfigureAwait(false);
 	}
 }
 
@@ -34,7 +34,7 @@ public class TypedFilterAsKeyV4Tests : TypedFilterAsKeyTests
 			.Unbound()
 			.Function("PassThroughIntCollection")
 			.Set(new Dictionary<string, object>() { { "numbers", new[] { 1, 2, 3 } } });
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal("PassThroughIntCollection(numbers=@p1)?@p1=[1,2,3]", commandText);
 	}
 
@@ -45,7 +45,7 @@ public class TypedFilterAsKeyV4Tests : TypedFilterAsKeyTests
 		var command = _client
 			.For<Product>()
 			.Filter(x => ids.Contains(x.ProductID));
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal("Products?$filter=%28ProductID%20in%20%281%2C2%2C3%29%29", commandText);
 	}
 }
@@ -58,7 +58,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 		var command = _client
 			.For<Product>()
 			.Filter(x => x.ProductID == 1);
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal("Products(1)", commandText);
 	}
 
@@ -68,7 +68,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 		var command = _client
 			.For<Product>()
 			.Filter(x => x.ProductID != 1);
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal("Products?$filter=ProductID%20ne%201", commandText);
 	}
 
@@ -79,7 +79,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 			.For<Product>()
 			.Filter(x => x.ProductID != 1)
 			.Filter(x => x.ProductID != 2);
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal("Products?$filter=ProductID%20ne%201%20and%20ProductID%20ne%202", commandText);
 	}
 
@@ -90,7 +90,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 			.For<Product>()
 			.Filter(x => x.ProductID != 1 || x.ProductID != 2)
 			.Filter(x => x.ProductID != 3);
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal("Products?$filter=%28ProductID%20ne%201%20or%20ProductID%20ne%202%29%20and%20ProductID%20ne%203", commandText);
 	}
 
@@ -100,7 +100,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 		var command = _client
 			.For<Product>()
 			.Filter(x => !(x.ProductID == 1));
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal($"Products?$filter=not%20{Uri.EscapeDataString("(")}ProductID%20eq%201{Uri.EscapeDataString(")")}", commandText);
 	}
 
@@ -110,7 +110,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 		var command = _client
 			.For<Product>()
 			.Filter(x => x.ProductID == 1L);
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal($"Products(1{FormatSettings.LongNumberSuffix})", commandText);
 	}
 
@@ -120,7 +120,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 		var command = _client
 			.For<Product>()
 			.Filter(x => x.ProductID == 1 && x.ProductName == "abc");
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal(string.Format("Products?$filter=ProductID%20eq%201%20and%20ProductName%20eq%20{0}abc{0}",
 			Uri.EscapeDataString("'")), commandText);
 	}
@@ -131,7 +131,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 		var command = _client
 			.For<OrderDetail>()
 			.Filter(x => x.OrderID == 1 && x.Quantity == 1);
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 
 		var expected = "Order_Details?$filter=OrderID%20eq%201%20and%20Quantity%20eq%201";
 		Assert.Equal(expected, commandText);
@@ -143,7 +143,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 		var command = _client
 			.For<OrderDetail>()
 			.Filter(x => x.ProductID == 1 && x.Quantity == 1);
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 
 		var expected = "Order_Details?$filter=ProductID%20eq%201%20and%20Quantity%20eq%201";
 		Assert.Equal(expected, commandText);
@@ -155,7 +155,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 		var command = _client
 			.For<Product>()
 			.Filter(x => x.ProductID == 1 && x.ProductID == 1);
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal("Products(1)", commandText);
 	}
 
@@ -165,7 +165,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 		var command = _client
 			.For<OrderDetail>()
 			.Filter(x => x.OrderID == 1 && x.ProductID == 2);
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal("Order_Details(OrderID=1,ProductID=2)", commandText);
 	}
 
@@ -175,7 +175,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 		var command = _client
 			.For<OrderDetail>()
 			.Filter(x => x.OrderID == 1);
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal("Order_Details?$filter=OrderID%20eq%201", commandText);
 	}
 
@@ -186,7 +186,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 		var command = _client
 			.For<Order>()
 			.Filter(x => x.ShippedDateTimeOffset > created);
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal($"Orders?$filter=ShippedDateTimeOffset%20gt%20{FormatSettings.GetDateTimeOffsetFormat("2010-12-01T12:11:10Z", true)}", commandText);
 	}
 
@@ -197,7 +197,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 		var command = _client
 			.For<Order>()
 			.Filter(x => x.ShippedDateTimeOffset > created);
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal($"Orders?$filter=ShippedDateTimeOffset%20gt%20{FormatSettings.GetDateTimeOffsetFormat("2010-12-01T12:11:10Z", true)}", commandText);
 	}
 
@@ -208,7 +208,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 		var command = _client
 			.For<Order>()
 			.Filter(x => x.ShippedDateTimeOffset > created);
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal($"Orders?$filter=ShippedDateTimeOffset%20gt%20{FormatSettings.GetDateTimeOffsetFormat("2010-12-01T12:11:10Z", true)}", commandText);
 	}
 
@@ -219,7 +219,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 			.For<Employee>()
 			.Filter(x => x.EmployeeID == 1)
 			.NavigateTo("Superior");
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal("Employees(1)/Superior", commandText);
 	}
 
@@ -230,7 +230,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 			.For<Customer>()
 			.Filter(x => x.CustomerID == "ALFKI")
 			.NavigateTo<Order>();
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal("Customers(%27ALFKI%27)/Orders", commandText);
 	}
 
@@ -241,7 +241,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 			.For<Employee>()
 			.Filter(x => x.EmployeeID == 2)
 			.NavigateTo("Subordinates");
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal("Employees(2)/Subordinates", commandText);
 	}
 
@@ -252,7 +252,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 			.For<Order>()
 			.Filter(x => x.OrderID == 10952)
 			.NavigateTo<OrderDetail>();
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal("Orders(10952)/Order_Details", commandText);
 	}
 
@@ -263,7 +263,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 			.For<Employee>()
 			.Filter(x => x.EmployeeID == 1)
 			.NavigateTo("Superior");
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal("Employees(1)/Superior", commandText);
 	}
 
@@ -273,7 +273,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 		var command = _client
 			.For<Transport>()
 			.Filter(x => x.TransportID == 1);
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal("Transport(1)", commandText);
 	}
 
@@ -284,7 +284,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 			.For<Transport>()
 			.As<Ship>()
 			.Filter(x => x.TransportID == 1);
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal("Transport(1)/NorthwindModel.Ships", commandText);
 	}
 
@@ -295,7 +295,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 			.For<Product>()
 			.Filter(x => x.ProductName == "abc")
 			.QueryOptions<QueryOptions>(y => y.IntOption == 42 && y.StringOption == "xyz");
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal("Products?$filter=ProductName%20eq%20%27abc%27&IntOption=42&StringOption='xyz'", commandText);
 	}
 
@@ -306,7 +306,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 			.For<Product>()
 			.Filter(x => x.ProductName == "abc")
 			.QueryOptions(new Dictionary<string, object>() { { "IntOption", 42 }, { "StringOption", "xyz" } });
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal("Products?$filter=ProductName%20eq%20%27abc%27&IntOption=42&StringOption='xyz'", commandText);
 	}
 
@@ -316,7 +316,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 		var command = _client
 			.For<Product>()
 			.Key("CRONUS USA, Inc.");
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal("'CRONUS%20USA%2C%20Inc.'", commandText);
 	}
 
@@ -327,7 +327,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 		var command = _client
 			.For<TypeWithGuidKey>()
 			.Filter(x => x.Key == key);
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal($"TypeWithGuidKey({Uri.EscapeDataString(FormatSettings.GetGuidFormat(key.ToString()))})", commandText);
 	}
 
@@ -338,7 +338,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 		var command = _client
 			.For<TypeWithGuidKey>()
 			.Key(key);
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal($"TypeWithGuidKey({Uri.EscapeDataString(FormatSettings.GetGuidFormat(key.ToString()))})", commandText);
 	}
 
@@ -348,7 +348,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 		var command = _client
 			.For("project1")
 			.Key("abc");
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal("project1(%27abc%27)", commandText);
 	}
 
@@ -359,7 +359,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 		var command = client
 			.For("project2")
 			.Key("abc");
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal("project2(%27abc%27)", commandText);
 	}
 
@@ -370,7 +370,7 @@ public abstract class TypedFilterAsKeyTests : CoreTestBase
 			.For<Category>()
 			.Key(1)
 			.Filter(x => x.CategoryName == "Beverages");
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal("Categories(1)?$filter=CategoryName%20eq%20%27Beverages%27", commandText);
 	}
 }

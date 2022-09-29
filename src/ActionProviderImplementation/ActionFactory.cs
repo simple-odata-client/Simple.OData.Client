@@ -136,8 +136,13 @@ public class ActionFactory
 
 		return resourceType;
 	}
-	// Given a type try to find the resource set.
-	private ResourceSet GetResourceSet(ResourceType type)
+
+	/// <summary>
+	/// Given a type try to find the resource set.
+	/// </summary>
+	/// <param name="type"></param>
+	/// <returns></returns>
+	private ResourceSet? GetResourceSet(ResourceType? type)
 	{
 		if (type == null)
 		{

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -27,7 +28,9 @@ public partial class ODataExpression
 		};
 	}
 
-	private static ODataExpression ParseMemberExpression(Expression expression, Stack<MemberInfo> memberChain = null)
+	private static ODataExpression ParseMemberExpression(
+		Expression expression,
+		Stack<MemberInfo>? memberChain = null)
 	{
 		var memberExpression = expression as MemberExpression;
 		if (memberExpression.Expression == null)
@@ -117,7 +120,7 @@ public partial class ODataExpression
 		var arrayExpression = ParseMemberExpression(binaryEpression.Left);
 		var indexExpression = ParseConstantExpression(binaryEpression.Right);
 
-		return FromValue((arrayExpression.Value as Array).GetValue(int.Parse(indexExpression.Value.ToString())));
+		return FromValue((arrayExpression.Value as Array).GetValue(int.Parse(indexExpression.Value.ToString(), CultureInfo.InvariantCulture)));
 	}
 
 	private static ODataExpression ParseCallArgumentExpression(Expression expression)
@@ -140,7 +143,9 @@ public partial class ODataExpression
 		return ParseLinqExpression(lambdaExpression.Body);
 	}
 
-	private static ODataExpression ParseConstantExpression(Expression expression, Stack<MemberInfo> members = null)
+	private static ODataExpression ParseConstantExpression(
+		Expression expression,
+		Stack<MemberInfo>? members = null)
 	{
 		var constExpression = expression as ConstantExpression;
 
@@ -215,7 +220,7 @@ public partial class ODataExpression
 		};
 	}
 
-	private static bool IsConvertFromCustomEnum(Expression expression, out Type enumType)
+	private static bool IsConvertFromCustomEnum(Expression expression, out Type? enumType)
 	{
 		enumType = null;
 		if (expression.NodeType == ExpressionType.Convert)
@@ -265,7 +270,7 @@ public partial class ODataExpression
 
 	private static object EvaluateStaticMember(MemberExpression expression)
 	{
-		object value = null;
+		object? value = null;
 		switch (expression.Member)
 		{
 			case FieldInfo field:

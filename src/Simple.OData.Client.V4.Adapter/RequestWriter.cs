@@ -108,7 +108,8 @@ namespace Simple.OData.Client.V4.Adapter
 				{
 					if (link.Value.Any(x => x.LinkData != null))
 					{
-						await WriteLinkAsync(entryWriter, entry.TypeName, link.Key, link.Value).ConfigureAwait(false);
+						await WriteLinkAsync(entryWriter, entry.TypeName, link.Key, link.Value)
+							.ConfigureAwait(false);
 					}
 				}
 			}
@@ -124,10 +125,12 @@ namespace Simple.OData.Client.V4.Adapter
 				IsCollection = true,
 			}).ConfigureAwait(false);
 
-			await entryWriter.WriteStartAsync(new ODataResourceSet());
+			await entryWriter.WriteStartAsync(new ODataResourceSet())
+				.ConfigureAwait(false);
 			foreach (var item in collection.Items)
 			{
-				await WriteEntryPropertiesAsync(entryWriter, item as ODataResource, null);
+				await WriteEntryPropertiesAsync(entryWriter, item as ODataResource, null)
+					.ConfigureAwait(false);
 			}
 
 			await entryWriter.WriteEndAsync().ConfigureAwait(false);
@@ -143,7 +146,7 @@ namespace Simple.OData.Client.V4.Adapter
 				IsCollection = false,
 			}).ConfigureAwait(false);
 
-			await WriteEntryPropertiesAsync(entryWriter, entry, null);
+			await WriteEntryPropertiesAsync(entryWriter, entry, null).ConfigureAwait(false);
 
 			await entryWriter.WriteEndAsync().ConfigureAwait(false);
 		}
@@ -173,14 +176,20 @@ namespace Simple.OData.Client.V4.Adapter
 			return null;
 		}
 
-		protected async override Task<Stream> WriteActionContentAsync(string method, string commandText, string actionName, string boundTypeName, IDictionary<string, object> parameters)
+		protected async override Task<Stream> WriteActionContentAsync(
+			string method,
+			string commandText,
+			string actionName,
+			string boundTypeName,
+			IDictionary<string, object> parameters)
 		{
 			var message = IsBatch
 				? await CreateBatchOperationMessageAsync(method, null, null, commandText, true).ConfigureAwait(false)
 				: new ODataRequestMessage();
 
 			using var messageWriter = new ODataMessageWriter(message, GetWriterSettings(), _model);
-			Func<IEdmOperationParameter, IEdmType, bool> typeMatch = (parameter, baseType) =>
+
+			static bool typeMatch(IEdmOperationParameter parameter, IEdmType baseType) =>
 				parameter == null ||
 				parameter.Type.Definition == baseType ||
 				parameter.Type.Definition.TypeKind == EdmTypeKind.Collection &&
@@ -198,7 +207,9 @@ namespace Simple.OData.Client.V4.Adapter
 					x => x.Name, actionName, _session.Settings.NameMatchResolver) as IEdmAction;
 			var parameterWriter = await messageWriter.CreateODataParameterWriterAsync(action).ConfigureAwait(false);
 
-			await parameterWriter.WriteStartAsync().ConfigureAwait(false);
+			await parameterWriter
+				.WriteStartAsync()
+				.ConfigureAwait(false);
 
 			foreach (var parameter in parameters)
 			{
@@ -319,11 +330,14 @@ namespace Simple.OData.Client.V4.Adapter
 			var message = new ODataRequestMessage();
 			using var messageWriter = new ODataMessageWriter(message, GetWriterSettings(ODataFormat.RawValue), _model);
 			var value = writeAsText ? (object)Utils.StreamToString(stream) : Utils.StreamToByteArray(stream);
-			await messageWriter.WriteValueAsync(value);
-			return await message.GetStreamAsync();
+			await messageWriter.WriteValueAsync(value).ConfigureAwait(false);
+			return await message.GetStreamAsync().ConfigureAwait(false);
 		}
 
-		protected override string FormatLinkPath(string entryIdent, string navigationPropertyName, string linkIdent = null)
+		protected override string FormatLinkPath(
+			string entryIdent,
+			string navigationPropertyName,
+			string? linkIdent = null)
 		{
 			var linkPath = $"{entryIdent}/{navigationPropertyName}/$ref";
 			if (linkIdent != null)
@@ -347,11 +361,19 @@ namespace Simple.OData.Client.V4.Adapter
 			}
 		}
 
-		private async Task<IODataRequestMessageAsync> CreateBatchOperationMessageAsync(string method, string collection, IDictionary<string, object> entryData, string commandText, bool resultRequired)
+		private async Task<IODataRequestMessageAsync> CreateBatchOperationMessageAsync(
+			string method,
+			string? collection,
+			IDictionary<string, object>? entryData,
+			string commandText,
+			bool resultRequired)
 		{
 			var message = (await _deferredBatchWriter.Value.CreateOperationMessageAsync(
 				Utils.CreateAbsoluteUri(_session.Settings.BaseUri.AbsoluteUri, commandText),
-				method, collection, entryData, resultRequired).ConfigureAwait(false)) as IODataRequestMessageAsync;
+				method,
+				collection,
+				entryData,
+				resultRequired).ConfigureAwait(false)) as IODataRequestMessageAsync;
 
 			return message;
 		}
@@ -418,7 +440,8 @@ namespace Simple.OData.Client.V4.Adapter
 			}
 		}
 
-		private ODataMessageWriterSettings GetWriterSettings(ODataFormat preferredContentType = null)
+		private ODataMessageWriterSettings GetWriterSettings(
+			ODataFormat? preferredContentType = null)
 		{
 			var settings = new ODataMessageWriterSettings()
 			{
@@ -434,7 +457,10 @@ namespace Simple.OData.Client.V4.Adapter
 			return settings;
 		}
 
-		private ODataResource CreateODataEntry(string typeName, IDictionary<string, object> properties, ODataResource root)
+		private ODataResource CreateODataEntry(
+			string typeName,
+			IDictionary<string, object> properties,
+			ODataResource? root)
 		{
 			var entry = new ODataResource { TypeName = typeName };
 			root ??= entry;
@@ -563,7 +589,7 @@ namespace Simple.OData.Client.V4.Adapter
 			}
 		}
 
-		public static bool TryConvert(object value, Type targetType, out object result)
+		public static bool TryConvert(object value, Type targetType, out object? result)
 		{
 			try
 			{

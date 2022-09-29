@@ -50,7 +50,10 @@ public abstract class ODataTestBase : TestBase
 
 	protected int ExpectedTotalCount => _version == 2 ? 9 : 11;
 
-	protected Entry CreateProduct(int productId, string productName, IDictionary<string, object> category = null)
+	protected Entry CreateProduct(
+		int productId,
+		string productName,
+		IDictionary<string, object>? category = null)
 	{
 		var entry = new Entry()
 				{
@@ -70,7 +73,10 @@ public abstract class ODataTestBase : TestBase
 		return entry;
 	}
 
-	protected static Entry CreateCategory(int categoryId, string categoryName, IEnumerable<IDictionary<string, object>> products = null)
+	protected static Entry CreateCategory(
+		int categoryId,
+		string categoryName,
+		IEnumerable<IDictionary<string, object>>? products = null)
 	{
 		var entry = new Entry()
 			{
@@ -90,21 +96,21 @@ public abstract class ODataTestBase : TestBase
 	{
 		try
 		{
-			var products = await _client.For("Products").Select("ID", "Name").FindEntriesAsync();
+			var products = await _client.For("Products").Select("ID", "Name").FindEntriesAsync().ConfigureAwait(false);
 			foreach (var product in products)
 			{
 				if (product["Name"].ToString().StartsWith("Test"))
 				{
-					await _client.DeleteEntryAsync("Products", product);
+					await _client.DeleteEntryAsync("Products", product).ConfigureAwait(false);
 				}
 			}
 
-			var categories = await _client.For("Categories").Select("ID", "Name").FindEntriesAsync();
+			var categories = await _client.For("Categories").Select("ID", "Name").FindEntriesAsync().ConfigureAwait(false);
 			foreach (var category in categories)
 			{
 				if (category["Name"].ToString().StartsWith("Test"))
 				{
-					await _client.DeleteEntryAsync("Categories", category);
+					await _client.DeleteEntryAsync("Categories", category).ConfigureAwait(false);
 				}
 			}
 		}

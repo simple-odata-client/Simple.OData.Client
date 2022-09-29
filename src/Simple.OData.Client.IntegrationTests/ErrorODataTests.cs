@@ -44,7 +44,7 @@ public abstract class ErrorODataTests : ODataTestBase
 			await _client
 				.For("Products")
 				.Filter("NonExistingProperty eq 1")
-				.FindEntryAsync();
+				.FindEntryAsync().ConfigureAwait(false);
 
 			Assert.False(true, "Expected exception");
 		}
@@ -69,7 +69,7 @@ public abstract class ErrorODataTests : ODataTestBase
 			await client
 				.For("Products")
 				.Filter("NonExistingProperty eq 1")
-				.FindEntryAsync();
+				.FindEntryAsync().ConfigureAwait(false);
 
 			Assert.False(true, "Expected exception");
 		}
@@ -91,7 +91,7 @@ public abstract class ErrorODataTests : ODataTestBase
 			await client
 				.For("Products")
 				.Filter("NonExistingProperty eq 1")
-				.FindEntryAsync();
+				.FindEntryAsync().ConfigureAwait(false);
 
 			Assert.False(true, "Expected exception");
 		}
@@ -113,7 +113,7 @@ public abstract class ErrorODataTests : ODataTestBase
 			await client
 				.For("Products")
 				.Filter("NonExistingProperty eq 1")
-				.FindEntryAsync();
+				.FindEntryAsync().ConfigureAwait(false);
 
 			Assert.False(true, "Expected exception");
 		}

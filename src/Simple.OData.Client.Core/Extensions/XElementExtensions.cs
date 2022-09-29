@@ -55,7 +55,7 @@ internal static class XElementExtensions
 		return string.IsNullOrEmpty(prefix) ? element.GetDefaultNamespace() : element.GetNamespaceOfPrefix(prefix);
 	}
 
-	public static string ValueOrDefault(this XElement element)
+	public static string ValueOrDefault(this XElement? element)
 	{
 		return element == null ? string.Empty : element.Value;
 	}

@@ -19,12 +19,15 @@ public abstract class FluentClientBase<T, FT> : IFluentClient<T, FT>
 {
 	protected readonly ODataClient _client;
 	internal readonly Session _session;
-	protected readonly FluentCommand _parentCommand;
-	protected FluentCommand _command;
+	protected readonly FluentCommand? _parentCommand;
+	protected FluentCommand? _command;
 	protected readonly bool _dynamicResults;
 
-	internal FluentClientBase(ODataClient client, Session session,
-		FluentCommand parentCommand = null, FluentCommand command = null, bool dynamicResults = false)
+	internal FluentClientBase(ODataClient client,
+		Session session,
+		FluentCommand? parentCommand = null,
+		FluentCommand? command = null,
+		bool dynamicResults = false)
 	{
 		_client = client;
 		_session = session;
@@ -376,13 +379,15 @@ public abstract class FluentClientBase<T, FT> : IFluentClient<T, FT>
 		return this as FT;
 	}
 
-	protected BoundClient<U> Link<U>(FluentCommand command, string linkName = null)
+	protected BoundClient<U>? Link<U>(
+		FluentCommand command,
+		string? linkName = null)
 	where U : class
 	{
 		linkName ??= typeof(U).Name;
 		var links = linkName.Split('/');
 		var linkCommand = command;
-		BoundClient<U> linkedClient = null;
+		BoundClient<U>? linkedClient = null;
 		foreach (var link in links)
 		{
 			linkedClient = new BoundClient<U>(_client, _session, linkCommand, null, _dynamicResults);
@@ -406,7 +411,7 @@ public abstract class FluentClientBase<T, FT> : IFluentClient<T, FT>
 	/// <typeparam name="U">The type of the linked entity.</typeparam>
 	/// <param name="linkName">Name of the link.</param>
 	/// <returns>Self.</returns>
-	public IBoundClient<U> NavigateTo<U>(string linkName = null)
+	public IBoundClient<U> NavigateTo<U>(string? linkName = null)
 		where U : class
 	{
 		return Link<U>(Command, linkName);
@@ -543,7 +548,8 @@ public abstract class FluentClientBase<T, FT> : IFluentClient<T, FT>
 	/// <returns>Execution result.</returns>
 	public async Task<U> ExecuteAsSingleAsync<U>(CancellationToken cancellationToken)
 	{
-		return (await ExecuteAsArrayAsync<U>(cancellationToken)).Single();
+		return (await ExecuteAsArrayAsync<U>(cancellationToken)
+			.ConfigureAwait(false)).Single();
 	}
 
 	/// <summary>
@@ -681,7 +687,9 @@ public abstract class FluentClientBase<T, FT> : IFluentClient<T, FT>
 	/// <returns>The command text.</returns>
 	public async Task<string> GetCommandTextAsync(CancellationToken cancellationToken)
 	{
-		await _session.ResolveAdapterAsync(cancellationToken).ConfigureAwait(false);
+		await _session
+			.ResolveAdapterAsync(cancellationToken)
+			.ConfigureAwait(false);
 		if (cancellationToken.IsCancellationRequested)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
@@ -717,7 +725,7 @@ public abstract class FluentClientBase<T, FT> : IFluentClient<T, FT>
 		return entries?.Select(x => FilterColumns(x, selectedColumns));
 	}
 
-	protected IDictionary<string, object> FilterColumns(IDictionary<string, object> entry, IList<string> selectedColumns)
+	protected IDictionary<string, object>? FilterColumns(IDictionary<string, object>? entry, IList<string>? selectedColumns)
 	{
 		if (entry == null || selectedColumns == null || !selectedColumns.Any())
 		{
@@ -750,7 +758,7 @@ public abstract class FluentClientBase<T, FT> : IFluentClient<T, FT>
 	private bool IsSelectedColumn(KeyValuePair<string, object> kv, string columnName)
 	{
 		var items = columnName.Split('/');
-		if (items.Count() == 1)
+		if (items.Length == 1)
 		{
 			return _session.Settings.NameMatchResolver.IsMatch(kv.Key, columnName);
 		}

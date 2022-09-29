@@ -10,9 +10,11 @@ namespace Simple.OData.Client;
 public class AnnotatedFeed
 {
 	public IList<AnnotatedEntry> Entries { get; private set; }
-	public ODataFeedAnnotations Annotations { get; private set; }
+	public ODataFeedAnnotations? Annotations { get; private set; }
 
-	public AnnotatedFeed(IEnumerable<AnnotatedEntry> entries, ODataFeedAnnotations annotations = null)
+	public AnnotatedFeed(
+		IEnumerable<AnnotatedEntry> entries,
+		ODataFeedAnnotations? annotations = null)
 	{
 		Entries = entries.ToList();
 		Annotations = annotations;
@@ -33,11 +35,13 @@ public class AnnotatedFeed
 
 public class AnnotatedEntry
 {
-	public IDictionary<string, object> Data { get; private set; }
-	public ODataEntryAnnotations Annotations { get; private set; }
-	public ODataFeedAnnotations LinkAnnotations { get; private set; }
+	public IDictionary<string, object>? Data { get; private set; }
+	public ODataEntryAnnotations? Annotations { get; private set; }
+	public ODataFeedAnnotations? LinkAnnotations { get; private set; }
 
-	public AnnotatedEntry(IDictionary<string, object> data, ODataEntryAnnotations annotations = null)
+	public AnnotatedEntry(
+		IDictionary<string, object> data,
+		ODataEntryAnnotations? annotations = null)
 	{
 		Data = data;
 		Annotations = annotations;
@@ -89,10 +93,10 @@ public class ODataResponse
 	public int StatusCode { get; private set; }
 	public string Location => Headers?.FirstOrDefault(x => x.Key == "Location").Value;
 	public string ODataEntityId => Headers?.FirstOrDefault(x => x.Key == "OData-EntityId").Value;
-	public IEnumerable<KeyValuePair<string, string>> Headers { get; private set; }
-	public AnnotatedFeed Feed { get; private set; }
-	public IList<ODataResponse> Batch { get; private set; }
-	public Exception Exception { get; private set; }
+	public IEnumerable<KeyValuePair<string, string>>? Headers { get; private set; }
+	public AnnotatedFeed? Feed { get; private set; }
+	public IList<ODataResponse>? Batch { get; private set; }
+	public Exception? Exception { get; private set; }
 
 	internal ITypeCache TypeCache { get; set; }
 
@@ -117,14 +121,14 @@ public class ODataResponse
 		}
 	}
 
-	public IDictionary<string, object> AsEntry(bool includeAnnotations)
+	public IDictionary<string, object>? AsEntry(bool includeAnnotations)
 	{
 		var result = AsEntries(includeAnnotations);
 
 		return result?.FirstOrDefault();
 	}
 
-	public T AsScalar<T>()
+	public T? AsScalar<T>()
 	{
 		var result = AsEntry(false);
 		var value = result == null || result.Count == 0
@@ -190,7 +194,11 @@ public class ODataResponse
 	}
 
 
-	internal static ODataResponse FromStatusCode(ITypeCache typeCache, int statusCode, IEnumerable<KeyValuePair<string, string>> headers, Exception exception = null)
+	internal static ODataResponse FromStatusCode(
+		ITypeCache typeCache,
+		int statusCode,
+		IEnumerable<KeyValuePair<string, string>> headers,
+		Exception? exception = null)
 	{
 		return new ODataResponse(typeCache)
 		{
@@ -227,7 +235,10 @@ public class ODataResponse
 		return FromFeed(typeCache, Array.Empty<Dictionary<string, object>>());
 	}
 
-	private static ODataResponse FromFeed(ITypeCache typeCache, IEnumerable<IDictionary<string, object>> entries, ODataFeedAnnotations feedAnnotations = null)
+	private static ODataResponse FromFeed(
+		ITypeCache typeCache,
+		IEnumerable<IDictionary<string, object>> entries,
+		ODataFeedAnnotations? feedAnnotations = null)
 	{
 		return new ODataResponse(typeCache)
 		{
@@ -235,7 +246,7 @@ public class ODataResponse
 		};
 	}
 
-	private IDictionary<string, object> ExtractData(AnnotatedEntry entry, bool includeAnnotations)
+	private IDictionary<string, object>? ExtractData(AnnotatedEntry entry, bool includeAnnotations)
 	{
 		if (entry == null || entry.Data == null)
 		{
@@ -245,7 +256,7 @@ public class ODataResponse
 		return includeAnnotations ? DataWithAnnotations(entry.Data, entry.Annotations) : entry.Data;
 	}
 
-	private IDictionary<string, object> ExtractDictionary(AnnotatedEntry entry, bool includeAnnotations)
+	private IDictionary<string, object>? ExtractDictionary(AnnotatedEntry entry, bool includeAnnotations)
 	{
 		if (entry == null || entry.Data == null)
 		{

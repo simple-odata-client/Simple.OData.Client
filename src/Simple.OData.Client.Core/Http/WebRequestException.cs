@@ -44,12 +44,19 @@ public class WebRequestException : Exception
 	/// <param name="exceptionMessageSource">The source used to build exception message, see <see cref="WebRequestExceptionMessageSource"/></param>
 	/// <param name="responseContent"></param>
 	/// <returns>The instance of <see cref="WebRequestException"/>.</returns>
-	public static WebRequestException CreateFromStatusCode(HttpStatusCode statusCode, WebRequestExceptionMessageSource exceptionMessageSource, string responseContent = null)
+	public static WebRequestException CreateFromStatusCode(
+		HttpStatusCode statusCode,
+		WebRequestExceptionMessageSource exceptionMessageSource,
+		string? responseContent = null)
 	{
 		return new WebRequestException(statusCode.ToString(), statusCode, null, responseContent, exceptionMessageSource, null);
 	}
 
-	private static string BuildMessage(HttpStatusCode statusCode, string reasonPhrase, string responseContent, WebRequestExceptionMessageSource exceptionMessageSource)
+	private static string? BuildMessage(
+		HttpStatusCode statusCode,
+		string reasonPhrase,
+		string? responseContent,
+		WebRequestExceptionMessageSource exceptionMessageSource)
 	{
 		reasonPhrase ??= statusCode.ToString();
 		if (exceptionMessageSource == WebRequestExceptionMessageSource.ReasonPhrase)
@@ -75,7 +82,13 @@ public class WebRequestException : Exception
 	/// <param name="responseContent">The response content.</param>
 	/// <param name="exceptionMessageSource">The source used to build exception message, see <see cref="WebRequestExceptionMessageSource"/></param>
 	/// <param name="inner">The inner exception.</param>
-	private WebRequestException(string reasonPhrase, HttpStatusCode statusCode, Uri requestUri, string responseContent, WebRequestExceptionMessageSource exceptionMessageSource, Exception inner)
+	private WebRequestException(
+		string reasonPhrase,
+		HttpStatusCode statusCode,
+		Uri? requestUri,
+		string? responseContent,
+		WebRequestExceptionMessageSource exceptionMessageSource,
+		Exception inner)
 		: base(BuildMessage(statusCode, reasonPhrase, responseContent, exceptionMessageSource), inner)
 	{
 		ReasonPhrase = reasonPhrase;
@@ -107,7 +120,7 @@ public class WebRequestException : Exception
 	/// <value>
 	/// The response text.
 	/// </value>
-	public string Response { get; private set; }
+	public string? Response { get; private set; }
 
 	/// <summary>
 	/// Gets the HTTP Uri
@@ -115,7 +128,7 @@ public class WebRequestException : Exception
 	/// <value>
 	/// The original request URI, or the resulting URI if a redirect took place.
 	/// </value>
-	public Uri RequestUri { get; private set; }
+	public Uri? RequestUri { get; private set; }
 
 	/// <summary>
 	/// Gets the reason phrase associated with the Http status code.

@@ -60,7 +60,7 @@ public interface IMetadata
 
 	string GetFunctionFullName(string functionName);
 
-	EntityCollection GetFunctionReturnCollection(string functionName);
+	EntityCollection? GetFunctionReturnCollection(string functionName);
 
 	string GetFunctionVerb(string functionName);
 
@@ -68,5 +68,8 @@ public interface IMetadata
 
 	EntityCollection GetActionReturnCollection(string functionName);
 
-	EntryDetails ParseEntryDetails(string collectionName, IDictionary<string, object> entryData, string contentId = null);
+	EntryDetails ParseEntryDetails(
+		string collectionName,
+		IDictionary<string, object> entryData,
+		string? contentId = null);
 }

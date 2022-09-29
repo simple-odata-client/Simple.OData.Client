@@ -18,7 +18,7 @@ public class KeyTests : CoreTestBase
 		var command = client
 			.For<Category>()
 			.Key(1);
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal(expectedCommand, commandText);
 	}
 
@@ -32,7 +32,7 @@ public class KeyTests : CoreTestBase
 		var command = client
 			.For<Category>()
 			.Key(new { CategoryID = 1 });
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal(expectedCommand, commandText);
 	}
 
@@ -46,7 +46,7 @@ public class KeyTests : CoreTestBase
 		var command = client
 			.For<OrderDetail>()
 			.Key(1, 2);
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal(expectedCommand, commandText);
 	}
 
@@ -60,7 +60,7 @@ public class KeyTests : CoreTestBase
 		var command = client
 			.For<OrderDetail>()
 			.Key(new { ProductID = 2, OrderID = 1 });
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal(expectedCommand, commandText);
 	}
 
@@ -74,7 +74,7 @@ public class KeyTests : CoreTestBase
 		var command = client
 			.For<OrderDetail>()
 			.Key(new OrderDetail { ProductID = 2, OrderID = 1, Quantity = 5 });
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal(expectedCommand, commandText);
 	}
 
@@ -88,7 +88,7 @@ public class KeyTests : CoreTestBase
 		var command = client
 			.For<Category>()
 			.Key(new Category { CategoryID = 1 });
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal(expectedCommand, commandText);
 	}
 
@@ -102,7 +102,7 @@ public class KeyTests : CoreTestBase
 		var command = client
 			.For<Category>()
 			.Filter(x => x.CategoryID == 1);
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal(expectedCommand, commandText);
 	}
 
@@ -116,7 +116,7 @@ public class KeyTests : CoreTestBase
 		var command = client
 			.For<Category>()
 			.Filter(x => x.CategoryID == 1 && x.CategoryName == "Test");
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal(expectedCommand, commandText);
 	}
 
@@ -129,7 +129,7 @@ public class KeyTests : CoreTestBase
 		var command = client
 			.For<Activity>()
 			.Filter(x => x.Ticket.Id == 1);
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal(expectedCommand, commandText);
 	}
 
@@ -142,7 +142,7 @@ public class KeyTests : CoreTestBase
 		var command = client
 			.For<Activity>()
 			.Filter(x => x.Option.Id == 1);
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal(expectedCommand, commandText);
 	}
 
@@ -156,7 +156,7 @@ public class KeyTests : CoreTestBase
 		var command = client
 			.For<Category>()
 			.Key(new { CategoryName = "Beverages" });
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal(expectedCommand, commandText);
 	}
 
@@ -170,7 +170,7 @@ public class KeyTests : CoreTestBase
 		var command = client
 			.For<Category>()
 			.Filter(x => x.CategoryName == "Beverages");
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal(expectedCommand, commandText);
 	}
 
@@ -184,7 +184,7 @@ public class KeyTests : CoreTestBase
 		var command = client
 			.For<Employee>()
 			.Key(new { HomePhone = "123", Title = "Manager" });
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal(expectedCommand, commandText);
 	}
 
@@ -198,7 +198,7 @@ public class KeyTests : CoreTestBase
 		var command = client
 			.For<Employee>()
 			.Filter(x => x.HomePhone == "123" && x.Title == "Manager");
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal(expectedCommand, commandText);
 	}
 
@@ -212,7 +212,7 @@ public class KeyTests : CoreTestBase
 		var command = client
 			.For<Order>()
 			.Key(new { CustomerID = "ALFKI" });
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal(expectedCommand, commandText);
 	}
 
@@ -226,7 +226,7 @@ public class KeyTests : CoreTestBase
 		var command = client
 			.For<Order>()
 			.Key(new { ShipName = "TEST" });
-		var commandText = await command.GetCommandTextAsync();
+		var commandText = await command.GetCommandTextAsync().ConfigureAwait(false);
 		Assert.Equal(expectedCommand, commandText);
 	}
 }

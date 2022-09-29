@@ -12,17 +12,17 @@ public class DeleteTests : TestBase
 		var product = await client
 			.For("Products")
 			.Set(new { ProductName = "Test1", UnitPrice = 18m })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		await client
 			.For("Products")
 			.Key(product["ProductID"])
-			.DeleteEntryAsync();
+			.DeleteEntryAsync().ConfigureAwait(false);
 
 		product = await client
 			.For("Products")
 			.Filter("ProductName eq 'Test1'")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 
 		Assert.Null(product);
 	}
@@ -34,18 +34,18 @@ public class DeleteTests : TestBase
 		var product = await client
 			.For("Products")
 			.Set(new { ProductName = "Test1", UnitPrice = 18m })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		client.Session.ClearMetadataCache();
 		await client
 			.For("Products")
 			.Key(product["ProductID"])
-			.DeleteEntryAsync();
+			.DeleteEntryAsync().ConfigureAwait(false);
 
 		product = await client
 			.For("Products")
 			.Filter("ProductName eq 'Test1'")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 
 		Assert.Null(product);
 	}
@@ -57,17 +57,17 @@ public class DeleteTests : TestBase
 		_ = await client
 			.For("Products")
 			.Set(new { ProductName = "Test1", UnitPrice = 18m })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		await client
 			.For("Products")
 			.Filter("ProductName eq 'Test1'")
-			.DeleteEntriesAsync();
+			.DeleteEntriesAsync().ConfigureAwait(false);
 
 		var product = await client
 			.For("Products")
 			.Filter("ProductName eq 'Test1'")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 
 		Assert.Null(product);
 	}
@@ -79,20 +79,20 @@ public class DeleteTests : TestBase
 		_ = await client
 			.For("Products")
 			.Set(new { ProductName = "Test1", UnitPrice = 18m })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		var commandText = await client
 			.For("Products")
 			.Filter("ProductName eq 'Test1'")
-			.GetCommandTextAsync();
+			.GetCommandTextAsync().ConfigureAwait(false);
 
 		await client
-			.DeleteEntriesAsync("Products", commandText);
+			.DeleteEntriesAsync("Products", commandText).ConfigureAwait(false);
 
 		var product = await client
 			.For("Products")
 			.Filter("ProductName eq 'Test1'")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 
 		Assert.Null(product);
 	}
@@ -104,17 +104,17 @@ public class DeleteTests : TestBase
 		var product = await client
 			.For("Products")
 			.Set(new { ProductName = "Test1", UnitPrice = 18m })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		await client
 			.For("Products")
 			.Key(product)
-			.DeleteEntryAsync();
+			.DeleteEntryAsync().ConfigureAwait(false);
 
 		product = await client
 			.For("Products")
 			.Filter("ProductName eq 'Test1'")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 
 		Assert.Null(product);
 	}
@@ -127,19 +127,19 @@ public class DeleteTests : TestBase
 			.For("Transport")
 			.As("Ship")
 			.Set(new { ShipName = "Test1" })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		await client
 			.For("Transport")
 			.As("Ship")
 			.Key(ship["TransportID"])
-			.DeleteEntryAsync();
+			.DeleteEntryAsync().ConfigureAwait(false);
 
 		ship = await client
 			.For("Transport")
 			.As("Ship")
 			.Filter("ShipName eq 'Test1'")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 
 		Assert.Null(ship);
 	}

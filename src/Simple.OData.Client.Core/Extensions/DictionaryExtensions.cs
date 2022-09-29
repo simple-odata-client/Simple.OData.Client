@@ -20,7 +20,7 @@ internal static class DictionaryExtensions
 		_collectionActivators = new ConcurrentDictionary<Tuple<Type, Type>, ActivatorDelegate>();
 	}
 
-	public static T ToObject<T>(this IDictionary<string, object> source, ITypeCache typeCache, bool dynamicObject = false)
+	public static T ToObject<T>(this IDictionary<string, object>? source, ITypeCache typeCache, bool dynamicObject = false)
 		where T : class
 	{
 		if (typeCache == null)
@@ -51,7 +51,11 @@ internal static class DictionaryExtensions
 		return (T)ToObject(source, typeCache, typeof(T), dynamicObject);
 	}
 
-	public static object ToObject(this IDictionary<string, object> source, ITypeCache typeCache, Type type, bool dynamicObject = false)
+	public static object? ToObject(
+		this IDictionary<string, object> source,
+		ITypeCache typeCache,
+		Type type,
+		bool dynamicObject = false)
 	{
 		if (typeCache == null)
 		{
@@ -91,7 +95,7 @@ internal static class DictionaryExtensions
 
 		var instance = CreateInstance(type);
 
-		IDictionary<string, object> dynamicProperties = null;
+		IDictionary<string, object>? dynamicProperties = null;
 		var dynamicPropertiesContainerName = typeCache.DynamicContainerName(type);
 		if (!string.IsNullOrEmpty(dynamicPropertiesContainerName))
 		{

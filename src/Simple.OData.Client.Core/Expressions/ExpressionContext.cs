@@ -13,7 +13,11 @@ internal class ExpressionContext
 		Session = session;
 	}
 
-	public ExpressionContext(ISession session, EntityCollection entityCollection, string scopeQualifier, string dynamicPropertiesContainerName)
+	public ExpressionContext(
+		ISession session,
+		EntityCollection? entityCollection,
+		string? scopeQualifier,
+		string dynamicPropertiesContainerName)
 	{
 		Session = session;
 		EntityCollection = entityCollection;

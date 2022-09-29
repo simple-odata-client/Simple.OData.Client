@@ -14,13 +14,13 @@ public class RequestWriterActionTests : CoreTestBase
 
 	protected async Task<IRequestWriter> CreateRequestWriter()
 	{
-		return new V4.Adapter.RequestWriter(_session, await _client.GetMetadataAsync<Microsoft.OData.Edm.IEdmModel>(), null);
+		return new V4.Adapter.RequestWriter(_session, await _client.GetMetadataAsync<Microsoft.OData.Edm.IEdmModel>().ConfigureAwait(false), null);
 	}
 
 	[Fact]
 	public async Task CreateActionRequestWithDerivedType()
 	{
-		var requestWriter = await CreateRequestWriter();
+		var requestWriter = await CreateRequestWriter().ConfigureAwait(false);
 		var request = await requestWriter.CreateActionRequestAsync("CancelSalesOrder", "CancelSalesOrder", null,
 			new Dictionary<string, object>
 			{
@@ -31,8 +31,8 @@ public class RequestWriterActionTests : CoreTestBase
 					["subject"] = $"Close sales Order {DateTime.Now}",
 					["@odata.type"] = "Microsoft.Dynamics.CRM.orderclose"
 				}
-			}, true);
-		var stringResult = await request.RequestMessage.Content.ReadAsStringAsync();
+			}, true).ConfigureAwait(false);
+		var stringResult = await request.RequestMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 		var result = JsonConvert.DeserializeObject<JObject>(stringResult);
 
 		Assert.True(result.ContainsKey("OrderClose"));

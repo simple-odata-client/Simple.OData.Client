@@ -91,7 +91,7 @@ public class ODataExpandOptions : IEquatable<ODataExpandOptions>
 		return new ODataExpandOptions(levels, ODataExpandMode.ByReference);
 	}
 
-	public bool Equals(ODataExpandOptions other)
+	public bool Equals(ODataExpandOptions? other)
 	{
 		if (other == null)
 		{

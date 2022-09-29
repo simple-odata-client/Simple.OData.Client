@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -71,10 +70,10 @@ public class TypedExpressionV4Tests : TypedExpressionTests
 	[Fact]
 	public void FilterOrdersWithAnyInNestedCollection()
 	{
-			Expression<Func<Order, bool>> filter = x => x.Employee.Subordinates.Any(s => s.LastName == "Smith");
-			var entityCollection = new EntityCollection("Orders");
-			var expressionContext = new ExpressionContext(_session, entityCollection, null, null);
-			Assert.Equal("Employee/Subordinates/any(x1:x1/LastName eq 'Smith')", ODataExpression.FromLinqExpression(filter).Format(expressionContext));
+		Expression<Func<Order, bool>> filter = x => x.Employee.Subordinates.Any(s => s.LastName == "Smith");
+		var entityCollection = new EntityCollection("Orders");
+		var expressionContext = new ExpressionContext(_session, entityCollection, null, string.Empty);
+		Assert.Equal("Employee/Subordinates/any(x1:x1/LastName eq 'Smith')", ODataExpression.FromLinqExpression(filter).Format(expressionContext));
 	}
 }
 
@@ -99,6 +98,13 @@ public abstract class TypedExpressionTests : CoreTestBase
 	{
 		public string Name { get; set; }
 		public string PropertyName { get; set; }
+	}
+
+	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
+	private class JsonPropertyNameAttribute : Attribute
+	{
+		public JsonPropertyNameAttribute(string name) { Name = name; }
+		public string Name { get; }
 	}
 
 	internal class TestEntity
@@ -714,3 +720,4 @@ public abstract class TypedExpressionTests : CoreTestBase
 		Assert.Equal("Name eq 'Other Name'", ODataExpression.FromLinqExpression(filter).AsString(_session));
 	}
 }
+

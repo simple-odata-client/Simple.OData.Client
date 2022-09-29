@@ -55,30 +55,30 @@ public abstract class FindNorthwindTests : TestBase
 
 	protected async override Task DeleteTestData()
 	{
-		var products = await _client.For("Products").Select("ProductID", "ProductName").FindEntriesAsync();
+		var products = await _client.For("Products").Select("ProductID", "ProductName").FindEntriesAsync().ConfigureAwait(false);
 		foreach (var product in products)
 		{
 			if (product["ProductName"].ToString().StartsWith("Test"))
 			{
-				await _client.DeleteEntryAsync("Products", product);
+				await _client.DeleteEntryAsync("Products", product).ConfigureAwait(false);
 			}
 		}
 
-		var categories = await _client.For("Categories").Select("CategoryID", "CategoryName").FindEntriesAsync();
+		var categories = await _client.For("Categories").Select("CategoryID", "CategoryName").FindEntriesAsync().ConfigureAwait(false);
 		foreach (var category in categories)
 		{
 			if (category["CategoryName"].ToString().StartsWith("Test"))
 			{
-				await _client.DeleteEntryAsync("Categories", category);
+				await _client.DeleteEntryAsync("Categories", category).ConfigureAwait(false);
 			}
 		}
 
-		var employees = await _client.For("Employees").Select("EmployeeID", "LastName").FindEntriesAsync();
+		var employees = await _client.For("Employees").Select("EmployeeID", "LastName").FindEntriesAsync().ConfigureAwait(false);
 		foreach (var employee in employees)
 		{
 			if (employee["LastName"].ToString().StartsWith("Test"))
 			{
-				await _client.DeleteEntryAsync("Employees", employee);
+				await _client.DeleteEntryAsync("Employees", employee).ConfigureAwait(false);
 			}
 		}
 	}
@@ -89,7 +89,7 @@ public abstract class FindNorthwindTests : TestBase
 		var products = await _client
 			.For("Products")
 			.Filter("ProductName eq 'Chai'")
-			.FindEntriesAsync();
+			.FindEntriesAsync().ConfigureAwait(false);
 		Assert.Equal("Chai", products.Single()["ProductName"]);
 	}
 
@@ -110,7 +110,7 @@ public abstract class FindNorthwindTests : TestBase
 		var category = await _client
 			.For("Categories")
 			.Key(1)
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 		Assert.Equal(1, category["CategoryID"]);
 	}
 
@@ -121,7 +121,7 @@ public abstract class FindNorthwindTests : TestBase
 			.For("Products")
 			.Skip(1)
 			.Top(1)
-			.FindEntriesAsync();
+			.FindEntriesAsync().ConfigureAwait(false);
 		Assert.Single(products);
 	}
 
@@ -131,7 +131,7 @@ public abstract class FindNorthwindTests : TestBase
 		var product = (await _client
 			.For("Products")
 			.OrderBy("ProductName")
-			.FindEntriesAsync()).First();
+			.FindEntriesAsync().ConfigureAwait(false)).First();
 		Assert.Equal("Alice Mutton", product["ProductName"]);
 	}
 
@@ -141,7 +141,7 @@ public abstract class FindNorthwindTests : TestBase
 		var product = await _client
 			.For("Products")
 			.Select("ProductID", "ProductName")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 		Assert.Contains("ProductName", product.Keys);
 		Assert.Contains("ProductID", product.Keys);
 	}
@@ -153,7 +153,7 @@ public abstract class FindNorthwindTests : TestBase
 			.For("Products")
 			.OrderBy("ProductID")
 			.Expand("Category")
-			.FindEntriesAsync()).Last();
+			.FindEntriesAsync().ConfigureAwait(false)).Last();
 		Assert.Equal("Confections", (product["Category"] as IDictionary<string, object>)["CategoryName"]);
 	}
 
@@ -164,7 +164,7 @@ public abstract class FindNorthwindTests : TestBase
 			.For("Categories")
 			.Expand("Products")
 			.Filter("CategoryName eq 'Beverages'")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 		Assert.Equal(12, (category["Products"] as IEnumerable<object>).Count());
 	}
 
@@ -175,7 +175,7 @@ public abstract class FindNorthwindTests : TestBase
 			.For("Products")
 			.OrderBy("ProductID")
 			.Expand("Category/Products")
-			.FindEntriesAsync()).Last();
+			.FindEntriesAsync().ConfigureAwait(false)).Last();
 		Assert.Equal(13, ((product["Category"] as IDictionary<string, object>)["Products"] as IEnumerable<object>).Count());
 	}
 
@@ -187,7 +187,7 @@ public abstract class FindNorthwindTests : TestBase
 			.Expand(x => x.Category)
 			.OrderBy(x => x.Category.CategoryName)
 			.Select(x => x.Category.CategoryName)
-			.FindEntriesAsync()).Last();
+			.FindEntriesAsync().ConfigureAwait(false)).Last();
 		Assert.Equal("Condiments", product.Category.CategoryName);
 	}
 
@@ -200,7 +200,7 @@ public abstract class FindNorthwindTests : TestBase
 				.For<Category>()
 				.Expand(x => x.Products)
 				.OrderBy(x => x.Products.Select(y => y.ProductName))
-				.FindEntriesAsync()).Last();
+				.FindEntriesAsync().ConfigureAwait(false)).Last();
 			Assert.Equal("Röd Kaviar", category.Products.Last().ProductName);
 		}
 	}
@@ -211,7 +211,7 @@ public abstract class FindNorthwindTests : TestBase
 		var count = await _client
 			.For("Products")
 			.Count()
-			.FindScalarAsync<int>();
+			.FindScalarAsync<int>().ConfigureAwait(false);
 		Assert.Equal(77, count);
 	}
 
@@ -221,7 +221,7 @@ public abstract class FindNorthwindTests : TestBase
 		var annotations = new ODataFeedAnnotations();
 		var products = await _client
 			.For("Products")
-			.FindEntriesAsync(annotations);
+			.FindEntriesAsync(annotations).ConfigureAwait(false);
 		Assert.Equal(77, annotations.Count);
 		Assert.Equal(20, products.Count());
 	}
@@ -236,7 +236,7 @@ public abstract class FindNorthwindTests : TestBase
 			.Top(1)
 			.Expand("Category")
 			.Select("Category")
-			.FindEntriesAsync()).Single();
+			.FindEntriesAsync().ConfigureAwait(false)).Single();
 		Assert.Equal("Seafood", (product["Category"] as IDictionary<string, object>)["CategoryName"]);
 	}
 
@@ -247,7 +247,7 @@ public abstract class FindNorthwindTests : TestBase
 			.For("Products")
 			.Key(new Entry() { { "ProductID", 2 } })
 			.NavigateTo("Category")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 		Assert.Equal("Beverages", category["CategoryName"]);
 	}
 
@@ -258,7 +258,7 @@ public abstract class FindNorthwindTests : TestBase
 			.For("Categories")
 			.Key(2)
 			.NavigateTo("Products")
-			.FindEntriesAsync();
+			.FindEntriesAsync().ConfigureAwait(false);
 		Assert.Equal(12, products.Count());
 	}
 
@@ -272,7 +272,7 @@ public abstract class FindNorthwindTests : TestBase
 			.NavigateTo("Employee1")
 			.NavigateTo("Employees1")
 			.Key(5)
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 		Assert.Equal("Steven", employee["FirstName"]);
 	}
 
@@ -284,7 +284,7 @@ public abstract class FindNorthwindTests : TestBase
 			.Key(6)
 			.NavigateTo("Employee1/Employee1/Employees1")
 			.Key(5)
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 		Assert.Equal("Steven", employee["FirstName"]);
 	}
 }

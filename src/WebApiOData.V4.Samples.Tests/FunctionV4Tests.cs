@@ -64,7 +64,7 @@ public class FunctionV4Tests : IDisposable
 		var settings = CreateDefaultSettings().WithHttpMock();
 		var client = new ODataClient(settings);
 		var result = (double)await client
-			.FindScalarAsync("Products/Default.MostExpensive()");
+			.FindScalarAsync("Products/Default.MostExpensive()").ConfigureAwait(false);
 
 		Assert.InRange(result, 500, 1000);
 	}
@@ -77,8 +77,8 @@ public class FunctionV4Tests : IDisposable
 		object result = 0;
 		var batch = new ODataBatch(settings);
 		batch += async c => result = await c
-			.FindScalarAsync("Products/Default.MostExpensive()");
-		await batch.ExecuteAsync();
+			.FindScalarAsync("Products/Default.MostExpensive()").ConfigureAwait(false);
+		await batch.ExecuteAsync().ConfigureAwait(false);
 
 		Assert.InRange((double)result, 500, 1000);
 	}
@@ -91,7 +91,7 @@ public class FunctionV4Tests : IDisposable
 		var result = await client
 			.For<Product>()
 			.Function("MostExpensive")
-			.ExecuteAsScalarAsync<double>();
+			.ExecuteAsScalarAsync<double>().ConfigureAwait(false);
 
 		Assert.InRange(result, 500, 1000);
 	}
@@ -117,7 +117,7 @@ public class FunctionV4Tests : IDisposable
 		var settings = CreateDefaultSettings().WithHttpMock();
 		var client = new ODataClient(settings);
 		var result = await client
-			.FindEntriesAsync("Products/Default.MostExpensives()");
+			.FindEntriesAsync("Products/Default.MostExpensives()").ConfigureAwait(false);
 
 		Assert.Equal(3, result.Count());
 	}
@@ -130,7 +130,7 @@ public class FunctionV4Tests : IDisposable
 		var result = await client
 			.For<Product>()
 			.Function("MostExpensives")
-			.ExecuteAsEnumerableAsync();
+			.ExecuteAsEnumerableAsync().ConfigureAwait(false);
 
 		Assert.Equal(3, result.Count());
 	}
@@ -143,7 +143,7 @@ public class FunctionV4Tests : IDisposable
 		var result = await client
 			.For<Product>()
 			.Function("MostExpensives")
-			.ExecuteAsArrayAsync<Product>();
+			.ExecuteAsArrayAsync<Product>().ConfigureAwait(false);
 
 		Assert.Equal(3, result.Length);
 	}
@@ -169,7 +169,7 @@ public class FunctionV4Tests : IDisposable
 		var settings = CreateDefaultSettings().WithHttpMock();
 		var client = new ODataClient(settings);
 		var result = await client
-			.FindEntriesAsync("Products/Default.Top10()");
+			.FindEntriesAsync("Products/Default.Top10()").ConfigureAwait(false);
 
 		Assert.Equal(10, result.Count());
 	}
@@ -182,7 +182,7 @@ public class FunctionV4Tests : IDisposable
 		var result = await client
 			.For<Product>()
 			.Function("Top10")
-			.ExecuteAsEnumerableAsync();
+			.ExecuteAsEnumerableAsync().ConfigureAwait(false);
 
 		Assert.Equal(10, result.Count());
 	}
@@ -195,7 +195,7 @@ public class FunctionV4Tests : IDisposable
 		var result = await client
 			.For<Product>()
 			.Function("Top10")
-			.ExecuteAsArrayAsync<Product>();
+			.ExecuteAsArrayAsync<Product>().ConfigureAwait(false);
 
 		Assert.Equal(10, result.Length);
 	}
@@ -221,7 +221,7 @@ public class FunctionV4Tests : IDisposable
 		var settings = CreateDefaultSettings().WithHttpMock();
 		var client = new ODataClient(settings);
 		var result = (int)await client
-			.FindScalarAsync("Products(33)/Default.GetPriceRank()");
+			.FindScalarAsync("Products(33)/Default.GetPriceRank()").ConfigureAwait(false);
 
 		Assert.InRange(result, 0, 100);
 	}
@@ -235,7 +235,7 @@ public class FunctionV4Tests : IDisposable
 			.For<Product>()
 			.Key(33)
 			.Function("GetPriceRank")
-			.ExecuteAsScalarAsync<int>();
+			.ExecuteAsScalarAsync<int>().ConfigureAwait(false);
 
 		Assert.InRange(result, 0, 100);
 	}
@@ -262,7 +262,7 @@ public class FunctionV4Tests : IDisposable
 		var settings = CreateDefaultSettings().WithHttpMock();
 		var client = new ODataClient(settings);
 		var result = (double)await client
-			.FindScalarAsync("Products(33)/Default.CalculateGeneralSalesTax(state='WA')");
+			.FindScalarAsync("Products(33)/Default.CalculateGeneralSalesTax(state='WA')").ConfigureAwait(false);
 
 		Assert.InRange(result, 1, 200);
 	}
@@ -277,7 +277,7 @@ public class FunctionV4Tests : IDisposable
 			.Key(33)
 			.Function("CalculateGeneralSalesTax")
 			.Set(new { state = "WA" })
-			.ExecuteAsScalarAsync<double>();
+			.ExecuteAsScalarAsync<double>().ConfigureAwait(false);
 
 		Assert.InRange(result, 1, 200);
 	}
@@ -306,7 +306,7 @@ public class FunctionV4Tests : IDisposable
 		var client = new ODataClient(settings);
 		var result = await client
 			.ExecuteFunctionAsScalarAsync<double>("GetSalesTaxRate",
-			new Dictionary<string, object>() { { "state", "CA" } });
+			new Dictionary<string, object>() { { "state", "CA" } }).ConfigureAwait(false);
 
 		Assert.InRange(result, 5, 20);
 	}
@@ -320,7 +320,7 @@ public class FunctionV4Tests : IDisposable
 			.Unbound()
 			.Function("GetSalesTaxRate")
 			.Set(new { state = "CA" })
-			.ExecuteAsScalarAsync<double>();
+			.ExecuteAsScalarAsync<double>().ConfigureAwait(false);
 
 		Assert.InRange(result, 5, 20);
 	}
@@ -346,12 +346,12 @@ public class FunctionV4Tests : IDisposable
 	{
 		var settings = CreateDefaultSettings().WithHttpMock();
 		var client = new ODataClient(settings);
-		var result = await client.FindEntriesAsync("Products(4)/Default.Placements()", null);
+		var result = await client.FindEntriesAsync("Products(4)/Default.Placements()", null).ConfigureAwait(false);
 		Assert.Equal(3, result.Count());
-		result = await client.FindEntriesAsync("Products(5)/Default.Placements()?$top=1&$orderby=ID desc&$skip=1", null);
+		result = await client.FindEntriesAsync("Products(5)/Default.Placements()?$top=1&$orderby=ID desc&$skip=1", null).ConfigureAwait(false);
 		Assert.Single(result);
 		Assert.Equal("Fatal Vengeance 2", result.First()["Title"]);
-		result = await client.FindEntriesAsync("Products(5)/Default.Placements()?$top=1&$orderby=ID desc&$skip=1&$filter=ID gt 5", null);
+		result = await client.FindEntriesAsync("Products(5)/Default.Placements()?$top=1&$orderby=ID desc&$skip=1&$filter=ID gt 5", null).ConfigureAwait(false);
 		Assert.Empty(result);
 	}
 
@@ -364,7 +364,7 @@ public class FunctionV4Tests : IDisposable
 			.For<Product>()
 			.Key(4)
 			.Function<Movie>("Placements")
-			.FindEntriesAsync();
+			.FindEntriesAsync().ConfigureAwait(false);
 		Assert.Equal(3, result.Count());
 		result = await client
 			.For<Product>()
@@ -373,7 +373,7 @@ public class FunctionV4Tests : IDisposable
 			.Top(1)
 			.OrderByDescending(x => x.ID)
 			.Skip(1)
-			.FindEntriesAsync();
+			.FindEntriesAsync().ConfigureAwait(false);
 		AssertCollectionCount(result, 1);
 		Assert.Equal("Fatal Vengeance 2", result.First().Title);
 		result = await client
@@ -384,7 +384,7 @@ public class FunctionV4Tests : IDisposable
 			.OrderByDescending(x => x.ID)
 			.Skip(1)
 			.Filter(x => x.ID > 5)
-			.FindEntriesAsync();
+			.FindEntriesAsync().ConfigureAwait(false);
 		AssertCollectionCount(result, 0);
 	}
 

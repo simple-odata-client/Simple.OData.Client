@@ -43,7 +43,7 @@ public abstract class FindODataTests : ODataTestBase
 		var products = await _client
 			.For("Products")
 			.Filter("Name eq 'Milk'")
-			.FindEntriesAsync();
+			.FindEntriesAsync().ConfigureAwait(false);
 		Assert.Equal("Milk", products.Single()["Name"]);
 	}
 
@@ -64,7 +64,7 @@ public abstract class FindODataTests : ODataTestBase
 		var category = await _client
 			.For("Categories")
 			.Key(1)
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 		Assert.Equal(1, category["ID"]);
 	}
 
@@ -75,7 +75,7 @@ public abstract class FindODataTests : ODataTestBase
 			.For("Products")
 			.Skip(1)
 			.Top(1)
-			.FindEntriesAsync();
+			.FindEntriesAsync().ConfigureAwait(false);
 		Assert.Single(products);
 	}
 
@@ -85,7 +85,7 @@ public abstract class FindODataTests : ODataTestBase
 		var product = (await _client
 			.For("Products")
 			.OrderBy("Name")
-			.FindEntriesAsync()).First();
+			.FindEntriesAsync().ConfigureAwait(false)).First();
 		Assert.Equal("Bread", product["Name"]);
 	}
 
@@ -95,12 +95,12 @@ public abstract class FindODataTests : ODataTestBase
 		var supplier = (await _client
 			.For("Suppliers")
 			.OrderBy("Address/City")
-			.FindEntriesAsync()).First();
+			.FindEntriesAsync().ConfigureAwait(false)).First();
 		Assert.Equal("Tokyo Traders", supplier["Name"]);
 		supplier = (await _client
 			.For("Suppliers")
 			.OrderByDescending("Address/City")
-			.FindEntriesAsync()).First();
+			.FindEntriesAsync().ConfigureAwait(false)).First();
 		Assert.Equal("Exotic Liquids", supplier["Name"]);
 	}
 
@@ -110,7 +110,7 @@ public abstract class FindODataTests : ODataTestBase
 		var product = await _client
 			.For("Products")
 			.Select("ID", "Name")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 		Assert.Contains("Name", product.Keys);
 		Assert.Contains("ID", product.Keys);
 	}
@@ -122,7 +122,7 @@ public abstract class FindODataTests : ODataTestBase
 			.For("Products")
 			.OrderBy("ID")
 			.Expand(ProductCategoryName)
-			.FindEntriesAsync()).Last();
+			.FindEntriesAsync().ConfigureAwait(false)).Last();
 		Assert.Equal(ExpectedCategory, ProductCategoryFunc(product)["Name"]);
 	}
 
@@ -133,7 +133,7 @@ public abstract class FindODataTests : ODataTestBase
 			.For("Categories")
 			.Expand("Products")
 			.Filter("Name eq 'Beverages'")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 		Assert.Equal(ExpectedExpandMany, (category["Products"] as IEnumerable<object>).Count());
 	}
 
@@ -144,7 +144,7 @@ public abstract class FindODataTests : ODataTestBase
 			.For("Products")
 			.OrderBy("ID")
 			.Expand(ProductCategoryName + "/Products")
-			.FindEntriesAsync()).Last();
+			.FindEntriesAsync().ConfigureAwait(false)).Last();
 		Assert.Equal(ExpectedExpandSecondLevel, (ProductCategoryFunc(product)["Products"] as IEnumerable<object>).Count());
 	}
 
@@ -154,7 +154,7 @@ public abstract class FindODataTests : ODataTestBase
 		var count = await _client
 			.For("Products")
 			.Count()
-			.FindScalarAsync<int>();
+			.FindScalarAsync<int>().ConfigureAwait(false);
 		Assert.Equal(ExpectedCount, count);
 	}
 
@@ -164,7 +164,7 @@ public abstract class FindODataTests : ODataTestBase
 		var annotations = new ODataFeedAnnotations();
 		var products = await _client
 			.For("Products")
-			.FindEntriesAsync(annotations);
+			.FindEntriesAsync(annotations).ConfigureAwait(false);
 		Assert.Equal(ExpectedTotalCount, annotations.Count);
 		Assert.Equal(ExpectedTotalCount, products.Count());
 	}
@@ -179,7 +179,7 @@ public abstract class FindODataTests : ODataTestBase
 			.Top(1)
 			.Expand(ProductCategoryName)
 			.Select(ProductCategoryName)
-			.FindEntriesAsync()).Single();
+			.FindEntriesAsync().ConfigureAwait(false)).Single();
 		Assert.Equal(ExpectedCategory, ProductCategoryFunc(product)["Name"]);
 	}
 
@@ -190,7 +190,7 @@ public abstract class FindODataTests : ODataTestBase
 			.For("Products")
 			.Key(new Dictionary<string, object>() { { "ID", 2 } })
 			.NavigateTo(ProductCategoryName)
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 		Assert.Equal("Beverages", category["Name"]);
 	}
 
@@ -201,7 +201,7 @@ public abstract class FindODataTests : ODataTestBase
 			.For("Categories")
 			.Key(2)
 			.NavigateTo("Products")
-			.FindEntriesAsync();
+			.FindEntriesAsync().ConfigureAwait(false);
 		Assert.Equal(2, products.Count());
 	}
 
@@ -215,13 +215,13 @@ public abstract class FindODataTests : ODataTestBase
 
 		var ad = await _client
 			.For("Advertisements")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 		var id = ad["ID"];
 		var stream = await _client
 			.For("Advertisements")
 			.Key(id)
 			.Media()
-			.GetStreamAsync();
+			.GetStreamAsync().ConfigureAwait(false);
 		var text = Utils.StreamToString(stream);
 		Assert.StartsWith("Test stream data", text);
 	}
@@ -239,7 +239,7 @@ public abstract class FindODataTests : ODataTestBase
 			.Key(1)
 			.NavigateTo("PersonDetail")
 			.Media("Photo")
-			.GetStreamAsync();
+			.GetStreamAsync().ConfigureAwait(false);
 		var text = Utils.StreamToString(stream);
 		Assert.StartsWith("Test named stream data", text);
 	}
@@ -262,7 +262,7 @@ public abstract class FindODataTests : ODataTestBase
 			.Key(1)
 			.NavigateTo<PersonDetail>()
 			.Media(x => x.Photo)
-			.GetStreamAsStringAsync();
+			.GetStreamAsStringAsync().ConfigureAwait(false);
 		Assert.StartsWith("Test named stream data", text);
 	}
 }

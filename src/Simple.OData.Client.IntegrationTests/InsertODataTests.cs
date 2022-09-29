@@ -44,7 +44,7 @@ public abstract class InsertODataTests : ODataTestBase
 		var product = await _client
 			.For("Products")
 			.Set(CreateProduct(1001, "Test1"))
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		Assert.Equal("Test1", product["Name"]);
 	}
@@ -55,7 +55,7 @@ public abstract class InsertODataTests : ODataTestBase
 		var product = await _client
 			.For("Products")
 			.Set(CreateProduct(1002, "Test1"))
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		Assert.True((int)product["ID"] > 0);
 		Assert.Equal("Test1", product["Name"]);
@@ -72,10 +72,10 @@ public abstract class InsertODataTests : ODataTestBase
 		expando.Rating = 1;
 		expando.ReleaseDate = DateTime.Now;
 
-		var product = await (Task<IDictionary<string, object>>)_client
+		var product = await ((Task<IDictionary<string, object>>)_client
 			.For("Products")
 			.Set(expando)
-			.InsertEntryAsync();
+			.InsertEntryAsync()).ConfigureAwait(false);
 
 		Assert.True((int)product["ID"] > 0);
 	}
@@ -86,18 +86,18 @@ public abstract class InsertODataTests : ODataTestBase
 		var category = await _client
 			.For("Categories")
 			.Set(CreateCategory(1005, "Test5"))
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 		var product = await _client
 			.For("Products")
 			.Set(CreateProduct(1007, "Test6", category))
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		Assert.Equal("Test6", product["Name"]);
 		product = await _client
 			.For("Products")
 			.Filter("Name eq 'Test6'")
 			.Expand(ProductCategoryName)
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 		Assert.NotNull(product[ProductCategoryName]);
 		Assert.Equal(category["ID"], ProductCategoryFunc(product)["ID"]);
 	}
@@ -110,8 +110,8 @@ public abstract class InsertODataTests : ODataTestBase
 			.For("Products")
 			.Set(CreateProduct(id, "Test"))
 			.BuildRequestFor()
-			.InsertEntryAsync();
-		var response = await _client.GetResponseAsync(withRequest.GetRequest());
+			.InsertEntryAsync().ConfigureAwait(false);
+		var response = await _client.GetResponseAsync(withRequest.GetRequest()).ConfigureAwait(false);
 		Assert.NotNull(response);
 		Assert.Equal($"{_serviceUri}Products({id})", response.Location);
 	}
@@ -124,8 +124,8 @@ public abstract class InsertODataTests : ODataTestBase
 			.For("Products")
 			.Set(CreateProduct(id, "Test"))
 			.BuildRequestFor()
-			.InsertEntryAsync(false);
-		var response = await _client.GetResponseAsync(withRequest.GetRequest());
+			.InsertEntryAsync(false).ConfigureAwait(false);
+		var response = await _client.GetResponseAsync(withRequest.GetRequest()).ConfigureAwait(false);
 		Assert.NotNull(response);
 		Assert.Equal($"{_serviceUri}Products({id})", response.Location);
 	}

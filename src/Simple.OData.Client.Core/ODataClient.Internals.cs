@@ -137,8 +137,12 @@ public partial class ODataClient
 		}
 	}
 
-	private async Task<T> ExecuteRequestWithResultAsync<T>(ODataRequest request, CancellationToken cancellationToken,
-		Func<ODataResponse, T> createResult, Func<T> createEmptyResult, Func<T> createBatchResult = null)
+	private async Task<T> ExecuteRequestWithResultAsync<T>(
+		ODataRequest request,
+		CancellationToken cancellationToken,
+		Func<ODataResponse, T> createResult,
+		Func<T>? createEmptyResult,
+		Func<T>? createBatchResult = null)
 	{
 		if (IsBatchRequest)
 		{
@@ -190,7 +194,8 @@ public partial class ODataClient
 				(request.Method == RestVerbs.Get || request.ResultRequired))
 			{
 				var stream = new MemoryStream();
-				await response.Content.CopyToAsync(stream);
+				await response.Content.CopyToAsync(stream)
+					.ConfigureAwait(false);
 				if (stream.CanSeek)
 				{
 					stream.Seek(0L, SeekOrigin.Begin);
@@ -216,14 +221,14 @@ public partial class ODataClient
 		}
 	}
 
-	private async Task<IEnumerable<IDictionary<string, object>>> IterateEntriesAsync(
+	private async Task<IEnumerable<IDictionary<string, object>>?> IterateEntriesAsync(
 		ResolvedCommand command, bool resultRequired,
 		Func<string, IDictionary<string, object>, IDictionary<string, object>, bool, Task<IDictionary<string, object>>> funcAsync, CancellationToken cancellationToken)
 	{
 		var collectionName = command.QualifiedEntityCollectionName;
 		var entryData = command.CommandData;
 
-		IEnumerable<IDictionary<string, object>> result = null;
+		IEnumerable<IDictionary<string, object>>? result = null;
 		var client = new ODataClient(this);
 		var entries = await client.FindEntriesAsync(command.Format(), cancellationToken).ConfigureAwait(false);
 		if (entries != null)
@@ -271,7 +276,9 @@ public partial class ODataClient
 		return result;
 	}
 
-	private void RemoveAnnotationProperties(IDictionary<string, object> entryData, IList<Action> actions = null)
+	private void RemoveAnnotationProperties(
+		IDictionary<string, object> entryData,
+		IList<Action>? actions = null)
 	{
 		var runActionsOnExist = false;
 		if (actions == null)
@@ -285,7 +292,7 @@ public partial class ODataClient
 			foreach (var entry in entryData)
 			{
 				var key = entry.Key;
-				if (key == FluentCommand.AnnotationsLiteral || key.StartsWith(FluentCommand.AnnotationsLiteral + "_"))
+				if (key == FluentCommand.AnnotationsLiteral || key.StartsWith(FluentCommand.AnnotationsLiteral + "_", StringComparison.Ordinal))
 				{
 					actions.Add(() => entryData.Remove(key));
 				}
@@ -352,7 +359,11 @@ public partial class ODataClient
 		}
 	}
 
-	private async Task GetMediaStreamValueAsync(IDictionary<string, object> entry, string propertyName, ODataMediaAnnotations annotations, CancellationToken cancellationToken)
+	private async Task GetMediaStreamValueAsync(
+		IDictionary<string, object> entry,
+		string propertyName,
+		ODataMediaAnnotations? annotations,
+		CancellationToken cancellationToken)
 	{
 		var mediaLink = annotations == null ? null : annotations.ReadLink ?? annotations.EditLink;
 		if (mediaLink != null)

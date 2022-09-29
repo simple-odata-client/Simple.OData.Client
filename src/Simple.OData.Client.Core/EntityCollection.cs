@@ -2,7 +2,9 @@ namespace Simple.OData.Client;
 
 public class EntityCollection
 {
-	internal EntityCollection(string name, EntityCollection baseEntityCollection = null)
+	internal EntityCollection(
+		string name,
+		EntityCollection? baseEntityCollection = null)
 	{
 		Name = name;
 		BaseEntityCollection = baseEntityCollection;
@@ -15,5 +17,5 @@ public class EntityCollection
 
 	public string Name { get; private set; }
 
-	public EntityCollection BaseEntityCollection { get; private set; }
+	public EntityCollection? BaseEntityCollection { get; private set; }
 }

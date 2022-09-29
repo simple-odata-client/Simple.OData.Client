@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace Simple.OData.Client;
@@ -90,7 +91,7 @@ public abstract class CommandFormatterBase : ICommandFormatter
 			? _session.Metadata.GetNavigationPropertyExactName(entityCollection.Name, items.First())
 			: items.First();
 		var text = associationName;
-		if (items.Count() == 1)
+		if (items.Length == 1)
 		{
 			return text;
 		}
@@ -134,7 +135,7 @@ public abstract class CommandFormatterBase : ICommandFormatter
 						escapedCollection.Add(ConvertValueToUriLiteral(o, true));
 					}
 
-					collectionValues.Add(string.Format("{0}=[" + string.Join(",", escapedCollection) + "]", itemAlias));
+					collectionValues.Add(string.Format(CultureInfo.InvariantCulture, "{0}=[" + string.Join(",", escapedCollection) + "]", itemAlias));
 					itemValue = itemAlias;
 				}
 				else
@@ -172,7 +173,7 @@ public abstract class CommandFormatterBase : ICommandFormatter
 			: text;
 	}
 
-	private string FormatClauses(ResolvedCommand command, IList<string> queryClauses = null)
+	private string FormatClauses(ResolvedCommand command, IList<string>? queryClauses = null)
 	{
 		var text = string.Empty;
 		queryClauses ??= new List<string>();
@@ -276,7 +277,7 @@ public abstract class CommandFormatterBase : ICommandFormatter
 	protected string FormatSelectItem(string path, EntityCollection entityCollection)
 	{
 		var items = path.Split('/');
-		if (items.Count() == 1)
+		if (items.Length == 1)
 		{
 			return _session.Metadata.HasStructuralProperty(entityCollection.Name, path)
 				? _session.Metadata.GetStructuralPropertyExactName(entityCollection.Name, path)
@@ -298,7 +299,7 @@ public abstract class CommandFormatterBase : ICommandFormatter
 	protected string FormatOrderByItem(KeyValuePair<string, bool> pathWithOrder, EntityCollection entityCollection)
 	{
 		var items = pathWithOrder.Key.Split('/');
-		if (items.Count() == 1)
+		if (items.Length == 1)
 		{
 			var clause = _session.Metadata.HasStructuralProperty(entityCollection.Name, pathWithOrder.Key)
 				? _session.Metadata.GetStructuralPropertyExactName(entityCollection.Name, pathWithOrder.Key)

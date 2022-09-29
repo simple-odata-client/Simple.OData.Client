@@ -146,7 +146,7 @@ namespace Simple.OData.Client.V3.Adapter
 			return GetStructuralProperty(collectionName, propertyName).Name;
 		}
 
-		public override string GetStructuralPropertyPath(string collectionName, params string[] propertyNames)
+		public override string GetStructuralPropertyPath(string collectionName, params string[]? propertyNames)
 		{
 			if (propertyNames == null || propertyNames.Length == 0)
 			{
@@ -236,7 +236,7 @@ namespace Simple.OData.Client.V3.Adapter
 			return function.Name;
 		}
 
-		public override EntityCollection GetFunctionReturnCollection(string functionName)
+		public override EntityCollection? GetFunctionReturnCollection(string functionName)
 		{
 			var function = GetFunction(functionName);
 
@@ -260,7 +260,7 @@ namespace Simple.OData.Client.V3.Adapter
 			return GetFunctionFullName(actionName);
 		}
 
-		public override EntityCollection GetActionReturnCollection(string actionName)
+		public override EntityCollection? GetActionReturnCollection(string actionName)
 		{
 			return GetFunctionReturnCollection(actionName);
 		}
@@ -304,7 +304,7 @@ namespace Simple.OData.Client.V3.Adapter
 			throw new UnresolvableObjectException(collectionName, $"Entity type [{collectionName}] not found");
 		}
 
-		private bool TryGetEntityType(string collectionName, out IEdmEntityType entityType)
+		private bool TryGetEntityType(string collectionName, out IEdmEntityType? entityType)
 		{
 			entityType = null;
 			if (collectionName.Contains("/"))

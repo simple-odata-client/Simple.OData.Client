@@ -75,7 +75,7 @@ public class AggregationV4Tests : IDisposable
 				Count = a.Count()
 			}))
 			.OrderByDescending(x => x.Count)
-			.FindEntriesAsync();
+			.FindEntriesAsync().ConfigureAwait(false);
 
 		Assert.Equal(3, result.Count());
 		Assert.Equal(new[] { 1990, 1989, 1995 }, result.Select(x => x.Year).ToArray());
@@ -96,7 +96,7 @@ public class AggregationV4Tests : IDisposable
 				Count = a.Count()
 			}))
 			.OrderByDescending(x => x.Count)
-			.FindEntriesAsync();
+			.FindEntriesAsync().ConfigureAwait(false);
 
 		Assert.Equal(3, result.Count());
 		Assert.Equal(new[] { 1990, 1989, 1995 }, result.Select(x => x.Year).ToArray());

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Xunit;
 using Simple.OData.Client;
 using Simple.OData.Client.Tests;
 using WebApiOData.V4.Samples.Models;
+using Xunit;
 #if NET461 && !MOCK_HTTP
 using Microsoft.Owin.Testing;
 using WebApiOData.V4.Samples.Startups;
@@ -59,14 +59,14 @@ public class ActionV4Tests
 		var settings = CreateDefaultSettings().WithHttpMock();
 		var client = new ODataClient(settings);
 		var isCheckedOut = false;
-		Movie result = null;
+		Movie? result = null;
 		try
 		{
 			result = await client
 				.For<Movie>()
 				.Key(1)
 				.Action("CheckOut")
-				.ExecuteAsSingleAsync();
+				.ExecuteAsSingleAsync().ConfigureAwait(false);
 		}
 		catch (WebRequestException)
 		{
@@ -79,13 +79,13 @@ public class ActionV4Tests
 				.For<Movie>()
 				.Key(1)
 				.Action("Return")
-				.ExecuteAsSingleAsync();
+				.ExecuteAsSingleAsync().ConfigureAwait(false);
 
 			result = await client
 				.For<Movie>()
 				.Key(1)
 				.Action("CheckOut")
-				.ExecuteAsSingleAsync();
+				.ExecuteAsSingleAsync().ConfigureAwait(false);
 		}
 
 		Assert.Equal(1, result.ID);
@@ -100,7 +100,7 @@ public class ActionV4Tests
 			.For<Movie>()
 			.Key(1)
 			.Action("Return")
-			.ExecuteAsSingleAsync();
+			.ExecuteAsSingleAsync().ConfigureAwait(false);
 
 		Assert.Equal(1, result.ID);
 	}
@@ -114,7 +114,7 @@ public class ActionV4Tests
 			.For<Movie>()
 			.Action("CheckOutMany")
 			.Set(new Dictionary<string, object>() { { "MovieIDs", new[] { 1, 2, 3 } } })
-			.ExecuteAsEnumerableAsync();
+			.ExecuteAsEnumerableAsync().ConfigureAwait(false);
 
 		Assert.True(result.Count() > 1);
 	}
@@ -129,7 +129,7 @@ public class ActionV4Tests
 			.Unbound<Movie>()
 			.Action("CreateMovie")
 			.Set(new { Title = guid.ToString() })
-			.ExecuteAsSingleAsync();
+			.ExecuteAsSingleAsync().ConfigureAwait(false);
 
 		Assert.True(result.ID > 0);
 	}
@@ -140,14 +140,14 @@ public class ActionV4Tests
 		var settings = CreateDefaultSettings().WithHttpMock();
 		var client = new ODataClient(settings);
 		var guid = new Guid("E7857D7F-5B85-406A-A5C7-0DBA1D411576");
-		Movie result = null;
+		Movie? result = null;
 		var batch = new ODataBatch(client);
 		batch += async c => result = await c
 			.Unbound<Movie>()
 			.Action("CreateMovie")
 			.Set(new { Title = guid.ToString() })
-			.ExecuteAsSingleAsync();
-		await batch.ExecuteAsync();
+			.ExecuteAsSingleAsync().ConfigureAwait(false);
+		await batch.ExecuteAsync().ConfigureAwait(false);
 
 		Assert.True(result.ID > 0);
 	}

@@ -12,17 +12,17 @@ public class DeleteTypedTests : TestBase
 		var product = await client
 			.For<Product>()
 			.Set(new { ProductName = "Test1", UnitPrice = 18m })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		await client
 			.For<Product>()
 			.Key(product.ProductID)
-			.DeleteEntryAsync();
+			.DeleteEntryAsync().ConfigureAwait(false);
 
 		product = await client
 			.For<Product>()
 			.Filter(x => x.ProductName == "Test1")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 
 		Assert.Null(product);
 	}
@@ -34,17 +34,17 @@ public class DeleteTypedTests : TestBase
 		var product = await client
 			.For<Product>()
 			.Set(new { ProductName = "Test1", UnitPrice = 18m })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		await client
 			.For<Product>()
 			.Filter(x => x.ProductName == "Test1")
-			.DeleteEntryAsync();
+			.DeleteEntryAsync().ConfigureAwait(false);
 
 		product = await client
 			.For<Product>()
 			.Filter(x => x.ProductName == "Test1")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 
 		Assert.Null(product);
 	}
@@ -56,17 +56,17 @@ public class DeleteTypedTests : TestBase
 		var product = await client
 			.For<Product>()
 			.Set(new { ProductName = "Test1", UnitPrice = 18m })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		await client
 			.For<Product>()
 			.Key(product)
-			.DeleteEntryAsync();
+			.DeleteEntryAsync().ConfigureAwait(false);
 
 		product = await client
 			.For<Product>()
 			.Filter(x => x.ProductName == "Test1")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 
 		Assert.Null(product);
 	}
@@ -79,19 +79,19 @@ public class DeleteTypedTests : TestBase
 			.For<Transport>()
 			.As<Ship>()
 			.Set(new Ship { ShipName = "Test1" })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		await client
 			.For<Transport>()
 			.As<Ship>()
 			.Key(ship.TransportID)
-			.DeleteEntryAsync();
+			.DeleteEntryAsync().ConfigureAwait(false);
 
 		ship = await client
 			.For<Transport>()
 			.As<Ship>()
 			.Filter(x => x.ShipName == "Test1")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 
 		Assert.Null(ship);
 	}

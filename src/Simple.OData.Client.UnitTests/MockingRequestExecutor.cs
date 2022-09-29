@@ -59,7 +59,7 @@ public class SerializableHttpResponseMessage
 	[DataMember]
 	public Dictionary<string, List<string>> ContentHeaders;
 	[DataMember]
-	public string Content { get; set; }
+	public string? Content { get; set; }
 
 	public SerializableHttpResponseMessage()
 	{
@@ -86,8 +86,8 @@ public class SerializableHttpResponseMessage
 public class MockingRequestExecutor
 {
 	private readonly ODataClientSettings _settings;
-	private readonly string _mockDataPathBase;
-	private readonly string[] _mockResponses;
+	private readonly string? _mockDataPathBase;
+	private readonly string[]? _mockResponses;
 	private readonly bool _validate;
 	private readonly bool _recording;
 	private int _fileCounter;
@@ -123,7 +123,7 @@ public class MockingRequestExecutor
 			}
 
 			var httpConnection = new HttpConnection(_settings);
-			var response = await httpConnection.HttpClient.SendAsync(request);
+			var response = await httpConnection.HttpClient.SendAsync(request).ConfigureAwait(false);
 
 			if (!IsMetadataRequest(request))
 			{
@@ -136,7 +136,7 @@ public class MockingRequestExecutor
 		{
 			if (_validate)
 			{
-				await ValidateRequestAsync(request);
+				await ValidateRequestAsync(request).ConfigureAwait(false);
 			}
 
 			if (_mockResponses == null)
@@ -218,7 +218,7 @@ public class MockingRequestExecutor
 			ValidateHeaders(expectedHeaders, actualHeaders);
 			var expectedContent = savedRequest.Content;
 			expectedContent = AdjustContent(expectedContent);
-			var actualContent = AdjustContent(await request.Content.ReadAsStringAsync());
+			var actualContent = AdjustContent(await request.Content.ReadAsStringAsync().ConfigureAwait(false));
 			Assert.Equal(expectedContent, actualContent);
 		}
 	}

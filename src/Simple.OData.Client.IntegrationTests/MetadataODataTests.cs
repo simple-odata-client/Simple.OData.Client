@@ -39,7 +39,7 @@ public abstract class MetadataODataTests : ODataTestBase
 	[Fact]
 	public async Task FilterWithMetadataDocument()
 	{
-		var metadataDocument = await _client.GetMetadataDocumentAsync();
+		var metadataDocument = await _client.GetMetadataDocumentAsync().ConfigureAwait(false);
 		ODataClient.ClearMetadataCache();
 		var settings = new ODataClientSettings()
 		{
@@ -51,7 +51,7 @@ public abstract class MetadataODataTests : ODataTestBase
 		var products = await client
 			.For("Products")
 			.Filter("Name eq 'Milk'")
-			.FindEntriesAsync();
+			.FindEntriesAsync().ConfigureAwait(false);
 		Assert.Equal("Milk", products.Single()["Name"]);
 	}
 
@@ -79,7 +79,7 @@ public abstract class MetadataODataTests : ODataTestBase
 			client.GetMetadataAsStringAsync(),
 			client.GetMetadataAsStringAsync(),
 			client.GetMetadataAsStringAsync()
-		);
+		).ConfigureAwait(false);
 
 		Assert.Equal(1, metadataCallsCount);
 	}

@@ -7,8 +7,8 @@ namespace Simple.OData.Client;
 
 internal class Session : ISession
 {
-	private IODataAdapter _adapter;
-	private HttpConnection _httpConnection;
+	private IODataAdapter? _adapter;
+	private HttpConnection? _httpConnection;
 
 	private Session(Uri baseUri, string metadataString) : this(new ODataClientSettings
 	{
@@ -55,7 +55,7 @@ internal class Session : ISession
 
 	public IMetadata Metadata => Adapter.GetMetadata();
 
-	public EdmMetadataCache MetadataCache { get; private set; }
+	public EdmMetadataCache? MetadataCache { get; private set; }
 
 	public ODataClientSettings Settings { get; }
 
@@ -172,7 +172,8 @@ internal class Session : ISession
 			{
 				var metadata = await ResolveMetadataAsync(cancellationToken).ConfigureAwait(false);
 				return CreateMdc(uri, metadata);
-			});
+			})
+			.ConfigureAwait(false);
 	}
 
 	private async Task<string> ResolveMetadataAsync(CancellationToken cancellationToken)

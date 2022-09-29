@@ -23,7 +23,7 @@ public class AdapterTests : TestBase
 
 		protected async override Task<object> CreateOperationMessageAsync(Uri uri, string method, string collection, string contentId, bool resultRequired)
 		{
-			var result = await base.CreateOperationMessageAsync(AppendToken(uri), method, collection, contentId, resultRequired);
+			var result = await base.CreateOperationMessageAsync(AppendToken(uri), method, collection, contentId, resultRequired).ConfigureAwait(false);
 			if (result is IODataRequestMessage request)
 			{
 				session.Trace("{0} batch request id {1}: {2}", request.Method, contentId, request.Url.AbsoluteUri);
@@ -85,7 +85,7 @@ public class AdapterTests : TestBase
 
 		var batch = new ODataBatch(settings);
 		batch += c => c.FindEntriesAsync("Products");
-		await batch.ExecuteAsync();
+		await batch.ExecuteAsync().ConfigureAwait(false);
 
 		var batchTrace = new Regex("^(.*)batch request id(.*)token=123456$");
 		var matches = trace.Where(x => batchTrace.IsMatch(x));

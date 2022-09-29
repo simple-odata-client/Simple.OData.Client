@@ -139,7 +139,7 @@ public partial class ODataClient : IODataClient
 	/// <returns>
 	/// The fluent OData client instance.
 	/// </returns>
-	public IBoundClient<T> For<T>(string collectionName = null)
+	public IBoundClient<T> For<T>(string? collectionName = null)
 		where T : class
 	{
 		return new BoundClient<T>(this, Session).For(collectionName);

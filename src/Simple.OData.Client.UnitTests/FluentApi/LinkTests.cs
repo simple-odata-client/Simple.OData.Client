@@ -16,21 +16,21 @@ public class LinkTests : TestBase
 		var category = await client
 			.For("Categories")
 			.Set(new { CategoryName = "Test4" })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 		var product = await client
 			.For("Products")
 			.Set(new { ProductName = "Test5" })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		await client
 			.For("Products")
 			.Key(product)
-			.LinkEntryAsync("Category", category);
+			.LinkEntryAsync("Category", category).ConfigureAwait(false);
 
 		product = await client
 			.For("Products")
 			.Filter("ProductName eq 'Test5'")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 		Assert.NotNull(product["CategoryID"]);
 		Assert.Equal(category["CategoryID"], product["CategoryID"]);
 	}
@@ -46,21 +46,21 @@ public class LinkTests : TestBase
 		var category = await client
 			.For("Categories")
 			.Set(new { CategoryName = "Test4" })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 		var product = await client
 			.For("Products")
 			.Set(new { ProductName = "Test5", CategoryID = category["CategoryID"] })
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		await client
 			.For("Products")
 			.Key(product)
-			.UnlinkEntryAsync("Category");
+			.UnlinkEntryAsync("Category").ConfigureAwait(false);
 
 		product = await client
 			.For("Products")
 			.Filter("ProductName eq 'Test5'")
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 		Assert.Null(product["CategoryID"]);
 	}
 }

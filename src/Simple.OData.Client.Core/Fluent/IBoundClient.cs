@@ -403,12 +403,14 @@ public interface IBoundClient<T> : IFluentClient<T, IBoundClient<T>>
 	/// <param name="derivedCollectionName">Name of the derived collection.</param>
 	/// <returns>Self.</returns>
 	IBoundClient<IDictionary<string, object>> As(string derivedCollectionName);
+
 	/// <summary>
 	/// Casts the collection of base entities as the collection of derived ones.
 	/// </summary>
 	/// <param name="derivedCollectionName">Name of the derived collection.</param>
 	/// <returns>Self.</returns>
-	IBoundClient<U> As<U>(string derivedCollectionName = null) where U : class;
+	IBoundClient<U> As<U>(string? derivedCollectionName = null) where U : class;
+
 	/// <summary>
 	/// Casts the collection of base entities as the collection of derived ones.
 	/// </summary>

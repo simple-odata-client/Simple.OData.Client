@@ -19,7 +19,7 @@ public class CrmEmployee
 	{
 		var result = await Utils.GetClient("crm_schema.xml", "crm_result_10.json")
 			.For<he_employee>()
-			.FindEntriesAsync();
+			.FindEntriesAsync().ConfigureAwait(false);
 
 		Assert.Equal(10, result.ToList().Count);
 	}
@@ -30,7 +30,7 @@ public class CrmEmployee
 		var result = await Utils.GetClient("crm_schema.xml", "crm_result_1.json")
 			.For<he_employee>()
 			.Filter(x => x.he_employeenumber == 123456)
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 
 		Assert.Equal(123456, result.he_employeenumber);
 	}

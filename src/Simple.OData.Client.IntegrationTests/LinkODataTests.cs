@@ -42,22 +42,22 @@ public abstract class LinkODataTests : ODataTestBase
 		var category = await _client
 			.For("Categories")
 			.Set(CreateCategory(4001, "Test4"))
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 		var product = await _client
 			.For("Products")
 			.Set(CreateProduct(4002, "Test5"))
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		await _client
 			.For("Products")
 			.Key(product)
-			.LinkEntryAsync(ProductCategoryName, category);
+			.LinkEntryAsync(ProductCategoryName, category).ConfigureAwait(false);
 
 		product = await _client
 			.For("Products")
 			.Filter("Name eq 'Test5'")
 			.Expand(ProductCategoryName)
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 		Assert.NotNull(product[ProductCategoryName]);
 		Assert.Equal(category["ID"], ProductCategoryFunc(product)["ID"]);
 	}
@@ -68,22 +68,22 @@ public abstract class LinkODataTests : ODataTestBase
 		var category = await _client
 			.For("Categories")
 			.Set(CreateCategory(4003, "Test4"))
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 		var product = await _client
 			.For("Products")
 			.Set(CreateProduct(4002, "Test5", category))
-			.InsertEntryAsync();
+			.InsertEntryAsync().ConfigureAwait(false);
 
 		await _client
 			.For("Products")
 			.Key(product)
-			.UnlinkEntryAsync(ProductCategoryName, ProductCategoryName == "Categories" ? category : null);
+			.UnlinkEntryAsync(ProductCategoryName, ProductCategoryName == "Categories" ? category : null).ConfigureAwait(false);
 
 		product = await _client
 			.For("Products")
 			.Filter("Name eq 'Test5'")
 			.Expand(ProductCategoryName)
-			.FindEntryAsync();
+			.FindEntryAsync().ConfigureAwait(false);
 		if (ProductCategoryName == "Categories")
 		{
 			Assert.Empty(product[ProductCategoryName] as IEnumerable);
