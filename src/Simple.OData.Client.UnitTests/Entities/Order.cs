@@ -11,4 +11,6 @@ public class Order
 	public DateTimeOffset ShippedDateTimeOffset { get; set; }
 
 	public OrderDetail[] OrderDetails { get; set; }
+	
+	public Employee Employee { get; set; }
 }

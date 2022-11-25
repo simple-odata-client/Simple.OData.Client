@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Newtonsoft.Json;
 using Xunit;
@@ -64,6 +65,15 @@ public class TypedExpressionV4Tests : TypedExpressionTests
 		var names = new List<string> { "Chai", "Milk", "Water" };
 		Expression<Func<TestEntity, bool>> filter = x => ids.Contains(x.ProductID) && !names.Contains(x.ProductName);
 		Assert.Equal("(ProductID in (1,2,3)) and not (ProductName in ('Chai','Milk','Water'))", ODataExpression.FromLinqExpression(filter).AsString(_session));
+	}
+
+	[Fact]
+	public void FilterOrdersWithAnyInNestedCollection()
+	{
+		Expression<Func<Order, bool>> filter = x => x.Employee.Subordinates.Any(s => s.LastName == "Smith");
+		var entityCollection = new EntityCollection("Orders");
+		var expressionContext = new ExpressionContext(_session, entityCollection, null, string.Empty);
+		Assert.Equal("Employee/Subordinates/any(x1:x1/LastName eq 'Smith')", ODataExpression.FromLinqExpression(filter).Format(expressionContext));
 	}
 }
 
