@@ -20,7 +20,7 @@
 	<ItemGroup>
 		<PackageReference Include="EntityFramework" Version="6.4.4" />
 		<PackageReference Include="Microsoft.AspNet.WebApi.OData" Version="5.7.0" />
-		<PackageReference Include="Microsoft.AspNet.WebApi.Owin" Version="5.2.7" />
+		<PackageReference Include="Microsoft.AspNet.WebApi.Owin" Version="5.2.9" />
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Properties\" />

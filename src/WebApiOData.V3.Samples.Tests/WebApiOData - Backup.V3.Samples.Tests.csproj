@@ -1,0 +1,77 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFrameworks>net6.0</TargetFrameworks>
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+		<RootNamespace>Simple.OData.Client.Tests</RootNamespace>
+		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+		<GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+		<OutputPath>$(SolutionDir)/build/$(Configuration)/$(AssemblyName)/$(TargetFramework)/</OutputPath>
+		<OutDir>$(OutputPath)</OutDir>
+		<LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<AnalysisMode>All</AnalysisMode>
+
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>full</DebugType>
+		<Optimize>false</Optimize>
+		<OutputPath>bin\Debug\</OutputPath>
+		<DefineConstants>TRACE;DEBUG;MOCK_HTTP</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<DebugType>pdbonly</DebugType>
+		<Optimize>true</Optimize>
+		<OutputPath>bin\Release\</OutputPath>
+		<DefineConstants>TRACE;MOCK_HTTP</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Remove="Resources\Metadata.xml" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+		<PackageReference Include="Microsoft.Net.Test.Sdk" Version="17.1.0" />
+		<PackageReference Include="xunit" Version="2.4.1" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)'=='net461'">
+		<PackageReference Include="Microsoft.Owin.Hosting" Version="4.0.0" />
+		<PackageReference Include="Microsoft.Owin.Testing" Version="4.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Include="..\Simple.OData.Client.UnitTests\MetadataResolver.cs" Link="MetadataResolver.cs" />
+		<Compile Include="..\Simple.OData.Client.UnitTests\MockingRequestExecutor.cs" Link="MockingRequestExecutor.cs" />
+		<Compile Include="..\WebApiOData.V3.Samples\Models\Movie.cs" Link="Movie.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Resources\Metadata.xml" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Simple.OData.Client.Core\Simple.OData.Client.Core.csproj">
+		</ProjectReference>
+		<ProjectReference Include="..\Simple.OData.Client.Dynamic\Simple.OData.Client.Dynamic.csproj">
+		</ProjectReference>
+		<ProjectReference Include="..\Simple.OData.Client.V3.Adapter\Simple.OData.Client.V3.Adapter.csproj">
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
+		<ProjectReference Include="..\WebApiOData.V3.Samples\WebApiOData.V3.Samples.csproj">
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net461|AnyCPU'">
+		<ProjectReference Include="..\WebApiOData.V3.Samples\WebApiOData.V3.Samples.csproj">
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<Folder Include="Properties\" />
+	</ItemGroup>
+</Project>

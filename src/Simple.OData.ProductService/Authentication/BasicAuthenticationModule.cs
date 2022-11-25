@@ -16,7 +16,7 @@ namespace Devbridge.BasicAuthentication;
 /// On AuthenticateRequest:
 ///     extract the basic authentication credentials
 ///     verify the credentials
-///     if succesfull, create and send authentication cookie
+///     if successful, create and send authentication cookie
 ///
 /// On SendResponseHeaders:
 ///     if there is no authentication cookie in request, clear response, add unauthorized status code (401) and
@@ -112,7 +112,7 @@ public class BasicAuthenticationModule : IHttpModule
 		var authCookie = context.Request.Cookies.Get(AuthenticationCookieName);
 		if (authCookie == null)
 		{
-			//make sure that user is not authencated yet
+			//make sure that user is not authenticated yet
 			if (!context.Response.Cookies.AllKeys.Contains(AuthenticationCookieName))
 			{
 				context.Response.Clear();

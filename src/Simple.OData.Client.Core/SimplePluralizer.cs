@@ -28,7 +28,7 @@ internal class SimplePluralizer : IPluralizer
 		return AdjustCase(ToSingularInternal(noun), noun);
 	}
 
-	public bool IsNounPluralOfNoun(string plural, string singular)
+	public static bool IsNounPluralOfNoun(string plural, string singular)
 	{
 		return string.Equals(ToSingularInternal(plural), singular, StringComparison.OrdinalIgnoreCase);
 	}
@@ -174,7 +174,7 @@ internal class SimplePluralizer : IPluralizer
 	{
 		public readonly string Singular;
 		public readonly string Plural;
-		public Word(string singular, string plural, string plural2)
+		public Word(string singular, string plural)
 		{
 			Singular = singular;
 			Plural = plural;
@@ -190,7 +190,7 @@ internal class SimplePluralizer : IPluralizer
 			_singularSuffix = singular;
 			_pluralSuffix = plural;
 		}
-		public bool TryToPlural(string word, out string plural)
+		public bool TryToPlural(string word, out string? plural)
 		{
 			if (word.EndsWith(_singularSuffix, StringComparison.OrdinalIgnoreCase))
 			{
@@ -203,7 +203,7 @@ internal class SimplePluralizer : IPluralizer
 				return false;
 			}
 		}
-		public bool TryToSingular(string word, out string singular)
+		public bool TryToSingular(string word, out string? singular)
 		{
 			if (word.EndsWith(_pluralSuffix, StringComparison.OrdinalIgnoreCase))
 			{
@@ -232,7 +232,7 @@ internal class SimplePluralizer : IPluralizer
 				p = s;
 			}
 
-			var w = new Word(s, p, p2);
+			var w = new Word(s, p);
 			_specialSingulars.Add(s, w);
 			_specialPlurals.Add(p, w);
 			if (!string.IsNullOrEmpty(p2))
@@ -253,7 +253,7 @@ internal class SimplePluralizer : IPluralizer
 		}
 	}
 
-	private string ToPluralInternal(string s)
+	private static string? ToPluralInternal(string s)
 	{
 		if (string.IsNullOrEmpty(s) || s.ToCharArray().Any(x => x > 0x7F))
 		{
@@ -276,7 +276,7 @@ internal class SimplePluralizer : IPluralizer
 		return s + "s";
 	}
 
-	private string ToSingularInternal(string s)
+	private static string? ToSingularInternal(string s)
 	{
 		if (string.IsNullOrEmpty(s) || s.ToCharArray().Any(x => x > 0x7F))
 		{
@@ -304,7 +304,7 @@ internal class SimplePluralizer : IPluralizer
 		return s;
 	}
 
-	private string AdjustCase(string s, string template)
+	private static string AdjustCase(string s, string template)
 	{
 		if (string.IsNullOrEmpty(s))
 		{

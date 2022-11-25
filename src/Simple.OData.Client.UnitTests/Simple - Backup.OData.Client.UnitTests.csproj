@@ -1,0 +1,207 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net6.0</TargetFrameworks>
+	  <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <RootNamespace>Simple.OData.Client.Tests</RootNamespace>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <OutputPath>$(SolutionDir)/build/$(Configuration)/$(AssemblyName)/$(TargetFramework)/</OutputPath>
+    <OutDir>$(OutputPath)</OutDir>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisMode>All</AnalysisMode>
+
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;MOCK_HTTP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;MOCK_HTTP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Resources\AccountTasksAndLink.json" />
+    <None Remove="Resources\AccountTasksOnlyLink.json" />
+    <None Remove="Resources\ActionWithDerivedType.xml" />
+    <None Remove="Resources\ActionWithEnum.xml" />
+    <None Remove="Resources\ArrayOfNested.edmx" />
+    <None Remove="Resources\Artifacts.edmx" />
+    <None Remove="Resources\ClientProductSku.xml" />
+    <None Remove="Resources\Colors.edmx" />
+    <None Remove="Resources\DynamicsCRM.xml" />
+    <None Remove="Resources\ExampleActionComplexType.json" />
+    <None Remove="Resources\Facebook.edmx" />
+    <None Remove="Resources\Flickr.edmx" />
+    <None Remove="Resources\GoogleMaps.edmx" />
+    <None Remove="Resources\Insight.edmx" />
+    <None Remove="Resources\iPhone.edmx" />
+    <None Remove="Resources\KeyDemo.xml" />
+    <None Remove="Resources\Marathon.edmx" />
+    <None Remove="Resources\MultipleCategoriesWithProducts.xml" />
+    <None Remove="Resources\MultipleProducts.xml" />
+    <None Remove="Resources\MultipleProductsWithCategory.xml" />
+    <None Remove="Resources\Nested.edmx" />
+    <None Remove="Resources\Northwind.xml" />
+    <None Remove="Resources\Northwind3.xml" />
+    <None Remove="Resources\Northwind4.xml" />
+    <None Remove="Resources\Northwind4WithAlternateKeys.xml" />
+    <None Remove="Resources\OpenTypes.xml" />
+    <None Remove="Resources\OpenTypeV401.json" />
+    <None Remove="Resources\QAS.Multiplatform.Demo.edmx" />
+    <None Remove="Resources\Russian.xml" />
+    <None Remove="Resources\SingleCategoryWithProducts.xml" />
+    <None Remove="Resources\SingleCustomerWithAddress.xml" />
+    <None Remove="Resources\SingleProduct.xml" />
+    <None Remove="Resources\SingleProductWithCategory.xml" />
+    <None Remove="Resources\SingleProductWithCollectionOfComplexProperties.xml" />
+    <None Remove="Resources\SingleProductWithCollectionOfPrimitiveProperties.xml" />
+    <None Remove="Resources\SingleProductWithComplexProperty.xml" />
+    <None Remove="Resources\SingleProductWithEmptyCollectionOfComplexProperties.xml" />
+    <None Remove="Resources\TripPin.xml" />
+    <None Remove="Resources\Twitter.edmx" />
+    <None Remove="Resources\TwitterStatusesSample.txt" />
+    <None Remove="Resources\WorkTaskModel.xml" />
+    <None Remove="Resources\WorkTaskModelWithNulls.xml" />
+    <None Remove="Resources\XmlWithDefaultNamespace.txt" />
+    <None Remove="Resources\XmlWithNoNamespace.txt" />
+    <None Remove="Resources\XmlWithPrefixedNamespace.txt" />
+    <None Remove="Resources\YouTube.edmx" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Net.Test.Sdk" Version="17.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="Moq" Version="4.17.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\AccountTasksAndLink.json" />
+    <EmbeddedResource Include="Resources\AccountTasksOnlyLink.json" />
+    <EmbeddedResource Include="Resources\ActionWithDerivedType.xml" />
+    <EmbeddedResource Include="Resources\ActionWithEnum.xml" />
+    <EmbeddedResource Include="Resources\ArrayOfNested.edmx" />
+    <EmbeddedResource Include="Resources\Artifacts.edmx" />
+    <EmbeddedResource Include="Resources\ClientProductSku.xml" />
+    <EmbeddedResource Include="Resources\Colors.edmx" />
+    <EmbeddedResource Include="Resources\DynamicsCRM.xml" />
+    <EmbeddedResource Include="Resources\Northwind4WithAlternateKeys.xml" />
+    <EmbeddedResource Include="Resources\OpenTypes.xml" />
+    <EmbeddedResource Include="Resources\OpenTypeV401.json" />
+    <EmbeddedResource Include="Resources\ExampleActionComplexType.json" />
+    <EmbeddedResource Include="Resources\Facebook.edmx" />
+    <EmbeddedResource Include="Resources\Flickr.edmx" />
+    <EmbeddedResource Include="Resources\GoogleMaps.edmx" />
+    <EmbeddedResource Include="Resources\Insight.edmx" />
+    <EmbeddedResource Include="Resources\iPhone.edmx" />
+    <EmbeddedResource Include="Resources\Marathon.edmx" />
+    <EmbeddedResource Include="Resources\MultipleCategoriesWithProducts.xml" />
+    <EmbeddedResource Include="Resources\MultipleProducts.xml" />
+    <EmbeddedResource Include="Resources\MultipleProductsWithCategory.xml" />
+    <EmbeddedResource Include="Resources\Nested.edmx" />
+    <EmbeddedResource Include="Resources\Northwind.xml" />
+    <EmbeddedResource Include="Resources\Northwind3.xml" />
+    <EmbeddedResource Include="Resources\Northwind4.xml" />
+    <EmbeddedResource Include="Resources\QAS.Multiplatform.Demo.edmx" />
+    <EmbeddedResource Include="Resources\Russian.xml" />
+    <EmbeddedResource Include="Resources\SingleCategoryWithProducts.xml" />
+    <EmbeddedResource Include="Resources\SingleCustomerWithAddress.xml" />
+    <EmbeddedResource Include="Resources\SingleProduct.xml" />
+    <EmbeddedResource Include="Resources\SingleProductWithCategory.xml" />
+    <EmbeddedResource Include="Resources\SingleProductWithCollectionOfComplexProperties.xml" />
+    <EmbeddedResource Include="Resources\SingleProductWithCollectionOfPrimitiveProperties.xml" />
+    <EmbeddedResource Include="Resources\SingleProductWithComplexProperty.xml" />
+    <EmbeddedResource Include="Resources\SingleProductWithEmptyCollectionOfComplexProperties.xml" />
+    <EmbeddedResource Include="Resources\KeyDemo.xml" />
+    <EmbeddedResource Include="Resources\TripPin.xml" />
+    <EmbeddedResource Include="Resources\Twitter.edmx" />
+    <EmbeddedResource Include="Resources\TwitterStatusesSample.txt" />
+    <EmbeddedResource Include="Resources\WorkTaskModel.xml" />
+    <EmbeddedResource Include="Resources\WorkTaskModelWithNulls.xml" />
+    <EmbeddedResource Include="Resources\XmlWithDefaultNamespace.txt" />
+    <EmbeddedResource Include="Resources\XmlWithNoNamespace.txt" />
+    <EmbeddedResource Include="Resources\XmlWithPrefixedNamespace.txt" />
+    <EmbeddedResource Include="Resources\YouTube.edmx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Simple.OData.Client.Dynamic\Simple.OData.Client.Dynamic.csproj" />
+    <ProjectReference Include="..\Simple.OData.Client.V3.Adapter\Simple.OData.Client.V3.Adapter.csproj" />
+    <ProjectReference Include="..\Simple.OData.Client.V4.Adapter\Simple.OData.Client.V4.Adapter.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net461|AnyCPU'">
+    <ProjectReference Include="..\Simple.OData.NorthwindModel\Simple.OData.NorthwindModel.csproj">
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
+    <ProjectReference Include="..\Simple.OData.NorthwindModel\Simple.OData.NorthwindModel.csproj">
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net461|AnyCPU'">
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="MockData\BatchDynamicTests.AllFailures.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="MockData\BatchDynamicTests.InsertSingleEntityWithMultipleAssociationsSingleBatch.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="MockData\BatchDynamicTests.InsertSingleEntityWithSingleAssociationSingleBatch.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="MockData\BatchDynamicTests.InsertUpdateDeleteSeparateBatches.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="MockData\BatchDynamicTests.MultipleUpdatesSingleBatch.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="MockData\BatchDynamicTests.PartialFailures.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="MockData\BatchDynamicTests.Success.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="MockData\BatchDynamicTests.SuccessWithResults.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="MockData\BatchDynamicTests.UpdateDeleteSingleBatch.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
+    <PackageReference Include="BenchmarkDotNet" Version="0.10.14">
+    </PackageReference>
+  </ItemGroup>
+</Project>

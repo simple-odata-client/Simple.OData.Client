@@ -13,7 +13,7 @@
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.OData.Core" Version="7.10.0" />
+		<PackageReference Include="Microsoft.OData.Core" Version="7.12.5" />
 		<ProjectReference Include="..\Simple.OData.Client.Core\Simple.OData.Client.Core.csproj" />
 	</ItemGroup>
 </Project>

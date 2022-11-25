@@ -56,34 +56,34 @@ public class Startup
 		{
 			var movie = ctx.EntityInstance as Movie;
 
-				// Note: In some cases, checking whether the action is available may be relatively expensive.
-				// For example, it might require a DB lookup. 
+			// Note: In some cases, checking whether the action is available may be relatively expensive.
+			// For example, it might require a DB lookup. 
 
-				// Avoid doing expensive checks inside a loop (i.e., when serializing a feed). Instead, simply 
-				// mark the action as available, by returning an action link. 
+			// Avoid doing expensive checks inside a loop (i.e., when serializing a feed). Instead, simply 
+			// mark the action as available, by returning an action link. 
 
-				// The SkipExpensiveAvailabilityChecks flag says whether to skip expensive checks. If this flag 
-				// is true AND your availability check is expensive, skip the check and return a link.
+			// The SkipExpensiveAvailabilityChecks flag says whether to skip expensive checks. If this flag 
+			// is true AND your availability check is expensive, skip the check and return a link.
 
-				// In this sample, the check is not really expensive, but we honor the flag to show how it works.
-				var createLink = true;
+			// In this sample, the check is not really expensive, but we honor the flag to show how it works.
+			var createLink = true;
 			if (ctx.SkipExpensiveAvailabilityChecks)
 			{
-					// Caller asked us to skip the availability check.
-					createLink = true;
+				// Caller asked us to skip the availability check.
+				createLink = true;
 			}
 			else if (!movie.IsCheckedOut) // Here is the "expensive" check
-				{
+			{
 				createLink = true;
 			}
 
 			if (createLink)
 			{
-					// Return the URI of the action.
-					return new Uri(ctx.Url.CreateODataLink(
-					new EntitySetPathSegment(ctx.EntitySet),
-					new KeyValuePathSegment(ODataUriUtils.ConvertToUriLiteral(movie.ID, ODataVersion.V3)),
-					new ActionPathSegment(checkout.Name)));
+				// Return the URI of the action.
+				return new Uri(ctx.Url.CreateODataLink(
+				new EntitySetPathSegment(ctx.EntitySet),
+				new KeyValuePathSegment(ODataUriUtils.ConvertToUriLiteral(movie.ID, ODataVersion.V3)),
+				new ActionPathSegment(checkout.Name)));
 			}
 			else
 			{

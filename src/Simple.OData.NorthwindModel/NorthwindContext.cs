@@ -31,7 +31,7 @@ public class NorthwindContext : DbContext
 
 	private static int NextId = 1000;
 
-	private void SetKey<T>(ObjectStateEntry entry, Action<T> setKey) where T : class
+	private static void SetKey<T>(ObjectStateEntry entry, Action<T> setKey) where T : class
 	{
 		if (entry.Entity is T entity)
 		{
@@ -68,7 +68,7 @@ public class NorthwindContext : DbContext
 	public virtual DbSet<Transport> Transport { get; set; }
 
 	[NonBindableAction]
-	public Address PassThroughAddress(Address address)
+	public static Address PassThroughAddress(Address address)
 	{
 		return address;
 	}

@@ -91,7 +91,7 @@ public class ProductsController : ODataController
 		{
 			// NOTE: Use where clause to get the rank of the price may not
 			// offer the good time complexity. The following code is intended
-			// for demostration only.
+			// for demonstration only.
 			return Ok(_data.Values.Count(one => one.Price > product.Price));
 		}
 		else

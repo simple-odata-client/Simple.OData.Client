@@ -326,7 +326,7 @@ public class CommandFormatter : CommandFormatterBase
 		return false;
 	}
 
-	private bool HasMultipleSegments(string path)
+	private static bool HasMultipleSegments(string path)
 	{
 		return path.Contains("/");
 	}
@@ -336,7 +336,7 @@ public class CommandFormatter : CommandFormatterBase
 		return path.Split('/').First();
 	}
 
-	private string FormatSkipSegments(string path, int skipCount)
+	private static string FormatSkipSegments(string path, int skipCount)
 	{
 		return string.Join("/", path.Split('/').Skip(skipCount));
 	}

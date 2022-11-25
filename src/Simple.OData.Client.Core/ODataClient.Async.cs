@@ -1413,7 +1413,7 @@ public partial class ODataClient
 		await ExecuteBatchActionsAsync(actions, headers, cancellationToken).ConfigureAwait(false);
 	}
 
-	private string ExtractFilterFromCommandText(string collection, string commandText)
+	private static string ExtractFilterFromCommandText(string collection, string commandText)
 	{
 		const string filterPrefix = "?$filter=";
 

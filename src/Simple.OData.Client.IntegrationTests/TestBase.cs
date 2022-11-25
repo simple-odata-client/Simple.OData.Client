@@ -29,7 +29,7 @@ public abstract class TestBase : IDisposable
 
 	protected TestBase(string serviceUri, ODataPayloadFormat payloadFormat)
 	{
-		//services.odata.org only works with Tls 1.2
+		// services.odata.org only works with TLS 1.2
 		System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
 
 		if (serviceUri.Contains("%28readwrite%29") || serviceUri == TripPinV4ReadWriteUri)

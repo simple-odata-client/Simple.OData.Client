@@ -26,7 +26,7 @@ public class ODataFeedAnnotations
 
 	/// <summary>
 	/// A URL that can be used to retrieve the next subset of the requested collection.
-	/// When set, indicates that the response response is only a subset of the requested collection of entities or collection of entity references.
+	/// When set, indicates that the response is only a subset of the requested collection of entities or collection of entity references.
 	/// </summary>
 	public Uri? NextPageLink { get; internal set; }
 

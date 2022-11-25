@@ -300,7 +300,7 @@ public abstract class RequestWriterBase : IRequestWriter
 		return false;
 	}
 
-	private bool IsTextMediaType(string? mediaType)
+	private static bool IsTextMediaType(string? mediaType)
 	{
 		if (mediaType == null)
 		{

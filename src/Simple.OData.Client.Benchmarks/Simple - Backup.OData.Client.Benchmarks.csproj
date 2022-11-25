@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+		<LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<AnalysisMode>All</AnalysisMode>
+
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DefineConstants>TRACE;MOCK_HTTP</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DefineConstants>TRACE;DEBUG;MOCK_HTTP</DefineConstants>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Remove="Resources\crm_schema.xml" />
+		<None Remove="Resources\Transfers.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Include="..\Simple.OData.Client.IntegrationTests\TripPinEntities.cs" Link="TripPinEntities.cs" />
+		<Compile Include="..\Simple.OData.Client.UnitTests\MetadataResolver.cs" Link="MetadataResolver.cs" />
+		<Compile Include="..\Simple.OData.Client.UnitTests\MockingRequestExecutor.cs" Link="MockingRequestExecutor.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="..\Simple.OData.Client.UnitTests\Resources\TripPin.xml" Link="Resources\TripPin.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Resources\crm_schema.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="xunit" Version="2.4.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Simple.OData.Client.Core\Simple.OData.Client.Core.csproj" />
+		<ProjectReference Include="..\Simple.OData.Client.V4.Adapter\Simple.OData.Client.V4.Adapter.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Properties\" />
+	</ItemGroup>
+
+</Project>

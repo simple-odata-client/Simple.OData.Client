@@ -14,17 +14,17 @@ public static class ODataDynamic
 
 	public static ODataExpression ExpressionFromReference(string reference)
 	{
-		return DynamicODataExpression.FromReference(reference);
+		return ODataExpression.FromReference(reference);
 	}
 
 	public static ODataExpression ExpressionFromValue(object value)
 	{
-		return DynamicODataExpression.FromValue(value);
+		return ODataExpression.FromValue(value);
 	}
 
 	public static ODataExpression ExpressionFromFunction(string functionName, string targetName, IEnumerable<object> arguments)
 	{
-		var targetExpression = DynamicODataExpression.FromReference(targetName);
-		return DynamicODataExpression.FromFunction(functionName, targetExpression, arguments);
+		var targetExpression = ODataExpression.FromReference(targetName);
+		return ODataExpression.FromFunction(functionName, targetExpression, arguments);
 	}
 }

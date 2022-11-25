@@ -449,7 +449,7 @@ public class Metadata : MetadataBase
 		return false;
 	}
 
-	private bool TryGetEntityType(IEdmTypeReference typeReference, out IEdmEntityType entityType)
+	private static bool TryGetEntityType(IEdmTypeReference typeReference, out IEdmEntityType entityType)
 	{
 		entityType = typeReference.Definition.TypeKind == EdmTypeKind.Collection
 			? (typeReference.Definition as IEdmCollectionType).ElementType.Definition as IEdmEntityType

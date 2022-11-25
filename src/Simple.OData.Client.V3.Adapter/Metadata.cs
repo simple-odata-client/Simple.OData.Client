@@ -359,7 +359,7 @@ namespace Simple.OData.Client.V3.Adapter
 			return false;
 		}
 
-		private bool TryGetEntityType(IEdmTypeReference typeReference, out IEdmEntityType entityType)
+		private static bool TryGetEntityType(IEdmTypeReference typeReference, out IEdmEntityType entityType)
 		{
 			entityType = typeReference.Definition.TypeKind == EdmTypeKind.Collection
 				? (typeReference.Definition as IEdmCollectionType).ElementType.Definition as IEdmEntityType

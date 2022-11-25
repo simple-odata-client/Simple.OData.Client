@@ -1,6 +1,4 @@
-﻿using System;
-
-using Microsoft.Data.OData;
+﻿using Microsoft.Data.OData;
 
 namespace Simple.OData.Client.V3.Adapter;
 

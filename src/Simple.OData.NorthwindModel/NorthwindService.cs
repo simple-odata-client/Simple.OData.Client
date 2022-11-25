@@ -38,19 +38,19 @@ public class NorthwindService : EntityFrameworkDataService<NorthwindContext>, IS
 	}
 
 	[WebGet]
-	public int ParseInt(string number)
+	public static int ParseInt(string number)
 	{
 		return int.Parse(number);
 	}
 
 	[WebGet]
-	public string ReturnString(string text)
+	public static string ReturnString(string text)
 	{
 		return text;
 	}
 
 	[WebGet]
-	public IQueryable<int> ReturnIntCollection(int count)
+	public static IQueryable<int> ReturnIntCollection(int count)
 	{
 		var numbers = new List<int>();
 		for (var index = 1; index <= count; index++)
@@ -62,25 +62,25 @@ public class NorthwindService : EntityFrameworkDataService<NorthwindContext>, IS
 	}
 
 	[WebGet]
-	public long PassThroughLong(long number)
+	public static long PassThroughLong(long number)
 	{
 		return number;
 	}
 
 	[WebGet]
-	public DateTime PassThroughDateTime(DateTime dateTime)
+	public static DateTime PassThroughDateTime(DateTime dateTime)
 	{
 		return dateTime;
 	}
 
 	[WebGet]
-	public Guid PassThroughGuid(Guid guid)
+	public static Guid PassThroughGuid(Guid guid)
 	{
 		return guid;
 	}
 
 	[WebGet]
-	public IQueryable<Address> ReturnAddressCollection(int count)
+	public static IQueryable<Address> ReturnAddressCollection(int count)
 	{
 		var address = new Address { City = "Oslo", Country = "Norway", Region = "Oslo", PostalCode = "1234" };
 		var addresses = new List<Address>();

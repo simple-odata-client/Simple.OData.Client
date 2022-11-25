@@ -75,7 +75,7 @@ public class ODataAdapterFactory : IODataAdapterFactory
 	/// <param name="response">HTTP response message with schema information</param>
 	/// <returns></returns>
 	/// <exception cref="InvalidOperationException"></exception>
-	protected async Task<IEnumerable<string>> GetSupportedProtocolVersionsAsync(HttpResponseMessage response)
+	protected static async Task<IEnumerable<string>> GetSupportedProtocolVersionsAsync(HttpResponseMessage response)
 	{
 		if (response.Headers.TryGetValues(HttpLiteral.DataServiceVersion, out var headerValues) ||
 			response.Headers.TryGetValues(HttpLiteral.ODataVersion, out headerValues))
@@ -134,7 +134,7 @@ public class ODataAdapterFactory : IODataAdapterFactory
 		return null;
 	}
 
-	private IODataModelAdapter LoadModelAdapter(ITypeCache typeCache, string modelAdapterAssemblyName, string modelAdapterTypeName, params object[] ctorParams)
+	private static IODataModelAdapter LoadModelAdapter(ITypeCache typeCache, string modelAdapterAssemblyName, string modelAdapterTypeName, params object[] ctorParams)
 	{
 		try
 		{
@@ -148,7 +148,7 @@ public class ODataAdapterFactory : IODataAdapterFactory
 		}
 	}
 
-	private Type LoadType(string assemblyName, string typeName)
+	private static Type LoadType(string assemblyName, string typeName)
 	{
 		try
 		{
@@ -167,7 +167,7 @@ public class ODataAdapterFactory : IODataAdapterFactory
 		}
 	}
 
-	private ConstructorInfo FindAdapterConstructor(Type type, ITypeCache typeCache, params object[] ctorParams)
+	private static ConstructorInfo FindAdapterConstructor(Type type, ITypeCache typeCache, params object[] ctorParams)
 	{
 		var constructors = typeCache.GetDeclaredConstructors(type);
 		return constructors.Single(x =>
@@ -175,7 +175,7 @@ public class ODataAdapterFactory : IODataAdapterFactory
 			x.GetParameters().Last().ParameterType.GetTypeInfo().IsAssignableFrom(ctorParams.Last().GetType().GetTypeInfo()));
 	}
 
-	private IODataAdapter LoadAdapter(string adapterAssemblyName, ITypeCache typeCache, string adapterTypeName, params object[] ctorParams)
+	private static IODataAdapter LoadAdapter(string adapterAssemblyName, ITypeCache typeCache, string adapterTypeName, params object[] ctorParams)
 	{
 		try
 		{
@@ -200,7 +200,7 @@ public class ODataAdapterFactory : IODataAdapterFactory
 	/// </summary>
 	/// <param name="metadataString">Service metadata</param>
 	/// <returns></returns>
-	protected string GetMetadataProtocolVersion(string metadataString)
+	protected static string GetMetadataProtocolVersion(string metadataString)
 	{
 		using var reader = XmlReader.Create(new StringReader(metadataString));
 		reader.MoveToContent();

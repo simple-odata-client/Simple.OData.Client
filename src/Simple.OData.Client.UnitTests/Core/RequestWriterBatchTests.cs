@@ -32,7 +32,7 @@ public class RequestWriterBatchV4Tests : RequestWriterBatchTests
 		return new V4.Adapter.RequestWriter(
 			_session,
 			await _client.GetMetadataAsync<Microsoft.OData.Edm.IEdmModel>().ConfigureAwait(false),
-			new Lazy<IBatchWriter>(() => base.BatchWriter));
+			new Lazy<IBatchWriter>(() => BatchWriter));
 	}
 }
 

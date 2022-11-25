@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Data.Services.Providers;
 using System.Data.Services;
+using System.Data.Services.Providers;
 
 namespace ActionProviderImplementation;
 

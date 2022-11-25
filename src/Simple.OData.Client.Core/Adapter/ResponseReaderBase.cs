@@ -58,7 +58,7 @@ public abstract class ResponseReaderBase : IResponseReader
 
 	protected abstract void ConvertEntry(ResponseNode entryNode, object entry);
 
-	protected void StartFeed(Stack<ResponseNode> nodeStack, ODataFeedAnnotations feedAnnotations)
+	protected static void StartFeed(Stack<ResponseNode> nodeStack, ODataFeedAnnotations feedAnnotations)
 	{
 		nodeStack.Push(new ResponseNode
 		{
@@ -66,7 +66,7 @@ public abstract class ResponseReaderBase : IResponseReader
 		});
 	}
 
-	protected void EndFeed(Stack<ResponseNode> nodeStack, ODataFeedAnnotations feedAnnotations, ref ResponseNode rootNode)
+	protected static void EndFeed(Stack<ResponseNode> nodeStack, ODataFeedAnnotations feedAnnotations, ref ResponseNode? rootNode)
 	{
 		var feedNode = nodeStack.Pop();
 		if (nodeStack.Any())
@@ -81,7 +81,7 @@ public abstract class ResponseReaderBase : IResponseReader
 		feedNode.Feed.SetAnnotations(feedAnnotations);
 	}
 
-	protected void StartEntry(Stack<ResponseNode> nodeStack)
+	protected static void StartEntry(Stack<ResponseNode> nodeStack)
 	{
 		nodeStack.Push(new ResponseNode
 		{
@@ -111,7 +111,7 @@ public abstract class ResponseReaderBase : IResponseReader
 		}
 	}
 
-	protected void StartNavigationLink(Stack<ResponseNode> nodeStack, string linkName)
+	protected static void StartNavigationLink(Stack<ResponseNode> nodeStack, string linkName)
 	{
 		nodeStack.Push(new ResponseNode
 		{

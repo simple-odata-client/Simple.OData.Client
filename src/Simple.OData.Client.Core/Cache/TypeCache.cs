@@ -333,7 +333,7 @@ public class TypeCache : ITypeCache
 		return resolver;
 	}
 
-	private MethodInfo ImplicitConversionTo<T>(object value)
+	private static MethodInfo ImplicitConversionTo<T>(object value)
 	{
 		return value.GetType().GetMethods()
 						   .FirstOrDefault(m => string.Equals(m.Name, "op_Implicit", StringComparison.Ordinal)

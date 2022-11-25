@@ -216,7 +216,7 @@ namespace Simple.OData.Client.V3.Adapter
 			}
 		}
 
-		private ODataFeedAnnotations CreateAnnotations(ODataFeed feed)
+		private static ODataFeedAnnotations CreateAnnotations(ODataFeed feed)
 		{
 			return new ODataFeedAnnotations
 			{
@@ -269,7 +269,7 @@ namespace Simple.OData.Client.V3.Adapter
 			};
 		}
 
-		private ODataMediaAnnotations? CreateAnnotations(ODataStreamReferenceValue value)
+		private static ODataMediaAnnotations? CreateAnnotations(ODataStreamReferenceValue value)
 		{
 			return value == null ? null : new ODataMediaAnnotations
 			{

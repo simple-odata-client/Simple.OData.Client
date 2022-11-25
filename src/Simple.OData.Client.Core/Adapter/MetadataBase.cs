@@ -125,12 +125,12 @@ public abstract class MetadataBase : IMetadata
 			: NavigateToCollection(entityCollection, segments.Skip(1));
 	}
 
-	protected bool SegmentsIncludeTypeSpecification(IEnumerable<string> segments)
+	protected static bool SegmentsIncludeTypeSpecification(IEnumerable<string> segments)
 	{
 		return segments.Last().Contains(".");
 	}
 
-	protected bool IsSingleSegmentWithTypeSpecification(IEnumerable<string> segments)
+	protected static bool IsSingleSegmentWithTypeSpecification(IEnumerable<string> segments)
 	{
 		return segments.Count() == 2 && SegmentsIncludeTypeSpecification(segments);
 	}
@@ -185,7 +185,7 @@ public abstract class MetadataBase : IMetadata
 		return entryDetails;
 	}
 
-	public IEnumerable<string> GetCollectionPathSegments(string path)
+	public static IEnumerable<string> GetCollectionPathSegments(string path)
 	{
 		return path.Split('/').Select(x => x.Contains("(") ? x.Substring(0, x.IndexOf("(", StringComparison.Ordinal)) : x);
 	}

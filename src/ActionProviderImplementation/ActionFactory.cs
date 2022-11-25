@@ -123,7 +123,7 @@ public class ActionFactory
 			throw new Exception($"Generic action parameter type {type} not supported");
 		}
 
-		if (ActionFactory.__primitives.Contains(type))
+		if (__primitives.Contains(type))
 		{
 			return ResourceType.GetPrimitiveResourceType(type);
 		}

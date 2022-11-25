@@ -138,7 +138,7 @@ internal static class DictionaryExtensions
 
 		if (!resolver.IsMatch(odataType, type.Name))
 		{
-			// Ok, something other than the base type, see if we can match it
+			// OK, something other than the base type, see if we can match it
 			var derived = typeCache.GetDerivedTypes(type).FirstOrDefault(x => resolver.IsMatch(odataType, typeCache.GetMappedName(x)));
 			if (derived != null)
 			{

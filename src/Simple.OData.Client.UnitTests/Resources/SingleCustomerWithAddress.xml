@@ -1,24 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <entry xml:base="http://services.odata.org/Northwind/Northwind.svc/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom">
-  <id>http://services.odata.org/Northwind/Northwind.svc/Customers('CONTO')</id>
-  <title type="text" />
-  <updated>2012-02-24T09:39:04Z</updated>
-  <author>
-    <name />
-  </author>
-  <link rel="edit" title="Customer" href="Customers('CONTO')" />
-  <category term="NorthwindModel.Customers" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
-  <content type="application/xml">
-    <m:properties>
-      <d:CustomerID>CONTO</d:CustomerID>
-      <d:CompanyName>Contoso</d:CompanyName>
-      <d:Address m:type="NorthwindModel.Address">
-        <d:Type m:type="NorthwindModel.AddressType">Private</d:Type>
-        <d:City>Oslo</d:City>
-        <d:Region>Oslo</d:Region>
-        <d:PostalCode>1410</d:PostalCode>
-        <d:Country>Norway</d:Country>
-      </d:Address>
-    </m:properties>
-  </content>
+	<id>http://services.odata.org/Northwind/Northwind.svc/Customers('CONTO')</id>
+	<title type="text" />
+	<updated>2012-02-24T09:39:04Z</updated>
+	<author>
+		<name />
+	</author>
+	<link rel="edit" title="Customer" href="Customers('CONTO')" />
+	<category term="NorthwindModel.Customers" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+	<content type="application/xml">
+		<m:properties>
+			<d:CustomerID>CONTO</d:CustomerID>
+			<d:CompanyName>Contoso</d:CompanyName>
+			<d:Address m:type="NorthwindModel.Address">
+				<d:Type m:type="NorthwindModel.AddressType">Private</d:Type>
+				<d:City>Oslo</d:City>
+				<d:Region>Oslo</d:Region>
+				<d:PostalCode>1410</d:PostalCode>
+				<d:Country>Norway</d:Country>
+			</d:Address>
+		</m:properties>
+	</content>
 </entry>

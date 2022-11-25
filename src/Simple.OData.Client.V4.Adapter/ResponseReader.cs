@@ -217,7 +217,7 @@ namespace Simple.OData.Client.V4.Adapter
 			}
 		}
 
-		private ODataFeedAnnotations CreateAnnotations(ODataResourceSetBase feed)
+		private static ODataFeedAnnotations CreateAnnotations(ODataResourceSetBase feed)
 		{
 			return new ODataFeedAnnotations()
 			{
@@ -247,7 +247,7 @@ namespace Simple.OData.Client.V4.Adapter
 				}
 				catch (ODataException)
 				{
-					// Ingored
+					// Ignored
 				}
 			}
 
@@ -263,7 +263,7 @@ namespace Simple.OData.Client.V4.Adapter
 			};
 		}
 
-		private ODataMediaAnnotations? CreateAnnotations(ODataStreamReferenceValue value)
+		private static ODataMediaAnnotations? CreateAnnotations(ODataStreamReferenceValue value)
 		{
 			return value == null ? null : new ODataMediaAnnotations
 			{

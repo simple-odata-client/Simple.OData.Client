@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -149,7 +149,7 @@ public partial class ODataExpression
 			var val = Function.Arguments.First();
 			if (val.Value != null)
 			{
-				var formattedVal = ODataExpression.FromValue(
+				var formattedVal = FromValue(
 					string.Equals(Function.FunctionName, "ToBoolean", StringComparison.Ordinal) ? Convert.ToBoolean(val.Value, CultureInfo.InvariantCulture) :
 					string.Equals(Function.FunctionName, "ToByte", StringComparison.Ordinal) ? Convert.ToByte(val.Value, CultureInfo.InvariantCulture) :
 					string.Equals(Function.FunctionName, "ToChar", StringComparison.Ordinal) ? Convert.ToChar(val.Value, CultureInfo.InvariantCulture) :
@@ -353,7 +353,7 @@ public partial class ODataExpression
 		}
 	}
 
-	private bool IsFunction(string objectName, ExpressionContext context)
+	private static bool IsFunction(string objectName, ExpressionContext context)
 	{
 		var adapterVersion = context.Session?.Adapter.AdapterVersion ?? AdapterVersion.Default;
 		return FunctionMapping.TryGetFunctionMapping(objectName, 0, adapterVersion, out _);
@@ -378,7 +378,7 @@ public partial class ODataExpression
 		return _functionCaller.Reference.Replace(".", "/");
 	}
 
-	private int GetPrecedence(ExpressionType op)
+	private static int GetPrecedence(ExpressionType op)
 	{
 		return op switch
 		{
@@ -415,7 +415,7 @@ public partial class ODataExpression
 		return outerPrecedence < innerPrecedence;
 	}
 
-	private string FormatScope(string text, ExpressionContext context)
+	private static string FormatScope(string text, ExpressionContext context)
 	{
 		return string.IsNullOrEmpty(context.ScopeQualifier)
 			? text

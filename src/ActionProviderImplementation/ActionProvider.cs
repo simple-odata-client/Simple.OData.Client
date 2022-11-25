@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Data.Services.Providers;
 using System.Data.Services;
+using System.Data.Services.Providers;
+using System.Linq;
 
 namespace ActionProviderImplementation;
 
@@ -14,12 +14,12 @@ public class ActionProvider : IDataServiceActionProvider
 	private readonly object _context;
 	private readonly IParameterMarshaller _marshaller;
 
-		public ActionProvider(object context, IParameterMarshaller marshaller)
-		{
-			_context = context;
-			_instanceType = context.GetType();
-			_marshaller = marshaller;
-		}
+	public ActionProvider(object context, IParameterMarshaller marshaller)
+	{
+		_context = context;
+		_instanceType = context.GetType();
+		_marshaller = marshaller;
+	}
 
 	public bool AdvertiseServiceAction(DataServiceOperationContext operationContext, ServiceAction serviceAction, object resourceInstance, bool inFeed, ref Microsoft.Data.OData.ODataAction actionToSerialize)
 	{

@@ -246,7 +246,7 @@ internal class RequestBuilder : IRequestBuilder
 			.Format();
 	}
 
-	private void AssertHasKey(ResolvedCommand command)
+	private static void AssertHasKey(ResolvedCommand command)
 	{
 		if (!command.Details.HasKey && command.FilterAsKey == null)
 		{

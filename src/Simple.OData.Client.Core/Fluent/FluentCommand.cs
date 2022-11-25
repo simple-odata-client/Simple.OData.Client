@@ -289,7 +289,7 @@ public class FluentCommand
 
 	public FluentCommand Media()
 	{
-		return Media(FluentCommand.MediaEntityLiteral);
+		return Media(MediaEntityLiteral);
 	}
 
 	public FluentCommand Media(string streamName)
@@ -364,12 +364,12 @@ public class FluentCommand
 
 	internal IList<string> SelectedColumns => Details.SelectColumns;
 
-	private IEnumerable<string> SplitItems(IEnumerable<string> columns)
+	private static IEnumerable<string> SplitItems(IEnumerable<string> columns)
 	{
 		return columns.SelectMany(x => x.Split(',').Select(y => y.Trim()));
 	}
 
-	private IEnumerable<KeyValuePair<string, bool>> SplitItems(IEnumerable<KeyValuePair<string, bool>> columns)
+	private static IEnumerable<KeyValuePair<string, bool>> SplitItems(IEnumerable<KeyValuePair<string, bool>> columns)
 	{
 		return columns.SelectMany(x => x.Key.Split(',').Select(y => new KeyValuePair<string, bool>(y.Trim(), x.Value)));
 	}

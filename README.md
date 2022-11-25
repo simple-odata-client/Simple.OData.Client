@@ -8,7 +8,7 @@
 
 ## Introduction
 
-Simple.OData.Client is a multiplatform OData client library supporting .NET 4.x, netstandard 2.0, Android and iOS. The adapter provides a great alternative to WCF Data Services client. It does not require generation of context or entity classes and fits RESTful nature of OData services.
+Simple.OData.Client is a multi-platform OData client library supporting .NET 4.x, netstandard 2.0, Android and iOS. The adapter provides a great alternative to WCF Data Services client. It does not require generation of context or entity classes and fits RESTful nature of OData services.
 
 [Getting started with Simple.OData.Client](https://github.com/object/Simple.OData.Client/wiki/Getting-started-with-Simple.OData.Client)  
 [Simple.OData.Client basic API](https://github.com/object/Simple.OData.Client/wiki/Simple.OData.Client-basic-API)  
@@ -39,7 +39,7 @@ Further information can be found on the [wiki](https://github.com/object/Simple.
 [simple-odata-v4-client-status]: https://img.shields.io/nuget/v/Simple.OData.v4.Client.svg
 
 
-## Changelog
+## Change log
 
 Detailed changes for each release are documented in the [release notes](https://github.com/object/Simple.OData.Client/blob/master/RELEASE_NOTES.md)
  and a list of releases can be found [here](https://github.com/object/simple.odata.client/releases)

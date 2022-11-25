@@ -1,7 +1,7 @@
 ﻿using System.Web.Http;
 using System.Web.Http.OData.Builder;
-using Simple.OData.ProductService.Models;
 using System.Web.Http.OData.Extensions;
+using Simple.OData.ProductService.Models;
 
 namespace Simple.OData.ProductService.App_Start;
 
