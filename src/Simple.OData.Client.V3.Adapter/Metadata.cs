@@ -292,10 +292,12 @@ namespace Simple.OData.Client.V3.Adapter
 
 		private bool TryGetEntitySet(IEdmEntityType edmEntityType, out IEdmEntitySet entitySet)
 		{
-			entitySet = _model.SchemaElements
+			var matchingSetTypes = _model.SchemaElements
 				.Where(x => x.SchemaElementKind == EdmSchemaElementKind.EntityContainer)
 				.SelectMany(x => (x as IEdmEntityContainer).EntitySets())
-				.SingleOrDefault(x => x.ElementType == edmEntityType);
+				.Where(x => x.ElementType == edmEntityType).ToArray();
+
+			entitySet = matchingSetTypes.Length == 1 ? matchingSetTypes[0] : null;
 
 			return entitySet != null;
 		}
