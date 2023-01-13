@@ -417,9 +417,8 @@ namespace Simple.OData.Client.V4.Adapter
 					linkUri = linkedCollectionName + (isSingleton ? string.Empty : formattedKey);
 				}
 
-				var link = new ODataEntityReferenceLink
-				{
-					Url = Utils.CreateAbsoluteUri(_session.Settings.BaseUri.AbsoluteUri, linkUri)
+				var link = new ODataEntityReferenceLink {
+					Url = _session.Settings.UseAbsoluteAssociationsUri ? Utils.CreateAbsoluteUri(_session.Settings.BaseUri.AbsoluteUri, linkUri) : new Uri(linkUri, UriKind.Relative)
 				};
 
 				await entryWriter.WriteEntityReferenceLinkAsync(link).ConfigureAwait(false);
@@ -443,15 +442,19 @@ namespace Simple.OData.Client.V4.Adapter
 		private ODataMessageWriterSettings GetWriterSettings(
 			ODataFormat? preferredContentType = null)
 		{
-			var settings = new ODataMessageWriterSettings()
+			var settings = new ODataMessageWriterSettings
 			{
-				ODataUri = new ODataUri()
+				ODataUri = new ODataUri
 				{
 					RequestUri = _session.Settings.BaseUri,
 				},
 				EnableMessageStreamDisposal = IsBatch,
 				Validations = (Microsoft.OData.ValidationKinds)_session.Settings.Validations
 			};
+
+			if (!_session.Settings.UseAbsoluteAssociationsUri)
+				settings.ODataUri.ServiceRoot = _session.Settings.BaseUri;
+
 			var contentType = preferredContentType ?? ODataFormat.Json;
 			settings.SetContentType(contentType);
 			return settings;

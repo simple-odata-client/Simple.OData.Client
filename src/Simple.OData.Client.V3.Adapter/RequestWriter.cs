@@ -193,12 +193,16 @@ public class RequestWriter : RequestWriterBase
 
 	private ODataMessageWriterSettings GetWriterSettings(ODataFormat? preferredContentType = null)
 	{
-		var settings = new ODataMessageWriterSettings()
+		var settings = new ODataMessageWriterSettings
 		{
 			BaseUri = _session.Settings.BaseUri,
 			Indent = true,
 			DisableMessageStreamDisposal = !IsBatch,
 		};
+		
+		if (!_session.Settings.UseAbsoluteAssociationsUri)
+			settings.SetMetadataDocumentUri(_session.Settings.BaseUri);
+
 		var contentType = preferredContentType ?? _session.Settings.PayloadFormat switch
 		{
 			ODataPayloadFormat.Json => _session.Adapter.ProtocolVersion switch
@@ -290,7 +294,7 @@ public class RequestWriter : RequestWriterBase
 
 			var link = new ODataEntityReferenceLink
 			{
-				Url = Utils.CreateAbsoluteUri(_session.Settings.BaseUri.AbsoluteUri, linkUri)
+				Url = _session.Settings.UseAbsoluteAssociationsUri ? Utils.CreateAbsoluteUri(_session.Settings.BaseUri.AbsoluteUri, linkUri) : new Uri(linkUri, UriKind.Relative)
 			};
 
 			entryWriter.WriteEntityReferenceLink(link);

@@ -133,6 +133,32 @@ public class InsertTests : TestBase
 	}
 
 	[Fact]
+	public async Task InsertProductWithCategoryByRelativeAssociationUri()
+	{
+		var settings = CreateDefaultSettings().WithHttpMock();
+		settings.UseAbsoluteAssociationsUri = false;
+
+		var client = new ODataClient(settings);
+		var category = await client
+			.For("Categories")
+			.Set(new { CategoryName = "Test5" })
+			.InsertEntryAsync().ConfigureAwait(false);
+		var product = await client
+			.For("Products")
+			.Set(new { ProductName = "Test6", UnitPrice = 18m, Category = category })
+			.InsertEntryAsync().ConfigureAwait(false);
+
+		Assert.Equal("Test6", product["ProductName"]);
+		Assert.Equal(category["CategoryID"], product["CategoryID"]);
+		category = await client
+			.For("Categories")
+			.Expand("Products")
+			.Filter("CategoryName eq 'Test5'")
+			.FindEntryAsync().ConfigureAwait(false);
+		Assert.True((category["Products"] as IEnumerable<object>).Count() == 1);
+	}
+	
+	[Fact]
 	public async Task InsertShip()
 	{
 		var client = new ODataClient(CreateDefaultSettings().WithHttpMock());

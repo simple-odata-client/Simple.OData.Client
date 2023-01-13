@@ -130,6 +130,9 @@ public class Metadata : MetadataBase
 
 		if (TryGetEntityType(typeName, out entityType))
 		{
+			if (TryGetEntitySet(entityType, out var entityTypeSet))
+				return entityTypeSet.Name;
+
 			return entityType.Name;
 		}
 
@@ -333,6 +336,18 @@ public class Metadata : MetadataBase
 			.Where(x => x.SchemaElementKind == EdmSchemaElementKind.EntityContainer)
 			.SelectMany(x => (x as IEdmEntityContainer).EntitySets())
 			.BestMatch(x => x.Name, entitySetName, NameMatchResolver);
+
+		return entitySet != null;
+	}
+
+	private bool TryGetEntitySet(IEdmEntityType edmEntityType, out IEdmEntitySet entitySet)
+	{
+		var matchingSetTypes = _model.SchemaElements
+			.Where(x => x.SchemaElementKind == EdmSchemaElementKind.EntityContainer)
+			.SelectMany(x => (x as IEdmEntityContainer).EntitySets())
+			.Where(x => x.EntityType() == edmEntityType).ToArray();
+
+		entitySet = matchingSetTypes.Length == 1 ? matchingSetTypes[0] : null;
 
 		return entitySet != null;
 	}
