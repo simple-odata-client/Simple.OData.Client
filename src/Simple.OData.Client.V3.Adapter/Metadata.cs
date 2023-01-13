@@ -88,6 +88,9 @@ namespace Simple.OData.Client.V3.Adapter
 
 			if (TryGetEntityType(typeName, out entityType))
 			{
+				if (TryGetEntitySet(entityType, out var entityTypeSet))
+					return entityTypeSet.Name;
+
 				return entityType.Name;
 			}
 
@@ -283,6 +286,16 @@ namespace Simple.OData.Client.V3.Adapter
 				.Where(x => x.SchemaElementKind == EdmSchemaElementKind.EntityContainer)
 				.SelectMany(x => (x as IEdmEntityContainer).EntitySets())
 				.BestMatch(x => x.Name, entitySetName, NameMatchResolver);
+
+			return entitySet != null;
+		}
+
+		private bool TryGetEntitySet(IEdmEntityType edmEntityType, out IEdmEntitySet entitySet)
+		{
+			entitySet = _model.SchemaElements
+				.Where(x => x.SchemaElementKind == EdmSchemaElementKind.EntityContainer)
+				.SelectMany(x => (x as IEdmEntityContainer).EntitySets())
+				.SingleOrDefault(x => x.ElementType == edmEntityType);
 
 			return entitySet != null;
 		}

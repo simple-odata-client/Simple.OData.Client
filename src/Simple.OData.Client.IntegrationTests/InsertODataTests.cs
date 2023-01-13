@@ -80,20 +80,27 @@ public abstract class InsertODataTests : ODataTestBase
 		Assert.True((int)product["ID"] > 0);
 	}
 
-	[Fact]
-	public async Task InsertProductWithCategory()
+	[Theory]
+	[InlineData(false)]
+	[InlineData(true)]
+	public async Task InsertProductWithCategory(bool useAbsoluteAssociationsUri)
 	{
-		var category = await _client
+		var client = new ODataClient(CreateDefaultSettings(s =>
+		{
+			s.UseAbsoluteAssociationsUri = useAbsoluteAssociationsUri;
+		}));
+		
+		var category = await client
 			.For("Categories")
 			.Set(CreateCategory(1005, "Test5"))
 			.InsertEntryAsync().ConfigureAwait(false);
-		var product = await _client
+		var product = await client
 			.For("Products")
 			.Set(CreateProduct(1007, "Test6", category))
 			.InsertEntryAsync().ConfigureAwait(false);
 
 		Assert.Equal("Test6", product["Name"]);
-		product = await _client
+		product = await client
 			.For("Products")
 			.Filter("Name eq 'Test6'")
 			.Expand(ProductCategoryName)

@@ -267,9 +267,16 @@ public class ODataClientSettings
 	/// <value>
 	/// <c>true</c> to extend reference links to absolute uris; otherwise, <c>false</c>.
 	/// </value>
-	/// <summary>
 	public bool UseAbsoluteReferenceUris { get; set; }
 
+	/// <summary>
+	/// Gets or sets a value indicating whether association uris should be written as absolute uris instead of relative uris.
+	/// </summary>
+	/// <value>
+	/// <c>true</c> to use association using absolute uris; otherwise, <c>false</c>.
+	/// </value>
+	public bool UseAbsoluteAssociationsUri { get; set; } = true;
+	
 	/// <summary>
 	/// Gets or sets the value that indicates either to read untyped properties as strings.
 	/// </summary>
