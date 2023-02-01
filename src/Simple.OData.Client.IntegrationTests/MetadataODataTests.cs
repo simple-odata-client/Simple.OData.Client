@@ -83,4 +83,23 @@ public abstract class MetadataODataTests : ODataTestBase
 
 		Assert.Equal(1, metadataCallsCount);
 	}
+
+	[Fact]
+	public async Task MetadataClear()
+	{
+		ODataClient.ClearMetadataCache();
+		var metadataCallsCount = 0;
+		var settings = new ODataClientSettings
+		{
+			BaseUri = _serviceUri,
+			BeforeRequest = _ => metadataCallsCount++
+		};
+		var client = new ODataClient(settings);
+
+		await client.GetMetadataAsStringAsync();
+		client.ClearBaseUrlMetadataCache();
+		await client.GetMetadataAsStringAsync();
+
+		Assert.Equal(2, metadataCallsCount);
+	}
 }

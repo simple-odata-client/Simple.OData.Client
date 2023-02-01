@@ -108,6 +108,14 @@ public partial class ODataClient : IODataClient
 	}
 
 	/// <summary>
+	/// Clears base url metadata cache
+	/// </summary>
+	public void ClearBaseUrlMetadataCache()
+	{
+		Session.ClearMetadataCache();
+	}
+
+	/// <summary>
 	/// Returns an instance of a fluent OData client for the specified collection.
 	/// </summary>
 	/// <param name="collectionName">Name of the collection.</param>
