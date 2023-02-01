@@ -40,4 +40,9 @@ public interface ISession : IDisposable
 	/// </summary>
 	/// <returns>An <see cref="HttpClient"/> instance.</returns>
 	HttpConnection GetHttpConnection();
+
+	/// <summary>
+	/// Clears base url metadata cache
+	/// </summary>
+	void ClearMetadataCache();
 }

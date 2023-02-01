@@ -110,6 +110,7 @@ internal class Session : ISession
 		{
 			EdmMetadataCache.Clear(metadataCache.Key);
 			MetadataCache = null;
+			_adapter = null;
 		}
 	}
 
