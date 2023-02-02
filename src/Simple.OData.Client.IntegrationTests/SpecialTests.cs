@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Data.Edm;
+using Simple.OData.Client.Metadata;
 using Xunit;
 
 namespace Simple.OData.Client.Tests;
@@ -189,9 +190,10 @@ public class SpecialTests : ODataTestBase
 	{
 		const string uriString = "ftp://localhost/";
 		var baseUri = new Uri(uriString);
+		var factory = new EdmMetadataCacheFactory();
 		try
 		{
-			var settings = new ODataClientSettings { BaseUri = baseUri };
+			var settings = new ODataClientSettings { BaseUri = baseUri, MetadataCacheFactory = factory };
 			var client = new ODataClient(settings);
 			await client.GetMetadataAsync().ConfigureAwait(false);
 		}
@@ -201,7 +203,7 @@ public class SpecialTests : ODataTestBase
 		}
 
 		var wasCached = true;
-		var cached = EdmMetadataCache.GetOrAdd(uriString, x =>
+		var cached = factory.GetOrAdd(uriString, x =>
 		{
 			wasCached = false;
 			return null;
@@ -213,11 +215,12 @@ public class SpecialTests : ODataTestBase
 	[Fact]
 	public async Task MetadataIsCached()
 	{
-		var settings = new ODataClientSettings { BaseUri = _serviceUri };
+		var factory = new EdmMetadataCacheFactory();
+		var settings = new ODataClientSettings { BaseUri = _serviceUri, MetadataCacheFactory = factory };
 		var client = new ODataClient(settings);
 
 		await client.GetMetadataAsync().ConfigureAwait(false);
-		EdmMetadataCache.GetOrAdd(_serviceUri.ToString(), x => throw new Exception("metadata was not cached."));
+		factory.GetOrAdd(_serviceUri.ToString(), x => throw new Exception("metadata was not cached."));
 
 		settings.BeforeRequest = x => throw new Exception("metadata cache was not used.");
 		await client.GetMetadataAsync().ConfigureAwait(false);
