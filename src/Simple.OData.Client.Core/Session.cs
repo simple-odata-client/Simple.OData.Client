@@ -27,14 +27,13 @@ internal class Session : ISession
 		}
 
 		Settings = settings;
+		_metadataCacheFactory = settings.MetadataCacheFactory ?? new EdmMetadataCacheFactory();
 
 		if (!string.IsNullOrEmpty(Settings.MetadataDocument))
 		{
 			// Create as early as possible as most unit tests require this and also makes it simpler when assigning a static document
 			MetadataCache = InitializeStaticMetadata(Settings.MetadataDocument);
 		}
-
-		_metadataCacheFactory = settings.MetadataCacheFactory ?? new EdmMetadataCacheFactory();
 	}
 
 	public IODataAdapter Adapter
