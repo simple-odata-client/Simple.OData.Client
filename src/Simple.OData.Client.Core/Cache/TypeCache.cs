@@ -257,7 +257,7 @@ public class TypeCache : ITypeCache
 			}
 			else if ((targetType == typeof(DateTime) || targetType == typeof(DateTime?)) && value is DateTimeOffset offset)
 			{
-				result = offset.DateTime;
+				result = offset.Offset == default ? offset.UtcDateTime : offset.DateTime;
 			}
 			else if ((targetType == typeof(DateTime) || targetType == typeof(DateTime?)) && ImplicitConversionTo<DateTime>(value) is MethodInfo implicitMethod)
 			{

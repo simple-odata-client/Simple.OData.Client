@@ -58,6 +58,42 @@ public class TypeCacheValueConversionTests
 	}
 
 	[Fact]
+	public void TryConvert_Should_Use_DateTimeKind_Utc_For_Utc_DateTimeOffset()
+	{
+		var toConvert = DateTimeOffset.UtcNow;
+
+		TypeCache.TryConvert(toConvert, typeof(DateTime), out var result);
+
+		var resultTyped = (DateTime)result;
+
+		Assert.Equal(DateTimeKind.Utc, resultTyped.Kind);
+
+		TypeCache.TryConvert(toConvert, typeof(DateTime?), out var resultNullable);
+
+		var resultNullableTyped = (DateTime?)result;
+
+		Assert.Equal(DateTimeKind.Utc, resultNullableTyped.Value.Kind);
+	}
+
+	[Fact]
+	public void TryConvert_Should_Use_DateTimeKind_Unspecified_For_Non_Utc_DateTimeOffset()
+	{
+		var toConvert = DateTimeOffset.Now;
+
+		TypeCache.TryConvert(toConvert, typeof(DateTime), out var result);
+
+		var resultTyped = (DateTime)result;
+
+		Assert.Equal(DateTimeKind.Unspecified, resultTyped.Kind);
+
+		TypeCache.TryConvert(toConvert, typeof(DateTime?), out var resultNullable);
+
+		var resultNullableTyped = (DateTime?)result;
+
+		Assert.Equal(DateTimeKind.Unspecified, resultNullableTyped.Value.Kind);
+	}
+
+	[Fact]
 	public void TryConvert_GeographyPoint()
 	{
 		var source = GeographyPoint.Create(10, 10);
