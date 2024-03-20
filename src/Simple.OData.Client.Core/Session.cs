@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Simple.OData.Client.Metadata;
 
 namespace Simple.OData.Client;
 
@@ -26,6 +27,7 @@ internal class Session : ISession
 		}
 
 		Settings = settings;
+		_metadataCacheFactory = settings.MetadataCacheFactory ?? new EdmMetadataCacheFactory();
 
 		if (!string.IsNullOrEmpty(Settings.MetadataDocument))
 		{
@@ -55,7 +57,7 @@ internal class Session : ISession
 
 	public IMetadata Metadata => Adapter.GetMetadata();
 
-	public EdmMetadataCache? MetadataCache { get; private set; }
+	public IEdmMetadataCache? MetadataCache { get; private set; }
 
 	public ODataClientSettings Settings { get; }
 
@@ -74,6 +76,7 @@ internal class Session : ISession
 	}
 
 	private readonly SemaphoreSlim _initializeSemaphore = new(1);
+	private readonly IEdmMetadataCacheFactory _metadataCacheFactory;
 	public async Task Initialize(CancellationToken cancellationToken)
 	{
 		// Just allow one schema request at a time, unlikely to be much contention but avoids multiple requests for same endpoint.
@@ -108,8 +111,9 @@ internal class Session : ISession
 		var metadataCache = MetadataCache;
 		if (metadataCache != null)
 		{
-			EdmMetadataCache.Clear(metadataCache.Key);
+			_metadataCacheFactory.Clear(metadataCache.Key);
 			MetadataCache = null;
+			_adapter = null;
 		}
 	}
 
@@ -157,16 +161,16 @@ internal class Session : ISession
 		return await new RequestRunner(this).ExecuteRequestAsync(request, cancellationToken).ConfigureAwait(false);
 	}
 
-	private EdmMetadataCache InitializeStaticMetadata(string metadata)
+	private IEdmMetadataCache InitializeStaticMetadata(string metadata)
 	{
-		return EdmMetadataCache.GetOrAdd(
+		return _metadataCacheFactory.GetOrAdd(
 			Settings.BaseUri.AbsoluteUri,
 			uri => CreateMdc(uri, metadata));
 	}
 
-	private async Task<EdmMetadataCache> InitializeMetadataCache(CancellationToken cancellationToken)
+	private async Task<IEdmMetadataCache> InitializeMetadataCache(CancellationToken cancellationToken)
 	{
-		return await EdmMetadataCache.GetOrAddAsync(
+		return await _metadataCacheFactory.GetOrAddAsync(
 			Settings.BaseUri.AbsoluteUri,
 			async uri =>
 			{
@@ -188,7 +192,7 @@ internal class Session : ISession
 		return metadataDocument;
 	}
 
-	private EdmMetadataCache CreateMdc(string key, string metadata)
+	private IEdmMetadataCache CreateMdc(string key, string metadata)
 	{
 		return new EdmMetadataCache(key, metadata, TypeCaches.TypeCache(key, Settings.NameMatchResolver));
 	}

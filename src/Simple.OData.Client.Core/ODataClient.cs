@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using Simple.OData.Client.Metadata;
 
 namespace Simple.OData.Client;
 
@@ -104,7 +105,15 @@ public partial class ODataClient : IODataClient
 	/// </summary>
 	public static void ClearMetadataCache()
 	{
-		EdmMetadataCache.Clear();
+		EdmMetadataCacheFactory.Clear();
+	}
+
+	/// <summary>
+	/// Clears base url metadata cache
+	/// </summary>
+	public void ClearBaseUrlMetadataCache()
+	{
+		Session.ClearMetadataCache();
 	}
 
 	/// <summary>

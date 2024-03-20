@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Simple.OData.Client.Metadata;
 
 namespace Simple.OData.Client;
 
@@ -125,6 +126,12 @@ public class ODataClientSettings
 	/// The content of the service metadata document.
 	/// </value>
 	public string? MetadataDocument { get; set; }
+
+
+	/// <summary>
+	///  Gets or sets factory for custom metadata management that is used by the session.
+	/// </summary>
+	public IEdmMetadataCacheFactory? MetadataCacheFactory { get; set; }
 
 	/// <summary>
 	/// Gets the <see cref="ITypeCache"/> associated with the uri, used to register converters and dynamic types.
