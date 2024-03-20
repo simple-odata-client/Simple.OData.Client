@@ -13,4 +13,11 @@ public class Movie
 	public DateTimeOffset? DueDate { get; set; }
 
 	public bool IsCheckedOut => DueDate.HasValue;
+
+	public MovieDetails? Details { get; set; }
+}
+
+public class MovieDetails
+{
+	public string Synopsis { get; set; } = string.Empty;
 }

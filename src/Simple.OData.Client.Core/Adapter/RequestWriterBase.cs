@@ -99,7 +99,7 @@ public abstract class RequestWriterBase : IRequestWriter
 
 		var hasPropertiesToUpdate = entryDetails.Properties.Count > 0;
 		var usePatch = _session.Settings.PreferredUpdateMethod == ODataUpdateMethod.Patch || !hasPropertiesToUpdate;
-		if (HasUpdatedKeyProperties(collection, entryKey, entryData))
+		if (entryKey != null && HasUpdatedKeyProperties(collection, entryKey, entryData))
 		{
 			usePatch = false;
 		}

@@ -10,6 +10,10 @@
         <Property Name="Title" Type="Edm.String" />
         <Property Name="Year" Type="Edm.Int32" Nullable="false" />
         <Property Name="DueDate" Type="Edm.DateTimeOffset" />
+        <NavigationProperty Name="Details" Type="WebApiOData.V4.Samples.Models.MovieDetails" />
+      </EntityType>
+      <EntityType Name="MovieDetails">
+        <Property Name="Synopsis" Type="Edm.String" />
       </EntityType>
       <EntityType Name="Product">
         <Key>

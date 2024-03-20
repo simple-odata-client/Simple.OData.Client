@@ -151,4 +151,16 @@ public class ActionV4Tests
 
 		Assert.True(result.ID > 0);
 	}
+
+	[Fact]
+	public async Task PatchMovieDetails()
+	{
+		var settings = CreateDefaultSettings().WithHttpMock();
+		var client = new ODataClient(settings);
+		MovieDetails updated = await client.For<Movie>().Key(1).NavigateTo(m => m.Details!).Set(new
+		{
+			Synopsis = "Foo!"
+		}).UpdateEntryAsync().ConfigureAwait(false);
+		Assert.Equal("Foo!", updated.Synopsis);
+	}
 }

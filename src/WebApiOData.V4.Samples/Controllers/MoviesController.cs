@@ -17,6 +17,28 @@ public class MoviesController : ODataController
 		return Ok(_db.Movies);
 	}
 
+	public IHttpActionResult GetMovieDetails(int key) 
+	{
+		var movie = _db.Movies.FirstOrDefault(m => m.ID == key);
+		if (movie?.Details is not null)
+		{
+			return Ok(movie.Details);
+		}
+		return NotFound();
+	}
+
+	[HttpPatch]
+	public IHttpActionResult PatchToMovieDetails(int key, Delta<MovieDetails> delta) 
+	{
+		var movie = _db.Movies.FirstOrDefault(m => m.ID == key);
+		if (movie?.Details is not null)
+		{
+			delta?.Patch(movie.Details);
+			return Ok(movie.Details);
+		}
+		return NotFound();
+	}
+
 	[HttpPost]
 	public IHttpActionResult CheckOut(int key)
 	{

@@ -75,8 +75,6 @@ internal class RequestBuilder : IRequestBuilder
 		bool resultRequired,
 		CancellationToken cancellationToken)
 	{
-		AssertHasKey(_command);
-
 		await _session
 			.ResolveAdapterAsync(cancellationToken)
 			.ConfigureAwait(false);

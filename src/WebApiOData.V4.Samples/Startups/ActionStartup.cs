@@ -29,6 +29,8 @@ public class ActionStartup : Startup
 		var modelBuilder = new ODataConventionModelBuilder(config);
 		_ = modelBuilder.EntitySet<Movie>("Movies");
 
+		modelBuilder.EntityType<Movie>().HasOptional(m => m.Details!).Contained();
+
 		// Now add actions.
 
 		// CheckOut
