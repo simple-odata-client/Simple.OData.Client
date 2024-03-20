@@ -403,10 +403,10 @@ namespace Simple.OData.Client.V4.Adapter
 				var linkKey = linkTypeWithKey.DeclaredKey;
 				var linkEntry = referenceLink.LinkData.ToDictionary(TypeCache);
 				var contentId = GetContentId(referenceLink);
-				string linkUri;
+				Url linkUrl;
 				if (contentId != null)
 				{
-					linkUri = "$" + contentId;
+					linkUrl = new Uri("$" + contentId, UriKind.Relative);
 				}
 				else
 				{
@@ -414,13 +414,11 @@ namespace Simple.OData.Client.V4.Adapter
 						linkKey.ToDictionary(x => x.Name, x => linkEntry[x.Name]), true);
 					var linkedCollectionName = _session.Metadata.GetLinkedCollectionName(
 						referenceLink.LinkData.GetType().Name, linkTypeWithKey.Name, out var isSingleton);
-					linkUri = linkedCollectionName + (isSingleton ? string.Empty : formattedKey);
+					var linkUri = linkedCollectionName + (isSingleton ? string.Empty : formattedKey);
+					linkUrl = Utils.CreateAbsoluteUri(_session.Settings.BaseUri.AbsoluteUri, linkUri);
 				}
 
-				var link = new ODataEntityReferenceLink
-				{
-					Url = Utils.CreateAbsoluteUri(_session.Settings.BaseUri.AbsoluteUri, linkUri)
-				};
+				var link = new ODataEntityReferenceLink { Url = linkUrl };
 
 				await entryWriter.WriteEntityReferenceLinkAsync(link).ConfigureAwait(false);
 			}
