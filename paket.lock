@@ -1,8 +1,0 @@
-
-
-GROUP Build
-NUGET
-  remote: http://www.nuget.org/api/v2
-    FAKE (4.64.13)
-    NuGet.CommandLine (4.6.2)
-    xunit.runner.console (2.3.1)
