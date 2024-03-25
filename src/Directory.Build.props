@@ -48,10 +48,10 @@
 		<!-- Contact email address for NuGet packages and Linux installers. -->
 		<!--<MaintainerEmail>odata@nimbleapps.cloud</MaintainerEmail>-->
 
-		<!--<PackageIcon>dotnet-logo.png</PackageIcon>-->
+		<PackageIcon>simple-odata-client.png</PackageIcon>
 		<PackageProjectUrl>https://github.com/simple-odata-client/Simple.OData.Client/wiki</PackageProjectUrl>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<PackageTags>odata;wcf data services;</PackageTags>
+		<PackageTags>odata;'wcf data services';</PackageTags>
 		<Serviceable>true</Serviceable>
 
 		<RepositoryRoot>$(MSBuildThisFileDirectory)</RepositoryRoot>
@@ -111,8 +111,8 @@
 		<PackageReference Include="MSTest" Version="3.*" />
 	</ItemGroup>
 
-	<!--<ItemGroup>
-		<None Include="$(MSBuildThisFileDirectory)dotnet-logo.png" Pack="true" PackagePath="\" Condition="'$(IsTestProject)' != 'true'" />
-	</ItemGroup>-->
+	<ItemGroup>
+		<None Include="$(MSBuildThisFileDirectory)simple-odata-client.png" Pack="true" PackagePath="\" Condition="'$(IsTestProject)' != 'true'" />
+	</ItemGroup>
 
 </Project>
