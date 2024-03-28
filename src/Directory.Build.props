@@ -2,9 +2,9 @@
 	<!-- Folder layout -->
 	<PropertyGroup>
 		<IsBenchmarkProject Condition="$(MSBuildProjectName.ToLower().Contains('.benchmarks.'))">true</IsBenchmarkProject>
-		<IsTestProject Condition="$(MSBuildProjectName.ToLower().Contains('.tests.'))">true</IsTestProject>
 		<IsTestAssetProject Condition="$(MSBuildProjectName.ToLower().Contains('tests.shared.'))">true</IsTestAssetProject>
 		<IsSampleProject Condition="$(MSBuildProjectName.ToLower().Contains('.samples.'))">true</IsSampleProject>
+		<IsTestProject Condition=" '$(IsTestAssetProject)' != 'true' AND $(MSBuildProjectName.ToLower().Contains('.tests.'))">true</IsTestProject>
 		<IsNetCore Condition=" '$(TargetFramework)' == 'net6.0' OR '$(TargetFramework)' == 'net7.0' OR '$(TargetFramework)' == 'net8.0' ">true</IsNetCore>
 		<IsPrimaryProject Condition=" '$(IsBenchmarkProject)' != 'true' AND '$(IsTestProject)' != 'true' AND '$(IsTestAssetProject)' != 'true' AND '$(IsSampleProject)' != 'true' ">true</IsPrimaryProject>
 
