@@ -5,10 +5,4 @@
 		<DocumentationFile>$(DocumentationFile)\$(AssemblyName).xml</DocumentationFile>
 	</PropertyGroup>
 
-	<!-- @robertmclaws: This is temporary and should be removed when Microsoft.NET.Test.Sdk 17.10 RTMs. -->
-	<ItemGroup>
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*-*" />
-		<PackageReference Include="Microsoft.TestPlatform" Version="17.*-*" />
-	</ItemGroup>
-	
 </Project>

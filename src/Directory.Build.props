@@ -116,10 +116,6 @@
 		<PackageReference Include="FluentAssertions" Version="6.*" PrivateAssets="All" />
 		<PackageReference Include="FluentAssertions.Analyzers" Version="0.*" PrivateAssets="All" />
 		<PackageReference Include="MSTest" Version="3.*" />
-		
-		<!-- @robertmclaws: Temporary workaround for 8.0 bug: https://github.com/microsoft/vstest/pull/4792 -->
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*-*" />
-		<PackageReference Include="Microsoft.TestPlatform" Version="17.*-*" />
 
 		<!-- @robertmclaws: We will remove these someday -->
 		<PackageReference Include="xunit" Version="2.*" />
