@@ -1,0 +1,18 @@
+{
+	"Content": "{\"@odata.context\": \"$metadata#Products\",\"@odata.metadataEtag\": \"W\/\\\"20240208144657\\\"\",\"value\": [{\"ProductID\": 1,\"ProductName\": \"VersaTray Essentials\",\"Discontinued\": false,\"UnitPrice\": 19.99}, {\"ProductID\": 2,\"ProductName\": \"InkScribe Chronicles\",\"Discontinued\": false,\"UnitPrice\": 12.99}, {\"ProductID\": 3,\"ProductName\": \"Quantum Whispers\",\"Discontinued\": false,\"UnitPrice\": 14.95}, {\"ProductID\": 4,\"ProductName\": \"LuminaSync Earbuds\",\"Discontinued\": false,\"UnitPrice\": 79.99}, {\"ProductID\": 5,\"ProductName\": \"UrbanTrail Hoodie\",\"Discontinued\": false,\"UnitPrice\": 49.95}, {\"ProductID\": 6,\"ProductName\": \"ZenBloom Wall Art\",\"Discontinued\": true,\"UnitPrice\": 39.99}, {\"ProductID\": 7,\"ProductName\": \"GlowDust Highlighter\",\"Discontinued\": false,\"UnitPrice\": 9.99}, {\"ProductID\": 8,\"ProductName\": \"SummitPulse Trekking Poles\",\"Discontinued\": false,\"UnitPrice\": 59.95}, {\"ProductID\": 9,\"ProductName\": \"NebulaNova Building Blocks\",\"Discontinued\": false,\"UnitPrice\": 24.99}, {\"ProductID\": 10,\"ProductName\": \"VelvetLuxe Lip Stains\",\"Discontinued\": false,\"UnitPrice\": 17.5}],\"@odata.nextLink\": \"Products?$skiptoken=10\"}",
+	"ContentHeaders": [{
+			"Key": "Content-Type",
+			"Value": ["application\/json; odata.metadata=minimal"]
+		}, {
+			"Key": "Content-Length",
+			"Value": ["590"]
+		}
+	],
+	"RequestUri": "http:\/\/localhost\/functions\/Products\/Default.MostExpensives()",
+	"ResponseHeaders": [{
+			"Key": "OData-Version",
+			"Value": ["4.0"]
+		}
+	],
+	"StatusCode": 200
+}
