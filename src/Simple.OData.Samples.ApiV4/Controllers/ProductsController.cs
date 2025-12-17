@@ -1,8 +1,11 @@
 ﻿using System.Collections.Concurrent;
-using System.Web.Http;
-using Microsoft.AspNet.OData;
-using Microsoft.AspNet.OData.Query;
-using Microsoft.AspNet.OData.Routing;
+using System.Web.Http.OData.Routing;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData;
+using Microsoft.AspNetCore.OData.Formatter;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Routing;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 using WebApiOData.V4.Samples.Models;
 
 namespace WebApiOData.V4.Samples.Controllers;
@@ -32,7 +35,7 @@ public class ProductsController : ODataController
 	}
 
 	[Route("*")]
-	public IHttpActionResult Default()
+	public IActionResult Default()
 	{
 		return Ok("OK!!!");
 	}
@@ -43,7 +46,7 @@ public class ProductsController : ODataController
 		return _data.Values.AsQueryable();
 	}
 
-	public IHttpActionResult GetProduct(int key)
+	public IActionResult GetProduct(int key)
 	{
 		if (_data.TryGetValue(key, out var retval))
 		{
@@ -56,7 +59,7 @@ public class ProductsController : ODataController
 	}
 
 	[HttpGet]
-	public IHttpActionResult MostExpensive()
+	public IActionResult MostExpensive()
 	{
 		var retval = _data.Max(pair => pair.Value.Price);
 
@@ -66,7 +69,7 @@ public class ProductsController : ODataController
 	// Returns top 3 most expensive products
 	// This is needed to check function name matching
 	[HttpGet]
-	public IHttpActionResult MostExpensives()
+	public IActionResult MostExpensives()
 	{
 		var retval = _data.Values.OrderByDescending(p => p.Price).Take(3).ToList();
 
@@ -75,7 +78,7 @@ public class ProductsController : ODataController
 
 	// Returns the top ten most expensive products
 	[HttpGet]
-	public IHttpActionResult Top10()
+	public IActionResult Top10()
 	{
 		var retval = _data.Values.OrderByDescending(p => p.Price).Take(10).ToList();
 
@@ -83,7 +86,7 @@ public class ProductsController : ODataController
 	}
 
 	[HttpGet]
-	public IHttpActionResult GetPriceRank(int key)
+	public IActionResult GetPriceRank(int key)
 	{
 		if (_data.TryGetValue(key, out var product))
 		{
@@ -99,7 +102,7 @@ public class ProductsController : ODataController
 	}
 
 	[HttpGet]
-	public IHttpActionResult CalculateGeneralSalesTax(int key, string state)
+	public IActionResult CalculateGeneralSalesTax(int key, string state)
 	{
 		var taxRate = GetRate(state);
 
@@ -116,7 +119,7 @@ public class ProductsController : ODataController
 
 	[HttpGet]
 	[ODataRoute("GetSalesTaxRate(state={state})")]
-	public IHttpActionResult GetSalesTaxRate([FromODataUri] string state)
+	public IActionResult GetSalesTaxRate([FromODataUri] string state)
 	{
 		return Ok(GetRate(state));
 	}
@@ -124,7 +127,7 @@ public class ProductsController : ODataController
 	[HttpGet]
 	[EnableQuery]
 	[ODataRoute("Products({key})/Default.Placements()")]
-	public IHttpActionResult Placements([FromODataUri] int key, ODataQueryOptions<Movie> options)
+	public IActionResult Placements([FromODataUri] int key, ODataQueryOptions<Movie> options)
 	{
 		var source = new MoviesContext().Movies.Where(x => x.ID < key).AsQueryable();
 		return Ok(source);

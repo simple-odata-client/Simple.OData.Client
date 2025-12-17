@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	
 	<PropertyGroup>
-		<TargetFrameworks>net48</TargetFrameworks>
+		<TargetFrameworks>net8.0</TargetFrameworks>
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<RootNamespace>Simple.OData.Samples.ApiV3</RootNamespace>
 		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -9,9 +9,10 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="EntityFramework" Version="6.*" />
-		<PackageReference Include="Microsoft.AspNet.WebApi.OData" Version="5.*" />
-		<PackageReference Include="Microsoft.AspNet.WebApi.Owin" Version="5.2.*" />
+	  <PackageReference Include="EntityFramework" Version="6.5.1" />
+	  <PackageReference Include="Microsoft.AspNet.WebApi.OData" Version="5.7.0" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
+	  <PackageReference Include="Owin" Version="1.0.0" />
 	</ItemGroup>
 	
 </Project>

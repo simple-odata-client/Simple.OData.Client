@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	
 	<PropertyGroup>
-		<TargetFrameworks>net8.0;net7.0;net48;</TargetFrameworks>
+		<TargetFrameworks>net8.0</TargetFrameworks>
 	</PropertyGroup>
 	
 	<PropertyGroup>
@@ -10,6 +10,7 @@
 	
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="8.*" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net48'">

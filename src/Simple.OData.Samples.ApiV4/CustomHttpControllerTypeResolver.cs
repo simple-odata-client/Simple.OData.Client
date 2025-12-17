@@ -1,5 +1,6 @@
 ﻿using System.Web.Http.Dispatcher;
-using Microsoft.AspNet.OData;
+using Microsoft.AspNetCore.OData;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace WebApiOData.V4.Samples;
 

@@ -1,8 +1,7 @@
 ﻿using System.Web.Http;
-using Microsoft.AspNet.OData.Batch;
-using Microsoft.AspNet.OData.Builder;
-using Microsoft.AspNet.OData.Extensions;
+using Microsoft.AspNetCore.OData.Batch;
 using Microsoft.OData.Edm;
+using Microsoft.OData.ModelBuilder;
 using WebApiOData.V4.Samples.Controllers;
 using WebApiOData.V4.Samples.Models;
 

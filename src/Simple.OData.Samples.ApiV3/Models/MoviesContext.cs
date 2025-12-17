@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApiOData.V3.Samples.Models;
 
