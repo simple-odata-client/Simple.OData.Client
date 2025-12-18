@@ -606,4 +606,9 @@ public interface IODataClient
 	Task<T[]> ExecuteActionAsArrayAsync<T>(string actionName, IDictionary<string, object> parameters, CancellationToken cancellationToken);
 	Task<ODataResponse> GetResponseAsync(ODataRequest request);
 	Task<ODataResponse> GetResponseAsync(ODataRequest request, CancellationToken cancellationToken);
+	/// <summary>
+	/// Tests wether there is any available threads (semaphores) to process.
+	/// </summary>
+	/// <returns>true if any call will cause a lock by the call</returns>
+	bool NextCallWillLock();
 }

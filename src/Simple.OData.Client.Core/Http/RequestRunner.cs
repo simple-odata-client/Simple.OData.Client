@@ -19,6 +19,11 @@ internal class RequestRunner
 		}
 	}
 
+	public bool WillLock()
+	{
+		return (_semaphore != null ? (_semaphore.CurrentCount > 0 ? false : true) : false);
+	}
+
 	public async Task<HttpResponseMessage> ExecuteRequestAsync(ODataRequest request, CancellationToken cancellationToken)
 	{
 		if (_maxConcurrentRequests > 0 && _semaphore is not null)

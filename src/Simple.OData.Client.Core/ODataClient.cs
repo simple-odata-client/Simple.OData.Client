@@ -197,4 +197,11 @@ public partial class ODataClient : IODataClient
 			}
 		};
 	}
+
+	/// <summary>
+	/// Tests wether there is any available threads (semaphores) to process.
+	/// </summary>
+	/// <returns>true if any call will cause a lock by the call</returns>
+	bool IODataClient.NextCallWillLock() => _requestRunner.WillLock();
+
 }
