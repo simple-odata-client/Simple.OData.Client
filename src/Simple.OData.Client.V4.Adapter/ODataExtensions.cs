@@ -18,6 +18,7 @@ internal static class ODataExtensions
 			readerSettings.Validations &= ~Microsoft.OData.ValidationKinds.ThrowOnUndeclaredPropertyForNonOpenType;
 		}
 
+		readerSettings.BaseUri = settings.BaseUri;
 		readerSettings.MessageQuotas.MaxReceivedMessageSize = int.MaxValue;
 		readerSettings.ShouldIncludeAnnotation = x => settings.IncludeAnnotationsInResults;
 

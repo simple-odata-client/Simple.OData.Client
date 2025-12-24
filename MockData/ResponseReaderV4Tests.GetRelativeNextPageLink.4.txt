@@ -1,0 +1,18 @@
+{
+	"Content": "{\"@odata.context\": \"$metadata#Products\",\"@odata.metadataEtag\": \"W\/\\\"20240208144657\\\"\",\"value\": [{\"ProductID\": 11,\"ProductName\": \"PawPal Comfort Bed\",\"Discontinued\": true,\"UnitPrice\": 34.99}, {\"ProductID\": 12,\"ProductName\": \"QuillCraft Vintage Journals\",\"Discontinued\": false}]}",
+	"ContentHeaders": [{
+			"Key": "Content-Type",
+			"Value": ["application\/json; odata.metadata=minimal"]
+		}, {
+			"Key": "Content-Length",
+			"Value": ["590"]
+		}
+	],
+	"RequestUri": "http:\/\/localhost\/functions\/Products\/Default.MostExpensives()",
+	"ResponseHeaders": [{
+			"Key": "OData-Version",
+			"Value": ["4.0"]
+		}
+	],
+	"StatusCode": 200
+}
