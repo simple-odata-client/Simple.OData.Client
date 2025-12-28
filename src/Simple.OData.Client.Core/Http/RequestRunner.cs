@@ -105,7 +105,8 @@ internal class RequestRunner
 			(request.Method == RestVerbs.Put ||
 			 request.Method == RestVerbs.Patch ||
 			 request.Method == RestVerbs.Merge ||
-			 request.Method == RestVerbs.Delete))
+			 request.Method == RestVerbs.Delete)
+			&& (request.RequestMessage.Headers.IfMatch?.Count ?? 0) == 0)
 		{
 			request.RequestMessage.Headers.IfMatch.Add(EntityTagHeaderValue.Any);
 		}
