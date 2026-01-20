@@ -199,7 +199,7 @@ namespace Simple.OData.Client.V4.Adapter
 				var odataEntry = entry as ODataResource;
 				foreach (var property in odataEntry.Properties)
 				{
-					entryNode.Entry.Data.Add(property.Name, GetPropertyValue(property.Value));
+					entryNode.Entry.Data.Add(property.Name, GetPropertyValue(((ODataProperty)property).Value));
 				}
 
 				entryNode.Entry.SetAnnotations(CreateAnnotations(odataEntry));
@@ -267,7 +267,7 @@ namespace Simple.OData.Client.V4.Adapter
 		{
 			if (value is ODataResource resource)
 			{
-				return resource.Properties.ToDictionary(x => x.Name, x => GetPropertyValue(x.Value));
+				return resource.Properties.ToDictionary(x => x.Name, x => GetPropertyValue(((ODataProperty)x).Value));
 			}
 			else if (value is ODataCollectionValue collectionValue)
 			{

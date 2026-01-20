@@ -1,7 +1,11 @@
-﻿using System.Web.Http;
-using Microsoft.AspNet.OData;
-using Microsoft.AspNet.OData.Routing;
+﻿using Microsoft.AspNetCore.OData;
+using Microsoft.AspNetCore.OData.Routing;
+using Microsoft.AspNetCore.OData;
+using Microsoft.AspNetCore.OData.Routing;
 using WebApiOData.V4.Samples.Models;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Formatter;
 
 namespace WebApiOData.V4.Samples.Controllers;
 
@@ -9,13 +13,13 @@ public class MoviesController : ODataController
 {
 	private readonly MoviesContext _db = new();
 
-	public IHttpActionResult Get()
+	public IActionResult Get()
 	{
 		return Ok(_db.Movies);
 	}
 
 	[HttpPost]
-	public IHttpActionResult CheckOut(int key)
+	public IActionResult CheckOut(int key)
 	{
 		var movie = _db.Movies.FirstOrDefault(m => m.ID == key);
 		if (movie is null)
@@ -32,7 +36,7 @@ public class MoviesController : ODataController
 	}
 
 	[HttpPost]
-	public IHttpActionResult Return(int key)
+	public IActionResult Return(int key)
 	{
 		var movie = _db.Movies.FirstOrDefault(m => m.ID == key);
 		if (movie is null)
@@ -47,7 +51,7 @@ public class MoviesController : ODataController
 
 	// Check out a list of movies.
 	[HttpPost]
-	public IHttpActionResult CheckOutMany(ODataActionParameters parameters)
+	public IActionResult CheckOutMany(ODataActionParameters parameters)
 	{
 		if (!ModelState.IsValid)
 		{
@@ -73,7 +77,7 @@ public class MoviesController : ODataController
 
 	[HttpPost]
 	[ODataRoute("CreateMovie")]
-	public IHttpActionResult CreateMovie(ODataActionParameters parameters)
+	public IActionResult CreateMovie(ODataActionParameters parameters)
 	{
 		if (!ModelState.IsValid)
 		{
