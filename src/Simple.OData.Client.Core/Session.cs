@@ -71,6 +71,10 @@ internal class Session : ISession
 	private readonly SemaphoreSlim _initializeSemaphore = new(1);
 	public async Task Initialize(CancellationToken cancellationToken)
 	{
+		//Avoid unnecessary locks
+		if (MetadataCache != null && _adapter != null)
+			return;
+
 		// Just allow one schema request at a time, unlikely to be much contention but avoids multiple requests for same endpoint.
 		await _initializeSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
 
