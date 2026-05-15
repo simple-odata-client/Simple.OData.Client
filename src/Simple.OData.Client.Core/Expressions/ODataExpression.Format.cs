@@ -267,7 +267,15 @@ public partial class ODataExpression
 		}
 		else
 		{
-			return context.Session.Adapter.GetCommandFormatter().ConvertValueToUriLiteral(Value, false);
+			var uriLiteral = context.Session.Adapter.GetCommandFormatter().ConvertValueToUriLiteral(Value, false);
+			// SAP B1 services do not accept proper OData datetime literals but do accept
+			// single-quoted ones. Consumers opt in via ODataClientSettings.Properties.
+			if (Value is DateTime &&
+				(context.Session.Settings.Properties?[ODataClientSettings.ExtraProperties.STRINGIZE_DATETIME_VALUES] as bool? == true))
+			{
+				return $"'{uriLiteral}'";
+			}
+			return uriLiteral;
 		}
 	}
 

@@ -3561,6 +3561,12 @@
             The update method (PUT or PATCH).
             </value>
         </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.Properties">
+            <summary>
+            Gets or sets a bag of extra properties used to opt into provider-specific behaviors
+            (e.g. <see cref="F:Simple.OData.Client.ODataClientSettings.ExtraProperties.STRINGIZE_DATETIME_VALUES"/> for SAP B1 services).
+            </summary>
+        </member>
         <member name="P:Simple.OData.Client.ODataClientSettings.ReadUntypedAsString">
             <summary>
             Gets or sets the value that indicates either to read untyped properties as strings.
@@ -3667,6 +3673,19 @@
             Initializes a new instance of the <see cref="T:Simple.OData.Client.ODataClientSettings" /> class using an existing <see cref="T:Simple.OData.Client.ISession" />.
             </summary>
             <param name="session">The <see cref="T:Simple.OData.Client.ISession" /> instance to clone the settings from.</param>
+        </member>
+        <member name="T:Simple.OData.Client.ODataClientSettings.ExtraProperties">
+            <summary>
+            Keys for the <see cref="P:Simple.OData.Client.ODataClientSettings.Properties"/> bag, used to opt into
+            provider-specific behaviors.
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.ODataClientSettings.ExtraProperties.STRINGIZE_DATETIME_VALUES">
+            <summary>
+            When set to a truthy value, the client renders DateTime literals as single-quoted
+            strings instead of the standard OData datetime syntax (required by some SAP B1
+            services that do not accept proper datetimes).
+            </summary>
         </member>
         <member name="T:Simple.OData.Client.ODataEntry">
             <summary>

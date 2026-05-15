@@ -242,6 +242,12 @@ public class ODataClientSettings
 	public ODataUpdateMethod PreferredUpdateMethod { get; set; }
 
 	/// <summary>
+	/// Gets or sets a bag of extra properties used to opt into provider-specific behaviors
+	/// (e.g. <see cref="ExtraProperties.STRINGIZE_DATETIME_VALUES"/> for SAP B1 services).
+	/// </summary>
+	public Dictionary<string, object>? Properties { get; set; }
+
+	/// <summary>
 	/// Gets or sets the value that indicates either to read untyped properties as strings.
 	/// </summary>
 	/// <value>
@@ -423,6 +429,7 @@ public class ODataClientSettings
 		OnTrace = session.Settings.OnTrace;
 		PayloadFormat = session.Settings.PayloadFormat;
 		PreferredUpdateMethod = session.Settings.PreferredUpdateMethod;
+		Properties = session.Settings.Properties is null ? null : new Dictionary<string, object>(session.Settings.Properties);
 		ReadUntypedAsString = session.Settings.ReadUntypedAsString;
 		RenewHttpConnection = session.Settings.RenewHttpConnection;
 		RequestExecutor = session.Settings.RequestExecutor;
@@ -435,4 +442,17 @@ public class ODataClientSettings
 
 	#endregion
 
+	/// <summary>
+	/// Keys for the <see cref="ODataClientSettings.Properties"/> bag, used to opt into
+	/// provider-specific behaviors.
+	/// </summary>
+	public static class ExtraProperties
+	{
+		/// <summary>
+		/// When set to a truthy value, the client renders DateTime literals as single-quoted
+		/// strings instead of the standard OData datetime syntax (required by some SAP B1
+		/// services that do not accept proper datetimes).
+		/// </summary>
+		public const string STRINGIZE_DATETIME_VALUES = "StringizeDatetimeValues";
+	}
 }
