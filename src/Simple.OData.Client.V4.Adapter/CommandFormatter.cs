@@ -273,6 +273,12 @@ public class CommandFormatter(ISession session) : CommandFormatterBase(session)
 		}
 	}
 
+	// Consumers that need V3-style select on expanded entities (e.g. SAP B1, which
+	// does not accept V4 nested $select syntax) can encode column paths with '~'
+	// instead of '/'. The escape is unwound here so the formatter emits a flat
+	// $select column list containing slashes.
+	private const char ODataV3FormattingEscapeSeparator = '~';
+
 	private IList<string> SelectPathSegmentColumns(
 		IList<string> columns, EntityCollection collection, IList<string> expandedPaths)
 	{
@@ -283,6 +289,7 @@ public class CommandFormatter(ISession session) : CommandFormatterBase(session)
 
 		return columns
 			.Where(x => !expandedNavigationProperties.Any(y => y.Equals(FormatFirstSegment(x), StringComparison.Ordinal)))
+			.Select(x => x.Replace(ODataV3FormattingEscapeSeparator, '/'))
 			.ToList();
 	}
 
