@@ -72,7 +72,7 @@ jobs:
       run: dotnet msbuild $Env:SolutionFile -p:Configuration=$Env:Configuration /t:Clean,Build
 
     - name: Package
-      run: dotnet pack $Env:SolutionFile --output $Env:PackageFolder /p:NuspecFile=..\..\$Env:NuspecFile
+      run: dotnet pack $Env:SolutionFile --no-build --output $Env:PackageFolder
 
     - name: Sign
       if: github.base_ref == ''
@@ -97,7 +97,11 @@ jobs:
             -Body $body).access_token
         Write-Host "::add-mask::$token"
 
-        Get-ChildItem ".\*.nupkg" -Recurse | ForEach-Object {
+        # Only operate on the GeneXus meta-package. Upstream csprojs auto-pack with
+        # their own IDs (Simple.OData.Client.*) which we don't want to sign or publish.
+        Get-ChildItem ".\*.nupkg" -Recurse |
+          Where-Object { $_.Name -like "GeneXus.Odata.Client.*.nupkg" } |
+          ForEach-Object {
           dotnet tool run NuGetKeyVaultSignTool sign $_.FullName `
             -kvu $Env:VAULT_URL `
             -kvc $Env:CERT_NAME `
@@ -129,7 +133,11 @@ jobs:
       run: |
        $IsPrerelease = "${{ github.ref }}".StartsWith("refs/heads/")
 
-        Get-ChildItem ".\*.nupkg" -Recurse | ForEach-Object {
+        # Only operate on the GeneXus meta-package. Upstream csprojs auto-pack with
+        # their own IDs (Simple.OData.Client.*) which we don't want to sign or publish.
+        Get-ChildItem ".\*.nupkg" -Recurse |
+          Where-Object { $_.Name -like "GeneXus.Odata.Client.*.nupkg" } |
+          ForEach-Object {
           $PushToGitHubArgs = @("nuget", "push", $_.FullName, "--source", $Env:GPRFeedURL, "--api-key", "${{ secrets.SECURE_TOKEN }}")
           $PushToNugetArgs  = @("nuget", "push", $_.FullName, "--source", $Env:NuGetFeedURL, "--api-key", "${{ secrets.NUGET_ORG_TOKEN }}")
           $PushToAzureArgs  = @("nuget", "push", $_.FullName, "--source", $Env:AZURE_ARTIFACTS_URL, "--api-key", "DUMMY-KEY")

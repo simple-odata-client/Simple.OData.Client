@@ -9,6 +9,17 @@
     <DocumentationFile>..\GXOData.Client.All\GXOData.Client.All.xml</DocumentationFile>
     <DefineConstants>TRACE</DefineConstants>
     <NoWarn>1701;1702;1705;1591;1712;1573</NoWarn>
+    <!-- Absolute path to the nuspec living at the repo root. Passing this relative
+         via -p:NuspecFile=..\..\GXOData.Client.nuspec on the command line did not
+         resolve correctly inside `dotnet pack`. -->
+    <NuspecFile>$(MSBuildThisFileDirectory)..\..\GXOData.Client.nuspec</NuspecFile>
+    <NuspecBasePath>$(MSBuildThisFileDirectory)..\..\</NuspecBasePath>
+    <!-- The nuspec doesn't enumerate source/symbol files, so let pack skip the snupkg. -->
+    <IncludeSymbols>false</IncludeSymbols>
+    <!-- The release nupkg is produced by the explicit `dotnet pack` step in the workflow.
+         Suppress the auto-pack on build that upstream's Directory.Build.props turns on,
+         otherwise we ship an extra (default-versioned) GXOData.Client.All.1.0.0.nupkg. -->
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
