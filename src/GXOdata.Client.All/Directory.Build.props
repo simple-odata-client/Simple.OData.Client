@@ -1,4 +1,7 @@
 <Project>
+	<!-- Inherit upstream settings (LangVersion, ImplicitUsings, Nullable, SignAssembly, etc.) -->
+	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
 	<PropertyGroup>
 		<AssemblyVersion>5.2.3.9</AssemblyVersion>
 		<FileVersion>$(AssemblyVersion)</FileVersion>

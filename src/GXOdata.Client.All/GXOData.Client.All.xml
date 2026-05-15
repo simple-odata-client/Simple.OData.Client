@@ -44,6 +44,470 @@
             The function arguments will be formatted as a a key-value list
             </summary>
         </member>
+        <member name="T:Simple.OData.Client.IMetadata">
+            <summary>
+            Abstraction over the OData Edm model.
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.IMetadata.GetAlternateKeyPropertyNames(System.String)">
+            <summary>
+            Gets a collection of key name collections that represent the alternate keys of the given entity.
+            Alternate keys are only supported on V4. On V3 this method will always return an empty enumeration.
+            </summary>
+            <see href="https://github.com/OData/vocabularies/blob/master/OData.Community.Keys.V1.md"/>
+            <param name="collectionName">The collection name of the entity</param>
+            <returns>An empty enumeration of string enumerations representing the key names</returns>
+        </member>
+        <member name="T:Simple.OData.Client.IODataAdapterFactory">
+            <summary>
+            IODataAdapterFactory interface contains collection of methods to create OData adapters.
+            It can be used as a customization point to create adapters with custom behavior.
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.IODataAdapterFactory.CreateModelAdapterAsync(System.Net.Http.HttpResponseMessage,Simple.OData.Client.ITypeCache)">
+            <summary>
+            Creates an instance of IODataModelAdapter from an HTTP response with schema information.
+            </summary>
+            <param name="response">HTTP response message with schema information</param>
+            <param name="typeCache">Service type cache</param>
+            <returns></returns>
+            <exception cref="T:System.NotSupportedException"></exception>
+        </member>
+        <member name="M:Simple.OData.Client.IODataAdapterFactory.CreateModelAdapter(System.String,Simple.OData.Client.ITypeCache)">
+            <summary>
+            Creates an instance of IODataModelAdapter from a metadata string.
+            </summary>
+            <param name="metadataString">Service metadata</param>
+            <param name="typeCache">Service type cache</param>
+            <returns></returns>
+            <exception cref="T:System.NotSupportedException"></exception>
+        </member>
+        <member name="M:Simple.OData.Client.IODataAdapterFactory.CreateAdapterLoader(System.String,Simple.OData.Client.ITypeCache)">
+            <summary>
+            Creates an instance of OData adapter loader from a metadata string.
+            </summary>
+            <param name="metadataString">Service metadata</param>
+            <param name="typeCache">Service type cache</param>
+            <returns></returns>
+            <exception cref="T:System.NotSupportedException"></exception>
+        </member>
+        <member name="T:Simple.OData.Client.Adapter.MetadataCache">
+            <summary>
+            A caching layer for <see cref="T:Simple.OData.Client.IMetadata"/>
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.Adapter.MetadataCache.#ctor(Simple.OData.Client.IMetadata)">
+            <summary>
+            A caching layer for <see cref="T:Simple.OData.Client.IMetadata"/>
+            </summary>
+        </member>
+        <member name="T:Simple.OData.Client.ODataAdapterFactory">
+            <summary>
+            ODataAdapterFactory creates OData adapters for specific OData protocols.
+            Custom OData adapter classes can be derived from ODataAdapterFactory to provide custom implementation of its methods.
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.ODataAdapterFactory.CreateModelAdapterAsync(System.Net.Http.HttpResponseMessage,Simple.OData.Client.ITypeCache)">
+            <inheritdoc />
+        </member>
+        <member name="M:Simple.OData.Client.ODataAdapterFactory.CreateModelAdapter(System.String,Simple.OData.Client.ITypeCache)">
+            <inheritdoc />
+        </member>
+        <member name="M:Simple.OData.Client.ODataAdapterFactory.CreateAdapterLoader(System.String,Simple.OData.Client.ITypeCache)">
+            <inheritdoc />
+        </member>
+        <member name="M:Simple.OData.Client.ODataAdapterFactory.GetSupportedProtocolVersionsAsync(System.Net.Http.HttpResponseMessage)">
+            <summary>
+            Returns a collection of supported protocol versions.
+            </summary>
+            <param name="response">HTTP response message with schema information</param>
+            <returns></returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:Simple.OData.Client.ODataAdapterFactory.GetMetadataProtocolVersion(System.String)">
+            <summary>
+            Returns OData protocol version
+            </summary>
+            <param name="metadataString">Service metadata</param>
+            <returns></returns>
+        </member>
+        <member name="T:Simple.OData.Client.BatchPayloadUriOption">
+            <summary>
+            Indicates the format of Request-URI in each sub request in the batch operation.
+            </summary>
+            <remarks>
+            This must be kept aligned with https://github.com/OData/odata.net/blob/master/src/Microsoft.OData.Core/Batch/ODataBatchPayloadUriOptions.cs
+            </remarks>
+        </member>
+        <member name="F:Simple.OData.Client.BatchPayloadUriOption.AbsoluteUri">
+            <summary>
+            Absolute URI with schema, host, port, and absolute resource path.
+            </summary>
+            Example:
+            GET https://host:1234/path/service/People(1) HTTP/1.1
+        </member>
+        <member name="F:Simple.OData.Client.BatchPayloadUriOption.AbsoluteUriUsingHostHeader">
+            <summary>
+            Absolute resource path and separate Host header.
+            </summary>
+            Example:
+            GET /path/service/People(1) HTTP/1.1
+            Host: myserver.mydomain.org:1234
+        </member>
+        <member name="F:Simple.OData.Client.BatchPayloadUriOption.RelativeUri">
+            <summary>
+            Resource path relative to the batch request URI.
+            </summary>
+            Example:
+            GET People(1) HTTP/1.1
+        </member>
+        <member name="T:Simple.OData.Client.ITypeCache">
+            <summary>
+            Access the type definition with good performance.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ITypeCache.Converter">
+            <summary>
+            Gets the type converters.
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.Register``1(System.String)">
+            <summary>
+            Register the type, along with its dynamic properties name, also applies to sub-types in the same assembly
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dynamicContainerName"></param>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.Register(System.Type,System.String)">
+            <summary>
+            Register the type, along with its dynamic properties name, also applies to sub-types in the same assembly
+            </summary>
+            <param name="type"></param>
+            <param name="dynamicContainerName"></param>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.IsDynamicType(System.Type)">
+            <summary>
+            Get whether the type is a dynamic
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.DynamicContainerName(System.Type)">
+            <summary>
+            Gets the dynamic properties container name for a type, will be <see cref="F:System.String.Empty"/> unless registered
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.GetAnnotationsProperty(System.Type)">
+            <summary>
+            Get the OData annotations property if any.
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.GetDerivedTypes(System.Type)">
+            <summary>
+            Get all derived types in the same assembly.
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.GetMappedProperties(System.Type)">
+            <summary>
+            Get the mapped properties for a type
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.GetMappedPropertiesWithNames(System.Type)">
+            <summary>
+            Get the mapped properties for a type along with the associated property name
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.GetMappedProperty(System.Type,System.String)">
+            <summary>
+            Get a property that is either directly named or mapped via an attribute
+            </summary>
+            <param name="type"></param>
+            <param name="propertyName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.GetMappedName(System.Type,System.Reflection.PropertyInfo)">
+            <summary>
+            Get the mapping name for a property
+            </summary>
+            <param name="type"></param>
+            <param name="propertyInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.GetMappedName(System.Type,System.String)">
+            <summary>
+            Get the mapping name for a named property
+            </summary>
+            <param name="type"></param>
+            <param name="propertyName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.GetAllProperties(System.Type)">
+            <summary>
+            Get all properties for a type
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.GetNamedProperty(System.Type,System.String)">
+            <summary>
+            Get a directly named property
+            </summary>
+            <param name="type"></param>
+            <param name="propertyName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.GetDeclaredProperties(System.Type)">
+            <summary>
+            Get declared properties for a type.
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.GetDeclaredProperty(System.Type,System.String)">
+            <summary>
+            Get a declared property
+            </summary>
+            <param name="type"></param>
+            <param name="propertyName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.GetAllFields(System.Type)">
+            <summary>
+            Get all fields for a type
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.GetAnyField(System.Type,System.String,System.Boolean)">
+            <summary>
+            Get a field for a type
+            </summary>
+            <param name="type"></param>
+            <param name="fieldName"></param>
+            <param name="includeNonPublic"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.GetDeclaredFields(System.Type)">
+            <summary>
+            Get declared fields for a type
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.GetDeclaredField(System.Type,System.String)">
+            <summary>
+            Get a declared field for a type
+            </summary>
+            <param name="type"></param>
+            <param name="fieldName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.GetDeclaredMethod(System.Type,System.String)">
+            <summary>
+            Get a declared method for a type
+            </summary>
+            <param name="type"></param>
+            <param name="methodName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.GetDeclaredConstructors(System.Type)">
+            <summary>
+            Get the declared constructors for a type
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.GetDefaultConstructor(System.Type)">
+            <summary>
+            Get the default constructor for a type
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.GetTypeAttributes(System.Type)">
+            <summary>
+            Get the type's attributes
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.GetGenericTypeArguments(System.Type)">
+            <summary>
+            Get the generic type arguments for a type
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.IsAnonymousType(System.Type)">
+            <summary>
+            Get whether a type is anonymous
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.IsTypeAssignableFrom(System.Type,System.Type)">
+            <summary>
+            Get whether we can assign a value of this type to another
+            </summary>
+            <param name="type"></param>
+            <param name="otherType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.HasCustomAttribute(System.Type,System.Type,System.Boolean)">
+            <summary>
+            Get whether a type has a specific custom attribute
+            </summary>
+            <param name="type"></param>
+            <param name="attributeType"></param>
+            <param name="inherit"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.IsGeneric(System.Type)">
+            <summary>
+            Get whether a type is generic
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.IsValue(System.Type)">
+            <summary>
+            Gets whether a type is a value type
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.IsEnumType(System.Type)">
+            <summary>
+            Gets whether a type is an enum
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.GetBaseType(System.Type)">
+            <summary>
+            Get the base type of a type
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeCache.GetMappedName(System.Type)">
+            <summary>
+            Get the mapped name of a type.
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Simple.OData.Client.TypeCache">
+            <copydoc cref="T:Simple.OData.Client.ITypeCache" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.#ctor(Simple.OData.Client.ITypeConverter,Simple.OData.Client.INameMatchResolver)">
+            <summary>
+            Creates a new instance of the <see cref="T:Simple.OData.Client.TypeCache"/> class.
+            </summary>
+            <param name="converter"></param>
+            <param name="nameMatchResolver"></param>
+        </member>
+        <member name="P:Simple.OData.Client.TypeCache.Converter">
+            <copydoc cref="P:Simple.OData.Client.ITypeCache.Converter" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.Register``1(System.String)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.Register``1(System.String)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.Register(System.Type,System.String)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.Register(System.Type,System.String)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.IsDynamicType(System.Type)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.IsDynamicType(System.Type)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.DynamicContainerName(System.Type)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.DynamicContainerName(System.Type)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.GetMappedProperties(System.Type)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.GetMappedProperties(System.Type)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.GetMappedPropertiesWithNames(System.Type)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.GetMappedPropertiesWithNames(System.Type)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.GetMappedProperty(System.Type,System.String)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.GetMappedProperty(System.Type,System.String)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.GetMappedName(System.Type,System.Reflection.PropertyInfo)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.GetMappedName(System.Type,System.Reflection.PropertyInfo)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.GetMappedName(System.Type,System.String)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.GetMappedName(System.Type,System.String)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.GetAllProperties(System.Type)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.GetAllProperties(System.Type)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.GetNamedProperty(System.Type,System.String)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.GetNamedProperty(System.Type,System.String)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.GetDeclaredProperties(System.Type)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.GetDeclaredProperties(System.Type)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.GetDeclaredProperty(System.Type,System.String)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.GetDeclaredProperty(System.Type,System.String)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.GetAllFields(System.Type)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.GetAllFields(System.Type)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.GetAnyField(System.Type,System.String,System.Boolean)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.GetAnyField(System.Type,System.String,System.Boolean)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.GetDeclaredFields(System.Type)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.GetDeclaredFields(System.Type)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.GetDeclaredField(System.Type,System.String)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.GetDeclaredField(System.Type,System.String)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.GetDeclaredMethod(System.Type,System.String)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.GetDeclaredMethod(System.Type,System.String)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.GetDeclaredConstructors(System.Type)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.GetDeclaredConstructors(System.Type)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.GetDefaultConstructor(System.Type)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.GetDefaultConstructor(System.Type)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.GetTypeAttributes(System.Type)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.GetTypeAttributes(System.Type)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.GetGenericTypeArguments(System.Type)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.GetGenericTypeArguments(System.Type)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.IsAnonymousType(System.Type)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.IsAnonymousType(System.Type)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.IsGeneric(System.Type)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.IsGeneric(System.Type)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.IsValue(System.Type)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.IsValue(System.Type)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.IsEnumType(System.Type)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.IsEnumType(System.Type)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.GetBaseType(System.Type)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.GetBaseType(System.Type)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.IsTypeAssignableFrom(System.Type,System.Type)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.IsTypeAssignableFrom(System.Type,System.Type)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.HasCustomAttribute(System.Type,System.Type,System.Boolean)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.HasCustomAttribute(System.Type,System.Type,System.Boolean)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeCache.GetMappedName(System.Type)">
+            <copydoc cref="M:Simple.OData.Client.ITypeCache.GetMappedName(System.Type)" />
+        </member>
         <member name="M:Simple.OData.Client.Extensions.HomogenizeEx.Homogenize(System.String)">
             <summary>
             Downshift a string and remove all non-alphanumeric characters.
@@ -58,10 +522,126 @@
             <param name="regex">A regular expression matching all non-comparing characters. The default is &quot;[^a-z0-9]&quot;.</param>
             <remarks>Homogenized strings are always forced to lower-case.</remarks>
         </member>
+        <member name="M:Simple.OData.Client.Extensions.MemberInfoExtensions.GetMappedName(System.Reflection.MemberInfo)">
+            <summary>
+            Extract a column name from the member's attributes
+            </summary>
+            <param name="memberInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.Extensions.TypeExtensions.GetNamedProperty(System.Type,System.String)">
+            <summary>
+            Get a directly named property
+            </summary>
+            <param name="type"></param>
+            <param name="propertyName"></param>
+            <returns></returns>
+        </member>
         <member name="T:Simple.OData.Client.Extensions.XElementExtensions">
             <summary>
             Extension methods for <see cref="T:System.Xml.Linq.XElement"/>.
             </summary>
+        </member>
+        <member name="T:Simple.OData.Client.TypeCacheResolver">
+            <summary>
+            Holds information about a type.
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.TypeCacheResolver.#ctor(System.Type,Simple.OData.Client.INameMatchResolver,System.Boolean,System.String)">
+            <summary>
+            Creates a new instance of the <see cref="T:Simple.OData.Client.TypeCacheResolver"/> class.
+            </summary>
+            <param name="type">Type of the cached properties.</param>
+            <param name="nameMatchResolver">Name match resolver.</param>
+            <param name="dynamicType">Whether the cached type is dynamic.</param>
+            <param name="dynamicContainerName">Dynamic container name.</param>
+        </member>
+        <member name="P:Simple.OData.Client.TypeCacheResolver.Type">
+            <summary>
+            Gets the type we are responsible for.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.TypeCacheResolver.DerivedTypes">
+            <summary>
+            Get all derived types in the same assembly.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.TypeCacheResolver.MappedName">
+            <summary>
+            Gets the mapped name i.e. the OData type we correspond to.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.TypeCacheResolver.IsDynamicType">
+            <summary>
+            Gets whether we are a dynamic type
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.TypeCacheResolver.IsAnonymousType">
+            <summary>
+            Gets whether we are an anonymous type
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.TypeCacheResolver.IsGeneric">
+            <summary>
+            Gets whether we are a generic type
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.TypeCacheResolver.IsValue">
+            <summary>
+            Gets whether we are a value type
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.TypeCacheResolver.IsEnumType">
+            <summary>
+            Gets whether we are an enum
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.TypeCacheResolver.BaseType">
+            <summary>
+            Gets the base type
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.TypeCacheResolver.DynamicPropertiesName">
+            <summary>
+            Gets the dynamic properties container name
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.TypeCacheResolver.AllProperties">
+            <summary>
+            Gets all properties
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.TypeCacheResolver.DeclaredProperties">
+            <summary>
+            Gets declared properties
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.TypeCacheResolver.AllFields">
+            <summary>
+            Gets all fields
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.TypeCacheResolver.DeclaredFields">
+            <summary>
+            Gets declared fields.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.TypeCacheResolver.MappedProperties">
+            <summary>
+            Gets mapped properties
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.TypeCacheResolver.MappedPropertiesWithNames">
+            <summary>
+            Gets mapped properties with the mapped name
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.TypeCacheResolver.GetMappedProperty(System.String)">
+            <summary>
+            Gets a mapped property
+            </summary>
+            <param name="propertyName"></param>
+            <returns></returns>
         </member>
         <member name="T:Simple.OData.Client.BoundClient`1">
             <summary>
@@ -74,6 +654,7 @@
             Provides access to OData operations in a fluent style.
             </summary>
             <typeparam name="T">The entity type.</typeparam>
+            <typeparam name="FT"></typeparam>
         </member>
         <member name="M:Simple.OData.Client.FluentClientBase`2.NavigateTo``1(System.String)">
             <summary>
@@ -164,7 +745,20 @@
             </summary>
             <returns>Execution result.</returns>
         </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.ExecuteAsSingleAsync``1">
+            <summary>
+            Executes the OData function or action and returns a single item.
+            </summary>
+            <returns>Execution result.</returns>
+        </member>
         <member name="M:Simple.OData.Client.FluentClientBase`2.ExecuteAsSingleAsync(System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData function or action and returns a single item.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.ExecuteAsSingleAsync``1(System.Threading.CancellationToken)">
             <summary>
             Executes the OData function or action and returns a single item.
             </summary>
@@ -203,11 +797,54 @@
             </summary>
             <returns>Execution result.</returns>
         </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.ExecuteAsArrayAsync">
+            <summary>
+            Executes the OData function and returns an array.
+            </summary>
+            <returns>Execution result.</returns>
+        </member>
         <member name="M:Simple.OData.Client.FluentClientBase`2.ExecuteAsArrayAsync``1(System.Threading.CancellationToken)">
             <summary>
             Executes the OData function and returns an array.
             </summary>
             <param name="cancellationToken">The cancellation token.</param>
+            <returns>Execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.ExecuteAsArrayAsync(System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData function and returns an array.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.ExecuteAsArrayAsync``1(Simple.OData.Client.ODataFeedAnnotations)">
+            <summary>
+            Executes the OData function and returns an array.
+            </summary>
+            <param name="annotations">The OData feed annotations.</param>
+            <returns>Execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.ExecuteAsArrayAsync(Simple.OData.Client.ODataFeedAnnotations)">
+            <summary>
+            Executes the OData function and returns an array.
+            </summary>
+            <param name="annotations">The OData feed annotations.</param>
+            <returns>Execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.ExecuteAsArrayAsync``1(Simple.OData.Client.ODataFeedAnnotations,System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData function and returns an array.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <param name="annotations">The OData feed annotations.</param>
+            <returns>Execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.ExecuteAsArrayAsync(Simple.OData.Client.ODataFeedAnnotations,System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData function and returns an array.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <param name="annotations">The OData feed annotations.</param>
             <returns>Execution result.</returns>
         </member>
         <member name="M:Simple.OData.Client.FluentClientBase`2.GetCommandTextAsync">
@@ -938,13 +1575,6 @@
             <param name="associations">The associations to expand.</param>
             <returns>Self.</returns>
         </member>
-        <member name="M:Simple.OData.Client.IFluentClient`2.ExpandMap(System.Collections.Generic.KeyValuePair{System.String,System.String}[])">
-            <summary>
-            Expands the top level of the specified associations with entity/name mappings.
-            </summary>
-            <param name="associations">The associations to expand with their name mappings.</param>
-            <returns>Self.</returns>
-        </member>
         <member name="M:Simple.OData.Client.IFluentClient`2.Expand(Simple.OData.Client.ODataExpandOptions,System.String[])">
             <summary>
             Expands the number of levels of the specified associations.
@@ -1102,6 +1732,23 @@
             <param name="expression">The custom query options expression.</param>
             <returns>Self.</returns>
         </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.WithHeader(System.String,System.String)">
+            <summary>
+            Adds a header to be included in the HTTP request.
+            </summary>
+            <param name="name">The header name.</param>
+            <param name="value">The header value.</param>
+            <remarks>Ignored in batch actions. For batch headers use the <see cref="M:Simple.OData.Client.ODataBatch.WithHeader(System.String,System.String)"/> method.</remarks>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.WithHeaders(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
+            <summary>
+            Adds a collection of headers to be included in the HTTP request.
+            </summary>
+            <param name="headers">The headers.</param>
+            <remarks>Ignored in batch actions. For batch headers use the <see cref="M:Simple.OData.Client.ODataBatch.WithHeaders(System.Collections.Generic.IDictionary{System.String,System.String})"/> method.</remarks>
+            <returns>Self.</returns>
+        </member>
         <member name="M:Simple.OData.Client.IFluentClient`2.Media">
             <summary>
             Selects retrieval of an entity media stream.
@@ -1224,7 +1871,20 @@
             </summary>
             <returns>Execution result.</returns>
         </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.ExecuteAsSingleAsync``1">
+            <summary>
+            Executes the OData function or action.
+            </summary>
+            <returns>Execution result.</returns>
+        </member>
         <member name="M:Simple.OData.Client.IFluentClient`2.ExecuteAsSingleAsync(System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData function or action.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Action execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.ExecuteAsSingleAsync``1(System.Threading.CancellationToken)">
             <summary>
             Executes the OData function or action.
             </summary>
@@ -1266,11 +1926,54 @@
             <typeparam name="U">The type of the result array.</typeparam>
             <returns>Execution result.</returns>
         </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.ExecuteAsArrayAsync">
+            <summary>
+            Executes the OData function or action and returns an array.
+            </summary>
+            <returns>Execution result.</returns>
+        </member>
         <member name="M:Simple.OData.Client.IFluentClient`2.ExecuteAsArrayAsync``1(System.Threading.CancellationToken)">
             <summary>
             Executes the OData function or action and returns an array.
             </summary>
             <typeparam name="U">The type of the result array.</typeparam>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Action execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.ExecuteAsArrayAsync``1(Simple.OData.Client.ODataFeedAnnotations)">
+            <summary>
+            Executes the OData function or action and returns an array.
+            </summary>
+            <param name="annotations">The OData feed annotations.</param>
+            <returns>Execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.ExecuteAsArrayAsync(Simple.OData.Client.ODataFeedAnnotations)">
+            <summary>
+            Executes the OData function or action and returns an array.
+            </summary>
+            <param name="annotations">The OData feed annotations.</param>
+            <returns>Execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.ExecuteAsArrayAsync``1(Simple.OData.Client.ODataFeedAnnotations,System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData function or action and returns an array.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <param name="annotations">The OData feed annotations.</param>
+            <returns>Execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.ExecuteAsArrayAsync(Simple.OData.Client.ODataFeedAnnotations,System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData function or action and returns an array.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <param name="annotations">The OData feed annotations.</param>
+            <returns>Execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.ExecuteAsArrayAsync(System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData function or action and returns an array.
+            </summary>
             <param name="cancellationToken">The cancellation token.</param>
             <returns>Action execution result.</returns>
         </member>
@@ -1529,35 +2232,40 @@
             The exception that is thrown when the service failed to process the Web request
             </summary>
         </member>
-        <member name="M:Simple.OData.Client.WebRequestException.CreateFromResponseMessageAsync(System.Net.Http.HttpResponseMessage)">
+        <member name="M:Simple.OData.Client.WebRequestException.CreateFromResponseMessageAsync(System.Net.Http.HttpResponseMessage,Simple.OData.Client.WebRequestExceptionMessageSource)">
             <summary>
             Creates from the instance of HttpResponseMessage.
             </summary>
             <param name="response">The instance of <see cref="T:System.Net.Http.HttpResponseMessage"/>.</param>
+            <param name="exceptionMessageSource">The source used to build exception message, see <see cref="T:Simple.OData.Client.WebRequestExceptionMessageSource"/></param>
             <returns>The instance of <see cref="T:Simple.OData.Client.WebRequestException"/>.</returns>
         </member>
-        <member name="M:Simple.OData.Client.WebRequestException.CreateFromWebException(System.Net.WebException)">
+        <member name="M:Simple.OData.Client.WebRequestException.CreateFromWebException(System.Net.WebException,Simple.OData.Client.WebRequestExceptionMessageSource)">
             <summary>
             Creates from the instance of WebException.
             </summary>
             <param name="ex">The instance of <see cref="T:System.Net.WebException"/>.</param>
+            <param name="exceptionMessageSource">The source used to build exception message, see <see cref="T:Simple.OData.Client.WebRequestExceptionMessageSource"/></param>
             <returns>The instance of <see cref="T:Simple.OData.Client.WebRequestException"/>.</returns>
         </member>
-        <member name="M:Simple.OData.Client.WebRequestException.CreateFromStatusCode(System.Net.HttpStatusCode,System.String)">
+        <member name="M:Simple.OData.Client.WebRequestException.CreateFromStatusCode(System.Net.HttpStatusCode,Simple.OData.Client.WebRequestExceptionMessageSource,System.String)">
             <summary>
             Creates from the instance of HttpResponseMessage.
             </summary>
             <param name="statusCode">The HTTP status code.</param>
+            <param name="exceptionMessageSource">The source used to build exception message, see <see cref="T:Simple.OData.Client.WebRequestExceptionMessageSource"/></param>
+            <param name="responseContent"></param>
             <returns>The instance of <see cref="T:Simple.OData.Client.WebRequestException"/>.</returns>
         </member>
-        <member name="M:Simple.OData.Client.WebRequestException.#ctor(System.String,System.Net.HttpStatusCode,System.Uri,System.String,System.Exception)">
+        <member name="M:Simple.OData.Client.WebRequestException.#ctor(System.String,System.Net.HttpStatusCode,System.Uri,System.String,Simple.OData.Client.WebRequestExceptionMessageSource,System.Exception)">
             <summary>
             Initializes a new instance of the <see cref="T:Simple.OData.Client.WebRequestException"/> class.
             </summary>
-            <param name="message">The message that describes the error.</param>
+            <param name="reasonPhrase">The message that describes the error.</param>
             <param name="statusCode">The HTTP status code.</param>
             <param name="requestUri">The original request URI.</param>
             <param name="responseContent">The response content.</param>
+            <param name="exceptionMessageSource">The source used to build exception message, see <see cref="T:Simple.OData.Client.WebRequestExceptionMessageSource"/></param>
             <param name="inner">The inner exception.</param>
         </member>
         <member name="M:Simple.OData.Client.WebRequestException.#ctor(System.Net.WebException)">
@@ -1589,6 +2297,31 @@
             <value>
             The original request URI, or the resulting URI if a redirect took place.
             </value>
+        </member>
+        <member name="P:Simple.OData.Client.WebRequestException.ReasonPhrase">
+            <summary>
+            Gets the reason phrase associated with the Http status code.
+            </summary>
+        </member>
+        <member name="T:Simple.OData.Client.WebRequestExceptionMessageSource">
+            <summary>
+            The message of an exception raised after a non successful Http request.
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.WebRequestExceptionMessageSource.ReasonPhrase">
+            <summary>
+            The reason phrase of the HTTP response message.
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.WebRequestExceptionMessageSource.ResponseContent">
+            <summary>
+            The content of the HTTP response message.
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.WebRequestExceptionMessageSource.Both">
+            <summary>
+            Both the reason phrase and content of the http response message.
+            </summary>
         </member>
         <member name="T:Simple.OData.Client.IODataClient">
             <summary>
@@ -1754,6 +2487,16 @@
             </summary>
             <param name="commandText">The OData command text.</param>
             <param name="annotations">The OData feed annotations.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Entries found with entry count.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.FindEntriesAsync(System.String,Simple.OData.Client.ODataFeedAnnotations,System.Collections.Generic.IDictionary{System.String,System.String},System.Threading.CancellationToken)">
+            <summary>
+            Retrieves entries by executing OData GET request and assigns OData feed annotations.
+            </summary>
+            <param name="commandText">The OData command text.</param>
+            <param name="annotations">The OData feed annotations.</param>
+            <param name="headers">The additional headers to send.</param>
             <param name="cancellationToken">The cancellation token.</param>
             <returns>Entries found with entry count.</returns>
         </member>
@@ -2268,6 +3011,11 @@
             Gets OData service metadata.
             </summary>
         </member>
+        <member name="P:Simple.OData.Client.ISession.TypeCache">
+            <summary>
+            Gets type information for this session.
+            </summary>
+        </member>
         <member name="M:Simple.OData.Client.ISession.Trace(System.String,System.Object[])">
             <summary>
             Writes a trace message.
@@ -2280,6 +3028,92 @@
             Obtains an instance of <see cref="T:Simple.OData.Client.HttpConnection"/> that is used to issue HTTP requests to OData service.
             </summary>
             <returns>An <see cref="T:System.Net.Http.HttpClient"/> instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeConverter.RegisterTypeConverter``1(System.Func{System.Collections.Generic.IDictionary{System.String,System.Object},System.Object})">
+            <summary>
+            Register a dictionary type converter
+            </summary>
+            <param name="converter"></param>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeConverter.RegisterTypeConverter``1(System.Func{System.Object,System.Object})">
+            <summary>
+            Register an object type converter
+            </summary>
+            <param name="converter"></param>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeConverter.RegisterTypeConverter(System.Type,System.Func{System.Collections.Generic.IDictionary{System.String,System.Object},System.Object})">
+            <summary>
+            Register a dictionary type converter
+            </summary>
+            <param name="type"></param>
+            <param name="converter"></param>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeConverter.RegisterTypeConverter(System.Type,System.Func{System.Object,System.Object})">
+            <summary>
+            Register an object type converter
+            </summary>
+            <param name="type"></param>
+            <param name="converter"></param>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeConverter.HasDictionaryConverter``1">
+            <summary>
+            Determine if a type has a dictionary converter
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeConverter.HasDictionaryConverter(System.Type)">
+            <summary>
+            Determine if a type has a dictionary converter
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeConverter.HasObjectConverter``1">
+            <summary>
+            Determine if a type has an object converter
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeConverter.HasObjectConverter(System.Type)">
+            <summary>
+            Determine if a type has an object converter
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeConverter.Convert``1(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Convert a dictionary to the specified type
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeConverter.Convert``1(System.Object)">
+            <summary>
+            Convert an object to the specified type
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeConverter.Convert(System.Collections.Generic.IDictionary{System.String,System.Object},System.Type)">
+            <summary>
+            Convert a dictionary to the specified type
+            </summary>
+            <param name="value"></param>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ITypeConverter.Convert(System.Object,System.Type)">
+            <summary>
+            Convert an object to the specified type
+            </summary>
+            <param name="value"></param>
+            <param name="type"></param>
+            <returns></returns>
         </member>
         <member name="T:Simple.OData.Client.ODataBatch">
             <summary>
@@ -2333,6 +3167,22 @@
             </summary>
             <param name="cancellationToken">The cancellation token.</param>
             <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ODataBatch.WithHeader(System.String,System.String)">
+            <summary>
+            Adds a header to be included in the HTTP request.
+            </summary>
+            <param name="name">The header name.</param>
+            <param name="value">The header value.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.ODataBatch.WithHeaders(System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Adds a collection of headers to be included in the HTTP request.
+            </summary>
+            <param name="name">The header name.</param>
+            <param name="value">The header value.</param>
+            <returns>Self.</returns>
         </member>
         <member name="T:Simple.OData.Client.ODataClient">
             <summary>
@@ -2525,6 +3375,9 @@
             Allows callers to manipulate the request headers in between request executions.
             Useful for retrieval of x-csrf-tokens when you want to update the request header
             with the retrieved token on subsequent requests.
+            <para>
+            Note that this overrides any current <see cref="P:Simple.OData.Client.ODataClientSettings.BeforeRequest"/> method.
+            </para>
             </summary>
             <param name="headers">The list of headers to update.</param>
         </member>
@@ -2533,12 +3386,64 @@
             OData client configuration settings
             </summary>
         </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.AdapterFactory">
+            <summary>
+            Gets or sets the adapter factory that is used by the session
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.AfterResponse">
+            <summary>
+            Gets or sets the action executed after the OData request.
+            </summary>
+            <value>
+            The action on <see cref="T:System.Net.Http.HttpResponseMessage"/>.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.AfterResponseAsync">
+            <summary>
+            Gets or sets the action executed after the OData request.
+            </summary>
+            <value>
+            The action on <see cref="T:System.Net.Http.HttpResponseMessage"/>.
+            </value>
+        </member>
         <member name="P:Simple.OData.Client.ODataClientSettings.BaseUri">
             <summary>
             Gets or sets the OData service URL.
             </summary>
             <value>
             The URL address.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.BatchPayloadUriOption">
+            <summary>
+            Gets or sets the BatchPayloadUriOption to use when building a batch request payload.
+            Only available for OData V4.
+            </summary>
+            <value>
+            <c>AbsoluteUri</c> (Default) to use absolute URIs for the batch payload.
+            </value>
+            <value>
+            <c>AbsoluteUriUsingHostHeader</c> to use absolute URIs from the Host header for the batch payload.
+            </value>
+            <value>
+            <c>RelativeUri</c> to use relative URIs for the batch payload.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.BeforeRequest">
+            <summary>
+            Gets or sets the action executed before the OData request.
+            </summary>
+            <value>
+            The action on <see cref="T:System.Net.Http.HttpRequestMessage"/>.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.BeforeRequestAsync">
+            <summary>
+            Gets or sets the action executed before the OData request.
+            </summary>
+            <value>
+            The action on <see cref="T:System.Net.Http.HttpRequestMessage"/>.
             </value>
         </member>
         <member name="P:Simple.OData.Client.ODataClientSettings.Credentials">
@@ -2549,20 +3454,20 @@
             The client credentials.
             </value>
         </member>
-        <member name="P:Simple.OData.Client.ODataClientSettings.PayloadFormat">
+        <member name="P:Simple.OData.Client.ODataClientSettings.EnumPrefixFree">
             <summary>
-            Gets or sets the OData payload format.
+            Gets or sets a value indicating whether <see cref="T:System.Net.Http.HttpClient"/> should omit type prefix for Enum values in generated URI.
             </summary>
             <value>
-            The payload format (JSON or Atom).
+            <c>true</c> to omit type prefix for Enum values in generated URI; <c>false</c> otherwise.
             </value>
         </member>
-        <member name="P:Simple.OData.Client.ODataClientSettings.RequestTimeout">
+        <member name="P:Simple.OData.Client.ODataClientSettings.HttpClient">
             <summary>
-            Gets or sets the time period to wait before the request times out.
+            Gets or sets external instance of HttpClient to be used when issuing OData requests.
             </summary>
             <value>
-            The timeout.
+            The instance of <see cref="T:System.Net.Http.HttpClient"/>.
             </value>
         </member>
         <member name="P:Simple.OData.Client.ODataClientSettings.IncludeAnnotationsInResults">
@@ -2571,6 +3476,14 @@
             </summary>
             <value>
             <c>true</c> to include OData annotations in entry properties; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.IgnoreNavigationPropertiesOnUpdate">
+            <summary>
+            Indicates whether navigation properties should be ignored when updating entities.
+            </summary>
+            <value>
+            <c>false</c> (Default) to maintain current behavior and issue additional requests to remove 
             </value>
         </member>
         <member name="P:Simple.OData.Client.ODataClientSettings.IgnoreResourceNotFoundException">
@@ -2589,15 +3502,7 @@
             <c>true</c> to ignore unmapped properties; otherwise, <c>false</c>.
             </value>
         </member>
-        <member name="P:Simple.OData.Client.ODataClientSettings.PreferredUpdateMethod">
-            <summary>
-            Gets or sets a preferred update method for OData entries. The selected method will be used wherever it's compatible with the update scenario. 
-            If not specified, PATCH is preferred due to better performance.
-            </summary>
-            <value>
-            The update method (PUT or PATCH).
-            </value>
-        </member>
+        <!-- Badly formed XML comment ignored for member "P:Simple.OData.Client.ODataClientSettings.MaxConcurrentRequests" -->
         <member name="P:Simple.OData.Client.ODataClientSettings.MetadataDocument">
             <summary>
             Gets or sets the OData service metadata document. If not set, service metadata is downloaded prior to the first call to the OData service and stored in an in-memory cache.
@@ -2606,36 +3511,20 @@
             The content of the service metadata document.
             </value>
         </member>
-        <member name="P:Simple.OData.Client.ODataClientSettings.RenewHttpConnection">
-            <summary>
-            Gets or sets a value indicating whether <see cref="T:System.Net.Http.HttpClient"/> connection should be disposed and renewed between OData requests.
-            </summary>
-            <value>
-            <c>true</c> to create a new <see cref="T:System.Net.Http.HttpClient"/> instance for each request; <c>false</c> to reuse <see cref="T:System.Net.Http.HttpClient"/> between requests.
-            </value>
-        </member>
-        <member name="P:Simple.OData.Client.ODataClientSettings.UnqualifiedNameCall">
-            <summary>
-            Gets or sets a value indicating whether <see cref="T:System.Net.Http.HttpClient"/> should omit namespaces for function and action calls in generated URI.
-            </summary>
-            <value>
-            <c>true</c> to omit namespaces for function and action calls in generated URI; <c>false</c> otherwise.
-            </value>
-        </member>
-        <member name="P:Simple.OData.Client.ODataClientSettings.EnumPrefixFree">
-            <summary>
-            Gets or sets a value indicating whether <see cref="T:System.Net.Http.HttpClient"/> should omit type prefix for Enum values in generated URI.
-            </summary>
-            <value>
-            <c>true</c> to omit type prefix for Enum values in generated URI; <c>false</c> otherwise.
-            </value>
-        </member>
         <member name="P:Simple.OData.Client.ODataClientSettings.NameMatchResolver">
             <summary>
             Gets or sets a name resolver for OData resources, types and properties.
             </summary>
             <value>
             If not set, a built-in word pluralizer is used to resolve resource, type and property names.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.OnApplyClientHandler">
+            <summary>
+            Gets or sets the action on HttpClientHandler.
+            </summary>
+            <value>
+            The action on <see cref="T:System.Net.Http.HttpClientHandler"/>.
             </value>
         </member>
         <member name="P:Simple.OData.Client.ODataClientSettings.OnCreateMessageHandler">
@@ -2647,12 +3536,45 @@
             The action on <see cref="T:System.Net.Http.HttpMessageHandler"/>.
             </value>
         </member>
-        <member name="P:Simple.OData.Client.ODataClientSettings.OnApplyClientHandler">
+        <member name="P:Simple.OData.Client.ODataClientSettings.OnTrace">
             <summary>
-            Gets or sets the action on HttpClientHandler.
+            Gets or sets the method that will be executed to write trace messages.
             </summary>
             <value>
-            The action on <see cref="T:System.Net.Http.HttpClientHandler"/>.
+            The trace message handler.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.PayloadFormat">
+            <summary>
+            Gets or sets the OData payload format.
+            </summary>
+            <value>
+            The payload format (JSON or Atom).
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.PreferredUpdateMethod">
+            <summary>
+            Gets or sets a preferred update method for OData entries. The selected method will be used wherever it's compatible with the update scenario.
+            If not specified, PATCH is preferred due to better performance.
+            </summary>
+            <value>
+            The update method (PUT or PATCH).
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.ReadUntypedAsString">
+            <summary>
+            Gets or sets the value that indicates either to read untyped properties as strings.
+            </summary>
+            <value>
+            <c>true</c> (Default) to read untyped values as strings; <c>false</c> otherwise.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.RenewHttpConnection">
+            <summary>
+            Gets or sets a value indicating whether <see cref="T:System.Net.Http.HttpClient"/> connection should be disposed and renewed between OData requests.
+            </summary>
+            <value>
+            <c>true</c> to create a new <see cref="T:System.Net.Http.HttpClient"/> instance for each request; <c>false</c> to reuse <see cref="T:System.Net.Http.HttpClient"/> between requests.
             </value>
         </member>
         <member name="P:Simple.OData.Client.ODataClientSettings.RequestExecutor">
@@ -2664,28 +3586,12 @@
             The <see cref="T:System.Net.Http.HttpRequestMessage"/> executor.
             </value>
         </member>
-        <member name="P:Simple.OData.Client.ODataClientSettings.BeforeRequest">
+        <member name="P:Simple.OData.Client.ODataClientSettings.RequestTimeout">
             <summary>
-            Gets or sets the action executed before the OData request.
+            Gets or sets the time period to wait before the request times out.
             </summary>
             <value>
-            The action on <see cref="T:System.Net.Http.HttpRequestMessage"/>.
-            </value>
-        </member>
-        <member name="P:Simple.OData.Client.ODataClientSettings.AfterResponse">
-            <summary>
-            Gets or sets the action executed after the OData request.
-            </summary>
-            <value>
-            The action on <see cref="T:System.Net.Http.HttpResponseMessage"/>.
-            </value>
-        </member>
-        <member name="P:Simple.OData.Client.ODataClientSettings.OnTrace">
-            <summary>
-            Gets or sets the method that will be executed to write trace messages.
-            </summary>
-            <value>
-            The trace message handler.
+            The timeout.
             </value>
         </member>
         <member name="P:Simple.OData.Client.ODataClientSettings.TraceFilter">
@@ -2696,24 +3602,71 @@
             The <see cref="T:Simple.OData.Client.ODataTrace"/> filter value.
             </value>
         </member>
-        <member name="M:Simple.OData.Client.ODataClientSettings.#ctor">
+        <member name="P:Simple.OData.Client.ODataClientSettings.TypeCache">
             <summary>
-            Initializes a new instance of the <see cref="T:Simple.OData.Client.ODataClientSettings"/> class.
+            Gets the <see cref="T:Simple.OData.Client.ITypeCache"/> associated with the uri, used to register converters and dynamic types.
             </summary>
         </member>
-        <member name="M:Simple.OData.Client.ODataClientSettings.#ctor(System.String,System.Net.ICredentials)">
+        <member name="P:Simple.OData.Client.ODataClientSettings.UnqualifiedNameCall">
             <summary>
-            Initializes a new instance of the <see cref="T:Simple.OData.Client.ODataClientSettings"/> class.
+            Gets or sets a value indicating whether <see cref="T:System.Net.Http.HttpClient"/> should omit namespaces for function and action calls in generated URI.
             </summary>
-            <param name="baseUri">The URL address.</param>
-            <param name="credentials">The client credentials.</param>
+            <value>
+            <c>true</c> to omit namespaces for function and action calls in generated URI; <c>false</c> otherwise.
+            </value>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:Simple.OData.Client.ODataClientSettings.UseAbsoluteReferenceUris" -->
+        <member name="P:Simple.OData.Client.ODataClientSettings.Validations">
+            <summary>
+            Gets or sets validations to perform. Default value is <see cref="T:Microsoft.OData.ValidationKinds.All" />,
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.WebRequestExceptionMessageSource">
+            <summary>
+            Gets or sets the source of the message of web request exceptions.
+            </summary>
+            <value>
+            <c>ReasonPhrase</c> (Default) to output the reason phrase of the HTTP request message.
+            </value>
+            <value>
+            <c>ResponseContent</c> (Default) to output the content of the HTTP request message.
+            </value>
+            /// <value>
+            <c>Both</c> (Default) to output both the reason phrase and the content of the HTTP request message.
+            </value>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClientSettings.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Simple.OData.Client.ODataClientSettings" /> class.
+            </summary>
         </member>
         <member name="M:Simple.OData.Client.ODataClientSettings.#ctor(System.Uri,System.Net.ICredentials)">
             <summary>
-            Initializes a new instance of the <see cref="T:Simple.OData.Client.ODataClientSettings"/> class.
+            Initializes a new instance of the <see cref="T:Simple.OData.Client.ODataClientSettings" /> class.
             </summary>
             <param name="baseUri">The URL address.</param>
             <param name="credentials">The client credentials.</param>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClientSettings.#ctor(System.String,System.Net.ICredentials)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Simple.OData.Client.ODataClientSettings" /> class.
+            </summary>
+            <param name="baseUri">The URL address.</param>
+            <param name="credentials">The client credentials.</param>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClientSettings.#ctor(System.Net.Http.HttpClient,System.Uri,System.Net.ICredentials)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Simple.OData.Client.ODataClientSettings" /> class.
+            </summary>
+            <param name="httpClient">The instance of <see cref="T:System.Net.Http.HttpClient"/>.</param>
+            <param name="relativeUri">The URL address.</param>
+            <param name="credentials">The client credentials.</param>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClientSettings.#ctor(Simple.OData.Client.ISession)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Simple.OData.Client.ODataClientSettings" /> class using an existing <see cref="T:Simple.OData.Client.ISession" />.
+            </summary>
+            <param name="session">The <see cref="T:Simple.OData.Client.ISession" /> instance to clone the settings from.</param>
         </member>
         <member name="T:Simple.OData.Client.ODataEntry">
             <summary>
@@ -2924,7 +3877,7 @@
         <member name="P:Simple.OData.Client.ODataFeedAnnotations.NextPageLink">
             <summary>
             A URL that can be used to retrieve the next subset of the requested collection.
-            When set, indicates that the response response is only a subset of the requested collection of entities or collection of entity references.
+            When set, indicates that the response is only a subset of the requested collection of entities or collection of entity references.
             </summary>
         </member>
         <member name="P:Simple.OData.Client.ODataFeedAnnotations.InstanceAnnotations">
@@ -3058,11 +4011,19 @@
             <summary>
             Provides pluralization and singularization of words when resolving names of resources and properties
             </summary>
+            <remarks>
+            Initializes a new instance of the <see cref="T:Simple.OData.Client.Pluralizer"/> class.
+            </remarks>
+            <param name="pluralize">The Pluralize function delegate.</param>
+            <param name="singularize">The Singularize function delegate.</param>
         </member>
         <member name="M:Simple.OData.Client.Pluralizer.#ctor(System.Func{System.String,System.String},System.Func{System.String,System.String})">
             <summary>
-            Initializes a new instance of the <see cref="T:Simple.OData.Client.Pluralizer"/> class.
+            Provides pluralization and singularization of words when resolving names of resources and properties
             </summary>
+            <remarks>
+            Initializes a new instance of the <see cref="T:Simple.OData.Client.Pluralizer"/> class.
+            </remarks>
             <param name="pluralize">The Pluralize function delegate.</param>
             <param name="singularize">The Singularize function delegate.</param>
         </member>
@@ -3095,6 +4056,50 @@
               Overrides the current thread's CurrentUICulture property for all
               resource lookups using this strongly typed resource class.
             </summary>
+        </member>
+        <member name="T:Simple.OData.Client.TypeConverter">
+            <copydoc cref="T:Simple.OData.Client.ITypeConverter" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeConverter.#ctor">
+            <summary>
+            Creates a new instance of the <see cref="T:Simple.OData.Client.TypeConverter"/> class.
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.TypeConverter.RegisterTypeConverter``1(System.Func{System.Collections.Generic.IDictionary{System.String,System.Object},System.Object})">
+            <copydoc cref="M:Simple.OData.Client.ITypeConverter.RegisterTypeConverter``1(System.Func{System.Collections.Generic.IDictionary{System.String,System.Object},System.Object})" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeConverter.RegisterTypeConverter``1(System.Func{System.Object,System.Object})">
+            <copydoc cref="M:Simple.OData.Client.ITypeConverter.RegisterTypeConverter``1(System.Func{System.Object,System.Object})" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeConverter.RegisterTypeConverter(System.Type,System.Func{System.Collections.Generic.IDictionary{System.String,System.Object},System.Object})">
+            <copydoc cref="M:Simple.OData.Client.ITypeConverter.RegisterTypeConverter(System.Type,System.Func{System.Collections.Generic.IDictionary{System.String,System.Object},System.Object})" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeConverter.RegisterTypeConverter(System.Type,System.Func{System.Object,System.Object})">
+            <copydoc cref="M:Simple.OData.Client.ITypeConverter.RegisterTypeConverter(System.Type,System.Func{System.Object,System.Object})" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeConverter.HasDictionaryConverter``1">
+            <copydoc cref="M:Simple.OData.Client.ITypeConverter.HasDictionaryConverter``1" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeConverter.HasDictionaryConverter(System.Type)">
+            <copydoc cref="M:Simple.OData.Client.ITypeConverter.HasDictionaryConverter(System.Type)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeConverter.HasObjectConverter``1">
+            <copydoc cref="M:Simple.OData.Client.ITypeConverter.HasObjectConverter``1" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeConverter.HasObjectConverter(System.Type)">
+            <copydoc cref="M:Simple.OData.Client.ITypeConverter.HasObjectConverter(System.Type)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeConverter.Convert``1(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <copydoc cref="M:Simple.OData.Client.ITypeConverter.Convert``1(System.Collections.Generic.IDictionary{System.String,System.Object})" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeConverter.Convert``1(System.Object)">
+            <copydoc cref="M:Simple.OData.Client.ITypeConverter.Convert``1(System.Object)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeConverter.Convert(System.Collections.Generic.IDictionary{System.String,System.Object},System.Type)">
+            <copydoc cref="M:Simple.OData.Client.ITypeConverter.Convert(System.Collections.Generic.IDictionary{System.String,System.Object},System.Type)" />
+        </member>
+        <member name="M:Simple.OData.Client.TypeConverter.Convert(System.Object,System.Type)">
+            <copydoc cref="M:Simple.OData.Client.ITypeConverter.Convert(System.Collections.Generic.IDictionary{System.String,System.Object},System.Type)" />
         </member>
         <member name="T:Simple.OData.Client.UnresolvableObjectException">
             <summary>
@@ -3134,6 +4139,179 @@
             <value>
             The name of the object.
             </value>
+        </member>
+        <member name="T:Simple.OData.Client.ValidationKinds">
+            <summary>
+            Validation kinds used in ODataMessageReaderSettings and ODataMessageWriterSettings.
+            </summary>
+            <remarks>
+            This must be kept aligned with https://github.com/OData/odata.net/blob/master/src/Microsoft.OData.Core/ValidationKinds.cs
+            </remarks>
+        </member>
+        <member name="F:Simple.OData.Client.ValidationKinds.None">
+            <summary>
+            No validations.
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.ValidationKinds.ThrowOnDuplicatePropertyNames">
+            <summary>
+            Disallow duplicate properties in ODataResource (i.e., properties with the same name).
+            If no duplication can be guaranteed, this flag can be turned off for better performance.
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.ValidationKinds.ThrowOnUndeclaredPropertyForNonOpenType">
+            <summary>
+            Do not support for undeclared property for non open type.
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.ValidationKinds.ThrowIfTypeConflictsWithMetadata">
+            <summary>
+            Validates that the type in input must exactly match the model.
+            If the input can be guaranteed to be valid, this flag can be turned off for better performance.
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.ValidationKinds.All">
+            <summary>
+            Enable all validations.
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.V3.Adapter.Metadata.GetAlternateKeyPropertyNames(System.String)">
+            <summary>
+            Gets a collection of key name collections that represent the alternate keys of the given entity.
+            As alternate keys are not supported on V3, this method will always return an empty enumeration.
+            </summary>
+            <param name="collectionName">The collection name of the entity</param>
+            <returns>An empty enumeration of string enumerations representing the key names</returns>
+        </member>
+        <member name="T:Simple.OData.Client.V4.Adapter.Extensions.DataAggregationBuilder`1">
+            <inheritdoc cref="T:Simple.OData.Client.V4.Adapter.Extensions.IDataAggregation`1"/>
+        </member>
+        <member name="T:Simple.OData.Client.V4.Adapter.Extensions.ExtendedBoundClient`1">
+            <summary>
+            Provides access to extended OData operations e.g. data aggregation extensions in a fluent style.
+            </summary>
+            <typeparam name="T">The entry type.</typeparam>
+            <inheritdoc cref="T:Simple.OData.Client.V4.Adapter.Extensions.IExtendedBoundClient`1"/>
+        </member>
+        <member name="T:Simple.OData.Client.V4.Adapter.Extensions.ExtendedODataClient">
+            <summary>
+            <inheritdoc cref="T:Simple.OData.Client.V4.Adapter.Extensions.IExtendedODataClient"/>
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.V4.Adapter.Extensions.ExtendedODataClient.#ctor(Simple.OData.Client.ODataClient)">
+            <summary>
+            <inheritdoc cref="T:Simple.OData.Client.V4.Adapter.Extensions.IExtendedODataClient"/>
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.V4.Adapter.Extensions.IDataAggregation`1.Filter(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            Sets the specified OData filter.
+            </summary>
+            <param name="filter">The filter expression.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.V4.Adapter.Extensions.IDataAggregation`1.Aggregate``1(System.Linq.Expressions.Expression{System.Func{`0,Simple.OData.Client.V4.Adapter.Extensions.IAggregationFunction{`0},``0}})">
+            <summary>
+            Sets the specified aggregation
+            </summary>
+            <param name="aggregation">Aggregation expression, should be a NewExpression or MemberInitExpression e.g. (x, a) => new {Total = a.Sum(x.Count)}</param>
+            <typeparam name="TR">Destination type</typeparam>
+            <returns>New data aggregation builder of destination type</returns>
+        </member>
+        <member name="M:Simple.OData.Client.V4.Adapter.Extensions.IDataAggregation`1.GroupBy``1(System.Linq.Expressions.Expression{System.Func{`0,Simple.OData.Client.V4.Adapter.Extensions.IAggregationFunction{`0},``0}})">
+            <summary>
+            Sets the specified group by expression and aggregation
+            </summary>
+            <param name="groupBy">Group by expression, should be a NewExpression or MemberInitExpression e.g. (x, a) => new {CategoryName = x.CategoryName, AveragePrice = a.Sum(x.Price)}</param>
+            <typeparam name="TR">Destination type</typeparam>
+            <returns>New data aggregation builder of destination type</returns>
+        </member>
+        <member name="T:Simple.OData.Client.V4.Adapter.Extensions.IExtendedBoundClient`1">
+            <summary>
+            Provides access to extended collection-bound OData operations e.g. data aggregation extensions in a fluent style.
+            </summary>
+            <typeparam name="T">The entity type.</typeparam>
+        </member>
+        <member name="M:Simple.OData.Client.V4.Adapter.Extensions.IExtendedBoundClient`1.Apply``1(System.Func{Simple.OData.Client.V4.Adapter.Extensions.IDataAggregation{`0},Simple.OData.Client.V4.Adapter.Extensions.IDataAggregation{``0}})">
+            <summary>
+            Applies the configured data aggregation to the entries
+            </summary>
+            <param name="dataAggregation">Data aggregation builder</param>
+            <typeparam name="T">Source entry type</typeparam>
+            <typeparam name="TR">Destination entry type</typeparam>
+            <returns>New extended bound client with applied data aggregation.</returns>
+            <remarks>To avoid errors while parsing the response of OData service
+            it could be necessary to enable ignoring of unmapped properties (see <see cref="P:Simple.OData.Client.ODataClientSettings.IgnoreUnmappedProperties"/>).</remarks>
+        </member>
+        <member name="M:Simple.OData.Client.V4.Adapter.Extensions.IExtendedBoundClient`1.Apply(System.String)">
+            <summary>
+            Applies the specified data aggregation command to the entries
+            </summary>
+            <param name="dataAggregationCommand">Data aggregation command</param>
+            <typeparam name="T">Entry type</typeparam>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.V4.Adapter.Extensions.IExtendedBoundClient`1.Apply``1(System.String)">
+            <summary>
+            Applies the specified data aggregation command to the entries
+            </summary>
+            <param name="dataAggregationCommand">Data aggregation command</param>
+            <typeparam name="T">Source entry type</typeparam>
+            <typeparam name="TR">Destination entry type</typeparam>
+            <returns>New extended bound client with applied data aggregation.</returns>
+            <remarks>To avoid errors while parsing the response of OData service
+            it could be necessary to enable ignoring of unmapped properties (see <see cref="P:Simple.OData.Client.ODataClientSettings.IgnoreUnmappedProperties"/>).</remarks>
+        </member>
+        <member name="M:Simple.OData.Client.V4.Adapter.Extensions.IExtendedBoundClient`1.Apply(Simple.OData.Client.V4.Adapter.Extensions.DynamicDataAggregation)">
+            <summary>
+            Applies the specified data aggregation to the entries
+            </summary>
+            <param name="dataAggregation">Dynamic data aggregation builder</param>
+            <typeparam name="T">Source entry type</typeparam>
+            <returns>New extended bound client with applied data aggregation.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.V4.Adapter.Extensions.IExtendedODataClient.For(System.String)">
+            <summary>
+            Returns an instance of a fluent extended OData client for the specified collection.
+            </summary>
+            <param name="collectionName">Name of the collection.</param>
+            <returns>The fluent extended OData client instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.V4.Adapter.Extensions.IExtendedODataClient.For(Simple.OData.Client.ODataExpression)">
+            <summary>
+            Returns an instance of a fluent extended OData client for the specified collection.
+            </summary>
+            <param name="expression">Collection expression.</param>
+            <returns>The fluent extended OData client instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.V4.Adapter.Extensions.IExtendedODataClient.For``1(System.String)">
+            <summary>
+            Returns an instance of a fluent extended OData client for the specified collection.
+            </summary>
+            <param name="collectionName">Name of the collection.</param>
+            <returns>The fluent extended OData client instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.V4.Adapter.Extensions.ODataClientExtensions.WithExtensions(Simple.OData.Client.IODataClient)">
+            <summary>
+            Adds OData extensions e.g. data aggregation extensions to the OData client
+            </summary>
+            <param name="client">OData client to extend</param>
+            <returns>Extended OData client</returns>
+        </member>
+        <member name="M:Simple.OData.Client.V4.Adapter.Extensions.ODataClientExtensions.WithExtensions(Simple.OData.Client.ODataClient)">
+            <summary>
+            Adds OData extensions e.g. data aggregation extensions to the OData client
+            </summary>
+            <param name="client">OData client to extend</param>
+            <returns>Extended OData client</returns>
+        </member>
+        <member name="M:Simple.OData.Client.V4.Adapter.Metadata.GetAlternateKeyPropertyNames(System.String)">
+            <summary>
+            Gets a collection of key name collections that represent the alternate keys of the given entity
+            </summary>
+            <see href="https://github.com/OData/vocabularies/blob/master/OData.Community.Keys.V1.md"/>
+            <param name="collectionName">The collection name of the entity</param>
+            <returns>An enumeration of string enumerations representing the key names</returns>
         </member>
     </members>
 </doc>

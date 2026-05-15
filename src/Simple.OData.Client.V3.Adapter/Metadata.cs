@@ -320,6 +320,19 @@ namespace Simple.OData.Client.V3.Adapter
 					{
 						return true;
 					}
+
+					// NavigateToCollection returns an Entity Collection but the entity type may differ from it.
+					// Example (TripPin): "People/Friends" — collection resolves to People (Friends are People),
+					// but the entity type is Person.
+					try
+					{
+						entityType = GetEntityTypes().SingleOrDefault(x => GetEntityCollection(x.Name).Name == collection.Name);
+						if (entityType is not null)
+						{
+							return true;
+						}
+					}
+					catch (UnresolvableObjectException) { }
 				}
 			}
 			else
