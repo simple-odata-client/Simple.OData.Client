@@ -1,0 +1,3139 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GXOData.Client.All</name>
+    </assembly>
+    <members>
+        <member name="T:Simple.OData.Client.AdapterVersion">
+            <summary>
+            The OData protocol version of the OData adapter.
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.AdapterVersion.V3">
+            <summary>
+            OData protocol version 3
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.AdapterVersion.V4">
+            <summary>
+            OData protocol version 4
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.AdapterVersion.Default">
+            <summary>
+            Default OData protocol version
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.AdapterVersion.Any">
+            <summary>
+            Any OData protocol version
+            </summary>
+        </member>
+        <member name="T:Simple.OData.Client.FunctionFormat">
+            <summary>
+            The format of OData function arguments.
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.FunctionFormat.Query">
+            <summary>
+            The function arguments will be formatted as a query string
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.FunctionFormat.Key">
+            <summary>
+            The function arguments will be formatted as a a key-value list
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.Extensions.HomogenizeEx.Homogenize(System.String)">
+            <summary>
+            Downshift a string and remove all non-alphanumeric characters.
+            </summary>
+            <param name="source">The original string.</param>
+            <returns>The modified string.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.Extensions.HomogenizeEx.SetRegularExpression(System.Text.RegularExpressions.Regex)">
+            <summary>
+            Sets the regular expression to be used for homogenizing object names.
+            </summary>
+            <param name="regex">A regular expression matching all non-comparing characters. The default is &quot;[^a-z0-9]&quot;.</param>
+            <remarks>Homogenized strings are always forced to lower-case.</remarks>
+        </member>
+        <member name="T:Simple.OData.Client.Extensions.XElementExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.Xml.Linq.XElement"/>.
+            </summary>
+        </member>
+        <member name="T:Simple.OData.Client.BoundClient`1">
+            <summary>
+            Provides access to OData operations in a fluent style.
+            </summary>
+            <typeparam name="T">The entry type.</typeparam>
+        </member>
+        <member name="T:Simple.OData.Client.FluentClientBase`2">
+            <summary>
+            Provides access to OData operations in a fluent style.
+            </summary>
+            <typeparam name="T">The entity type.</typeparam>
+        </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.NavigateTo``1(System.String)">
+            <summary>
+            Navigates to the linked entity.
+            </summary>
+            <typeparam name="U">The type of the linked entity.</typeparam>
+            <param name="linkName">Name of the link.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.NavigateTo``1(System.Linq.Expressions.Expression{System.Func{`0,``0}})">
+            <summary>
+            Navigates to the linked entity.
+            </summary>
+            <typeparam name="U">The type of the linked entity.</typeparam>
+            <param name="expression">The expression for the link.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.NavigateTo``1(System.Linq.Expressions.Expression{System.Func{`0,System.Collections.Generic.IEnumerable{``0}}})">
+            <summary>
+            Navigates to the linked entity.
+            </summary>
+            <typeparam name="U">The type of the linked entity.</typeparam>
+            <param name="expression">The expression for the link.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.NavigateTo``1(System.Linq.Expressions.Expression{System.Func{`0,System.Collections.Generic.IList{``0}}})">
+            <summary>
+            Navigates to the linked entity.
+            </summary>
+            <typeparam name="U">The type of the linked entity.</typeparam>
+            <param name="expression">The expression for the link.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.NavigateTo``1(System.Linq.Expressions.Expression{System.Func{`0,System.Collections.Generic.ISet{``0}}})">
+            <summary>
+            Navigates to the linked entity.
+            </summary>
+            <typeparam name="U">The type of the linked entity.</typeparam>
+            <param name="expression">The expression for the link.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.NavigateTo``1(System.Linq.Expressions.Expression{System.Func{`0,System.Collections.Generic.HashSet{``0}}})">
+            <summary>
+            Navigates to the linked entity.
+            </summary>
+            <typeparam name="U">The type of the linked entity.</typeparam>
+            <param name="expression">The expression for the link.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.NavigateTo``1(System.Linq.Expressions.Expression{System.Func{`0,``0[]}})">
+            <summary>
+            Navigates to the linked entity.
+            </summary>
+            <typeparam name="U">The type of the linked entity.</typeparam>
+            <param name="expression">The expression for the link.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.NavigateTo(System.String)">
+            <summary>
+            Navigates to the linked entity.
+            </summary>
+            <param name="linkName">Name of the link.</param>
+            <returns>Self.</returns>        
+        </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.NavigateTo(Simple.OData.Client.ODataExpression)">
+            <summary>
+            Navigates to the linked entity.
+            </summary>
+            <param name="expression">The expression for the link.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.ExecuteAsync">
+            <summary>
+            Executes the OData function or action.
+            </summary>
+            <returns>Execution result task.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.ExecuteAsync(System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData function or action.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Execution result task.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.ExecuteAsSingleAsync">
+            <summary>
+            Executes the OData function or action and returns a single item.
+            </summary>
+            <returns>Execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.ExecuteAsSingleAsync(System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData function or action and returns a single item.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.ExecuteAsEnumerableAsync">
+            <summary>
+            Executes the OData function or action and returns enumerable result.
+            </summary>
+            <returns>Execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.ExecuteAsEnumerableAsync(System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData function or action and returns enumerable result.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.ExecuteAsScalarAsync``1">
+            <summary>
+            Executes the OData function or action and returns scalar result.
+            </summary>
+            <returns>Execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.ExecuteAsScalarAsync``1(System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData function or action and returns scalar result.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.ExecuteAsArrayAsync``1">
+            <summary>
+            Executes the OData function and returns an array.
+            </summary>
+            <returns>Execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.ExecuteAsArrayAsync``1(System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData function and returns an array.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.GetCommandTextAsync">
+            <summary>
+            Gets the OData command text.
+            </summary>
+            <returns>The command text.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.FluentClientBase`2.GetCommandTextAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets the OData command text.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The command text.</returns>
+        </member>
+        <member name="T:Simple.OData.Client.IBoundClient`1">
+            <summary>
+            Provides access to collection-bound OData operations in a fluent style.
+            </summary>
+            <typeparam name="T">The entity type.</typeparam>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.FindEntriesAsync">
+            <summary>
+            Retrieves entries by executing OData GET request.
+            </summary>
+            <returns>Request execution results.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.FindEntriesAsync(System.Threading.CancellationToken)">
+            <summary>
+            Retrieves entries by executing OData GET request.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Entries found.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.FindEntriesAsync(System.Boolean)">
+            <summary>
+            Retrieves entries by executing OData GET request.
+            </summary>
+            <param name="scalarResult">if set to <c>true</c> the result is expected to be of a scalar type.</param>
+            <returns>Entries found.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.FindEntriesAsync(System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves entries by executing OData GET request.
+            </summary>
+            <param name="scalarResult">if set to <c>true</c> the result is expected to be of a scalar type.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Entries found.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.FindEntriesAsync(Simple.OData.Client.ODataFeedAnnotations)">
+            <summary>
+            Retrieves entries by executing OData GET request and assigns OData feed annotations.
+            </summary>
+            <param name="annotations">The OData feed annotations.</param>
+            <returns>Entries found with entry count.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.FindEntriesAsync(Simple.OData.Client.ODataFeedAnnotations,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves entries by executing OData GET request and assigns OData feed annotations.
+            </summary>
+            <param name="annotations">The OData feed annotations.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Entries found with entry count.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.FindEntriesAsync(System.Uri,Simple.OData.Client.ODataFeedAnnotations)">
+            <summary>
+            Retrieves entries by executing OData GET request and assigns OData feed annotations.
+            </summary>
+            <param name="annotatedUri">The URI previously returned in OData feed annotations.</param>
+            <param name="annotations">The OData feed annotations.</param>
+            <returns>Entries found with entry count.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.FindEntriesAsync(System.Uri,Simple.OData.Client.ODataFeedAnnotations,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves entries by executing OData GET request and assigns OData feed annotations.
+            </summary>
+            <param name="annotatedUri">The URI previously returned in OData feed annotations.</param>
+            <param name="annotations">The OData feed annotations.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Entries found with entry count.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.FindEntryAsync">
+            <summary>
+            Retrieves an entry by executing OData GET request.
+            </summary>
+            <returns>The first of the entries found.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.FindEntryAsync(System.Threading.CancellationToken)">
+            <summary>
+            Retrieves an entry by executing OData GET request.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The first of the entries found.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.FindScalarAsync``1">
+            <summary>
+            Retrieves an entry as a scalar type by executing OData GET request.
+            </summary>
+            <returns>The result as a scalar type.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.FindScalarAsync``1(System.Threading.CancellationToken)">
+            <summary>
+            Retrieves an entry as a scalar type by executing OData GET request.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The result as a scalar type.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.InsertEntryAsync">
+            <summary>
+            Insert a new entry by executing OData POST request.
+            </summary>
+            <returns>The newly inserted entry</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.InsertEntryAsync(System.Threading.CancellationToken)">
+            <summary>
+            Insert a new entry by executing OData POST request.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The newly inserted entry</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.InsertEntryAsync(System.Boolean)">
+            <summary>
+            Insert a new entry by executing OData POST request.
+            </summary>
+            <param name="resultRequired">if set to <c>true</c> returns the new entry data, otherwise returns <c>null</c>.</param>
+            <returns>The newly inserted entry</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.InsertEntryAsync(System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Insert a new entry by executing OData POST request.
+            </summary>
+            <param name="resultRequired">if set to <c>true</c> returns the new entry data, otherwise returns <c>null</c>.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The newly inserted entry</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.UpdateEntryAsync">
+            <summary>
+            Updates the existing entry by executing OData PUT or PATCH request.
+            </summary>
+            <returns>The updated entry data</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.UpdateEntryAsync(System.Threading.CancellationToken)">
+            <summary>
+            Updates the existing entry by executing OData PUT or PATCH request.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The updated entry data</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.UpdateEntryAsync(System.Boolean)">
+            <summary>
+            Updates the existing entry by executing OData PUT or PATCH request.
+            </summary>
+            <param name="resultRequired">if set to <c>true</c> returns the updated entry data, otherwise returns <c>null</c>.</param>
+            <returns>The updated entry data</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.UpdateEntryAsync(System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Updates the existing entry by executing OData PUT or PATCH request.
+            </summary>
+            <param name="resultRequired">if set to <c>true</c> returns the updated entry data, otherwise returns <c>null</c>.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The updated entry data</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.UpdateEntriesAsync">
+            <summary>
+            Updates entries by executing multiple OData PUT or PATCH requests.
+            </summary>
+            <returns>The updated entries data</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.UpdateEntriesAsync(System.Threading.CancellationToken)">
+            <summary>
+            Updates entries by executing multiple OData PUT or PATCH requests.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The updated entries data</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.UpdateEntriesAsync(System.Boolean)">
+            <summary>
+            Updates entries by executing multiple OData PUT or PATCH requests.
+            </summary>
+            <param name="resultRequired">if set to <c>true</c> returns the updated entry data, otherwise returns <c>null</c>.</param>
+            <returns>The updated entries data</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.UpdateEntriesAsync(System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Updates entries by executing multiple OData PUT or PATCH requests.
+            </summary>
+            <param name="resultRequired">if set to <c>true</c> returns the updated entry data, otherwise returns <c>null</c>.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The updated entries data</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.DeleteEntryAsync">
+            <summary>
+            Deletes the existing entry by executing OData DELETE request.
+            </summary>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.DeleteEntryAsync(System.Threading.CancellationToken)">
+            <summary>
+            Deletes the existing entry by executing OData DELETE request.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.DeleteEntriesAsync">
+            <summary>
+            Deletes entries by executing multiple OData DELETE requests.
+            </summary>
+            <returns>The number of deleted entries.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.DeleteEntriesAsync(System.Threading.CancellationToken)">
+            <summary>
+            Deletes entries by executing multiple OData DELETE requests.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The number of deleted entries.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.LinkEntryAsync``1(``0)">
+            <summary>
+            Creates a link between entries.
+            </summary>
+            <typeparam name="U">The linked entry type.</typeparam>
+            <param name="linkedEntryKey">The linked entry key.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.LinkEntryAsync``1(``0,System.Threading.CancellationToken)">
+            <summary>
+            Creates a link between entries.
+            </summary>
+            <typeparam name="U">The linked entry type.</typeparam>
+            <param name="linkedEntryKey">The linked entry key.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.LinkEntryAsync``1(``0,System.String)">
+            <summary>
+            Creates a link between entries.
+            </summary>
+            <typeparam name="U">The linked entry type.</typeparam>
+            <param name="linkedEntryKey">The linked entry key.</param>
+            <param name="linkName">Name of the link.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.LinkEntryAsync``1(``0,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Creates a link between entries.
+            </summary>
+            <typeparam name="U">The linked entry type.</typeparam>
+            <param name="linkedEntryKey">The linked entry key.</param>
+            <param name="linkName">Name of the link.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.LinkEntryAsync``1(System.Linq.Expressions.Expression{System.Func{`0,``0}},``0)">
+            <summary>
+            Creates a link between entries.
+            </summary>
+            <typeparam name="U">The linked entry type.</typeparam>
+            <param name="expression">The link expression.</param>
+            <param name="linkedEntryKey">The linked entry key.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.LinkEntryAsync``1(System.Linq.Expressions.Expression{System.Func{`0,``0}},``0,System.Threading.CancellationToken)">
+            <summary>
+            Creates a link between entries.
+            </summary>
+            <typeparam name="U">The linked entry type.</typeparam>
+            <param name="expression">The link expression.</param>
+            <param name="linkedEntryKey">The linked entry key.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.LinkEntryAsync(Simple.OData.Client.ODataExpression,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Creates a link between entries.
+            </summary>
+            <param name="expression">The link expression.</param>
+            <param name="linkedEntryKey">The linked entry key.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.LinkEntryAsync(Simple.OData.Client.ODataExpression,System.Collections.Generic.IDictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Creates a link between entries.
+            </summary>
+            <param name="expression">The link expression.</param>
+            <param name="linkedEntryKey">The linked entry key.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.LinkEntryAsync(Simple.OData.Client.ODataExpression,Simple.OData.Client.ODataEntry)">
+            <summary>
+            Creates a link between entries.
+            </summary>
+            <param name="expression">The link expression.</param>
+            <param name="linkedEntryKey">The linked entry key.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.LinkEntryAsync(Simple.OData.Client.ODataExpression,Simple.OData.Client.ODataEntry,System.Threading.CancellationToken)">
+            <summary>
+            Creates a link between entries.
+            </summary>
+            <param name="expression">The link expression.</param>
+            <param name="linkedEntryKey">The linked entry key.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.UnlinkEntryAsync``1">
+            <summary>
+            Deletes a link between entries.
+            </summary>
+            <typeparam name="U">The linked entry type.</typeparam>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.UnlinkEntryAsync``1(System.Threading.CancellationToken)">
+            <summary>
+            Deletes a link between entries.
+            </summary>
+            <typeparam name="U">The linked entry type.</typeparam>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.UnlinkEntryAsync(System.String)">
+            <summary>
+            Deletes a link between entries.
+            </summary>
+            <param name="linkName">Name of the link.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.UnlinkEntryAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Deletes a link between entries.
+            </summary>
+            <param name="linkName">Name of the link.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.UnlinkEntryAsync``1(System.Linq.Expressions.Expression{System.Func{`0,``0}})">
+            <summary>
+            Deletes a link between entries.
+            </summary>
+            <typeparam name="U">The linked entry type.</typeparam>
+            <param name="expression">The link expression.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.UnlinkEntryAsync``1(System.Linq.Expressions.Expression{System.Func{`0,``0}},System.Threading.CancellationToken)">
+            <summary>
+            Deletes a link between entries.
+            </summary>
+            <typeparam name="U">The linked entry type.</typeparam>
+            <param name="expression">The link expression.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.UnlinkEntryAsync(Simple.OData.Client.ODataExpression)">
+            <summary>
+            Deletes a link between entries.
+            </summary>
+            <param name="expression">The link expression.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.UnlinkEntryAsync(Simple.OData.Client.ODataExpression,System.Threading.CancellationToken)">
+            <summary>
+            Deletes a link between entries.
+            </summary>
+            <param name="expression">The link expression.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.UnlinkEntryAsync``1(``0)">
+            <summary>
+            Deletes a link between entries.
+            </summary>
+            <typeparam name="U">The linked entry type.</typeparam>
+            <param name="linkedEntryKey">The linked entry key.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.UnlinkEntryAsync``1(``0,System.Threading.CancellationToken)">
+            <summary>
+            Deletes a link between entries.
+            </summary>
+            <typeparam name="U">The linked entry type.</typeparam>
+            <param name="linkedEntryKey">The linked entry key.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.UnlinkEntryAsync``1(``0,System.String)">
+            <summary>
+            Deletes a link between entries.
+            </summary>
+            <typeparam name="U">The linked entry type.</typeparam>
+            <param name="linkedEntryKey">The linked entry key.</param>
+            <param name="linkName">Name of the link.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.UnlinkEntryAsync``1(``0,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Deletes a link between entries.
+            </summary>
+            <typeparam name="U">The linked entry type.</typeparam>
+            <param name="linkedEntryKey">The linked entry key.</param>
+            <param name="linkName">Name of the link.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.UnlinkEntryAsync``1(System.Linq.Expressions.Expression{System.Func{`0,``0}},``0)">
+            <summary>
+            Deletes a link between entries.
+            </summary>
+            <typeparam name="U">The linked entry type.</typeparam>
+            <param name="expression">The link expression.</param>
+            <param name="linkedEntryKey">The linked entry key.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.UnlinkEntryAsync``1(System.Linq.Expressions.Expression{System.Func{`0,``0}},``0,System.Threading.CancellationToken)">
+            <summary>
+            Deletes a link between entries.
+            </summary>
+            <typeparam name="U">The linked entry type.</typeparam>
+            <param name="expression">The link expression.</param>
+            <param name="linkedEntryKey">The linked entry key.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.UnlinkEntryAsync(Simple.OData.Client.ODataExpression,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Deletes a link between entries.
+            </summary>
+            <param name="expression">The link expression.</param>
+            <param name="linkedEntryKey">The linked entry key.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.UnlinkEntryAsync(Simple.OData.Client.ODataExpression,System.Collections.Generic.IDictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Deletes a link between entries.
+            </summary>
+            <param name="expression">The link expression.</param>
+            <param name="linkedEntryKey">The linked entry key.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.As(System.String)">
+            <summary>
+            Casts the collection of base entities as the collection of derived ones.
+            </summary>
+            <param name="derivedCollectionName">Name of the derived collection.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.As``1(System.String)">
+            <summary>
+            Casts the collection of base entities as the collection of derived ones.
+            </summary>
+            <param name="derivedCollectionName">Name of the derived collection.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.As(Simple.OData.Client.ODataExpression)">
+            <summary>
+            Casts the collection of base entities as the collection of derived ones.
+            </summary>
+            <param name="expression">The expression for the derived collection.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.Set(System.Object)">
+            <summary>
+            Sets the specified entry value for update.
+            </summary>
+            <param name="value">The value to update the entry with.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.Set(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Sets the specified entry value for update.
+            </summary>
+            <param name="value">The value to update the entry with.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.Set(`0)">
+            <summary>
+            Sets the specified entry value for update.
+            </summary>
+            <param name="entry">The entry with the updated value.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.Set(Simple.OData.Client.ODataExpression[])">
+            <summary>
+            Sets the specified entry value for update.
+            </summary>
+            <param name="value">The value to update the entry with.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.Set(System.Object,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Sets the specified entry value for update.
+            </summary>
+            <param name="value">The value to update the entry with.</param>
+            <param name="associationsToSetByValue">The list of associations to be passed by value for deep insert/update.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.Set(System.Object,System.String[])">
+            <summary>
+            Sets the specified entry value for update.
+            </summary>
+            <param name="value">The value to update the entry with.</param>
+            <param name="associationsToSetByValue">The list of associations to be passed by value for deep insert/update.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.Set(System.Object,Simple.OData.Client.ODataExpression[])">
+            <summary>
+            Sets the specified entry value for update.
+            </summary>
+            <param name="value">The value to update the entry with.</param>
+            <param name="associationsToSetByValue">The list of associations to be passed by value for deep insert/update.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.Set(System.Object,System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+            Sets the specified entry value for update.
+            </summary>
+            <param name="value">The value to update the entry with.</param>
+            <param name="associationsToSetByValue">The list of associations to be passed by value for deep insert/update.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.Set(System.Collections.Generic.IDictionary{System.String,System.Object},System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Sets the specified entry value for update.
+            </summary>
+            <param name="value">The value to update the entry with.</param>
+            <param name="associationsToSetByValue">The list of associations to be passed by value for deep insert/update.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.Set(System.Collections.Generic.IDictionary{System.String,System.Object},System.String[])">
+            <summary>
+            Sets the specified entry value for update.
+            </summary>
+            <param name="value">The value to update the entry with.</param>
+            <param name="associationsToSetByValue">The list of associations to be passed by value for deep insert/update.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.Set(`0,Simple.OData.Client.ODataExpression[])">
+            <summary>
+            Sets the specified entry value for update.
+            </summary>
+            <param name="entry">The entry with the updated value.</param>
+            <param name="associationsToSetByValue">The list of associations to be passed by value for deep insert/update.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IBoundClient`1.Set(`0,System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+            Sets the specified entry value for update.
+            </summary>
+            <param name="entry">The entry with the updated value.</param>
+            <param name="associationsToSetByValue">The list of associations to be passed by value for deep insert/update.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="P:Simple.OData.Client.IBoundClient`1.FilterIsKey">
+            <summary>
+            Gets a value indicating whether the OData command filter represent the entry key.
+            </summary>
+            <value>
+              <c>true</c> if the filter is an entry key; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.IBoundClient`1.FilterAsKey">
+            <summary>
+            Converts the current command filter value to the entry key if they are equivalent; otherwise returns <s>null</s>.
+            </summary>
+            <value>
+            The filter as entry key.
+            </value>
+        </member>
+        <member name="T:Simple.OData.Client.IFluentClient`2">
+            <summary>
+            Provides access to OData operations in a fluent style.
+            </summary>
+            <typeparam name="T">The entity type.</typeparam>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.WithProperties(System.Linq.Expressions.Expression{System.Func{`0,System.Collections.Generic.IDictionary{System.String,System.Object}}})">
+            <summary>
+            Sets the container for data not covered by the entity properties. Typically used with OData open types.
+            </summary>
+            <param name="expression">The filter expression.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.WithMedia(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Sets the container for media stream content to be retrieved or updated together with standard entity properties.
+            </summary>
+            <param name="properties">The media content properties.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.WithMedia(System.String[])">
+            <summary>
+            Sets the container for media stream content to be retrieved or updated together with standard entity properties.
+            </summary>
+            <param name="properties">The media content properties.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.WithMedia(Simple.OData.Client.ODataExpression[])">
+            <summary>
+            Sets the container for media stream content to be retrieved or updated together with standard entity properties.
+            </summary>
+            <param name="properties">The media content properties.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.WithMedia(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+            Sets the container for media stream content to be retrieved or updated together with standard entity properties.
+            </summary>
+            <param name="properties">The media content properties.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Key(System.Object[])">
+            <summary>
+            Sets the specified entry key.
+            </summary>
+            <param name="entryKey">The entry key.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Key(System.Collections.Generic.IEnumerable{System.Object})">
+            <summary>
+            Sets the specified entry key.
+            </summary>
+            <param name="entryKey">The entry key.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Key(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Sets the specified entry key.
+            </summary>
+            <param name="entryKey">The entry key.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Key(`0)">
+            <summary>
+            Sets the specified entry key.
+            </summary>
+            <param name="entryKey">The entry key.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Filter(System.String)">
+            <summary>
+            Sets the specified OData filter.
+            </summary>
+            <param name="filter">The filter.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Filter(Simple.OData.Client.ODataExpression)">
+            <summary>
+            Sets the specified OData filter.
+            </summary>
+            <param name="expression">The filter expression.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Filter(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            Sets the specified OData filter.
+            </summary>
+            <param name="expression">The filter expression.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Search(System.String)">
+            <summary>
+            Sets the specified OData search.
+            </summary>
+            <param name="search">The search term.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Function(System.String)">
+            <summary>
+            Sets the OData function name.
+            </summary>
+            <param name="functionName">Name of the function.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Function``1(System.String)">
+            <summary>
+            Sets the OData function name.
+            </summary>
+            <param name="functionName">Name of the function.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Action(System.String)">
+            <summary>
+            Sets the OData action name.
+            </summary>
+            <param name="actionName">Name of the action.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Skip(System.Int64)">
+            <summary>
+            Skips the specified number of entries from the result.
+            </summary>
+            <param name="count">The count.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Top(System.Int64)">
+            <summary>
+            Limits the number of results with the specified value.
+            </summary>
+            <param name="count">The count.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Expand(Simple.OData.Client.ODataExpandOptions)">
+            <summary>
+            Expands top level of all associations.
+            </summary>
+            <param name="expandOptions">The <see cref="T:Simple.OData.Client.ODataExpandOptions"/>.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Expand(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Expands the top level of the specified associations.
+            </summary>
+            <param name="associations">The associations to expand.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Expand(Simple.OData.Client.ODataExpandOptions,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Expands the number of levels of the specified associations.
+            </summary>
+            <param name="expandOptions">The <see cref="T:Simple.OData.Client.ODataExpandOptions"/>.</param>
+            <param name="associations">The associations to expand.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Expand(System.String[])">
+            <summary>
+            Expands the top level of the specified associations.
+            </summary>
+            <param name="associations">The associations to expand.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.ExpandMap(System.Collections.Generic.KeyValuePair{System.String,System.String}[])">
+            <summary>
+            Expands the top level of the specified associations with entity/name mappings.
+            </summary>
+            <param name="associations">The associations to expand with their name mappings.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Expand(Simple.OData.Client.ODataExpandOptions,System.String[])">
+            <summary>
+            Expands the number of levels of the specified associations.
+            </summary>
+            <param name="expandOptions">The <see cref="T:Simple.OData.Client.ODataExpandOptions"/>.</param>
+            <param name="associations">The associations to expand.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Expand(Simple.OData.Client.ODataExpression[])">
+            <summary>
+            Expands the top level of the specified associations.
+            </summary>
+            <param name="associations">The associations to expand.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Expand(Simple.OData.Client.ODataExpandOptions,Simple.OData.Client.ODataExpression[])">
+            <summary>
+            Expands the number of levels of the specified associations.
+            </summary>
+            <param name="expandOptions">The <see cref="T:Simple.OData.Client.ODataExpandOptions"/>.</param>
+            <param name="associations">The associations to expand.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Expand(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+            Expands the top level of the specified expression.
+            </summary>
+            <param name="expression">The expression for associations to expand.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Expand(Simple.OData.Client.ODataExpandOptions,System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+            Expands the number of levels of the specified associations.
+            </summary>
+            <param name="expandOptions">The <see cref="T:Simple.OData.Client.ODataExpandOptions"/>.</param>
+            <param name="expression">The expression for associations to expand.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Select(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Selects the specified result columns.
+            </summary>
+            <param name="columns">The selected columns.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Select(System.String[])">
+            <summary>
+            Selects the specified result columns.
+            </summary>
+            <param name="columns">The selected columns.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Select(Simple.OData.Client.ODataExpression[])">
+            <summary>
+            Selects the specified result columns.
+            </summary>
+            <param name="columns">The selected columns.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Select(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+            Selects the specified result columns.
+            </summary>
+            <param name="expression">The expression for the selected columns.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.OrderBy(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Boolean}})">
+            <summary>
+            Sorts the result by the specified columns in the specified order.
+            </summary>
+            <param name="columns">The sort columns.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.OrderBy(System.String[])">
+            <summary>
+            Sorts the result by the specified columns in ascending order.
+            </summary>
+            <param name="columns">The sort columns.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.OrderBy(Simple.OData.Client.ODataExpression[])">
+            <summary>
+            Sorts the result by the specified columns in ascending order.
+            </summary>
+            <param name="columns">The sort columns.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.OrderBy(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+            Sorts the result by the specified columns in ascending order.
+            </summary>
+            <param name="expression">The expression for the sort columns.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.ThenBy(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+            Sorts the result by the specified columns in ascending order.
+            </summary>
+            <param name="expression">The expression for the sort columns.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.OrderByDescending(System.String[])">
+            <summary>
+            Sorts the result by the specified columns in descending order.
+            </summary>
+            <param name="columns">The sort columns.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.OrderByDescending(Simple.OData.Client.ODataExpression[])">
+            <summary>
+            Sorts the result by the specified columns in descending order.
+            </summary>
+            <param name="columns">The sort columns.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.OrderByDescending(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+            Sorts the result by the specified columns in descending order.
+            </summary>
+            <param name="expression">The expression for the sort columns.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.ThenByDescending(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+            Sorts the result by the specified columns in descending order.
+            </summary>
+            <param name="expression">The expression for the sort columns.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.QueryOptions(System.String)">
+            <summary>
+            Sets the custom query options.
+            </summary>
+            <param name="queryOptions">The custom query options string.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.QueryOptions(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Sets the custom query options.
+            </summary>
+            <param name="queryOptions">The key/value collection of custom query options.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.QueryOptions(Simple.OData.Client.ODataExpression)">
+            <summary>
+            Sets the custom query options.
+            </summary>
+            <param name="expression">The custom query options expression.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.QueryOptions``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            Sets the custom query options.
+            </summary>
+            <param name="expression">The custom query options expression.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Media">
+            <summary>
+            Selects retrieval of an entity media stream.
+            </summary>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Media(System.String)">
+            <summary>
+            Selects retrieval of a named media stream.
+            </summary>
+            <param name="streamName">The media stream name.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Media(Simple.OData.Client.ODataExpression)">
+            <summary>
+            Selects retrieval of a named media stream.
+            </summary>
+            <param name="expression">The media stream name expression.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Media(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+            Selects retrieval of a named media stream.
+            </summary>
+            <param name="expression">The media stream name expression.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.Count">
+            <summary>
+            Requests the number of results.
+            </summary>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.NavigateTo``1(System.String)">
+            <summary>
+            Navigates to the linked entity.
+            </summary>
+            <typeparam name="U">The type of the linked entity.</typeparam>
+            <param name="linkName">Name of the link.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.NavigateTo``1(System.Linq.Expressions.Expression{System.Func{`0,``0}})">
+            <summary>
+            Navigates to the linked entity.
+            </summary>
+            <typeparam name="U">The type of the linked entity.</typeparam>
+            <param name="expression">The expression for the link.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.NavigateTo``1(System.Linq.Expressions.Expression{System.Func{`0,System.Collections.Generic.IEnumerable{``0}}})">
+            <summary>
+            Navigates to the linked entity.
+            </summary>
+            <typeparam name="U">The type of the linked entity.</typeparam>
+            <param name="expression">The expression for the link.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.NavigateTo``1(System.Linq.Expressions.Expression{System.Func{`0,System.Collections.Generic.IList{``0}}})">
+            <summary>
+            Navigates to the linked entity.
+            </summary>
+            <typeparam name="U">The type of the linked entity.</typeparam>
+            <param name="expression">The expression for the link.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.NavigateTo``1(System.Linq.Expressions.Expression{System.Func{`0,System.Collections.Generic.ISet{``0}}})">
+            <summary>
+            Navigates to the linked entity.
+            </summary>
+            <typeparam name="U">The type of the linked entity.</typeparam>
+            <param name="expression">The expression for the link.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.NavigateTo``1(System.Linq.Expressions.Expression{System.Func{`0,System.Collections.Generic.HashSet{``0}}})">
+            <summary>
+            Navigates to the linked entity.
+            </summary>
+            <typeparam name="U">The type of the linked entity.</typeparam>
+            <param name="expression">The expression for the link.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.NavigateTo``1(System.Linq.Expressions.Expression{System.Func{`0,``0[]}})">
+            <summary>
+            Navigates to the linked entity.
+            </summary>
+            <typeparam name="U">The type of the linked entity.</typeparam>
+            <param name="expression">The expression for the link.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.NavigateTo(System.String)">
+            <summary>
+            Navigates to the linked entity.
+            </summary>
+            <param name="linkName">Name of the link.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.NavigateTo(Simple.OData.Client.ODataExpression)">
+            <summary>
+            Navigates to the linked entity.
+            </summary>
+            <param name="expression">The expression for the link.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.ExecuteAsync">
+            <summary>
+            Executes the OData function or action.
+            </summary>
+            <returns>Execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.ExecuteAsync(System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData function or action.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Action execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.ExecuteAsSingleAsync">
+            <summary>
+            Executes the OData function or action.
+            </summary>
+            <returns>Execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.ExecuteAsSingleAsync(System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData function or action.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Action execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.ExecuteAsEnumerableAsync">
+            <summary>
+            Executes the OData function or action and returns collection.
+            </summary>
+            <returns>Action execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.ExecuteAsEnumerableAsync(System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData function or action and returns collection.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.ExecuteAsScalarAsync``1">
+            <summary>
+            Executes the OData function or action and returns scalar result.
+            </summary>
+            <typeparam name="U">The type of the result.</typeparam>
+            <returns>Execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.ExecuteAsScalarAsync``1(System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData function or action and returns scalar result.
+            </summary>
+            <typeparam name="U">The type of the result.</typeparam>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Action execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.ExecuteAsArrayAsync``1">
+            <summary>
+            Executes the OData function or action and returns an array.
+            </summary>
+            <typeparam name="U">The type of the result array.</typeparam>
+            <returns>Execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.ExecuteAsArrayAsync``1(System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData function or action and returns an array.
+            </summary>
+            <typeparam name="U">The type of the result array.</typeparam>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Action execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.GetCommandTextAsync">
+            <summary>
+            Gets the OData command text.
+            </summary>
+            <returns>The command text.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IFluentClient`2.GetCommandTextAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets the OData command text.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The command text.</returns>
+        </member>
+        <member name="T:Simple.OData.Client.IMediaClient">
+            <summary>
+            Provides access to OData media stream operations.
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.IMediaClient.GetStreamAsync">
+            <summary>
+            Retrieves a media stream by executing OData GET request.
+            </summary>
+            <returns>The media stream.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IMediaClient.GetStreamAsync(System.Threading.CancellationToken)">
+            <summary>
+            Retrieves a media stream by executing OData GET request.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The media stream.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IMediaClient.GetStreamAsArrayAsync">
+            <summary>
+            Retrieves a media stream as byte array by executing OData GET request.
+            </summary>
+            <returns>The media stream converted to byte array.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IMediaClient.GetStreamAsArrayAsync(System.Threading.CancellationToken)">
+            <summary>
+            Retrieves a media stream as byte array by executing OData GET request.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The media stream converted to byte array.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IMediaClient.GetStreamAsStringAsync">
+            <summary>
+            Retrieves a media stream as string by executing OData GET request.
+            </summary>
+            <returns>The media stream converted to string.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IMediaClient.GetStreamAsStringAsync(System.Threading.CancellationToken)">
+            <summary>
+            Retrieves a media stream as string by executing OData GET request.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The media stream converted to string.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IMediaClient.SetStreamAsync(System.IO.Stream,System.String,System.Boolean)">
+            <summary>
+            Assigns a media stream by executing OData PUT request.
+            </summary>
+            <param name="stream">The media stream.</param>
+            <param name="contentType">The media content type.</param>
+            <param name="optimisticConcurrency">if set to <c>true</c> sets the resource ETag in the updated request header.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IMediaClient.SetStreamAsync(System.IO.Stream,System.String,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Assigns a media stream by executing OData PUT request.
+            </summary>
+            <param name="stream">The media stream.</param>
+            <param name="contentType">The media content type.</param>
+            <param name="optimisticConcurrency">if set to <c>true</c> sets the resource ETag in the updated request header.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IMediaClient.SetStreamAsync(System.Byte[],System.String,System.Boolean)">
+            <summary>
+            Assigns a media stream by executing OData PUT request.
+            </summary>
+            <param name="streamContent">The media stream content represented as byte array.</param>
+            <param name="contentType">The media content type.</param>
+            <param name="optimisticConcurrency">if set to <c>true</c> sets the resource ETag in the updated request header.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IMediaClient.SetStreamAsync(System.Byte[],System.String,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Assigns a media stream by executing OData PUT request.
+            </summary>
+            <param name="streamContent">The media stream content represented as byte array.</param>
+            <param name="contentType">The media content type.</param>
+            <param name="optimisticConcurrency">if set to <c>true</c> sets the resource ETag in the updated request header.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IMediaClient.SetStreamAsync(System.String,System.Boolean)">
+            <summary>
+            Assigns a media stream by executing OData PUT request.
+            </summary>
+            <param name="streamContent">The media stream content represented as string.</param>
+            <param name="optimisticConcurrency">if set to <c>true</c> sets the resource ETag in the updated request header.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IMediaClient.SetStreamAsync(System.String,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Assigns a media stream by executing OData PUT request.
+            </summary>
+            <param name="streamContent">The media stream content represented as string.</param>
+            <param name="optimisticConcurrency">if set to <c>true</c> sets the resource ETag in the updated request header.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IMediaClient.GetCommandTextAsync">
+            <summary>
+            Gets the OData command text.
+            </summary>
+            <returns>The command text.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IMediaClient.GetCommandTextAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets the OData command text.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The command text.</returns>
+        </member>
+        <member name="T:Simple.OData.Client.IUnboundClient`1">
+            <summary>
+            Provides access to unbound OData operations in a fluent style.
+            </summary>
+            <typeparam name="T">The entity type.</typeparam>
+        </member>
+        <member name="M:Simple.OData.Client.IUnboundClient`1.As(System.String)">
+            <summary>
+            Casts the collection of base entities as the collection of derived ones.
+            </summary>
+            <param name="derivedCollectionName">Name of the derived collection.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IUnboundClient`1.As``1(System.String)">
+            <summary>
+            Casts the collection of base entities as the collection of derived ones.
+            </summary>
+            <param name="derivedCollectionName">Name of the derived collection.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IUnboundClient`1.As(Simple.OData.Client.ODataExpression)">
+            <summary>
+            Casts the collection of base entities as the collection of derived ones.
+            </summary>
+            <param name="expression">The expression for the derived collection.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IUnboundClient`1.Set(System.Object)">
+            <summary>
+            Sets the specified entry value for update.
+            </summary>
+            <param name="value">The value to update the entry with.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IUnboundClient`1.Set(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Sets the specified entry value for update.
+            </summary>
+            <param name="value">The value to update the entry with.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IUnboundClient`1.Set(`0)">
+            <summary>
+            Sets the specified entry value for update.
+            </summary>
+            <param name="entry">The entry with the updated value.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IUnboundClient`1.Set(Simple.OData.Client.ODataExpression[])">
+            <summary>
+            Sets the specified entry value for update.
+            </summary>
+            <param name="value">The value to update the entry with.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IUnboundClient`1.Set(System.Object,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Sets the specified entry value for update.
+            </summary>
+            <param name="value">The value to update the entry with.</param>
+            <param name="associationsToSetByValue">The list of associations to be passed by value for deep insert/update.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IUnboundClient`1.Set(System.Object,System.String[])">
+            <summary>
+            Sets the specified entry value for update.
+            </summary>
+            <param name="value">The value to update the entry with.</param>
+            <param name="associationsToSetByValue">The list of associations to be passed by value for deep insert/update.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IUnboundClient`1.Set(System.Object,Simple.OData.Client.ODataExpression[])">
+            <summary>
+            Sets the specified entry value for update.
+            </summary>
+            <param name="value">The value to update the entry with.</param>
+            <param name="associationsToSetByValue">The list of associations to be passed by value for deep insert/update.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IUnboundClient`1.Set(System.Object,System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+            Sets the specified entry value for update.
+            </summary>
+            <param name="value">The value to update the entry with.</param>
+            <param name="associationsToSetByValue">The list of associations to be passed by value for deep insert/update.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IUnboundClient`1.Set(System.Collections.Generic.IDictionary{System.String,System.Object},System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Sets the specified entry value for update.
+            </summary>
+            <param name="value">The value to update the entry with.</param>
+            <param name="associationsToSetByValue">The list of associations to be passed by value for deep insert/update.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IUnboundClient`1.Set(System.Collections.Generic.IDictionary{System.String,System.Object},System.String[])">
+            <summary>
+            Sets the specified entry value for update.
+            </summary>
+            <param name="value">The value to update the entry with.</param>
+            <param name="associationsToSetByValue">The list of associations to be passed by value for deep insert/update.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IUnboundClient`1.Set(`0,Simple.OData.Client.ODataExpression[])">
+            <summary>
+            Sets the specified entry value for update.
+            </summary>
+            <param name="entry">The entry with the updated value.</param>
+            <param name="associationsToSetByValue">The list of associations to be passed by value for deep insert/update.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IUnboundClient`1.Set(`0,System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+            Sets the specified entry value for update.
+            </summary>
+            <param name="entry">The entry with the updated value.</param>
+            <param name="associationsToSetByValue">The list of associations to be passed by value for deep insert/update.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="T:Simple.OData.Client.UnboundClient`1">
+            <summary>
+            Provides access to OData operations in a fluent style.
+            </summary>
+            <typeparam name="T">The entry type.</typeparam>
+        </member>
+        <member name="T:Simple.OData.Client.WebRequestException">
+            <summary>
+            The exception that is thrown when the service failed to process the Web request
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.WebRequestException.CreateFromResponseMessageAsync(System.Net.Http.HttpResponseMessage)">
+            <summary>
+            Creates from the instance of HttpResponseMessage.
+            </summary>
+            <param name="response">The instance of <see cref="T:System.Net.Http.HttpResponseMessage"/>.</param>
+            <returns>The instance of <see cref="T:Simple.OData.Client.WebRequestException"/>.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.WebRequestException.CreateFromWebException(System.Net.WebException)">
+            <summary>
+            Creates from the instance of WebException.
+            </summary>
+            <param name="ex">The instance of <see cref="T:System.Net.WebException"/>.</param>
+            <returns>The instance of <see cref="T:Simple.OData.Client.WebRequestException"/>.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.WebRequestException.CreateFromStatusCode(System.Net.HttpStatusCode,System.String)">
+            <summary>
+            Creates from the instance of HttpResponseMessage.
+            </summary>
+            <param name="statusCode">The HTTP status code.</param>
+            <returns>The instance of <see cref="T:Simple.OData.Client.WebRequestException"/>.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.WebRequestException.#ctor(System.String,System.Net.HttpStatusCode,System.Uri,System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Simple.OData.Client.WebRequestException"/> class.
+            </summary>
+            <param name="message">The message that describes the error.</param>
+            <param name="statusCode">The HTTP status code.</param>
+            <param name="requestUri">The original request URI.</param>
+            <param name="responseContent">The response content.</param>
+            <param name="inner">The inner exception.</param>
+        </member>
+        <member name="M:Simple.OData.Client.WebRequestException.#ctor(System.Net.WebException)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Simple.OData.Client.WebRequestException"/> class.
+            </summary>
+            <param name="inner">The inner exception.</param>
+        </member>
+        <member name="P:Simple.OData.Client.WebRequestException.Code">
+            <summary>
+            Gets the <see cref="T:System.Net.HttpStatusCode"/>.
+            </summary>
+            <value>
+            The <see cref="T:System.Net.HttpStatusCode"/>.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.WebRequestException.Response">
+            <summary>
+            Gets the HTTP response text.
+            </summary>
+            <value>
+            The response text.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.WebRequestException.RequestUri">
+            <summary>
+            Gets the HTTP Uri
+            </summary>
+            <value>
+            The original request URI, or the resulting URI if a redirect took place.
+            </value>
+        </member>
+        <member name="T:Simple.OData.Client.IODataClient">
+            <summary>
+            Provides access to OData operations.
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.For(System.String)">
+            <summary>
+            Returns an instance of a fluent OData client for the specified collection.
+            </summary>
+            <param name="collectionName">Name of the collection.</param>
+            <returns>The fluent OData client instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.For(Simple.OData.Client.ODataExpression)">
+            <summary>
+            Returns an instance of a fluent OData client for the specified collection.
+            </summary>
+            <param name="expression">Collection expression.</param>
+            <returns>The fluent OData client instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.For``1(System.String)">
+            <summary>
+            Returns an instance of a fluent OData client for the specified collection.
+            </summary>
+            <param name="collectionName">Name of the collection.</param>
+            <returns>The fluent OData client instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.Unbound">
+            <summary>
+            Returns an instance of a fluent OData client for unbound operations (functions and actions).
+            </summary>
+            <returns>The fluent OData client instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.Unbound``1">
+            <summary>
+            Returns an instance of a fluent OData client for unbound operations (functions and actions).
+            </summary>
+            <returns>The fluent OData client instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.GetMetadataAsync">
+            <summary>
+            Gets the OData service metadata.
+            </summary>
+            <returns>The service metadata.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.GetMetadataAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets the OData service metadata.
+            </summary>
+            <returns>The service metadata.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.GetMetadataAsync``1">
+            <summary>
+            Gets the OData service metadata.
+            </summary>
+            <typeparam name="T">OData protocol specific metadata interface</typeparam>
+            <returns>
+            The service metadata.
+            </returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.GetMetadataAsync``1(System.Threading.CancellationToken)">
+            <summary>
+            Gets the OData service metadata.
+            </summary>
+            <typeparam name="T">OData protocol specific metadata interface</typeparam>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>
+            The service metadata.
+            </returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.GetMetadataDocumentAsync">
+            <summary>
+            Gets the OData service metadata as string.
+            </summary>
+            <returns>The service metadata string.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.GetMetadataDocumentAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets the OData service metadata as string.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The service metadata string.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.GetCommandTextAsync(System.String,Simple.OData.Client.ODataExpression)">
+            <summary>
+            Gets the OData command text.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="expression">The command expression.</param>
+            <returns>The command text.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.GetCommandTextAsync(System.String,Simple.OData.Client.ODataExpression,System.Threading.CancellationToken)">
+            <summary>
+            Gets the OData command text.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="expression">The command expression.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The command text.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.GetCommandTextAsync``1(System.String,System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            Gets the OData command text.
+            </summary>
+            <typeparam name="T">The collection type.</typeparam>
+            <param name="collection">The name of the collection.</param>
+            <param name="expression">The command expression.</param>
+            <returns>The command text.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.GetCommandTextAsync``1(System.String,System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Threading.CancellationToken)">
+            <summary>
+            Gets the OData command text.
+            </summary>
+            <typeparam name="T">The collection type.</typeparam>
+            <param name="collection">The name of the collection.</param>
+            <param name="expression">The command expression.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The command text.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.FindEntriesAsync(System.String)">
+            <summary>
+            Retrieves entries by executing OData GET request.
+            </summary>
+            <param name="commandText">The OData command text.</param>
+            <returns>Entries found.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.FindEntriesAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves entries by executing OData GET request.
+            </summary>
+            <param name="commandText">The OData command text.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Entries found.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.FindEntriesAsync(System.String,System.Boolean)">
+            <summary>
+            Retrieves entries by executing OData GET request.
+            </summary>
+            <param name="commandText">The OData command text.</param>
+            <param name="scalarResult">if set to <c>true</c> the result is expected to be of a scalar type.</param>
+            <returns>Entries found.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.FindEntriesAsync(System.String,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves entries by executing OData GET request.
+            </summary>
+            <param name="commandText">The OData command text.</param>
+            <param name="scalarResult">if set to <c>true</c> the result is expected to be of a scalar type.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Entries found.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.FindEntriesAsync(System.String,Simple.OData.Client.ODataFeedAnnotations)">
+            <summary>
+            Retrieves entries by executing OData GET request and assigns OData feed annotations.
+            </summary>
+            <param name="commandText">The OData command text.</param>
+            <param name="annotations">The OData feed annotations.</param>
+            <returns>Entries found with entry count.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.FindEntriesAsync(System.String,Simple.OData.Client.ODataFeedAnnotations,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves entries by executing OData GET request and assigns OData feed annotations.
+            </summary>
+            <param name="commandText">The OData command text.</param>
+            <param name="annotations">The OData feed annotations.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Entries found with entry count.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.FindEntryAsync(System.String)">
+            <summary>
+            Retrieves an entry by executing OData GET request.
+            </summary>
+            <param name="commandText">The OData command text.</param>
+            <returns>The first of the entries found.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.FindEntryAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves an entry by executing OData GET request.
+            </summary>
+            <param name="commandText">The OData command text.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The first of the entries found.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.FindScalarAsync(System.String)">
+            <summary>
+            Retrieves an entry as a scalar type by executing OData GET request.
+            </summary>
+            <param name="commandText">The OData command text.</param>
+            <returns>The result as a scalar type.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.FindScalarAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves an entry as a scalar type by executing OData GET request.
+            </summary>
+            <param name="commandText">The OData command text.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The result as a scalar type.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.GetEntryAsync(System.String,System.Object[])">
+            <summary>
+            Looks up an entry by executing OData GET request.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="entryKey">The entry key.</param>
+            <returns>The entry with the specified key</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.GetEntryAsync(System.String,System.Threading.CancellationToken,System.Object[])">
+            <summary>
+            Looks up an entry by executing OData GET request.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <param name="entryKey">The entry key.</param>
+            <returns>The entry with the specified key</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.GetEntryAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Looks up an entry by executing OData GET request.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="entryKey">The entry key.</param>
+            <returns>The entry with the specified key</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.GetEntryAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Looks up an entry by executing OData GET request.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="entryKey">The entry key.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The entry with the specified key</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.InsertEntryAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Insert a new entry by executing OData POST request.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="entryData">The entry data.</param>
+            <returns>The newly inserted entry</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.InsertEntryAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Insert a new entry by executing OData POST request.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="entryData">The entry data.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The newly inserted entry</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.InsertEntryAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Boolean)">
+            <summary>
+            Insert a new entry by executing OData POST request.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="entryData">The entry data.</param>
+            <param name="resultRequired">if set to <c>true</c> returns the new entry data, otherwise returns <c>null</c>.</param>
+            <returns>The newly inserted entry</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.InsertEntryAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Insert a new entry by executing OData POST request.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="entryData">The entry data.</param>
+            <param name="resultRequired">if set to <c>true</c> returns the new entry data, otherwise returns <c>null</c>.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The newly inserted entry</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.UpdateEntryAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Updates the existing entry by executing OData PUT or PATCH request.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="entryKey">The entry key.</param>
+            <param name="entryData">The entry data.</param>
+            <returns>The updated entry data</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.UpdateEntryAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Collections.Generic.IDictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Updates the existing entry by executing OData PUT or PATCH request.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="entryKey">The entry key.</param>
+            <param name="entryData">The entry data.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The updated entry data</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.UpdateEntryAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Collections.Generic.IDictionary{System.String,System.Object},System.Boolean)">
+            <summary>
+            Updates the existing entry by executing OData PUT or PATCH request.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="entryKey">The entry key.</param>
+            <param name="entryData">The entry data.</param>
+            <param name="resultRequired">if set to <c>true</c> returns the updated entry data, otherwise returns <c>null</c>.</param>
+            <returns>The updated entry data</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.UpdateEntryAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Collections.Generic.IDictionary{System.String,System.Object},System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Updates the existing entry by executing OData PUT or PATCH request.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="entryKey">The entry key.</param>
+            <param name="entryData">The entry data.</param>
+            <param name="resultRequired">if set to <c>true</c> returns the updated entry data, otherwise returns <c>null</c>.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The updated entry data</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.UpdateEntriesAsync(System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Updates entries by executing multiple OData PUT or PATCH requests.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="commandText">The command text.</param>
+            <param name="entryData">The entry data.</param>
+            <returns>The updated entries data</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.UpdateEntriesAsync(System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Updates entries by executing multiple OData PUT or PATCH requests.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="commandText">The command text.</param>
+            <param name="entryData">The entry data.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The updated entries data</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.UpdateEntriesAsync(System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Boolean)">
+            <summary>
+            Updates entries by executing multiple OData PUT or PATCH requests.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="commandText">The command text.</param>
+            <param name="entryData">The entry data.</param>
+            <param name="resultRequired">if set to <c>true</c> returns the updated entry data, otherwise returns <c>null</c>.</param>
+            <returns>The updated entries data</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.UpdateEntriesAsync(System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Updates entries by executing multiple OData PUT or PATCH requests.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="commandText">The command text.</param>
+            <param name="entryData">The entry data.</param>
+            <param name="resultRequired">if set to <c>true</c> returns the updated entry data, otherwise returns <c>null</c>.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The updated entries data</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.DeleteEntryAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Deletes the existing entry by executing OData DELETE request.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="entryKey">The entry key.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.DeleteEntryAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Deletes the existing entry by executing OData DELETE request.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="entryKey">The entry key.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.DeleteEntriesAsync(System.String,System.String)">
+            <summary>
+            Deletes entries by executing multiple OData DELETE requests.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="commandText">The command text.</param>
+            <returns>The number of deleted entries.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.DeleteEntriesAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Deletes entries by executing multiple OData DELETE requests.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="commandText">The command text.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The number of deleted entries.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.LinkEntryAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Creates a link between entries.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="entryKey">The entry key.</param>
+            <param name="linkName">Name of the link.</param>
+            <param name="linkedEntryKey">The linked entry key.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.LinkEntryAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Creates a link between entries.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="entryKey">The entry key.</param>
+            <param name="linkName">Name of the link.</param>
+            <param name="linkedEntryKey">The linked entry key.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.UnlinkEntryAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.String)">
+            <summary>
+            Deletes a link between entries.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="entryKey">The entry key.</param>
+            <param name="linkName">Name of the link to be deleted.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.UnlinkEntryAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.String,System.Threading.CancellationToken)">
+            <summary>
+            Deletes a link between entries.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="entryKey">The entry key.</param>
+            <param name="linkName">Name of the link to be deleted.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.UnlinkEntryAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Deletes a link between entries.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="entryKey">The entry key.</param>
+            <param name="linkName">Name of the link to be deleted.</param>
+            <param name="linkedEntryKey">The linked entry key.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.UnlinkEntryAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Deletes a link between entries.
+            </summary>
+            <param name="collection">The name of the collection.</param>
+            <param name="entryKey">The entry key.</param>
+            <param name="linkName">Name of the link to be deleted.</param>
+            <param name="linkedEntryKey">The linked entry key.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.GetMediaStreamAsync(System.String)">
+            <summary>
+            Retrieves a media entry stream by executing OData GET request.
+            </summary>
+            <param name="commandText">The OData command text.</param>
+            <returns>The media stream.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.GetMediaStreamAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves a media entry stream by executing OData GET request.
+            </summary>
+            <param name="commandText">The OData command text.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The media stream.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.SetMediaStreamAsync(System.String,System.IO.Stream,System.String,System.Boolean)">
+            <summary>
+            Assigns a stream to a media entry by executing OData PUT request.
+            </summary>
+            <param name="commandText">The OData command text.</param>
+            <param name="stream">The media stream.</param>
+            <param name="contentType">The media content type.</param>
+            <param name="optimisticConcurrency">if set to <c>true</c> sets the resource ETag in the updated request header.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.SetMediaStreamAsync(System.String,System.IO.Stream,System.String,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Assigns a stream to a media entry by executing OData PUT request.
+            </summary>
+            <param name="commandText">The OData command text.</param>
+            <param name="stream">The media stream.</param>
+            <param name="contentType">The media content type.</param>
+            <param name="optimisticConcurrency">if set to <c>true</c> sets the resource ETag in the updated request header.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Task instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.ExecuteFunctionAsSingleAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Executes the OData function.
+            </summary>
+            <param name="functionName">Name of the function.</param>
+            <param name="parameters">The function parameters.</param>
+            <returns>Function execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.ExecuteFunctionAsSingleAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData function.
+            </summary>
+            <param name="functionName">Name of the function.</param>
+            <param name="parameters">The function parameters.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Function execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.ExecuteFunctionAsEnumerableAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Executes the OData function.
+            </summary>
+            <param name="functionName">Name of the function.</param>
+            <param name="parameters">The function parameters.</param>
+            <returns>Function execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.ExecuteFunctionAsEnumerableAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData function.
+            </summary>
+            <param name="functionName">Name of the function.</param>
+            <param name="parameters">The function parameters.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Function execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.ExecuteFunctionAsScalarAsync``1(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Executes the OData function and returns scalar result.
+            </summary>
+            <typeparam name="T">The result type.</typeparam>
+            <param name="functionName">Name of the function.</param>
+            <param name="parameters">The parameters.</param>
+            <returns>Function execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.ExecuteFunctionAsScalarAsync``1(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData function and returns scalar result.
+            </summary>
+            <typeparam name="T">The result type.</typeparam>
+            <param name="functionName">Name of the function.</param>
+            <param name="parameters">The function parameters.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Function execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.ExecuteFunctionAsArrayAsync``1(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Executes the OData function and returns an array.
+            </summary>
+            <typeparam name="T">The array element type.</typeparam>
+            <param name="functionName">Name of the function.</param>
+            <param name="parameters">The function parameters.</param>
+            <returns>Function execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.ExecuteFunctionAsArrayAsync``1(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData function and returns an array.
+            </summary>
+            <typeparam name="T">The array element type.</typeparam>
+            <param name="functionName">Name of the function.</param>
+            <param name="parameters">The function parameters.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Function execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.ExecuteActionAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Executes the OData action.
+            </summary>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameters">The action parameters.</param>
+            <returns>Action execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.ExecuteActionAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData action.
+            </summary>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameters">The action parameters.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Action execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.ExecuteActionAsSingleAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Executes the OData action.
+            </summary>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameters">The action parameters.</param>
+            <returns>Action execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.ExecuteActionAsSingleAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData action.
+            </summary>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameters">The action parameters.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Action execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.ExecuteActionAsEnumerableAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Executes the OData action.
+            </summary>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameters">The action parameters.</param>
+            <returns>Action execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.ExecuteActionAsEnumerableAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData action.
+            </summary>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameters">The action parameters.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Action execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.ExecuteActionAsScalarAsync``1(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Executes the OData action and returns scalar result.
+            </summary>
+            <typeparam name="T">The result type.</typeparam>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameters">The parameters.</param>
+            <returns>action execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.ExecuteActionAsScalarAsync``1(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData action and returns scalar result.
+            </summary>
+            <typeparam name="T">The result type.</typeparam>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameters">The action parameters.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Action execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.ExecuteActionAsArrayAsync``1(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Executes the OData action and returns an array.
+            </summary>
+            <typeparam name="T">The array element type.</typeparam>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameters">The action parameters.</param>
+            <returns>Action execution result.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.IODataClient.ExecuteActionAsArrayAsync``1(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData action and returns an array.
+            </summary>
+            <typeparam name="T">The array element type.</typeparam>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameters">The action parameters.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Action execution result.</returns>
+        </member>
+        <member name="T:Simple.OData.Client.IPluralizer">
+            <summary>
+            Provides pluralization and singularization of words when resolving names of resources and properties
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.IPluralizer.Pluralize(System.String)">
+            <summary>
+            Pluralizes the specified word.
+            </summary>
+            <param name="word">The word to pluralize.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.IPluralizer.Singularize(System.String)">
+            <summary>
+            Singularizes the specified word.
+            </summary>
+            <param name="word">The word to singularize.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Simple.OData.Client.ISession">
+            <summary>
+            Provide access to session-specific details.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ISession.Settings">
+            <summary>
+            Gets OData client configuration settings.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ISession.Adapter">
+            <summary>
+            Gets OData client adapter.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ISession.Metadata">
+            <summary>
+            Gets OData service metadata.
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.ISession.Trace(System.String,System.Object[])">
+            <summary>
+            Writes a trace message.
+            </summary>
+            <param name="message">Trace message format string.</param>
+            <param name="messageParams">Trace message parameters.</param>
+        </member>
+        <member name="M:Simple.OData.Client.ISession.GetHttpConnection">
+            <summary>
+            Obtains an instance of <see cref="T:Simple.OData.Client.HttpConnection"/> that is used to issue HTTP requests to OData service.
+            </summary>
+            <returns>An <see cref="T:System.Net.Http.HttpClient"/> instance.</returns>
+        </member>
+        <member name="T:Simple.OData.Client.ODataBatch">
+            <summary>
+            Performs batch processing of OData requests by grouping multiple operations in a single HTTP POST request in accordance with OData protocol
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.ODataBatch.#ctor(System.Uri)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Simple.OData.Client.ODataBatch"/> class.
+            </summary>
+            <param name="baseUri">The URL base.</param>
+        </member>
+        <member name="M:Simple.OData.Client.ODataBatch.#ctor(Simple.OData.Client.ODataClientSettings)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Simple.OData.Client.ODataBatch"/> class.
+            </summary>
+            <param name="settings">The settings.</param>
+        </member>
+        <member name="M:Simple.OData.Client.ODataBatch.#ctor(Simple.OData.Client.IODataClient)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Simple.OData.Client.ODataBatch"/> class.
+            </summary>
+            <param name="client">The OData client which settings will be used to create a batch.</param>
+        </member>
+        <member name="M:Simple.OData.Client.ODataBatch.#ctor(Simple.OData.Client.IODataClient,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Simple.OData.Client.ODataBatch"/> class.
+            </summary>
+            <param name="client">The OData client which will be used to create a batch.</param>
+            <param name="reuseSession">Flag indicating that the existing session from the <see cref="T:Simple.OData.Client.ODataClient"/>
+            should be used rather than creating a new one.
+            </param>
+        </member>
+        <member name="M:Simple.OData.Client.ODataBatch.op_Addition(Simple.OData.Client.ODataBatch,System.Func{Simple.OData.Client.IODataClient,System.Threading.Tasks.Task})">
+            <summary>
+            Adds an OData command to an OData batch.
+            </summary>
+            <param name="batch">The OData batch.</param>
+            <param name="action">The command to add to the batch.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ODataBatch.ExecuteAsync">
+            <summary>
+            Executes the OData batch by submitting pending requests to the OData service.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.ODataBatch.ExecuteAsync(System.Threading.CancellationToken)">
+            <summary>
+            Executes the OData batch by submitting pending requests to the OData service.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Simple.OData.Client.ODataClient">
+            <summary>
+            Provides access to OData operations.
+            </summary>
+            <summary>
+            Provides access to OData operations.
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClient.GetMetadataAsync(System.Uri)">
+            <summary>
+            Retrieves the OData service metadata.
+            </summary>
+            <param name="baseUri">The URL base of the OData service.</param>
+            <returns>The service metadata.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClient.GetMetadataAsync(System.Uri,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves the OData service metadata.
+            </summary>
+            <param name="baseUri">The URL base of the OData service.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The service metadata.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClient.GetMetadataAsync(System.Uri,System.Net.ICredentials)">
+            <summary>
+            Retrieves the OData service metadata.
+            </summary>
+            <param name="baseUri">The URL base of the OData service.</param>
+            <param name="credentials">The OData service access credentials.</param>
+            <returns>The service metadata.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClient.GetMetadataAsync(System.Uri,System.Net.ICredentials,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves the OData service metadata.
+            </summary>
+            <param name="baseUri">The URL base of the OData service.</param>
+            <param name="credentials">The OData service access credentials.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The service metadata.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClient.GetMetadataAsync``1(System.Uri)">
+            <summary>
+            Retrieves the OData service metadata.
+            </summary>
+            <typeparam name="T">OData protocol specific metadata interface</typeparam>
+            <param name="baseUri">The URL base of the OData service.</param>
+            <returns>The service metadata.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClient.GetMetadataAsync``1(System.Uri,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves the OData service metadata.
+            </summary>
+            <typeparam name="T">OData protocol specific metadata interface</typeparam>
+            <param name="baseUri">The URL base of the OData service.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The service metadata.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClient.GetMetadataAsync``1(System.Uri,System.Net.ICredentials)">
+            <summary>
+            Retrieves the OData service metadata.
+            </summary>
+            <typeparam name="T">OData protocol specific metadata interface</typeparam>
+            <param name="baseUri">The URL base of the OData service.</param>
+            <param name="credentials">The OData service access credentials.</param>
+            <returns>The service metadata.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClient.GetMetadataAsync``1(System.Uri,System.Net.ICredentials,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves the OData service metadata.
+            </summary>
+            <typeparam name="T">OData protocol specific metadata interface</typeparam>
+            <param name="baseUri">The URL base of the OData service.</param>
+            <param name="credentials">The OData service access credentials.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>
+            The service metadata.
+            </returns>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClient.GetMetadataDocumentAsync(System.Uri)">
+            <summary>
+            Retrieves the OData service metadata as string.
+            </summary>
+            <param name="baseUri">The URL base of the OData service.</param>
+            <returns>The service metadata.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClient.GetMetadataDocumentAsync(System.Uri,System.Threading.CancellationToken)">
+            <summary>
+            Gets The service metadata as string asynchronous.
+            </summary>
+            <param name="baseUri">The URL base of the OData service.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The service metadata.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClient.GetMetadataDocumentAsync(System.Uri,System.Net.ICredentials)">
+            <summary>
+            Gets The service metadata as string asynchronous.
+            </summary>
+            <param name="baseUri">The URL base of the OData service.</param>
+            <param name="credentials">The OData service access credentials.</param>
+            <returns>The service metadata.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClient.GetMetadataDocumentAsync(System.Uri,System.Net.ICredentials,System.Threading.CancellationToken)">
+            <summary>
+            Gets The service metadata as string asynchronous.
+            </summary>
+            <param name="baseUri">The URL base.</param>
+            <param name="credentials">The OData service access credentials.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The service metadata.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClient.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Simple.OData.Client.ODataClient"/> class.
+            </summary>
+            <param name="baseUri">The OData service URL.</param>
+            <remarks>
+            This constructor overload is obsolete. Use <see cref="M:Simple.OData.Client.ODataClient.#ctor(System.Uri)"/> constructor overload./>
+            </remarks>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClient.#ctor(System.Uri)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Simple.OData.Client.ODataClient"/> class.
+            </summary>
+            <param name="baseUri">The OData service URL.</param>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClient.#ctor(Simple.OData.Client.ODataClientSettings)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Simple.OData.Client.ODataClient"/> class.
+            </summary>
+            <param name="settings">The OData client settings.</param>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClient.ParseMetadataString``1(System.String)">
+            <summary>
+            Parses the OData service metadata string.
+            </summary>
+            <typeparam name="T">OData protocol specific metadata interface</typeparam>
+            <param name="metadataString">The metadata string.</param>
+            <returns>
+            The service metadata.
+            </returns>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClient.ClearMetadataCache">
+            <summary>
+            Clears service metadata cache.
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClient.For(System.String)">
+            <summary>
+            Returns an instance of a fluent OData client for the specified collection.
+            </summary>
+            <param name="collectionName">Name of the collection.</param>
+            <returns>
+            The fluent OData client instance.
+            </returns>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClient.For(Simple.OData.Client.ODataExpression)">
+            <summary>
+            Returns an instance of a fluent OData client for the specified collection.
+            </summary>
+            <param name="expression">Collection expression.</param>
+            <returns>
+            The fluent OData client instance.
+            </returns>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClient.For``1(System.String)">
+            <summary>
+            Returns an instance of a fluent OData client for the specified collection.
+            </summary>
+            <typeparam name="T">The entity type.</typeparam>
+            <param name="collectionName">Name of the collection.</param>
+            <returns>
+            The fluent OData client instance.
+            </returns>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClient.Unbound">
+            <summary>
+            Returns an instance of a fluent OData client for unbound operations (functions and actions).
+            </summary>
+            <returns>The fluent OData client instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClient.Unbound``1">
+            <summary>
+            Returns an instance of a fluent OData client for unbound operations (functions and actions).
+            </summary>
+            <returns>The fluent OData client instance.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClient.UpdateRequestHeaders(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.IEnumerable{System.String}})">
+            <summary>
+            Allows callers to manipulate the request headers in between request executions.
+            Useful for retrieval of x-csrf-tokens when you want to update the request header
+            with the retrieved token on subsequent requests.
+            </summary>
+            <param name="headers">The list of headers to update.</param>
+        </member>
+        <member name="T:Simple.OData.Client.ODataClientSettings">
+            <summary>
+            OData client configuration settings
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.BaseUri">
+            <summary>
+            Gets or sets the OData service URL.
+            </summary>
+            <value>
+            The URL address.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.Credentials">
+            <summary>
+            Gets or sets the OData client credentials.
+            </summary>
+            <value>
+            The client credentials.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.PayloadFormat">
+            <summary>
+            Gets or sets the OData payload format.
+            </summary>
+            <value>
+            The payload format (JSON or Atom).
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.RequestTimeout">
+            <summary>
+            Gets or sets the time period to wait before the request times out.
+            </summary>
+            <value>
+            The timeout.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.IncludeAnnotationsInResults">
+            <summary>
+            Gets or sets a value indicating whether entry properties should be extended with the OData annotations.
+            </summary>
+            <value>
+            <c>true</c> to include OData annotations in entry properties; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.IgnoreResourceNotFoundException">
+            <summary>
+            Gets or sets a value indicating whether resource not found exception (404) should be ignored.
+            </summary>
+            <value>
+            <c>true</c> to ignore resource not found exception; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.IgnoreUnmappedProperties">
+            <summary>
+            Gets or sets a value indicating whether unmapped structural or navigation properties should be ignored or cause <see cref="T:Simple.OData.Client.UnresolvableObjectException"/>.
+            </summary>
+            <value>
+            <c>true</c> to ignore unmapped properties; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.PreferredUpdateMethod">
+            <summary>
+            Gets or sets a preferred update method for OData entries. The selected method will be used wherever it's compatible with the update scenario. 
+            If not specified, PATCH is preferred due to better performance.
+            </summary>
+            <value>
+            The update method (PUT or PATCH).
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.MetadataDocument">
+            <summary>
+            Gets or sets the OData service metadata document. If not set, service metadata is downloaded prior to the first call to the OData service and stored in an in-memory cache.
+            </summary>
+            <value>
+            The content of the service metadata document.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.RenewHttpConnection">
+            <summary>
+            Gets or sets a value indicating whether <see cref="T:System.Net.Http.HttpClient"/> connection should be disposed and renewed between OData requests.
+            </summary>
+            <value>
+            <c>true</c> to create a new <see cref="T:System.Net.Http.HttpClient"/> instance for each request; <c>false</c> to reuse <see cref="T:System.Net.Http.HttpClient"/> between requests.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.UnqualifiedNameCall">
+            <summary>
+            Gets or sets a value indicating whether <see cref="T:System.Net.Http.HttpClient"/> should omit namespaces for function and action calls in generated URI.
+            </summary>
+            <value>
+            <c>true</c> to omit namespaces for function and action calls in generated URI; <c>false</c> otherwise.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.EnumPrefixFree">
+            <summary>
+            Gets or sets a value indicating whether <see cref="T:System.Net.Http.HttpClient"/> should omit type prefix for Enum values in generated URI.
+            </summary>
+            <value>
+            <c>true</c> to omit type prefix for Enum values in generated URI; <c>false</c> otherwise.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.NameMatchResolver">
+            <summary>
+            Gets or sets a name resolver for OData resources, types and properties.
+            </summary>
+            <value>
+            If not set, a built-in word pluralizer is used to resolve resource, type and property names.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.OnCreateMessageHandler">
+            <summary>
+            Gets or sets the HttpMessageHandler factory used by HttpClient.
+            If not set, ODataClient creates an instance of HttpClientHandler.
+            </summary>
+            <value>
+            The action on <see cref="T:System.Net.Http.HttpMessageHandler"/>.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.OnApplyClientHandler">
+            <summary>
+            Gets or sets the action on HttpClientHandler.
+            </summary>
+            <value>
+            The action on <see cref="T:System.Net.Http.HttpClientHandler"/>.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.RequestExecutor">
+            <summary>
+            Gets or sets the handler that executes <see cref="T:System.Net.Http.HttpRequestMessage"/> and returns <see cref="T:System.Net.Http.HttpResponseMessage"/>.
+            Can be used to mock OData request execution without sending messages to the server.
+            </summary>
+            <value>
+            The <see cref="T:System.Net.Http.HttpRequestMessage"/> executor.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.BeforeRequest">
+            <summary>
+            Gets or sets the action executed before the OData request.
+            </summary>
+            <value>
+            The action on <see cref="T:System.Net.Http.HttpRequestMessage"/>.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.AfterResponse">
+            <summary>
+            Gets or sets the action executed after the OData request.
+            </summary>
+            <value>
+            The action on <see cref="T:System.Net.Http.HttpResponseMessage"/>.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.OnTrace">
+            <summary>
+            Gets or sets the method that will be executed to write trace messages.
+            </summary>
+            <value>
+            The trace message handler.
+            </value>
+        </member>
+        <member name="P:Simple.OData.Client.ODataClientSettings.TraceFilter">
+            <summary>
+            Gets or sets the filter of information that is written to trace messages.
+            </summary>
+            <value>
+            The <see cref="T:Simple.OData.Client.ODataTrace"/> filter value.
+            </value>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClientSettings.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Simple.OData.Client.ODataClientSettings"/> class.
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClientSettings.#ctor(System.String,System.Net.ICredentials)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Simple.OData.Client.ODataClientSettings"/> class.
+            </summary>
+            <param name="baseUri">The URL address.</param>
+            <param name="credentials">The client credentials.</param>
+        </member>
+        <member name="M:Simple.OData.Client.ODataClientSettings.#ctor(System.Uri,System.Net.ICredentials)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Simple.OData.Client.ODataClientSettings"/> class.
+            </summary>
+            <param name="baseUri">The URL address.</param>
+            <param name="credentials">The client credentials.</param>
+        </member>
+        <member name="T:Simple.OData.Client.ODataEntry">
+            <summary>
+            A container for an OData entry properties. Normally not used directly by the client code.
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.ODataEntry._entry">
+            <summary>
+            The content of the OData entry.
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.ODataEntry.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Simple.OData.Client.ODataEntry"/> class.
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.ODataEntry.#ctor(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Simple.OData.Client.ODataEntry"/> class.
+            </summary>
+            <param name="entry">The collection of entry properties.</param>
+        </member>
+        <member name="P:Simple.OData.Client.ODataEntry.Item(System.String)">
+            <summary>
+            Gets or sets the value of the specified property.
+            </summary>
+            <value>
+            The property value.
+            </value>
+            <param name="key">The property name.</param>
+            <returns>The property value.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.ODataEntry.AsDictionary">
+            <summary>
+            Returns OData entry properties as dictionary.
+            </summary>
+            <returns>A dictionary of OData entry properties.</returns>
+        </member>
+        <member name="M:Simple.OData.Client.ODataEntry.op_Explicit(System.Collections.Generic.Dictionary{System.String,System.Object})~Simple.OData.Client.ODataEntry">
+            <summary>
+            Performs an explicit conversion from <see cref="T:System.Collections.Generic.Dictionary{System.String,System.Object}"/> to <see cref="T:Simple.OData.Client.ODataEntry"/>.
+            </summary>
+            <param name="entry">The property collection.</param>
+            <returns>
+            The result of the conversion.
+            </returns>
+        </member>
+        <member name="M:Simple.OData.Client.ODataEntry.op_Explicit(Simple.OData.Client.ODataEntry)~System.Collections.Generic.Dictionary{System.String,System.Object}">
+            <summary>
+            Performs an explicit conversion from <see cref="T:Simple.OData.Client.ODataEntry"/> to <see cref="T:System.Collections.Generic.Dictionary{System.String,System.Object}"/>.
+            </summary>
+            <param name="entry">The OData entry.</param>
+            <returns>
+            The result of the conversion.
+            </returns>
+        </member>
+        <member name="T:Simple.OData.Client.ODataEntryAnnotations">
+            <summary>
+            Contains additional information about OData entry
+            </summary>
+        </member>
+        <member name="T:Simple.OData.Client.ODataEntryAnnotations.AssociationLink">
+            <summary>
+            Contains additional information about OData association links
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ODataEntryAnnotations.AssociationLink.Name">
+            <summary>
+            The association name.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ODataEntryAnnotations.AssociationLink.Uri">
+            <summary>
+            The association URI.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ODataEntryAnnotations.Id">
+            <summary>
+            The entry ID.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ODataEntryAnnotations.TypeName">
+            <summary>
+            The type name of the entry.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ODataEntryAnnotations.ReadLink">
+            <summary>
+            The link that can be used to read the entry.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ODataEntryAnnotations.EditLink">
+            <summary>
+            The link can be used to edit the entry.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ODataEntryAnnotations.ETag">
+            <summary>
+            The entry ETag.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ODataEntryAnnotations.AssociationLinks">
+            <summary>
+            The collection of entry association links.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ODataEntryAnnotations.MediaResource">
+            <summary>
+            The media resource annotations.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ODataEntryAnnotations.InstanceAnnotations">
+            <summary>
+            Custom feed annotations.
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.ODataEntryAnnotations.GetInstanceAnnotations``1">
+            <summary>
+            Custom feed annotations returned as an adapter-specific annotation type
+            </summary>
+            <typeparam name="T">Custom type</typeparam>
+            <returns></returns>
+        </member>
+        <member name="T:Simple.OData.Client.ODataExpandLevels">
+            <summary>
+            Specifies expansion levels.
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.ODataExpandLevels.Max">
+            <summary>
+            Specifies maximum expansion levels.
+            </summary>
+        </member>
+        <member name="T:Simple.OData.Client.ODataExpandMode">
+            <summary>
+            Specifies expansion mode (by value or by reference).
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.ODataExpandMode.ByValue">
+            <summary>
+            Associations should be expanded by value.
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.ODataExpandMode.ByReference">
+            <summary>
+            Associations should be expanded by reference.
+            </summary>
+        </member>
+        <member name="T:Simple.OData.Client.ODataExpandOptions">
+            <summary>
+            Specifies how to expand entity associations.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ODataExpandOptions.Levels">
+            <summary>
+            The number of levels to expand.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ODataExpandOptions.ExpandMode">
+            <summary>
+            The expansion mode (by value or by reference).
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.ODataExpandOptions.ByValue(System.Int32)">
+            <summary>
+            Expansion by value.
+            </summary>
+            <param name="levels">The number of levels to expand.</param>
+        </member>
+        <member name="M:Simple.OData.Client.ODataExpandOptions.ByValue(Simple.OData.Client.ODataExpandLevels)">
+            <summary>
+            Expansion by value.
+            </summary>
+            <param name="levels">The number of levels to expand.</param>
+        </member>
+        <member name="M:Simple.OData.Client.ODataExpandOptions.ByReference(System.Int32)">
+            <summary>
+            Expansion by reference.
+            </summary>
+            <param name="levels">The number of levels to expand.</param>
+        </member>
+        <member name="M:Simple.OData.Client.ODataExpandOptions.ByReference(Simple.OData.Client.ODataExpandLevels)">
+            <summary>
+            Expansion by reference.
+            </summary>
+            <param name="levels">The number of levels to expand.</param>
+        </member>
+        <member name="T:Simple.OData.Client.ODataFeedAnnotations">
+            <summary>
+            Contains additional information about OData feed
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ODataFeedAnnotations.Id">
+            <summary>
+            The ID of the corresponding entity set.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ODataFeedAnnotations.Count">
+            <summary>
+            The result item count.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ODataFeedAnnotations.DeltaLink">
+            <summary>
+            A URL that can be used to retrieve changes to the current set of results
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ODataFeedAnnotations.NextPageLink">
+            <summary>
+            A URL that can be used to retrieve the next subset of the requested collection.
+            When set, indicates that the response response is only a subset of the requested collection of entities or collection of entity references.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ODataFeedAnnotations.InstanceAnnotations">
+            <summary>
+            Custom feed annotations.
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.ODataFeedAnnotations.GetInstanceAnnotations``1">
+            <summary>
+            Custom feed annotations returned as an adapter-specific annotation type
+            </summary>
+            <typeparam name="T">Custom type</typeparam>
+            <returns></returns>
+        </member>
+        <member name="T:Simple.OData.Client.ODataMediaAnnotations">
+            <summary>
+            Contains additional information about OData media resource
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ODataMediaAnnotations.ContentType">
+            <summary>
+            The media resource content type.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ODataMediaAnnotations.ReadLink">
+            <summary>
+            The link that can be used to read the media resource.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ODataMediaAnnotations.EditLink">
+            <summary>
+            The link can be used to edit the media resource.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.ODataMediaAnnotations.ETag">
+            <summary>
+            The media resource ETag.
+            </summary>
+        </member>
+        <member name="T:Simple.OData.Client.ODataPayloadFormat">
+            <summary>
+            The format of the messages exchanged with OData service.
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.ODataPayloadFormat.Unspecified">
+            <summary>
+            The message format is not specified and will be determined by the OData service.
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.ODataPayloadFormat.Atom">
+            <summary>
+            OData message content will be formatted as Atom
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.ODataPayloadFormat.Json">
+            <summary>
+            OData message content will be formatted as JSON
+            </summary>
+        </member>
+        <member name="T:Simple.OData.Client.ODataProtocolVersion">
+            <summary>
+            OData protocol version.
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.ODataProtocolVersion.V1">
+            <summary>
+            Version 1.0
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.ODataProtocolVersion.V2">
+            <summary>
+            Version 2.0
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.ODataProtocolVersion.V3">
+            <summary>
+            Version 3.0
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.ODataProtocolVersion.V4">
+            <summary>
+            Version 4.0
+            </summary>
+        </member>
+        <member name="T:Simple.OData.Client.ODataTrace">
+            <summary>
+            Specifies types of information to be written to trace messages.
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.ODataTrace.None">
+            <summary>
+            No trace information is written to trace messages.
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.ODataTrace.RequestContent">
+            <summary>
+            Trace the contents of HTTP requests.
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.ODataTrace.ResponseContent">
+            <summary>
+            Trace the contents of HTTP responses.
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.ODataTrace.All">
+            <summary>
+            Trace all internal activities.
+            </summary>
+        </member>
+        <member name="T:Simple.OData.Client.ODataUpdateMethod">
+            <summary>
+            The preferred entry update method.
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.ODataUpdateMethod.Patch">
+            <summary>
+            Use PATCH to update OData entries
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.ODataUpdateMethod.Merge">
+            <summary>
+            Use MERGE to update OData entries
+            </summary>
+        </member>
+        <member name="F:Simple.OData.Client.ODataUpdateMethod.Put">
+            <summary>
+            Use PUT to update OData entries
+            </summary>
+        </member>
+        <member name="T:Simple.OData.Client.Pluralizer">
+            <summary>
+            Provides pluralization and singularization of words when resolving names of resources and properties
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.Pluralizer.#ctor(System.Func{System.String,System.String},System.Func{System.String,System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Simple.OData.Client.Pluralizer"/> class.
+            </summary>
+            <param name="pluralize">The Pluralize function delegate.</param>
+            <param name="singularize">The Singularize function delegate.</param>
+        </member>
+        <member name="M:Simple.OData.Client.Pluralizer.Pluralize(System.String)">
+            <summary>
+            Pluralizes the specified word.
+            </summary>
+            <param name="word">The word to pluralize.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Simple.OData.Client.Pluralizer.Singularize(System.String)">
+            <summary>
+            Singularizes the specified word.
+            </summary>
+            <param name="word">The word to singularize.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Simple.OData.Client.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Simple.OData.Client.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="T:Simple.OData.Client.UnresolvableObjectException">
+            <summary>
+            The exception that is thrown when service metadata doesn't contain the requested metadata object
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.UnresolvableObjectException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Simple.OData.Client.UnresolvableObjectException"/> class.
+            </summary>
+        </member>
+        <member name="M:Simple.OData.Client.UnresolvableObjectException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Simple.OData.Client.UnresolvableObjectException"/> class.
+            </summary>
+            <param name="objectName">Name of the metadata object.</param>
+        </member>
+        <member name="M:Simple.OData.Client.UnresolvableObjectException.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Simple.OData.Client.UnresolvableObjectException"/> class.
+            </summary>
+            <param name="objectName">Name of the metadata object.</param>
+            <param name="message">The message that describes the error.</param>
+        </member>
+        <member name="M:Simple.OData.Client.UnresolvableObjectException.#ctor(System.String,System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Simple.OData.Client.UnresolvableObjectException"/> class.
+            </summary>
+            <param name="objectName">Name of the object.</param>
+            <param name="message">The message that describes the error.</param>
+            <param name="inner">The inner exception.</param>
+        </member>
+        <member name="P:Simple.OData.Client.UnresolvableObjectException.ObjectName">
+            <summary>
+            Gets the name of the unresolved metadata object.
+            </summary>
+            <value>
+            The name of the object.
+            </value>
+        </member>
+    </members>
+</doc>

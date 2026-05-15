@@ -1,0 +1,155 @@
+name: Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      skip-duplicates:
+          description: 'Whether to fail or skip duplicates when uploading to a package repository'
+          required: false
+          default: 'true'
+  push:
+    branches:
+      - 'master'
+      - '**-GX'
+  pull_request:
+    types: [opened, synchronize, reopened]
+  release:
+    types: [published]
+
+jobs:
+  build:
+    env:
+      BuildProps: src\GXOdata.Client.All\Directory.Build.props
+      Configuration: Release
+      NuspecFile: GXOData.Client.nuspec
+      PackageFolder: build/packages/
+      SolutionFile: GXOData.Client.sln
+
+    runs-on: windows-latest
+
+    steps:    
+    - name: Checkout
+      uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
+
+    - name: Install .NET
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: '6.0.x'
+
+    - name: Restore
+      run: dotnet restore $Env:SolutionFile
+
+    - name: Prepare Nuspec
+      run: |
+        [xml]$build_props = Get-Content $Env:BuildProps
+        $PACKAGE_VERSION = $build_props.Project.PropertyGroup.AssemblyVersion
+        if (!$PACKAGE_VERSION) {
+          Write-Output "Unable to find package version in Nuspec file"
+          exit 1
+        }
+
+        $COMMITS_INTERVAL = (git describe --tags --abbrev=0) + '..HEAD'
+        $BUILD_NUMBER = git rev-list --first-parent --count $COMMITS_INTERVAL
+
+        $NEW_PACKAGE_VERSION = $PACKAGE_VERSION
+        if ("${{ github.ref }}".StartsWith("refs/heads/")) {
+          $NEW_PACKAGE_VERSION = $NEW_PACKAGE_VERSION + '-rc' + $BUILD_NUMBER
+        }
+
+        [xml]$xml = Get-Content $Env:NuspecFile
+        $xml.package.metadata.version = $NEW_PACKAGE_VERSION
+        $xml.package.metadata.repository.branch = $Env:GITHUB_REF
+        $xml.package.metadata.repository.commit = $Env:GITHUB_SHA
+
+        Write-Output "Packge version to be used: $NEW_PACKAGE_VERSION"
+        echo "NUGET_PACKAGE_VERSION=$NEW_PACKAGE_VERSION" >> $env:GITHUB_ENV
+
+        $xml.Save($Env:NuspecFile)
+
+    - name: Build
+      run: dotnet msbuild $Env:SolutionFile -p:Configuration=$Env:Configuration /t:Clean,Build
+
+    - name: Package
+      run: dotnet pack $Env:SolutionFile --output $Env:PackageFolder /p:NuspecFile=..\..\$Env:NuspecFile
+
+    - name: Sign
+      if: github.base_ref == ''
+      env:
+        VAULT_URL:          ${{ secrets.AZURE_CODE_SIGNING_VAULT_URL }}
+        CERT_NAME:          ${{ vars.AZURE_CODE_SIGNING_CERT_NAME }}
+        TIMESTAMPER_URL:    ${{ vars.AZURE_CODE_SIGNING_TIMESTAMP_SERVER }}
+        AZURE_TENANT:       ${{ secrets.AZURE_CODE_SIGNING_TENANT }}
+        AZURE_APP_ID:       ${{ secrets.AZURE_CODE_SIGNING_APP_ID }}
+        AZURE_APP_PASSWORD: ${{ secrets.AZURE_CODE_SIGNING_APP_PASSWORD }}
+      run: |
+        dotnet tool restore
+
+        $body = @{
+          grant_type    = 'client_credentials'
+          client_id     = $Env:AZURE_APP_ID
+          client_secret = $Env:AZURE_APP_PASSWORD
+          scope         = 'https://vault.azure.net/.default'
+        }
+        $token = (Invoke-RestMethod -Method Post `
+            -Uri "https://login.microsoftonline.com/$Env:AZURE_TENANT/oauth2/v2.0/token" `
+            -Body $body).access_token
+        Write-Host "::add-mask::$token"
+
+        Get-ChildItem ".\*.nupkg" -Recurse | ForEach-Object {
+          dotnet tool run NuGetKeyVaultSignTool sign $_.FullName `
+            -kvu $Env:VAULT_URL `
+            -kvc $Env:CERT_NAME `
+            -kva $token `
+            -tr  $Env:TIMESTAMPER_URL `
+            -td  sha256 `
+            -fd  sha256
+          if ($LASTEXITCODE -ne 0) { throw "NuGetKeyVaultSignTool failed for $($_.Name)" }
+        }
+
+    - name: Configure Azure Artifacts feed
+      if: github.base_ref == ''
+      env:
+        AzureArtifactsPrereleaseFeedURL: https://pkgs.dev.azure.com/genexuslabs/13fb82d9-57a8-49ef-95bb-0ec8324e470c/_packaging/dotnet-prereleases/nuget/v3/index.json
+        AzureArtifactsReleaseFeedURL: https://pkgs.dev.azure.com/genexuslabs/13fb82d9-57a8-49ef-95bb-0ec8324e470c/_packaging/dotnet-releases/nuget/v3/index.json
+      run: |
+        $IsPrerelease = "${{ github.ref }}".StartsWith("refs/heads/")
+        $AZURE_ARTIFACTS_URL = @("$Env:AzureArtifactsReleaseFeedURL", "$Env:AzureArtifactsPrereleaseFeedURL")[$IsPrerelease]
+
+        dotnet nuget add source $AZURE_ARTIFACTS_URL --name AzureArtifacts --username genexuslabs --password ${{ secrets.AZURE_ARTIFACTS_TOKEN }}
+
+        echo "AZURE_ARTIFACTS_URL=$AZURE_ARTIFACTS_URL" >> $env:GITHUB_ENV
+
+    - name: Publish
+      if: github.base_ref == ''
+      env:
+        GPRFeedURL: https://nuget.pkg.github.com/genexuslabs/index.json
+        NuGetFeedURL: https://api.nuget.org/v3/index.json
+      run: |
+       $IsPrerelease = "${{ github.ref }}".StartsWith("refs/heads/")
+
+        Get-ChildItem ".\*.nupkg" -Recurse | ForEach-Object {
+          $PushToGitHubArgs = @("nuget", "push", $_.FullName, "--source", $Env:GPRFeedURL, "--api-key", "${{ secrets.SECURE_TOKEN }}")
+          $PushToNugetArgs  = @("nuget", "push", $_.FullName, "--source", $Env:NuGetFeedURL, "--api-key", "${{ secrets.NUGET_ORG_TOKEN }}")
+          $PushToAzureArgs  = @("nuget", "push", $_.FullName, "--source", $Env:AZURE_ARTIFACTS_URL, "--api-key", "DUMMY-KEY")
+
+          if ([string]::IsNullOrEmpty("${{ github.event.inputs.skip-duplicates }}") ) {
+            $skipDuplicates = $true
+          } else {
+            $skipDuplicates = [System.Convert]::ToBoolean("${{ github.event.inputs.skip-duplicates }}")
+          }
+
+          if ($skipDuplicates) {
+            $PushToNugetArgs  += "--skip-duplicate"
+            $PushToGitHubArgs += "--skip-duplicate"
+            $PushToAzureArgs  += "--skip-duplicate"
+          }
+          
+          dotnet $PushToAzureArgs
+          
+          if (! $IsPrerelease) {
+            dotnet $PushToGitHubArgs
+            dotnet $PushToNugetArgs
+          }
+        }

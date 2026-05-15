@@ -1,0 +1,14 @@
+<Project>
+	<PropertyGroup>
+		<AssemblyVersion>5.2.3.9</AssemblyVersion>
+		<FileVersion>$(AssemblyVersion)</FileVersion>
+		<InformationalVersion>$([System.DateTime]::UtcNow.ToString("yyyyMMddHHmmss")).$(GITHUB_SHA)</InformationalVersion>
+		<Company>GeneXus</Company>
+        <CopyrightYear>$([System.DateTime]::UtcNow.ToString("yyyy"))</CopyrightYear>
+		<Copyright>Copyright © 1988-$(CopyrightYear) GeneXus. All Rights Reserved</Copyright>
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+        <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+		<Authors>GeneXus</Authors>
+		<RepositoryType>git</RepositoryType>
+	</PropertyGroup>
+</Project>
