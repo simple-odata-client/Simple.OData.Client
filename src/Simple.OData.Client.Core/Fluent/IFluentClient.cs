@@ -187,6 +187,25 @@ public interface IFluentClient<T, FT>
 	FT Expand(ODataExpandOptions expandOptions, params ODataExpression[] associations);
 
 	/// <summary>
+	/// Expands the specified associations. Callers that need to attach a
+	/// <see cref="ODataExpandAssociation.FilterExpression"/> or
+	/// <see cref="ODataExpandAssociation.OrderByColumns"/> to an expanded
+	/// entity can build the <see cref="ODataExpandAssociation"/> chain
+	/// upfront and pass it through this overload.
+	/// </summary>
+	/// <param name="associations">The associations to expand.</param>
+	/// <returns>Self.</returns>
+	FT Expand(IEnumerable<ODataExpandAssociation> associations);
+
+	/// <summary>
+	/// Expands the specified associations using the given expand options.
+	/// </summary>
+	/// <param name="expandOptions">The <see cref="ODataExpandOptions"/>.</param>
+	/// <param name="associations">The associations to expand.</param>
+	/// <returns>Self.</returns>
+	FT Expand(ODataExpandOptions expandOptions, IEnumerable<ODataExpandAssociation> associations);
+
+	/// <summary>
 	/// Expands the top level of the specified expression.
 	/// </summary>
 	/// <param name="expression">The expression for associations to expand.</param>

@@ -218,6 +218,18 @@ public abstract class FluentClientBase<T, FT> : IFluentClient<T, FT>
 		return this as FT;
 	}
 
+	public FT Expand(IEnumerable<ODataExpandAssociation> associations)
+	{
+		Command.Expand(associations);
+		return this as FT;
+	}
+
+	public FT Expand(ODataExpandOptions expandOptions, IEnumerable<ODataExpandAssociation> associations)
+	{
+		Command.Expand(expandOptions, associations);
+		return this as FT;
+	}
+
 	public FT Expand(Expression<Func<T, object>> expression)
 	{
 		Command.Expand(expression.ExtractExpandAssociations(_session.TypeCache));
