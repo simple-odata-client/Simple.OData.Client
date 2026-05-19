@@ -20,15 +20,15 @@
     <tags>odata data rest client netstandard net7 net8 mono android ios</tags>
     <dependencies>
       <group targetFramework="netstandard2.0">
-        <dependency id="Microsoft.Data.OData" version="[5.*, 6.0.0)" />
+        <dependency id="Microsoft.Data.OData" version="[5.8.4, 6.0.0)" />
         <dependency id="Microsoft.OData.Core" version="[7.4.4, 8.0)" />
       </group>
       <group targetFramework="net7.0">
-        <dependency id="Microsoft.Data.OData" version="[5.*, 6.0.0)" />
+        <dependency id="Microsoft.Data.OData" version="[5.8.4, 6.0.0)" />
         <dependency id="Microsoft.OData.Core" version="[7.4.4, 8.0)" />
       </group>
       <group targetFramework="net8.0">
-        <dependency id="Microsoft.Data.OData" version="[5.*, 6.0.0)" />
+        <dependency id="Microsoft.Data.OData" version="[5.8.4, 6.0.0)" />
         <dependency id="Microsoft.OData.Core" version="[7.4.4, 8.0)" />
       </group>
     </dependencies>
