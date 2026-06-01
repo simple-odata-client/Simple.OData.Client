@@ -19,6 +19,12 @@
     <language>en-us</language>
     <tags>odata data rest client netstandard net7 net8 mono android ios</tags>
     <dependencies>
+      <group targetFramework="net462">
+        <dependency id="Microsoft.Data.OData" version="[5.8.4, 6.0.0)" />
+        <dependency id="Microsoft.OData.Core" version="[7.4.4, 8.0)" />
+        <dependency id="System.Net.Http" version="4.3.4" />
+        <dependency id="System.ValueTuple" version="4.5.0" />
+      </group>
       <group targetFramework="netstandard2.0">
         <dependency id="Microsoft.Data.OData" version="[5.8.4, 6.0.0)" />
         <dependency id="Microsoft.OData.Core" version="[7.4.4, 8.0)" />
@@ -34,6 +40,10 @@
     </dependencies>
   </metadata>
   <files>
+    <!-- net462 -->
+    <file src="build\Release\GXOData.Client.All\net462\GXOData.Client.All.dll" target="lib\net462\GXOData.Client.All.dll" />
+    <file src="build\Release\GXOData.Client.All\net462\GXOData.Client.All.xml" target="lib\net462\GXOData.Client.All.xml" />
+
     <!-- netstandard2.0 -->
     <file src="build\Release\GXOData.Client.All\netstandard2.0\GXOData.Client.All.dll" target="lib\netstandard2.0\GXOData.Client.All.dll" />
     <file src="build\Release\GXOData.Client.All\netstandard2.0\GXOData.Client.All.xml" target="lib\netstandard2.0\GXOData.Client.All.xml" />
